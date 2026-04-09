@@ -1,0 +1,57 @@
+<svg width="900" height="720" viewBox="0 0 900 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="86" y1="74" x2="780" y2="615" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11283A"/>
+      <stop offset="1" stop-color="#0B1926"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#1CD7B5"/>
+      <stop offset="1" stop-color="#6AD8FF"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F9BB55"/>
+      <stop offset="1" stop-color="#FF9166"/>
+    </linearGradient>
+  </defs>
+  <rect x="32" y="36" width="836" height="648" rx="34" fill="url(#bg)" stroke="#284052"/>
+  <rect x="76" y="84" width="326" height="212" rx="24" fill="#0F2333" stroke="#2D4A5E"/>
+  <rect x="102" y="116" width="150" height="18" rx="9" fill="#1F3E53"/>
+  <rect x="102" y="154" width="274" height="98" rx="18" fill="#0A1620" stroke="#27495B"/>
+  <path d="M130 226C158 188 186 206 214 164C242 122 270 153 298 137C326 121 354 149 354 149" stroke="url(#teal)" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="216" cy="164" r="11" fill="#1CD7B5"/>
+  <circle cx="298" cy="137" r="11" fill="#6AD8FF"/>
+  <rect x="446" y="84" width="378" height="212" rx="24" fill="#0F2333" stroke="#2D4A5E"/>
+  <rect x="472" y="116" width="194" height="18" rx="9" fill="#1F3E53"/>
+  <rect x="472" y="156" width="326" height="34" rx="17" fill="#142B3D"/>
+  <rect x="472" y="206" width="114" height="52" rx="16" fill="url(#teal)"/>
+  <rect x="604" y="206" width="92" height="52" rx="16" fill="#17344A"/>
+  <rect x="712" y="206" width="86" height="52" rx="16" fill="url(#gold)"/>
+  <text x="493" y="178" fill="#EAF5FF" font-family="Manrope, Arial" font-size="16">Review stream</text>
+  <text x="493" y="239" fill="#06222D" font-family="Manrope, Arial" font-size="16" font-weight="700">Themes</text>
+  <text x="621" y="239" fill="#C5D9E7" font-family="Manrope, Arial" font-size="16" font-weight="700">Sentiment</text>
+  <text x="731" y="239" fill="#3B2113" font-family="Manrope, Arial" font-size="16" font-weight="700">Action</text>
+  <rect x="76" y="336" width="748" height="134" rx="26" fill="#0E2231" stroke="#2B485A"/>
+  <circle cx="136" cy="403" r="28" fill="#17344A"/>
+  <path d="M124 406H148" stroke="#1CD7B5" stroke-width="8" stroke-linecap="round"/>
+  <path d="M136 394V418" stroke="#1CD7B5" stroke-width="8" stroke-linecap="round"/>
+  <rect x="186" y="368" width="164" height="22" rx="11" fill="#21465D"/>
+  <rect x="186" y="406" width="234" height="18" rx="9" fill="#193448"/>
+  <rect x="450" y="364" width="134" height="76" rx="22" fill="#102B3E"/>
+  <rect x="470" y="390" width="92" height="10" rx="5" fill="#1CD7B5"/>
+  <rect x="608" y="364" width="174" height="76" rx="22" fill="#102B3E"/>
+  <rect x="632" y="385" width="34" height="34" rx="12" fill="#1CD7B5"/>
+  <rect x="680" y="385" width="34" height="34" rx="12" fill="#6AD8FF"/>
+  <rect x="728" y="385" width="34" height="34" rx="12" fill="#F9BB55"/>
+  <rect x="76" y="510" width="240" height="118" rx="24" fill="#102737" stroke="#28495E"/>
+  <rect x="340" y="510" width="230" height="118" rx="24" fill="#102737" stroke="#28495E"/>
+  <rect x="594" y="510" width="230" height="118" rx="24" fill="#102737" stroke="#28495E"/>
+  <text x="100" y="554" fill="#EDF6FB" font-family="Sora, Arial" font-size="22" font-weight="700">Livraison</text>
+  <text x="364" y="554" fill="#EDF6FB" font-family="Sora, Arial" font-size="22" font-weight="700">Service client</text>
+  <text x="618" y="554" fill="#EDF6FB" font-family="Sora, Arial" font-size="22" font-weight="700">Produit</text>
+  <rect x="100" y="576" width="120" height="14" rx="7" fill="#1CD7B5"/>
+  <rect x="364" y="576" width="120" height="14" rx="7" fill="#6AD8FF"/>
+  <rect x="618" y="576" width="120" height="14" rx="7" fill="#F9BB55"/>
+  <rect x="100" y="602" width="174" height="10" rx="5" fill="#21435A"/>
+  <rect x="364" y="602" width="156" height="10" rx="5" fill="#21435A"/>
+  <rect x="618" y="602" width="148" height="10" rx="5" fill="#21435A"/>
+</svg>
