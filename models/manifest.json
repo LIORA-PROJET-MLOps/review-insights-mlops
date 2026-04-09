@@ -1,0 +1,21 @@
+{
+  "project": "Review Insights+",
+  "artifact_set_version": "0.1.0",
+  "language_scope": "english_reviews_only",
+  "theme_model": {
+    "file": "themes_clf.joblib",
+    "thresholds_file": "themes_thresholds.npy",
+    "themes_order": ["livraison", "sav", "produit"]
+  },
+  "sentiment_models": {
+    "livraison": "sent_livraison.joblib",
+    "sav": "sent_sav.joblib",
+    "produit": "sent_produit.joblib"
+  },
+  "runtime_notes": {
+    "backend_name": "project_models_v1",
+    "fallback_backend": "heuristic_rules_v1",
+    "known_constraint": "sentiment label mapping is reconstructed at runtime from calibration texts"
+  }
+}
+

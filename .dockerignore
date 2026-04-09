@@ -1,0 +1,14 @@
+.git
+.github
+.venv
+__pycache__
+.pytest_cache
+.streamlit
+dist
+build
+*.pyc
+*.pyo
+*.pyd
+*.log
+reports
+artifacts

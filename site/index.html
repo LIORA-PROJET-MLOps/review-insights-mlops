@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review Insights+ | Soutenance MLOps</title>
+    <meta
+      name="description"
+      content="Presentation interactive en francais du projet Review Insights+, POC/MVP MLOps pour l'analyse d'avis Trustpilot."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="topbar">
+          <div class="brand">
+            <span class="brand-mark">RI+</span>
+            <span class="brand-text">Review Insights+ / Soutenance finale</span>
+          </div>
+          <div class="topbar-links">
+            <a href="#vision">Vision</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#demo">Demo</a>
+            <a href="#livrables">Livrables</a>
+          </div>
+        </nav>
+
+        <div class="hero-grid">
+          <section class="hero-copy">
+            <p class="eyebrow">Projet Trustpilot • Kickoff MLOps Liora</p>
+            <h1>Un POC NLP devenu une base MLOps presentable, deployable et defendable.</h1>
+            <p class="hero-text">
+              Review Insights+ transforme des avis clients en signaux operationnels sur la
+              <strong>livraison</strong>, le <strong>service client</strong> et le
+              <strong>produit</strong>. La documentation est en francais, mais l'application et
+              les modeles sont calibres sur des reviews en anglais.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#demo">Voir la demo guidee</a>
+              <a class="button button-secondary" href="#livrables">Explorer les livrables</a>
+            </div>
+          </section>
+
+          <aside class="hero-panel">
+            <div class="panel-glow"></div>
+            <div class="panel-card">
+              <div class="panel-title">Etat du projet</div>
+              <div class="status-pill">Production-shaped POC</div>
+              <ul class="status-list">
+                <li>Modeles reels branches</li>
+                <li>API FastAPI + interface Streamlit</li>
+                <li>Evaluation offline et monitoring</li>
+                <li>CI GitHub Actions et Docker</li>
+              </ul>
+            </div>
+            <div class="panel-metrics" id="hero-metrics"></div>
+          </aside>
+        </div>
+      </header>
+
+      <main>
+        <section id="vision" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Vision produit</p>
+            <h2>Pourquoi ce projet compte</h2>
+          </div>
+          <div class="vision-grid">
+            <article class="glass-card">
+              <h3>Probleme</h3>
+              <p>
+                Les avis clients sont massifs, bruites et difficiles a exploiter vite. Les equipes
+                CX ont besoin d'une lecture actionnable, pas d'un simple stockage de commentaires.
+              </p>
+            </article>
+            <article class="glass-card">
+              <h3>Promesse MVP</h3>
+              <p>
+                Identifier les themes critiques, qualifier le sentiment, prioriser les cas flous
+                avec un flag <code>human review</code> et fournir une sortie exploitable en moins
+                d'une minute.
+              </p>
+            </article>
+            <article class="glass-card">
+              <h3>Positionnement MLOps</h3>
+              <p>
+                Le livrable n'est pas une demo notebook: c'est une base technique testable,
+                configurable, deployable et evolutive vers l'industrialisation.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="architecture" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Architecture</p>
+            <h2>Une separation claire des responsabilites</h2>
+          </div>
+          <div class="architecture-shell">
+            <div class="flow-line"></div>
+            <div class="architecture-grid" id="architecture-grid"></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Phases du kickoff</p>
+            <h2>Lecture interactive des 4 phases MLOps</h2>
+          </div>
+          <div class="phase-controls" id="phase-controls"></div>
+          <div class="phase-detail glass-card" id="phase-detail"></div>
+        </section>
+
+        <section id="demo" class="section section-accent">
+          <div class="section-heading">
+            <p class="eyebrow">Demo guidee</p>
+            <h2>Ce que l'application sait montrer en soutenance</h2>
+          </div>
+          <div class="demo-layout">
+            <div class="demo-list" id="demo-list"></div>
+            <div class="demo-preview glass-card" id="demo-preview"></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Metriques</p>
+            <h2>Evaluation et preuves de fonctionnement</h2>
+          </div>
+          <div class="metrics-grid" id="metrics-grid"></div>
+          <div class="insight-banner">
+            <strong>Lecture recommandee:</strong>
+            la detection des themes est deja solide sur le dataset de demonstration, alors que le
+            sentiment reste l'axe prioritaire de recalibration et de retraining.
+          </div>
+        </section>
+
+        <section id="livrables" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Livrables finaux</p>
+            <h2>Tout ce qui est defendable dans le depot</h2>
+          </div>
+          <div class="deliverables-grid" id="deliverables-grid"></div>
+        </section>
+
+        <section class="section faq-section">
+          <div class="section-heading">
+            <p class="eyebrow">FAQ jury</p>
+            <h2>Reponses prêtes pour la soutenance</h2>
+          </div>
+          <div class="faq-list" id="faq-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>
