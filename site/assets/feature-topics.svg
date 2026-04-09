@@ -1,0 +1,15 @@
+<svg width="520" height="340" viewBox="0 0 520 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="18" y="18" width="484" height="304" rx="24" fill="#0F2231" stroke="#294356"/>
+  <rect x="46" y="48" width="180" height="18" rx="9" fill="#234157"/>
+  <rect x="46" y="84" width="428" height="52" rx="18" fill="#132B3D"/>
+  <rect x="46" y="160" width="122" height="56" rx="18" fill="#1FD3B5"/>
+  <rect x="186" y="160" width="150" height="56" rx="18" fill="#6ED3FF"/>
+  <rect x="354" y="160" width="120" height="56" rx="18" fill="#F3B44F"/>
+  <text x="76" y="194" fill="#06212B" font-family="Plus Jakarta Sans, Arial" font-size="17" font-weight="700">Livraison</text>
+  <text x="222" y="194" fill="#07293B" font-family="Plus Jakarta Sans, Arial" font-size="17" font-weight="700">Service client</text>
+  <text x="386" y="194" fill="#513000" font-family="Plus Jakarta Sans, Arial" font-size="17" font-weight="700">Produit</text>
+  <rect x="46" y="244" width="428" height="38" rx="16" fill="#132B3D"/>
+  <rect x="68" y="258" width="110" height="10" rx="5" fill="#1FD3B5"/>
+  <rect x="194" y="258" width="124" height="10" rx="5" fill="#6ED3FF"/>
+  <rect x="334" y="258" width="92" height="10" rx="5" fill="#F3B44F"/>
+</svg>

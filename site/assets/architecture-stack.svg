@@ -1,0 +1,13 @@
+<svg width="640" height="560" viewBox="0 0 640 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="38" y="28" width="564" height="504" rx="28" fill="#0F2231" stroke="#294356"/>
+  <rect x="108" y="68" width="424" height="68" rx="20" fill="#1FD3B5"/>
+  <rect x="108" y="156" width="424" height="68" rx="20" fill="#6ED3FF"/>
+  <rect x="108" y="244" width="424" height="84" rx="22" fill="#163041"/>
+  <rect x="108" y="348" width="424" height="68" rx="20" fill="#F3B44F"/>
+  <rect x="108" y="436" width="424" height="56" rx="18" fill="#163041"/>
+  <text x="146" y="110" fill="#07222C" font-family="Plus Jakarta Sans, Arial" font-size="24" font-weight="700">Input layer</text>
+  <text x="146" y="198" fill="#082535" font-family="Plus Jakarta Sans, Arial" font-size="24" font-weight="700">Contract layer</text>
+  <text x="146" y="284" fill="#EDF5FA" font-family="Plus Jakarta Sans, Arial" font-size="24" font-weight="700">ReviewAnalysisService</text>
+  <text x="146" y="390" fill="#4D2C00" font-family="Plus Jakarta Sans, Arial" font-size="24" font-weight="700">Inference layer</text>
+  <text x="146" y="471" fill="#EDF5FA" font-family="Plus Jakarta Sans, Arial" font-size="22" font-weight="700">Ops layer</text>
+</svg>

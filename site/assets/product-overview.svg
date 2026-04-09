@@ -1,0 +1,46 @@
+<svg width="860" height="640" viewBox="0 0 860 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="a" x1="104" y1="64" x2="712" y2="530" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#112636"/>
+      <stop offset="1" stop-color="#091723"/>
+    </linearGradient>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#1FD3B5"/>
+      <stop offset="1" stop-color="#6ED3FF"/>
+    </linearGradient>
+  </defs>
+  <rect x="24" y="24" width="812" height="592" rx="30" fill="url(#a)" stroke="#294356"/>
+  <rect x="60" y="66" width="280" height="158" rx="22" fill="#102332" stroke="#2D4C61"/>
+  <rect x="84" y="94" width="154" height="16" rx="8" fill="#234157"/>
+  <rect x="84" y="130" width="232" height="72" rx="16" fill="#0B1822" stroke="#243F51"/>
+  <path d="M112 185C140 166 168 162 196 136C224 110 252 124 280 102" stroke="url(#b)" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="196" cy="136" r="10" fill="#1FD3B5"/>
+  <circle cx="280" cy="102" r="10" fill="#6ED3FF"/>
+  <rect x="382" y="66" width="414" height="158" rx="22" fill="#102332" stroke="#2D4C61"/>
+  <rect x="410" y="96" width="180" height="16" rx="8" fill="#234157"/>
+  <rect x="410" y="132" width="164" height="54" rx="16" fill="url(#b)"/>
+  <rect x="594" y="132" width="84" height="54" rx="16" fill="#173043"/>
+  <rect x="694" y="132" width="74" height="54" rx="16" fill="#F3B44F"/>
+  <text x="430" y="164" fill="#07212B" font-family="Plus Jakarta Sans, Arial" font-size="17" font-weight="700">Themes</text>
+  <text x="612" y="164" fill="#BDD0DF" font-family="Plus Jakarta Sans, Arial" font-size="17" font-weight="700">Scores</text>
+  <text x="708" y="164" fill="#4A2B00" font-family="Plus Jakarta Sans, Arial" font-size="17" font-weight="700">Action</text>
+  <rect x="60" y="264" width="736" height="136" rx="24" fill="#102332" stroke="#2D4C61"/>
+  <rect x="88" y="292" width="214" height="18" rx="9" fill="#234157"/>
+  <rect x="88" y="326" width="294" height="18" rx="9" fill="#1A3447"/>
+  <rect x="88" y="358" width="250" height="18" rx="9" fill="#1A3447"/>
+  <rect x="440" y="292" width="130" height="78" rx="20" fill="#132B3C"/>
+  <rect x="462" y="318" width="82" height="12" rx="6" fill="#1FD3B5"/>
+  <rect x="596" y="292" width="168" height="78" rx="20" fill="#132B3C"/>
+  <circle cx="640" cy="330" r="18" fill="#1FD3B5"/>
+  <circle cx="690" cy="330" r="18" fill="#6ED3FF"/>
+  <circle cx="740" cy="330" r="18" fill="#F3B44F"/>
+  <rect x="60" y="442" width="228" height="130" rx="22" fill="#102332" stroke="#2D4C61"/>
+  <rect x="316" y="442" width="228" height="130" rx="22" fill="#102332" stroke="#2D4C61"/>
+  <rect x="572" y="442" width="224" height="130" rx="22" fill="#102332" stroke="#2D4C61"/>
+  <text x="86" y="486" fill="#EDF5FA" font-family="Plus Jakarta Sans, Arial" font-size="21" font-weight="700">Livraison</text>
+  <text x="342" y="486" fill="#EDF5FA" font-family="Plus Jakarta Sans, Arial" font-size="21" font-weight="700">Service client</text>
+  <text x="598" y="486" fill="#EDF5FA" font-family="Plus Jakarta Sans, Arial" font-size="21" font-weight="700">Produit</text>
+  <rect x="86" y="510" width="126" height="12" rx="6" fill="#1FD3B5"/>
+  <rect x="342" y="510" width="126" height="12" rx="6" fill="#6ED3FF"/>
+  <rect x="598" y="510" width="126" height="12" rx="6" fill="#F3B44F"/>
+</svg>
