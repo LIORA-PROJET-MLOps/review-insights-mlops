@@ -49,6 +49,7 @@ class HealthResponse(BaseModel):
     app_version: str
     environment: str
     inference_backend: str
+    model_source: str
     models_manifest_present: bool
     protected_endpoints: bool
 

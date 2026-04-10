@@ -14,6 +14,7 @@ def test_healthcheck():
     assert payload["inference_backend"] in {"heuristic_rules_v1", "project_models_v1"}
     assert "app_version" in payload
     assert "models_manifest_present" in payload
+    assert payload["model_source"] in {"local", "hf_hub"}
 
 
 def test_healthcheck_has_security_headers():

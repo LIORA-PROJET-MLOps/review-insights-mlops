@@ -70,14 +70,17 @@ def create_app() -> FastAPI:
 
     @app.get("/health", response_model=HealthResponse)
     def healthcheck() -> HealthResponse:
+        resolved_source = settings.model_source.strip().lower()
         manifest_path = Path(settings.models_dir) / "manifest.json"
+        manifest_present = service.backend_name == "project_models_v1" if resolved_source == "hf_hub" else manifest_path.exists()
         return HealthResponse(
             status="ok",
             app_name=settings.app_name,
             app_version=settings.app_version,
             environment=settings.app_env,
             inference_backend=service.backend_name,
-            models_manifest_present=manifest_path.exists(),
+            model_source=resolved_source,
+            models_manifest_present=manifest_present,
             protected_endpoints=bool(settings.api_key),
         )
 

@@ -17,6 +17,7 @@ class ReviewAnalysisService:
     def __init__(self) -> None:
         self.settings = get_settings()
         self.backend_name = "heuristic_rules_v1"
+        self.model_source = self.settings.model_source
         self._artifacts = None
         self.monitoring = MonitoringStore()
         self._load_real_models_if_available()

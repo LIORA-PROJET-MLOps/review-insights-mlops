@@ -167,6 +167,7 @@ Retourne:
 - environnement
 - version applicative
 - backend d'inference actif
+- source modele active (`local` ou `hf_hub`)
 - presence du manifest modele
 - activation ou non de la protection des endpoints
 
@@ -234,6 +235,7 @@ Une page de presentation interactive en francais est prete dans `site/`.
 - entree statique: `site/index.html`
 - styles: `site/styles.css`
 - interactions: `site/script.js`
+- mini demo API online: `site/demo-api.html`
 - deploiement: `.github/workflows/pages.yml`
 
 ## Suite recommandee

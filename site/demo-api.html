@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review Insights+ | Demo API</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #08131d;
+        --card: #10212f;
+        --line: rgba(140, 172, 195, 0.16);
+        --text: #eef5fb;
+        --muted: #a6bbca;
+        --teal: #1fd3b5;
+        --cyan: #6ed3ff;
+        --danger: #ff8d7a;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        color: var(--text);
+        background: linear-gradient(180deg, #07111a 0%, #0b1823 100%);
+      }
+      .page {
+        width: min(980px, calc(100% - 24px));
+        margin: 0 auto;
+        padding: 28px 0 48px;
+      }
+      .hero, .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: 0 24px 56px rgba(0, 0, 0, 0.22);
+      }
+      .hero {
+        padding: 24px;
+        margin-bottom: 18px;
+      }
+      h1, h2, h3 { margin: 0; }
+      p { color: var(--muted); line-height: 1.7; }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+      }
+      .card {
+        padding: 20px;
+      }
+      textarea, input {
+        width: 100%;
+        background: #0b1823;
+        color: var(--text);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        font: inherit;
+      }
+      textarea { min-height: 180px; resize: vertical; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+      button {
+        margin-top: 16px;
+        min-height: 48px;
+        border: 0;
+        border-radius: 999px;
+        padding: 0 18px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        color: #06202a;
+        background: linear-gradient(135deg, var(--teal), var(--cyan));
+      }
+      .pill {
+        display: inline-flex;
+        padding: 8px 12px;
+        border-radius: 999px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+      .positive { background: rgba(31, 211, 181, 0.18); color: #7df0d9; }
+      .negative { background: rgba(255, 141, 122, 0.18); color: #ffb0a1; }
+      .neutral { background: rgba(110, 211, 255, 0.16); color: #a7e5ff; }
+      pre {
+        overflow: auto;
+        background: #0b1823;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        color: #dce8f2;
+      }
+      .ok { color: #7df0d9; }
+      .err { color: #ffb0a1; }
+      @media (max-width: 860px) {
+        .grid, .row { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <section class="hero">
+        <h1>Demo API Review Insights+</h1>
+        <p>
+          Cette mini-interface appelle directement l'API online sur Hugging Face afin de verifier
+          le comportement des modeles en production.
+        </p>
+      </section>
+
+      <div class="grid">
+        <section class="card">
+          <h2>Tester une review</h2>
+          <p>Entrez un commentaire en anglais et lancez l'analyse.</p>
+          <textarea id="reviewText">customer support never answered and the refund process was slow</textarea>
+          <div class="row">
+            <input id="reviewId" value="demo_web_1" />
+            <input id="apiBase" value="https://francescogiraldi-review-insights-api.hf.space" />
+          </div>
+          <button id="runBtn">Analyser</button>
+        </section>
+
+        <section class="card">
+          <h2>Healthcheck</h2>
+          <p id="healthStatus">Chargement...</p>
+          <pre id="healthJson"></pre>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top:18px;">
+        <h2>Resultat</h2>
+        <div id="summary"></div>
+        <pre id="resultJson"></pre>
+      </section>
+    </div>
+
+    <script>
+      const healthStatus = document.getElementById("healthStatus");
+      const healthJson = document.getElementById("healthJson");
+      const resultJson = document.getElementById("resultJson");
+      const summary = document.getElementById("summary");
+      const reviewText = document.getElementById("reviewText");
+      const reviewId = document.getElementById("reviewId");
+      const apiBase = document.getElementById("apiBase");
+      const runBtn = document.getElementById("runBtn");
+
+      async function fetchHealth() {
+        const response = await fetch(`${apiBase.value}/health`);
+        const data = await response.json();
+        healthStatus.innerHTML = `Statut: <span class="ok">${data.status}</span> | Backend: <strong>${data.inference_backend}</strong> | Source: <strong>${data.model_source}</strong>`;
+        healthJson.textContent = JSON.stringify(data, null, 2);
+      }
+
+      async function runAnalysis() {
+        runBtn.disabled = true;
+        summary.innerHTML = "";
+        resultJson.textContent = "Chargement...";
+        try {
+          const response = await fetch(`${apiBase.value}/v1/analyze`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              review_id: reviewId.value,
+              review_text: reviewText.value,
+            }),
+          });
+          const data = await response.json();
+          const sentimentClass = data.global_sentiment === "positive" ? "positive" : data.global_sentiment === "negative" ? "negative" : "neutral";
+          summary.innerHTML = `
+            <span class="pill ${sentimentClass}">${data.global_sentiment}</span>
+            ${data.themes_detected.map((theme) => `<span class="pill neutral">${theme}</span>`).join("")}
+            <p>Confiance globale: ${data.score_global} | Human review: ${data.needs_human_review ? "oui" : "non"}</p>
+          `;
+          resultJson.textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+          summary.innerHTML = `<p class="err">Erreur lors de l'appel API.</p>`;
+          resultJson.textContent = String(error);
+        } finally {
+          runBtn.disabled = false;
+        }
+      }
+
+      runBtn.addEventListener("click", runAnalysis);
+      fetchHealth().catch((error) => {
+        healthStatus.innerHTML = `<span class="err">Impossible de charger /health</span>`;
+        healthJson.textContent = String(error);
+      });
+      runAnalysis();
+    </script>
+  </body>
+</html>
