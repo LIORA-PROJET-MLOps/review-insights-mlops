@@ -26,10 +26,16 @@ class Settings:
     api_port: int = field(default_factory=lambda: int(os.getenv("API_PORT", "8000")))
     theme_threshold: float = field(default_factory=lambda: float(os.getenv("THEME_THRESHOLD", "0.34")))
     models_dir: str = field(default_factory=lambda: os.getenv("MODELS_DIR", "models"))
+    model_source: str = field(default_factory=lambda: os.getenv("MODEL_SOURCE", "local"))
+    hf_model_repo_id: str | None = field(default_factory=lambda: os.getenv("HF_MODEL_REPO_ID") or None)
+    hf_model_revision: str | None = field(default_factory=lambda: os.getenv("HF_MODEL_REVISION") or None)
+    hf_token: str | None = field(default_factory=lambda: os.getenv("HF_TOKEN") or None)
+    hf_cache_dir: str = field(default_factory=lambda: os.getenv("HF_CACHE_DIR", ".cache/huggingface"))
+    hf_artifacts_dir: str = field(default_factory=lambda: os.getenv("HF_ARTIFACTS_DIR", ".cache/review_insights/models"))
     api_key: str | None = field(default_factory=lambda: os.getenv("API_KEY") or None)
     max_review_chars: int = field(default_factory=lambda: int(os.getenv("MAX_REVIEW_CHARS", "5000")))
     allowed_origins: tuple[str, ...] = field(default_factory=lambda: _parse_csv_env("ALLOWED_ORIGINS", "*"))
-    trusted_hosts: tuple[str, ...] = field(default_factory=lambda: _parse_csv_env("TRUSTED_HOSTS", "localhost,127.0.0.1,testserver"))
+    trusted_hosts: tuple[str, ...] = field(default_factory=lambda: _parse_csv_env("TRUSTED_HOSTS", "*"))
     enable_docs: bool = field(default_factory=lambda: _parse_bool_env("ENABLE_DOCS", True))
 
 

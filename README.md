@@ -24,6 +24,7 @@ Ce depot contient une base finale de POC/MVP alignee avec les lignes guides du p
 - artefacts modeles versionnables dans `models/`
 - manifest d'artefacts
 - configuration centralisee par variables d'environnement
+- support des artefacts distants via Hugging Face Hub
 
 ### Orchestration et deploiement
 
@@ -58,6 +59,11 @@ Le service utilise automatiquement:
 
 - `project_models_v1` si les artefacts du projet sont presents dans `models/`
 - `heuristic_rules_v1` sinon
+
+Le chargement des artefacts peut aussi etre fait depuis Hugging Face Hub avec:
+
+- `MODEL_SOURCE=hf_hub`
+- `HF_MODEL_REPO_ID=<repo-modele>`
 
 Artefacts modeles attendus:
 
@@ -219,6 +225,7 @@ Etat verifie sur cette base:
 - [SECURITE_EXPLOITATION_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\docs\SECURITE_EXPLOITATION_FR.md)
 - [LIVRABLES_FINAUX_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\docs\LIVRABLES_FINAUX_FR.md)
 - [SOUTENANCE_READY_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\docs\SOUTENANCE_READY_FR.md)
+- [HUGGINGFACE_MIGRATION_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\HUGGINGFACE_MIGRATION_FR.md)
 
 ## GitHub Pages
 

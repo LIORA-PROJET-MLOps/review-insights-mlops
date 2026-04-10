@@ -7,6 +7,7 @@ from typing import Dict, List
 
 import joblib
 import numpy as np
+from huggingface_hub import hf_hub_download
 from sklearn.exceptions import InconsistentVersionWarning
 
 from .config import THEMES
@@ -40,6 +41,15 @@ class ProjectModelArtifacts:
     sentiment_class_map: Dict[str, Dict[int, str]]
 
 
+ARTIFACT_FILENAMES = (
+    "themes_clf.joblib",
+    "themes_thresholds.npy",
+    "sent_livraison.joblib",
+    "sent_sav.joblib",
+    "sent_produit.joblib",
+)
+
+
 def _patch_pipeline_for_predict_proba(model: object) -> object:
     if hasattr(model, "named_steps"):
         last_step = list(model.named_steps.values())[-1]
@@ -71,9 +81,44 @@ def _build_sentiment_class_map(theme: str, model: object) -> Dict[int, str]:
     }
 
 
+def download_hf_model_artifacts(
+    repo_id: str,
+    local_dir: str,
+    revision: str | None = None,
+    token: str | None = None,
+    cache_dir: str | None = None,
+) -> Path:
+    target_dir = Path(local_dir)
+    target_dir.mkdir(parents=True, exist_ok=True)
+    for filename in ARTIFACT_FILENAMES:
+        hf_hub_download(
+            repo_id=repo_id,
+            filename=filename,
+            repo_type="model",
+            revision=revision,
+            token=token,
+            cache_dir=cache_dir,
+            local_dir=target_dir,
+            local_dir_use_symlinks=False,
+        )
+    return target_dir
+
+
 def load_project_model_artifacts(models_dir: str | None = None) -> ProjectModelArtifacts:
     settings = get_settings()
-    base_dir = Path(models_dir or settings.models_dir)
+    resolved_source = settings.model_source.strip().lower()
+    if resolved_source == "hf_hub":
+        if not settings.hf_model_repo_id:
+            raise ValueError("HF_MODEL_REPO_ID must be configured when MODEL_SOURCE=hf_hub.")
+        base_dir = download_hf_model_artifacts(
+            repo_id=settings.hf_model_repo_id,
+            local_dir=settings.hf_artifacts_dir,
+            revision=settings.hf_model_revision,
+            token=settings.hf_token,
+            cache_dir=settings.hf_cache_dir,
+        )
+    else:
+        base_dir = Path(models_dir or settings.models_dir)
     themes_model = _load_joblib(base_dir / "themes_clf.joblib")
     thresholds = np.load(base_dir / "themes_thresholds.npy", allow_pickle=True)
     sentiment_models = {
