@@ -235,8 +235,28 @@ Une page de presentation interactive en francais est prete dans `site/`.
 - entree statique: `site/index.html`
 - styles: `site/styles.css`
 - interactions: `site/script.js`
+- application web online: `site/app-online.html`
+- styles app: `site/app.css`
+- logique app: `site/app.js`
 - mini demo API online: `site/demo-api.html`
 - deploiement: `.github/workflows/pages.yml`
+
+## Frontend et backend online
+
+Une architecture online complete est maintenant preparee:
+
+- backend API HF: `Francescogiraldi/review-insights-api`
+- model repo HF: `Francescogiraldi/review-insights-models`
+- frontend HF: `Francescogiraldi/review-insights-frontend`
+- bundle frontend HF: `dist/hf_space_frontend_bundle`
+- bundle backend HF: `dist/hf_space_api_bundle`
+
+Scripts de generation:
+
+```bash
+powershell -ExecutionPolicy Bypass -File .\scripts\build_hf_space_bundle.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\build_hf_frontend_space_bundle.ps1
+```
 
 ## Suite recommandee
 

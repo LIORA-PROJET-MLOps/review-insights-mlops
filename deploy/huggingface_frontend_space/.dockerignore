@@ -1,0 +1,12 @@
+.git
+.github
+__pycache__/
+*.pyc
+dist/
+models/
+reports/
+tests/
+src/
+deploy/
+scripts/
+pipelines/

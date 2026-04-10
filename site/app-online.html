@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review Insights+ | Application Online</title>
+    <meta
+      name="description"
+      content="Application web Review Insights+ connectee a l'API online pour l'analyse de reviews, le monitoring et l'evaluation."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Application web connectee a l'API Hugging Face</span>
+          <h1>Review Insights+ Runtime Console</h1>
+          <p>
+            Cette interface donne acces au backend online pour tester des reviews unitaires,
+            observer l'etat runtime, consulter les metriques et lancer l'evaluation de reference.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#analyze">Analyser une review</a>
+            <a class="button button-secondary" href="#runtime">Voir le runtime</a>
+          </div>
+        </div>
+        <div class="hero-visual panel">
+          <img src="./assets/architecture-stack.svg" alt="Architecture Review Insights+" />
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel panel-full" id="runtime">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow eyebrow-dark">Connexion plateforme</span>
+              <h2>Configuration du frontend</h2>
+            </div>
+            <button class="button button-secondary" id="refreshAll">Actualiser tout</button>
+          </div>
+          <div class="control-grid">
+            <label class="field">
+              <span>Base URL API</span>
+              <input id="apiBase" type="text" value="https://francescogiraldi-review-insights-api.hf.space" />
+            </label>
+            <label class="field">
+              <span>API key optionnelle</span>
+              <input id="apiKey" type="password" value="" placeholder="Laisser vide si l'API est publique" />
+            </label>
+          </div>
+        </section>
+
+        <section class="panel" id="healthPanel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow eyebrow-dark">Health</span>
+              <h2>Etat du backend</h2>
+            </div>
+            <button class="button button-secondary" id="refreshHealth">Recharger</button>
+          </div>
+          <div class="stat-grid" id="healthStats"></div>
+          <pre id="healthJson" class="code-block"></pre>
+        </section>
+
+        <section class="panel" id="metricsPanel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow eyebrow-dark">Monitoring</span>
+              <h2>Metriques runtime</h2>
+            </div>
+            <button class="button button-secondary" id="refreshMetrics">Recharger</button>
+          </div>
+          <div class="stat-grid" id="metricsStats"></div>
+          <div class="chips" id="metricDistributions"></div>
+          <pre id="metricsJson" class="code-block"></pre>
+        </section>
+
+        <section class="panel panel-full" id="analyze">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow eyebrow-dark">Analyse unitaire</span>
+              <h2>Analyser une review</h2>
+            </div>
+            <div class="sample-actions">
+              <button class="button button-secondary sample-btn" data-sample="delivery">
+                Exemple livraison
+              </button>
+              <button class="button button-secondary sample-btn" data-sample="support">
+                Exemple support
+              </button>
+              <button class="button button-secondary sample-btn" data-sample="mixed">
+                Exemple mixte
+              </button>
+            </div>
+          </div>
+
+          <div class="analyze-grid">
+            <div class="compose">
+              <label class="field">
+                <span>Review ID</span>
+                <input id="reviewId" type="text" value="web_runtime_001" />
+              </label>
+              <label class="field">
+                <span>Seuil thematique</span>
+                <input id="threshold" type="number" value="0.34" min="0.1" max="0.95" step="0.01" />
+              </label>
+              <label class="field field-full">
+                <span>Review text (anglais)</span>
+                <textarea id="reviewText">customer support never answered and the refund process was slow</textarea>
+              </label>
+              <button class="button button-primary" id="runAnalyze">Lancer l'analyse</button>
+            </div>
+
+            <div class="results">
+              <div id="resultCards" class="result-cards"></div>
+              <div id="insights" class="insight-list"></div>
+              <pre id="analyzeJson" class="code-block"></pre>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel panel-full" id="batch">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow eyebrow-dark">Batch browser-side</span>
+              <h2>Analyser un CSV</h2>
+            </div>
+            <button class="button button-secondary" id="exportBatch" disabled>Exporter CSV</button>
+          </div>
+          <p class="section-copy">
+            Colonnes attendues: <code>review_id</code> et <code>review_text</code>. Si besoin, le
+            frontend tente aussi <code>review_body</code> ou la combinaison
+            <code>review_title + review_body</code>.
+          </p>
+          <div class="control-grid">
+            <label class="field field-full">
+              <span>Importer un CSV</span>
+              <input id="batchFile" type="file" accept=".csv" />
+            </label>
+          </div>
+          <div class="batch-actions">
+            <button class="button button-primary" id="runBatch" disabled>Analyser le lot</button>
+            <span id="batchStatus" class="muted">Aucun fichier charge.</span>
+          </div>
+          <div class="table-wrap">
+            <table class="results-table" id="batchTable">
+              <thead>
+                <tr>
+                  <th>Review ID</th>
+                  <th>Sentiment</th>
+                  <th>Themes</th>
+                  <th>Score</th>
+                  <th>Human review</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel panel-full" id="evaluation">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow eyebrow-dark">Evaluation</span>
+              <h2>Benchmark de reference</h2>
+            </div>
+            <button class="button button-primary" id="runEvaluation">Lancer l'evaluation</button>
+          </div>
+          <div id="evaluationStats" class="stat-grid"></div>
+          <pre id="evaluationJson" class="code-block"></pre>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
