@@ -136,6 +136,37 @@ uvicorn api_app:app --host 0.0.0.0 --port 8000
 docker compose up --build
 ```
 
+Services exposes:
+
+- API inference: `http://localhost:8000`
+- Data service: `http://localhost:8001`
+- Monitoring gateway and Prometheus text metrics: `http://localhost:9000`
+- Frontend Streamlit: `http://localhost:8501`
+
+## Architecture microservices Docker
+
+Le projet est maintenant separe en services Docker specialises:
+
+- `api`: service FastAPI d'inference, expose `/health`, `/v1/analyze`, `/metrics` et `/v1/evaluate/default`.
+- `data`: service FastAPI data/evaluation, expose le dataset de demonstration via `/v1/datasets/default`, son profil via `/v1/datasets/default/profile` et l'evaluation offline via `/v1/evaluate/default`.
+- `monitoring`: gateway de supervision, interroge l'API interne, expose `/v1/api/health`, `/v1/api/metrics` et `/metrics` au format texte compatible Prometheus.
+- `streamlit`: frontend POC existant, isole dans son propre container.
+
+Dockerfiles:
+
+```text
+docker/
+|-- api/Dockerfile
+|-- data/Dockerfile
+|-- frontend/Dockerfile
+`-- monitoring/Dockerfile
+```
+
+Volumes:
+
+- `./models:/app/models:ro` garde les artefacts modeles montes en lecture seule dans les services qui inferent.
+- `reports` et `artifacts` isolent les sorties du service data/pipelines.
+
 ### Evaluation offline
 
 ```bash
