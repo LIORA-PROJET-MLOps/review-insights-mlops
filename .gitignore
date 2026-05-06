@@ -7,6 +7,7 @@ pytest-cache-files-*
 *.pyo
 *.pyd
 *.log
+mlruns/
 dist/
 build/
 *.egg-info/

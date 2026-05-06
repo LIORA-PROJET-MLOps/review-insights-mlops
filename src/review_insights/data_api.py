@@ -3,6 +3,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 
 from .dataset import load_default_dataset, prepare_dataset
+from .mlflow_tracking import log_evaluation_run
 from .schemas import EvaluationResponse
 from .service import get_review_analysis_service
 from .settings import get_settings
@@ -27,6 +28,8 @@ def create_app() -> FastAPI:
             "environment": settings.app_env,
             "model_source": settings.model_source,
             "inference_backend": service.backend_name,
+            "mlflow_tracking_enabled": settings.mlflow_tracking_enabled,
+            "mlflow_tracking_uri": settings.mlflow_tracking_uri,
         }
 
     @app.get("/v1/datasets/default")
@@ -56,10 +59,10 @@ def create_app() -> FastAPI:
     def evaluate_default_dataset() -> EvaluationResponse:
         df = prepare_dataset(load_default_dataset())
         report = service.evaluate_dataframe(df)
+        log_evaluation_run(report, run_name="data_api_default_evaluation")
         return EvaluationResponse(**report)
 
     return app
 
 
 app = create_app()
-

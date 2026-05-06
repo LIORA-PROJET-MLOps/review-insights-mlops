@@ -40,6 +40,7 @@ Ce depot contient une base finale de POC/MVP alignee avec les lignes guides du p
 
 - endpoint `/metrics`
 - endpoint `/v1/evaluate/default`
+- suivi des experiences avec MLflow
 - suivi du volume de requetes
 - suivi du taux de revue humaine
 - distributions des predictions
@@ -103,6 +104,7 @@ Le backend reel est branche sans changer l'architecture applicative: seule la co
 |       |-- dataset.py
 |       |-- engine.py
 |       |-- evaluation.py
+|       |-- mlflow_tracking.py
 |       |-- model_backend.py
 |       |-- monitoring.py
 |       |-- schemas.py
@@ -140,8 +142,55 @@ Services exposes:
 
 - API inference: `http://localhost:8000`
 - Data service: `http://localhost:8001`
+- MLflow tracking UI: `http://localhost:5000`
 - Monitoring gateway and Prometheus text metrics: `http://localhost:9000`
 - Frontend Streamlit: `http://localhost:8501`
+
+### Build Docker recommande
+
+Sur Docker Desktop Windows, preferer un build progressif quand le cache est vide ou apres une purge:
+
+```bash
+docker compose build monitoring
+docker compose build api
+docker compose build data
+docker compose build mlflow
+docker compose build streamlit
+docker compose up -d
+```
+
+Validation rapide:
+
+```bash
+docker compose ps
+```
+
+Endpoints a verifier:
+
+- `http://localhost:8000/health`
+- `http://localhost:8001/health`
+- `http://localhost:5000/health`
+- `http://localhost:9000/health`
+- `http://localhost:8501`
+
+Si Docker Desktop affiche ponctuellement `EOF` ou `502 Bad Gateway` pendant un build, verifier d'abord l'etat reel:
+
+```bash
+docker images
+docker compose ps
+docker system df
+```
+
+Ces erreurs peuvent venir de Docker Desktop / BuildKit pendant l'export d'image ou le controle des healthchecks. Si l'image existe et que les containers sont `healthy`, l'application peut etre correcte. En cas de stockage Docker instable ou cache corrompu:
+
+```bash
+docker compose down
+docker system prune -a --volumes -f
+docker builder prune -af
+docker buildx history rm --all
+```
+
+Puis relancer le build service par service.
 
 ## Architecture microservices Docker
 
@@ -149,6 +198,7 @@ Le projet est maintenant separe en services Docker specialises:
 
 - `api`: service FastAPI d'inference, expose `/health`, `/v1/analyze`, `/metrics` et `/v1/evaluate/default`.
 - `data`: service FastAPI data/evaluation, expose le dataset de demonstration via `/v1/datasets/default`, son profil via `/v1/datasets/default/profile` et l'evaluation offline via `/v1/evaluate/default`.
+- `mlflow`: serveur de tracking des experiences modele, expose l'interface MLflow sur `http://localhost:5000`.
 - `monitoring`: gateway de supervision, interroge l'API interne, expose `/v1/api/health`, `/v1/api/metrics` et `/metrics` au format texte compatible Prometheus.
 - `streamlit`: frontend POC existant, isole dans son propre container.
 
@@ -159,6 +209,7 @@ docker/
 |-- api/Dockerfile
 |-- data/Dockerfile
 |-- frontend/Dockerfile
+|-- mlflow/Dockerfile
 `-- monitoring/Dockerfile
 ```
 
@@ -166,6 +217,7 @@ Dependencies are split by runtime surface:
 
 - `requirements-api.txt`: FastAPI inference service and model loading.
 - `requirements-data.txt`: dataset profile/evaluation service and offline pipelines.
+- `requirements-mlflow.txt`: MLflow tracking server runtime.
 - `requirements-monitoring.txt`: lightweight monitoring gateway.
 - `requirements-frontend.txt`: Streamlit frontend runtime.
 - `requirements-dev.txt`: local development/test dependencies.
@@ -174,6 +226,7 @@ Volumes:
 
 - `./models:/app/models:ro` garde les artefacts modeles montes en lecture seule dans les services qui inferent.
 - `reports` et `artifacts` isolent les sorties du service data/pipelines.
+- `mlflow_data` conserve la base SQLite MLflow et les artefacts de runs.
 
 ### Evaluation offline
 
@@ -185,6 +238,34 @@ Sorties generees:
 
 - `reports/default_evaluation.json`
 - `reports/default_evaluation.md`
+
+Si `MLFLOW_TRACKING_ENABLED=true`, le script logge aussi dans MLflow:
+
+- parametres: backend modele et dataset
+- metriques: lignes, accuracy sentiment, exact match theme, precision/recall macro
+- artefacts JSON/Markdown quand le tracking local `file:./mlruns` est utilise avec le package `mlflow` installe
+
+### MLflow tracking
+
+En Docker Compose, MLflow est lance automatiquement:
+
+```bash
+docker compose up --build mlflow data
+```
+
+Interface:
+
+- `http://localhost:5000`
+
+Configuration utile:
+
+```env
+MLFLOW_TRACKING_ENABLED=true
+MLFLOW_TRACKING_URI=http://localhost:5000
+MLFLOW_EXPERIMENT_NAME=review-insights-default
+```
+
+Dans Compose, le service `data` utilise `http://mlflow:5000` et logge via l'API HTTP MLflow, sans installer le package MLflow lourd dans l'image `data`. En local hors Docker, utiliser `http://localhost:5000` si le serveur MLflow tourne, ou `file:./mlruns` pour un tracking local sur disque avec `pip install -r requirements-mlflow.txt`.
 
 ### Placeholder pipeline d'entrainement
 
