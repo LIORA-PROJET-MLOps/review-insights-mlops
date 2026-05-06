@@ -2,11 +2,12 @@ FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
 
-COPY requirements.txt pyproject.toml ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements-data.txt pyproject.toml ./
+RUN pip install --no-cache-dir -r requirements-data.txt
 
 COPY data_app.py ./
 COPY pipelines ./pipelines
@@ -19,4 +20,3 @@ USER appuser
 EXPOSE 8001
 
 CMD ["uvicorn", "data_app:app", "--host", "0.0.0.0", "--port", "8001"]
-

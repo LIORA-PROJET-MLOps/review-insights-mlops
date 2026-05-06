@@ -162,6 +162,14 @@ docker/
 `-- monitoring/Dockerfile
 ```
 
+Dependencies are split by runtime surface:
+
+- `requirements-api.txt`: FastAPI inference service and model loading.
+- `requirements-data.txt`: dataset profile/evaluation service and offline pipelines.
+- `requirements-monitoring.txt`: lightweight monitoring gateway.
+- `requirements-frontend.txt`: Streamlit frontend runtime.
+- `requirements-dev.txt`: local development/test dependencies.
+
 Volumes:
 
 - `./models:/app/models:ro` garde les artefacts modeles montes en lecture seule dans les services qui inferent.
