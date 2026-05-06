@@ -85,3 +85,36 @@ def test_api_key_protection_when_configured(monkeypatch):
     assert authorized.status_code == 200
 
     monkeypatch.delenv("API_KEY", raising=False)
+
+
+def test_api_key_required_without_config_returns_service_error(monkeypatch):
+    monkeypatch.setenv("REQUIRE_API_KEY", "true")
+    monkeypatch.delenv("API_KEY", raising=False)
+    secured_client = TestClient(create_app())
+
+    response = secured_client.post(
+        "/v1/analyze",
+        json={"review_id": "auth_required", "review_text": "fast delivery and good product"},
+    )
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == "API key protection is required but not configured."
+    monkeypatch.delenv("REQUIRE_API_KEY", raising=False)
+
+
+def test_rate_limit_blocks_excess_requests(monkeypatch):
+    monkeypatch.setenv("RATE_LIMIT_ENABLED", "true")
+    monkeypatch.setenv("RATE_LIMIT_REQUESTS", "1")
+    monkeypatch.setenv("RATE_LIMIT_WINDOW_SECONDS", "60")
+    limited_client = TestClient(create_app())
+    payload = {"review_id": "rate_limit", "review_text": "fast delivery and good product"}
+
+    first = limited_client.post("/v1/analyze", json=payload)
+    second = limited_client.post("/v1/analyze", json=payload)
+
+    assert first.status_code == 200
+    assert second.status_code == 429
+    assert second.headers["retry-after"]
+    monkeypatch.delenv("RATE_LIMIT_ENABLED", raising=False)
+    monkeypatch.delenv("RATE_LIMIT_REQUESTS", raising=False)
+    monkeypatch.delenv("RATE_LIMIT_WINDOW_SECONDS", raising=False)

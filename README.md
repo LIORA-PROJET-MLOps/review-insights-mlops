@@ -210,6 +210,47 @@ Retourne:
 - presence du manifest modele
 - activation ou non de la protection des endpoints
 
+### Securite API
+
+Par defaut, la cle API reste optionnelle pour faciliter le developpement local. Pour un environnement partage, staging ou production, activer:
+
+```env
+REQUIRE_API_KEY=true
+API_KEY=change-me-with-a-long-secret
+RATE_LIMIT_ENABLED=true
+RATE_LIMIT_REQUESTS=60
+RATE_LIMIT_WINDOW_SECONDS=60
+```
+
+Endpoints proteges quand `REQUIRE_API_KEY=true` ou quand `API_KEY` est configuree:
+
+- `POST /v1/analyze`
+- `GET /metrics`
+- `GET /v1/evaluate/default`
+
+Endpoint public:
+
+- `GET /health`
+
+Exemple d'appel protege:
+
+```powershell
+Invoke-RestMethod `
+  -Uri "http://localhost:8000/v1/analyze" `
+  -Method Post `
+  -Headers @{ "X-API-Key" = "change-me-with-a-long-secret" } `
+  -ContentType "application/json" `
+  -Body '{"review_id":"secure_test","review_text":"fast delivery and great product"}'
+```
+
+Comportements attendus:
+
+- `401 Unauthorized`: cle absente ou invalide.
+- `429 Too Many Requests`: rate limit depasse.
+- `503 Service Unavailable`: `REQUIRE_API_KEY=true` mais `API_KEY` non configuree.
+
+Le rate limit est en memoire et s'applique par cle API, sinon par IP client. Pour une production multi-replicas, il faudra le remplacer par un stockage partage type Redis.
+
 ### `POST /v1/analyze`
 
 Analyse une review individuelle.

@@ -11,6 +11,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .dataset import load_default_dataset, prepare_dataset
 from .schemas import AnalyzeReviewRequest, AnalyzeReviewResponse, EvaluationResponse, HealthResponse, MetricsResponse
+from .security import InMemoryRateLimiter, client_identifier, enforce_api_key, log_security_event
 from .service import get_review_analysis_service
 from .settings import get_settings
 
@@ -42,6 +43,10 @@ def create_app() -> FastAPI:
 
     app.state.settings = settings
     app.state.service = service
+    app.state.rate_limiter = InMemoryRateLimiter(
+        requests_per_window=settings.rate_limit_requests,
+        window_seconds=settings.rate_limit_window_seconds,
+    )
     app.add_middleware(SecurityHeadersMiddleware)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=list(settings.trusted_hosts))
     app.add_middleware(
@@ -54,15 +59,16 @@ def create_app() -> FastAPI:
 
     api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
-    def require_api_key(api_key: str | None = Depends(api_key_header)) -> None:
-        configured_key = settings.api_key
-        if not configured_key:
+    def require_api_security(request: Request, api_key: str | None = Depends(api_key_header)) -> None:
+        enforce_api_key(settings, request, api_key)
+        if not settings.rate_limit_enabled:
             return
-        if api_key != configured_key:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid or missing API key.",
-            )
+        identifier = client_identifier(request, api_key=api_key)
+        try:
+            app.state.rate_limiter.check(identifier)
+        except HTTPException:
+            log_security_event("rate_limit_exceeded", request, "Too many requests.", identifier=identifier)
+            raise
 
     @app.exception_handler(ValueError)
     async def value_error_handler(_: Request, exc: ValueError):
@@ -81,10 +87,10 @@ def create_app() -> FastAPI:
             inference_backend=service.backend_name,
             model_source=resolved_source,
             models_manifest_present=manifest_present,
-            protected_endpoints=bool(settings.api_key),
+            protected_endpoints=settings.require_api_key or bool(settings.api_key),
         )
 
-    @app.post("/v1/analyze", response_model=AnalyzeReviewResponse, dependencies=[Depends(require_api_key)])
+    @app.post("/v1/analyze", response_model=AnalyzeReviewResponse, dependencies=[Depends(require_api_security)])
     def analyze_review_endpoint(payload: AnalyzeReviewRequest) -> AnalyzeReviewResponse:
         if len(payload.review_text) > settings.max_review_chars:
             raise HTTPException(
@@ -97,11 +103,11 @@ def create_app() -> FastAPI:
             threshold=payload.threshold,
         )
 
-    @app.get("/metrics", response_model=MetricsResponse, dependencies=[Depends(require_api_key)])
+    @app.get("/metrics", response_model=MetricsResponse, dependencies=[Depends(require_api_security)])
     def metrics_endpoint() -> MetricsResponse:
         return MetricsResponse(**service.get_monitoring_metrics())
 
-    @app.get("/v1/evaluate/default", response_model=EvaluationResponse, dependencies=[Depends(require_api_key)])
+    @app.get("/v1/evaluate/default", response_model=EvaluationResponse, dependencies=[Depends(require_api_security)])
     def evaluate_default_dataset() -> EvaluationResponse:
         df = prepare_dataset(load_default_dataset())
         report = service.evaluate_dataframe(df)
