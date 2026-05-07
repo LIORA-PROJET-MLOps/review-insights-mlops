@@ -90,6 +90,7 @@ Le backend reel est branche sans changer l'architecture applicative: seule la co
 |   `-- manifest.json
 |-- pipelines/
 |   |-- evaluate_default.py
+|   |-- train_models.py
 |   `-- train_placeholder.py
 |-- PROJECT_MLOPS_GUIDE_FR.md
 |-- pyproject.toml
@@ -216,7 +217,7 @@ docker/
 Dependencies are split by runtime surface:
 
 - `requirements-api.txt`: FastAPI inference service and model loading.
-- `requirements-data.txt`: dataset profile/evaluation service and offline pipelines.
+- `requirements-data.txt`: dataset profile/evaluation service, offline pipelines and MLflow client logging.
 - `requirements-mlflow.txt`: MLflow tracking server runtime.
 - `requirements-monitoring.txt`: lightweight monitoring gateway.
 - `requirements-frontend.txt`: Streamlit frontend runtime.
@@ -243,7 +244,8 @@ Si `MLFLOW_TRACKING_ENABLED=true`, le script logge aussi dans MLflow:
 
 - parametres: backend modele et dataset
 - metriques: lignes, accuracy sentiment, exact match theme, precision/recall macro
-- artefacts JSON/Markdown quand le tracking local `file:./mlruns` est utilise avec le package `mlflow` installe
+- artefacts JSON/Markdown
+- artefacts modele sous le chemin MLflow `model/` quand le package `mlflow` est installe dans le runtime
 
 ### MLflow tracking
 
@@ -251,6 +253,29 @@ En Docker Compose, MLflow est lance automatiquement:
 
 ```bash
 docker compose up --build mlflow data
+```
+
+Pour forcer une evaluation fonctionnelle et verifier que MLflow recoit bien un run:
+
+```bash
+MLFLOW_TRACKING_ENABLED=true MLFLOW_TRACKING_URI=http://localhost:5000 MLFLOW_EXPERIMENT_NAME=review-insights-default py -3 pipelines/evaluate_default.py
+```
+
+Sur PowerShell:
+
+```powershell
+$env:MLFLOW_TRACKING_ENABLED="true"
+$env:MLFLOW_TRACKING_URI="http://localhost:5000"
+$env:MLFLOW_EXPERIMENT_NAME="review-insights-default"
+py -3 pipelines/evaluate_default.py
+```
+
+La sortie attendue doit inclure:
+
+```text
+MLflow tracking: logged (http://localhost:5000)
+MLflow run id: ...
+MLflow model artifacts: logged
 ```
 
 Interface:
@@ -265,9 +290,34 @@ MLFLOW_TRACKING_URI=http://localhost:5000
 MLFLOW_EXPERIMENT_NAME=review-insights-default
 ```
 
-Dans Compose, le service `data` utilise `http://mlflow:5000` et logge via l'API HTTP MLflow, sans installer le package MLflow lourd dans l'image `data`. En local hors Docker, utiliser `http://localhost:5000` si le serveur MLflow tourne, ou `file:./mlruns` pour un tracking local sur disque avec `pip install -r requirements-mlflow.txt`.
+Dans Compose, le service `data` utilise `http://mlflow:5000` et embarque le client `mlflow` pour uploader les artefacts modele dans le run. En local hors Docker, installer aussi `requirements-mlflow.txt` si l'environnement courant ne contient pas encore le package `mlflow`.
 
-### Placeholder pipeline d'entrainement
+Important: cette version journalise les artefacts modele dans les runs MLflow. Le Model Registry MLflow peut etre ajoute ensuite si un workflow de promotion `Staging` / `Production` est requis.
+
+### Pipeline d'entrainement reproductible
+
+La pipeline `pipelines/train_models.py` entraine les artefacts attendus par le backend `project_models_v1` depuis le dataset par defaut. Par securite, elle ecrit dans `artifacts/trained_models/` par defaut et ne remplace pas les modeles actifs.
+
+```bash
+py -3 pipelines/train_models.py
+```
+
+Pour promouvoir explicitement les nouveaux artefacts comme modeles actifs:
+
+```bash
+py -3 pipelines/train_models.py --output-dir models
+```
+
+Artefacts generes:
+
+- `themes_clf.joblib`
+- `themes_thresholds.npy`
+- `sent_livraison.joblib`
+- `sent_sav.joblib`
+- `sent_produit.joblib`
+- `manifest.json`
+
+### Placeholder historique d'entrainement
 
 ```bash
 py -3 pipelines/train_placeholder.py
@@ -290,6 +340,7 @@ Retourne:
 - source modele active (`local` ou `hf_hub`)
 - presence du manifest modele
 - activation ou non de la protection des endpoints
+- erreur de chargement modele si le backend reel bascule sur le fallback heuristique
 
 ### Securite API
 
@@ -365,7 +416,7 @@ pytest
 
 Etat verifie sur cette base:
 
-- `11 passed`
+- `26 passed`
 - rapport offline genere avec `project_models_v1`
 - metriques observees sur dataset demo:
 - `sentiment_accuracy = 0.75`
@@ -375,19 +426,19 @@ Etat verifie sur cette base:
 
 ## Limites connues
 
-- les modeles de sentiment n'embarquent pas un mapping de classes versionne
-- ce mapping est reconstruit par calibration au chargement
+- les modeles de sentiment embarquent maintenant un mapping de classes versionne dans `models/manifest.json`
+- le fallback par calibration reste disponible si un manifest externe est incomplet
 - compatibilite scikit-learn liee a la version de serialisation des artefacts
-- pas encore de pipeline d'entrainement/retraining dans ce depot
+- la pipeline d'entrainement existe, mais le retraining automatise et la validation sur dataset externe restent a industrialiser
 
 ## Documents projet
 
-- [README.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\README.md)
-- [PROJECT_MLOPS_GUIDE_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\PROJECT_MLOPS_GUIDE_FR.md)
-- [SECURITE_EXPLOITATION_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\docs\SECURITE_EXPLOITATION_FR.md)
-- [LIVRABLES_FINAUX_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\docs\LIVRABLES_FINAUX_FR.md)
-- [SOUTENANCE_READY_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\docs\SOUTENANCE_READY_FR.md)
-- [HUGGINGFACE_MIGRATION_FR.md](C:\Users\franc_ppcp5lu\Documents\New%20project%202\HUGGINGFACE_MIGRATION_FR.md)
+- [README.md](README.md)
+- [PROJECT_MLOPS_GUIDE_FR.md](PROJECT_MLOPS_GUIDE_FR.md)
+- [SECURITE_EXPLOITATION_FR.md](docs/SECURITE_EXPLOITATION_FR.md)
+- [LIVRABLES_FINAUX_FR.md](docs/LIVRABLES_FINAUX_FR.md)
+- [SOUTENANCE_READY_FR.md](docs/SOUTENANCE_READY_FR.md)
+- [HUGGINGFACE_MIGRATION_FR.md](HUGGINGFACE_MIGRATION_FR.md)
 
 ## GitHub Pages
 
@@ -421,7 +472,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_hf_frontend_space_bundl
 
 ## Suite recommandee
 
-1. Ajouter un pipeline d'entrainement versionne.
-2. Ajouter une vraie evaluation sur un dataset de validation projet.
+1. Ajouter une vraie evaluation sur un dataset de validation projet.
+2. Ajouter promotion MLflow Model Registry pour les modeles valides.
 3. Exposer des metriques compatibles Prometheus.
 4. Ajouter versionnement de donnees/modeles et logique de retraining.

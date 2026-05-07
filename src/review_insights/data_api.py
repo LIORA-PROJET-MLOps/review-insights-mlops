@@ -28,6 +28,7 @@ def create_app() -> FastAPI:
             "environment": settings.app_env,
             "model_source": settings.model_source,
             "inference_backend": service.backend_name,
+            "model_load_error": service.model_load_error,
             "mlflow_tracking_enabled": settings.mlflow_tracking_enabled,
             "mlflow_tracking_uri": settings.mlflow_tracking_uri,
         }

@@ -1,13 +1,17 @@
 .venv/
 __pycache__/
 .pytest_cache/
+.pytest_tmp/
 pytest-cache-files-*
+tests_runtime/
 .streamlit/
 *.pyc
 *.pyo
 *.pyd
 *.log
 mlruns/
+artifacts/trained_models/
+artifacts/ci_trained_models/
 dist/
 build/
 *.egg-info/

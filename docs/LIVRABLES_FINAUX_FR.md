@@ -15,7 +15,8 @@
 - Artefacts modeles: `models/`
 - Manifest d'artefacts: `models/manifest.json`
 - Pipeline evaluation: `pipelines/evaluate_default.py`
-- Placeholder training pipeline: `pipelines/train_placeholder.py`
+- Pipeline training reproductible: `pipelines/train_models.py`
+- Placeholder training historique: `pipelines/train_placeholder.py`
 - Rapports generes: `reports/default_evaluation.json` et `reports/default_evaluation.md`
 - Placeholder artifact training: `artifacts/TRAINING_PLACEHOLDER.md`
 

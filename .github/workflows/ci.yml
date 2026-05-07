@@ -24,16 +24,22 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
       - name: Run tests
         run: pytest -q
+
+      - name: Validate Docker Compose config
+        run: docker compose config --quiet
 
       - name: Run offline evaluation pipeline
         run: python pipelines/evaluate_default.py
 
       - name: Run training placeholder
         run: python pipelines/train_placeholder.py
+
+      - name: Run reproducible training pipeline
+        run: python pipelines/train_models.py --output-dir artifacts/ci_trained_models
 
       - name: Build Docker image
         run: docker build -t review-insights-poc:ci .

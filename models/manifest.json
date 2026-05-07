@@ -12,10 +12,26 @@
     "sav": "sent_sav.joblib",
     "produit": "sent_produit.joblib"
   },
+  "sentiment_class_map": {
+    "livraison": {
+      "0": "negative",
+      "1": "neutral",
+      "2": "positive"
+    },
+    "sav": {
+      "0": "neutral",
+      "1": "negative",
+      "2": "positive"
+    },
+    "produit": {
+      "0": "negative",
+      "1": "neutral",
+      "2": "positive"
+    }
+  },
   "runtime_notes": {
     "backend_name": "project_models_v1",
     "fallback_backend": "heuristic_rules_v1",
-    "known_constraint": "sentiment label mapping is reconstructed at runtime from calibration texts"
+    "known_constraint": "sentiment label mapping is versioned in this manifest and currently also validated at runtime from calibration texts"
   }
 }
-

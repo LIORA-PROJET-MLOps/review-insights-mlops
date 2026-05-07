@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import warnings
 from dataclasses import dataclass
 from pathlib import Path
@@ -81,6 +82,34 @@ def _build_sentiment_class_map(theme: str, model: object) -> Dict[int, str]:
     }
 
 
+def _load_manifest_sentiment_class_map(base_dir: Path, sentiment_models: Dict[str, object]) -> Dict[str, Dict[int, str]] | None:
+    manifest_path = base_dir / "manifest.json"
+    if not manifest_path.exists():
+        return None
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        raw_mapping = manifest.get("sentiment_class_map", {})
+        resolved_mapping = {
+            theme: {int(class_id): str(label) for class_id, label in raw_mapping.get(theme, {}).items()}
+            for theme in sentiment_models
+        }
+    except Exception:
+        return None
+    if any(not mapping for mapping in resolved_mapping.values()):
+        return None
+    return resolved_mapping
+
+
+def _resolve_sentiment_class_map(base_dir: Path, sentiment_models: Dict[str, object]) -> Dict[str, Dict[int, str]]:
+    manifest_mapping = _load_manifest_sentiment_class_map(base_dir, sentiment_models)
+    if manifest_mapping is not None:
+        return manifest_mapping
+    return {
+        theme: _build_sentiment_class_map(theme, model)
+        for theme, model in sentiment_models.items()
+    }
+
+
 def download_hf_model_artifacts(
     repo_id: str,
     local_dir: str,
@@ -104,9 +133,9 @@ def download_hf_model_artifacts(
     return target_dir
 
 
-def load_project_model_artifacts(models_dir: str | None = None) -> ProjectModelArtifacts:
+def load_project_model_artifacts(models_dir: str | None = None, *, source: str | None = None) -> ProjectModelArtifacts:
     settings = get_settings()
-    resolved_source = settings.model_source.strip().lower()
+    resolved_source = (source or settings.model_source).strip().lower()
     if resolved_source == "hf_hub":
         if not settings.hf_model_repo_id:
             raise ValueError("HF_MODEL_REPO_ID must be configured when MODEL_SOURCE=hf_hub.")
@@ -126,10 +155,7 @@ def load_project_model_artifacts(models_dir: str | None = None) -> ProjectModelA
         "sav": _load_joblib(base_dir / "sent_sav.joblib"),
         "produit": _load_joblib(base_dir / "sent_produit.joblib"),
     }
-    sentiment_class_map = {
-        theme: _build_sentiment_class_map(theme, model)
-        for theme, model in sentiment_models.items()
-    }
+    sentiment_class_map = _resolve_sentiment_class_map(base_dir, sentiment_models)
     return ProjectModelArtifacts(
         themes_model=themes_model,
         thresholds=thresholds,

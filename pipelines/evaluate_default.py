@@ -25,6 +25,12 @@ def main() -> None:
     print(f"MLflow tracking: {mlflow_result.status} ({mlflow_result.tracking_uri})")
     if mlflow_result.run_id:
         print(f"MLflow run id: {mlflow_result.run_id}")
+    if mlflow_result.status == "logged":
+        model_status = "logged" if mlflow_result.model_logged else "not logged"
+        print(f"MLflow model artifacts: {model_status}")
+        print(f"MLflow artifact files logged: {mlflow_result.artifact_count}")
+    if mlflow_result.reason:
+        print(f"MLflow note: {mlflow_result.reason}")
 
 
 if __name__ == "__main__":

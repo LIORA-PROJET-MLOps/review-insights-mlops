@@ -65,7 +65,7 @@ Elements deja presents:
 - `compose.yaml`
 - endpoint `/health`
 - endpoint `/v1/analyze`
-- scripts `pipelines/evaluate_default.py` et `pipelines/train_placeholder.py`
+- scripts `pipelines/evaluate_default.py`, `pipelines/train_models.py` et `pipelines/train_placeholder.py`
 - generation d'artefacts dans `reports/` et `artifacts/`
 - workflow `.github/workflows/ci.yml`
 
@@ -130,9 +130,9 @@ ReviewAnalysisService
 
 ## Limites actuelles
 
-- Les modeles de sentiment n'embarquent pas un mapping de classes explicite versionne.
+- Les modeles de sentiment embarquent maintenant un mapping de classes explicite dans `models/manifest.json`.
 - Les artefacts `joblib` ont une sensibilite de version `scikit-learn`.
-- Le projet n'inclut pas encore de pipeline d'entrainement reproductible.
+- La pipeline d'entrainement existe sur le dataset de demonstration, mais le retraining automatise reste a industrialiser.
 - Le monitoring est applicatif mais pas encore branche a Prometheus/Grafana.
 
 ## Resultat observable sur la base finale
@@ -141,7 +141,8 @@ ReviewAnalysisService
 - Evaluation offline disponible depuis le depot
 - Rapport JSON: `reports/default_evaluation.json`
 - Rapport Markdown: `reports/default_evaluation.md`
-- Placeholder training: `artifacts/TRAINING_PLACEHOLDER.md`
+- Pipeline training reproductible: `pipelines/train_models.py`
+- Placeholder historique: `artifacts/TRAINING_PLACEHOLDER.md`
 - Score observe sur le dataset de demonstration:
 - `sentiment_accuracy = 0.75`
 - `theme_exact_match = 1.0`
@@ -150,9 +151,9 @@ ReviewAnalysisService
 
 ## Etapes recommandees pour la suite
 
-1. Ajouter un pipeline d'entrainement et de versionnement des modeles.
-2. Stocker explicitement le mapping des classes dans les artefacts.
-3. Ajouter une evaluation batch sur un vrai dataset de validation.
-4. Exposer des metrics compatibles Prometheus.
-5. Ajouter une logique de retraining et de drift monitoring.
+1. Ajouter une evaluation batch sur un vrai dataset de validation.
+2. Ajouter promotion MLflow Model Registry pour les runs valides.
+3. Exposer des metrics compatibles Prometheus.
+4. Ajouter une logique de retraining et de drift monitoring.
+5. Figer les versions exactes des dependances de training et runtime.
 6. Dockeriser aussi le frontend Streamlit ou le servir derriere un reverse proxy.

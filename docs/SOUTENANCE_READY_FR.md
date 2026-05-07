@@ -53,12 +53,13 @@ Parce que les modeles et les donnees du projet actuel sont calibres pour l'angla
 
 ### Quelle est la prochaine priorite technique ?
 
-Industrialiser la pipeline d'entrainement, figer le mapping de classes de sentiment et evaluer sur un vrai dataset de validation projet.
+Brancher la validation sur un vrai dataset projet, puis ajouter la promotion MLflow Model Registry et le retraining automatise.
 
 ## Checklist avant passage
 
 - `pytest -q`
 - `py -3 pipelines/evaluate_default.py`
+- `py -3 pipelines/train_models.py`
 - `streamlit run app.py`
 - `uvicorn api_app:app --host 0.0.0.0 --port 8000`
 - verifier le backend actif dans `/health`

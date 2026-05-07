@@ -1,6 +1,6 @@
 # Rapport d'evaluation
 
-- Date UTC: 2026-04-09T10:05:49.049956+00:00
+- Date UTC: 2026-05-07T14:24:18.164969+00:00
 - Backend: project_models_v1
 - Lignes evaluees: 8
 - Accuracy sentiment: 0.75

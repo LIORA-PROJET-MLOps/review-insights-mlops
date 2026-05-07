@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import Dict
 
 import pandas as pd
@@ -13,12 +14,16 @@ from .schemas import AnalyzeReviewResponse
 from .settings import get_settings
 
 
+logger = logging.getLogger(__name__)
+
+
 class ReviewAnalysisService:
     def __init__(self) -> None:
         self.settings = get_settings()
         self.backend_name = "heuristic_rules_v1"
         self.model_source = self.settings.model_source
         self._artifacts = None
+        self.model_load_error: str | None = None
         self.monitoring = MonitoringStore()
         self._load_real_models_if_available()
 
@@ -26,9 +31,16 @@ class ReviewAnalysisService:
         try:
             self._artifacts = load_project_model_artifacts(self.settings.models_dir)
             self.backend_name = "project_models_v1"
-        except Exception:
+            self.model_load_error = None
+        except Exception as exc:
             self._artifacts = None
             self.backend_name = "heuristic_rules_v1"
+            self.model_load_error = str(exc)
+            logger.warning(
+                "Falling back to %s because project model artifacts could not be loaded: %s",
+                self.backend_name,
+                exc,
+            )
 
     def analyze(self, review_text: str, review_id: str, threshold: float | None = None) -> AnalyzeReviewResponse:
         effective_threshold = threshold if threshold is not None else self.settings.theme_threshold

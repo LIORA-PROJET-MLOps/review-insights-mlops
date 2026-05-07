@@ -88,6 +88,7 @@ def create_app() -> FastAPI:
             model_source=resolved_source,
             models_manifest_present=manifest_present,
             protected_endpoints=settings.require_api_key or bool(settings.api_key),
+            model_load_error=service.model_load_error,
         )
 
     @app.post("/v1/analyze", response_model=AnalyzeReviewResponse, dependencies=[Depends(require_api_security)])

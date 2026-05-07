@@ -52,6 +52,7 @@ class HealthResponse(BaseModel):
     model_source: str
     models_manifest_present: bool
     protected_endpoints: bool
+    model_load_error: Optional[str] = None
 
 
 class MetricsResponse(BaseModel):

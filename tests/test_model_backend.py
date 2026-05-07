@@ -1,7 +1,11 @@
 import shutil
 from pathlib import Path
 
-from src.review_insights.model_backend import ARTIFACT_FILENAMES, download_hf_model_artifacts
+from src.review_insights.model_backend import (
+    ARTIFACT_FILENAMES,
+    _load_manifest_sentiment_class_map,
+    download_hf_model_artifacts,
+)
 
 
 def test_download_hf_model_artifacts_requests_all_files(monkeypatch):
@@ -30,5 +34,38 @@ def test_download_hf_model_artifacts_requests_all_files(monkeypatch):
     assert target_dir.exists()
     assert len(calls) == len(ARTIFACT_FILENAMES)
     assert {call["filename"] for call in calls} == set(ARTIFACT_FILENAMES)
+
+    shutil.rmtree(work_dir)
+
+
+def test_manifest_sentiment_class_map_is_loaded():
+    work_dir = Path("tests_runtime/manifest_stub")
+    if work_dir.exists():
+        shutil.rmtree(work_dir)
+    work_dir.mkdir(parents=True)
+
+    (work_dir / "manifest.json").write_text(
+        """
+        {
+          "sentiment_class_map": {
+            "livraison": {"0": "negative", "1": "neutral", "2": "positive"},
+            "sav": {"0": "neutral", "1": "negative", "2": "positive"},
+            "produit": {"0": "negative", "1": "neutral", "2": "positive"}
+          }
+        }
+        """,
+        encoding="utf-8",
+    )
+
+    mapping = _load_manifest_sentiment_class_map(
+        work_dir,
+        {"livraison": object(), "sav": object(), "produit": object()},
+    )
+
+    assert mapping == {
+        "livraison": {0: "negative", 1: "neutral", 2: "positive"},
+        "sav": {0: "neutral", 1: "negative", 2: "positive"},
+        "produit": {0: "negative", 1: "neutral", 2: "positive"},
+    }
 
     shutil.rmtree(work_dir)
