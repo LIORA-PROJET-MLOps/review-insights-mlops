@@ -20,6 +20,9 @@ class MLflowRunResult:
     reason: str | None = None
     model_logged: bool = False
     artifact_count: int = 0
+    registered_model_name: str | None = None
+    registered_model_version: str | None = None
+    model_stage: str | None = None
 
 
 def _numeric_metrics(summary: Dict) -> Dict[str, float]:
@@ -76,6 +79,109 @@ def _count_files(path: Path) -> int:
     return 0
 
 
+def _create_mlflow_client(mlflow_module: object) -> object | None:
+    tracking_module = getattr(mlflow_module, "tracking", None)
+    if tracking_module is not None and hasattr(tracking_module, "MlflowClient"):
+        return tracking_module.MlflowClient()
+    if hasattr(mlflow_module, "MlflowClient"):
+        return mlflow_module.MlflowClient()
+    return None
+
+
+def _extract_registered_model_version(model_info: object) -> str | None:
+    for attr in ("registered_model_version", "version"):
+        value = getattr(model_info, attr, None)
+        if value is not None:
+            return str(value)
+    return None
+
+
+def _find_registered_model_version(
+    client: object | None,
+    *,
+    registered_model_name: str,
+    run_id: str,
+) -> str | None:
+    if client is None or not hasattr(client, "search_model_versions"):
+        return None
+    try:
+        versions = client.search_model_versions(f"name='{registered_model_name}'")
+    except Exception:
+        return None
+    matching = [
+        version
+        for version in versions
+        if str(getattr(version, "run_id", "")) == run_id and getattr(version, "version", None) is not None
+    ]
+    if not matching:
+        return None
+    return str(getattr(matching[-1], "version"))
+
+
+def _tag_registered_model_version(
+    client: object | None,
+    *,
+    registered_model_name: str,
+    registered_model_version: str | None,
+    model_stage: str,
+    summary: Dict,
+) -> None:
+    if client is None or registered_model_version is None:
+        return
+    tags = {
+        "stage": model_stage,
+        "training_dataset": str(summary.get("training_dataset", "unknown")),
+        "backend_name": str(summary.get("backend_name", "project_models_v1")),
+    }
+    if hasattr(client, "set_model_version_tag"):
+        for key, value in tags.items():
+            client.set_model_version_tag(registered_model_name, registered_model_version, key, value)
+    if hasattr(client, "set_registered_model_alias"):
+        client.set_registered_model_alias(registered_model_name, model_stage, registered_model_version)
+
+
+def _register_training_model(
+    mlflow_module: object,
+    *,
+    model_dir: Path,
+    registered_model_name: str,
+    run_id: str,
+) -> tuple[str | None, str | None]:
+    from .mlflow_model import ReviewInsightsPyFuncModel
+
+    try:
+        model_info = mlflow_module.pyfunc.log_model(
+            artifact_path="registered_model",
+            python_model=ReviewInsightsPyFuncModel(),
+            artifacts={"model_dir": str(model_dir)},
+            registered_model_name=registered_model_name,
+        )
+        return _extract_registered_model_version(model_info), None
+    except Exception as exc:
+        client = _create_mlflow_client(mlflow_module)
+        if client is None or not hasattr(client, "create_model_version"):
+            raise
+        if hasattr(client, "create_registered_model"):
+            try:
+                client.create_registered_model(
+                    registered_model_name,
+                    tags={"project": "Review Insights+", "registry_stage": "candidate"},
+                    description="Review Insights+ retraining candidates.",
+                )
+            except Exception:
+                pass
+        model_info = client.create_model_version(
+            name=registered_model_name,
+            source=f"runs:/{run_id}/model",
+            run_id=run_id,
+            tags={"registry_method": "logged_artifacts_fallback"},
+        )
+        return (
+            _extract_registered_model_version(model_info),
+            f"pyfunc registration failed; registered logged artifacts instead ({type(exc).__name__}).",
+        )
+
+
 def _log_with_mlflow_client(
     mlflow_module: object,
     *,
@@ -120,6 +226,86 @@ def _log_with_mlflow_client(
             run_id=active_run.info.run_id,
             model_logged=model_logged,
             artifact_count=artifact_count,
+        )
+
+
+def _log_training_with_mlflow_client(
+    mlflow_module: object,
+    *,
+    tracking_uri: str,
+    experiment_name: str,
+    summary: Dict,
+    run_name: str,
+    model_dir: Path,
+    register_model: bool,
+    registered_model_name: str,
+    model_stage: str,
+) -> MLflowRunResult:
+    mlflow_module.set_tracking_uri(tracking_uri)
+    mlflow_module.set_experiment(experiment_name)
+    with mlflow_module.start_run(run_name=run_name) as active_run:
+        run_id = active_run.info.run_id
+        params = {
+            "backend_name": summary.get("backend_name", "project_models_v1"),
+            "dataset": summary.get("training_dataset", "unknown"),
+            "threshold": str(summary.get("threshold", "unknown")),
+            "model_stage": model_stage,
+            **_model_params(model_dir),
+        }
+        mlflow_module.log_params(params)
+        if hasattr(mlflow_module, "set_tags"):
+            mlflow_module.set_tags(
+                {
+                    "pipeline": "training",
+                    "model_stage": model_stage,
+                    "training_dataset": str(summary.get("training_dataset", "unknown")),
+                }
+            )
+
+        for metric_name, metric_value in _numeric_metrics(summary).items():
+            mlflow_module.log_metric(metric_name, metric_value)
+
+        mlflow_module.log_artifacts(str(model_dir), artifact_path="model")
+        artifact_count = _count_files(model_dir)
+
+        registered_model_version = None
+        registry_reason = None
+        if register_model:
+            client = _create_mlflow_client(mlflow_module)
+            try:
+                registered_model_version, registry_reason = _register_training_model(
+                    mlflow_module,
+                    model_dir=model_dir,
+                    registered_model_name=registered_model_name,
+                    run_id=run_id,
+                )
+                if registered_model_version is None:
+                    registered_model_version = _find_registered_model_version(
+                        client,
+                        registered_model_name=registered_model_name,
+                        run_id=run_id,
+                    )
+                _tag_registered_model_version(
+                    client,
+                    registered_model_name=registered_model_name,
+                    registered_model_version=registered_model_version,
+                    model_stage=model_stage,
+                    summary=summary,
+                )
+            except Exception as exc:
+                registry_reason = f"model registry registration failed ({type(exc).__name__})."
+
+        return MLflowRunResult(
+            status="logged",
+            tracking_uri=tracking_uri,
+            experiment_name=experiment_name,
+            run_id=run_id,
+            model_logged=True,
+            artifact_count=artifact_count,
+            registered_model_name=registered_model_name if register_model else None,
+            registered_model_version=registered_model_version,
+            model_stage=model_stage if register_model else None,
+            reason=registry_reason,
         )
 
 
@@ -171,6 +357,60 @@ def log_evaluation_run(
         run_name=run_name,
         artifact_paths=artifact_paths,
         model_dir=model_dir,
+    )
+
+
+def log_training_run(
+    summary: Dict,
+    *,
+    model_artifact_dir: Path | str,
+    settings: Settings | None = None,
+    run_name: str = "model_retraining",
+    register_model: bool = False,
+    registered_model_name: str = "review-insights-project-models",
+    model_stage: str = "candidate",
+) -> MLflowRunResult:
+    resolved_settings = settings or get_settings()
+    tracking_uri = resolved_settings.mlflow_tracking_uri
+    experiment_name = resolved_settings.mlflow_experiment_name
+
+    if not resolved_settings.mlflow_tracking_enabled:
+        return MLflowRunResult(
+            status="disabled",
+            tracking_uri=tracking_uri,
+            experiment_name=experiment_name,
+            reason="MLFLOW_TRACKING_ENABLED is false.",
+        )
+
+    model_dir = _complete_model_artifact_dir(resolved_settings, model_artifact_dir)
+    if model_dir is None:
+        return MLflowRunResult(
+            status="skipped",
+            tracking_uri=tracking_uri,
+            experiment_name=experiment_name,
+            reason="Complete model artifacts were not found.",
+        )
+
+    try:
+        import mlflow
+    except ImportError:
+        return MLflowRunResult(
+            status="skipped",
+            tracking_uri=tracking_uri,
+            experiment_name=experiment_name,
+            reason="mlflow package is not installed.",
+        )
+
+    return _log_training_with_mlflow_client(
+        mlflow,
+        tracking_uri=tracking_uri,
+        experiment_name=experiment_name,
+        summary=summary,
+        run_name=run_name,
+        model_dir=model_dir,
+        register_model=register_model,
+        registered_model_name=registered_model_name,
+        model_stage=model_stage,
     )
 
 

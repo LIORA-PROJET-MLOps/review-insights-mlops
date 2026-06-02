@@ -169,6 +169,40 @@ py -3 pipelines/train_models.py --dataset-path data/validated/training_dataset_<
 
 Sans `--dataset-path`, la pipeline continue d'utiliser le dataset de demonstration integre afin de conserver le comportement historique et la CI existante.
 
+### Tracking training et MLflow Model Registry
+
+Le retraining peut aussi creer un run MLflow et enregistrer une version candidate dans le Model Registry.
+
+Pre-requis local:
+
+```bash
+pip install -r requirements-data.txt
+docker compose up -d mlflow
+```
+
+Variables d'environnement PowerShell:
+
+```powershell
+$env:MLFLOW_TRACKING_ENABLED="true"
+$env:MLFLOW_TRACKING_URI="http://localhost:5000"
+$env:MLFLOW_EXPERIMENT_NAME="review-insights-training"
+```
+
+Commande:
+
+```bash
+py -3 pipelines/train_models.py --dataset-path data/validated/training_dataset_<version>.csv --mlflow-log --register-model
+```
+
+Effets attendus:
+
+- creation d'un run MLflow de training
+- logging des metriques `sentiment_accuracy`, `theme_exact_match`, `theme_precision_macro`, `theme_recall_macro`
+- logging des artefacts `joblib`, seuils et manifest
+- creation d'une version candidate dans le registered model `review-insights-project-models`
+
+Le registry ne remplace pas automatiquement les artefacts actifs dans `models/`. La promotion vers `models/` reste volontaire et sera portee par une etape de comparaison/promotion.
+
 ### API
 
 ```bash

@@ -88,6 +88,7 @@ Elements deja presents:
 - module `evaluation.py`
 - module `reporting.py`
 - rapports d'evaluation exportes en JSON et Markdown
+- logging des runs de retraining et enregistrement de versions candidates dans MLflow Model Registry
 
 ## Securite et gouvernance technique
 
@@ -132,7 +133,7 @@ ReviewAnalysisService
 
 - Les modeles de sentiment embarquent maintenant un mapping de classes explicite dans `models/manifest.json`.
 - Les artefacts `joblib` ont une sensibilite de version `scikit-learn`.
-- La pipeline d'entrainement existe sur le dataset de demonstration, mais le retraining automatise reste a industrialiser.
+- La pipeline d'entrainement peut utiliser un CSV valide et enregistrer un candidat dans MLflow Model Registry, mais la promotion automatique reste a industrialiser.
 - Le monitoring est applicatif mais pas encore branche a Prometheus/Grafana.
 
 ## Resultat observable sur la base finale
@@ -142,6 +143,8 @@ ReviewAnalysisService
 - Rapport JSON: `reports/default_evaluation.json`
 - Rapport Markdown: `reports/default_evaluation.md`
 - Pipeline training reproductible: `pipelines/train_models.py`
+- Pipeline data locale: `pipelines/ingest_csv_dataset.py`
+- Registry MLflow candidate: `review-insights-project-models`
 - Placeholder historique: `artifacts/TRAINING_PLACEHOLDER.md`
 - Score observe sur le dataset de demonstration:
 - `sentiment_accuracy = 0.75`
@@ -152,7 +155,7 @@ ReviewAnalysisService
 ## Etapes recommandees pour la suite
 
 1. Ajouter une evaluation batch sur un vrai dataset de validation.
-2. Ajouter promotion MLflow Model Registry pour les runs valides.
+2. Ajouter la promotion automatique des versions MLflow candidates vers les artefacts actifs.
 3. Exposer des metrics compatibles Prometheus.
 4. Ajouter une logique de retraining et de drift monitoring.
 5. Figer les versions exactes des dependances de training et runtime.

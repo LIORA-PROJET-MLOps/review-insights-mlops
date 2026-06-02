@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from dataclasses import asdict
 from pathlib import Path
 from typing import Dict
 
@@ -22,6 +23,7 @@ if str(ROOT_DIR) not in sys.path:
 from src.review_insights.data_store import load_training_dataset
 from src.review_insights.dataset import load_default_dataset, prepare_dataset
 from src.review_insights.evaluation import evaluate_predictions
+from src.review_insights.mlflow_tracking import log_training_run
 from src.review_insights.model_backend import THEME_ORDER, analyze_with_project_models, load_project_model_artifacts
 
 
@@ -134,6 +136,7 @@ def build_training_artifacts(output_dir: Path, threshold: float = 0.5, dataset_p
     summary["output_dir"] = str(output_dir)
     summary["manifest_path"] = str(manifest_path)
     summary["training_dataset"] = training_dataset
+    summary["threshold"] = float(threshold)
     return summary
 
 
@@ -142,10 +145,24 @@ def main() -> None:
     parser.add_argument("--output-dir", default=str(ROOT_DIR / "artifacts" / "trained_models"))
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--dataset-path", default=None, help="Optional validated CSV dataset to train on.")
+    parser.add_argument("--mlflow-log", action="store_true", help="Log the training run and model artifacts to MLflow.")
+    parser.add_argument("--register-model", action="store_true", help="Register the trained model as an MLflow candidate model version.")
+    parser.add_argument("--registered-model-name", default="review-insights-project-models")
+    parser.add_argument("--model-stage", default="candidate")
     args = parser.parse_args()
 
     dataset_path = Path(args.dataset_path) if args.dataset_path else None
-    summary = build_training_artifacts(Path(args.output_dir), threshold=args.threshold, dataset_path=dataset_path)
+    output_dir = Path(args.output_dir)
+    summary = build_training_artifacts(output_dir, threshold=args.threshold, dataset_path=dataset_path)
+    if args.mlflow_log or args.register_model:
+        mlflow_result = log_training_run(
+            summary,
+            model_artifact_dir=output_dir,
+            register_model=args.register_model,
+            registered_model_name=args.registered_model_name,
+            model_stage=args.model_stage,
+        )
+        summary["mlflow"] = asdict(mlflow_result)
     print(json.dumps(summary, indent=2))
 
 
