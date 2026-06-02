@@ -1,0 +1,41 @@
+review_id,review_title,review_body,sentiment_label,theme_livraison,theme_sav,theme_produit
+poc_001,Fast delivery and good quality,The package arrived two days early and the product quality was better than expected.,positive,1,0,1
+poc_002,Support ignored my refund,I contacted customer service three times about my refund and nobody answered.,negative,0,1,0
+poc_003,Wrong size and cheap fabric,The item looked nice online but the fabric feels cheap and the size is completely wrong.,negative,0,0,1
+poc_004,Delayed but helpful support,The parcel was delayed but the support team explained the issue and helped me track it.,neutral,1,1,0
+poc_005,Perfect order experience,Delivery was fast the box was clean and the item works perfectly.,positive,1,0,1
+poc_006,Damaged parcel,Shipping took too long and the parcel arrived damaged on one side.,negative,1,0,1
+poc_007,Quick answer from support,The support agent replied within an hour and solved my account issue.,positive,0,1,0
+poc_008,Average product,The product is okay overall but nothing special for the price.,neutral,0,0,1
+poc_009,Missing item in package,One item was missing from the package and support was slow to respond.,negative,1,1,1
+poc_010,Great value,The item is sturdy easy to use and exactly as described.,positive,0,0,1
+poc_011,Slow delivery,The estimated delivery date was missed and tracking was not updated for days.,negative,1,0,0
+poc_012,Refund handled correctly,The refund process took a little time but the support team handled it correctly.,neutral,0,1,0
+poc_013,Excellent packaging,The package was well protected and the product arrived in perfect condition.,positive,1,0,1
+poc_014,No tracking information,There was no tracking information and the delivery status stayed unclear.,negative,1,0,0
+poc_015,Support solved replacement,Customer service arranged a replacement quickly after I reported the damaged item.,positive,0,1,1
+poc_016,Product stopped working,The product stopped working after one week and feels unreliable.,negative,0,0,1
+poc_017,Normal delivery,The order arrived on the expected date and the product matches the description.,neutral,1,0,1
+poc_018,Rude customer service,The support agent was rude and did not answer my question about the return.,negative,0,1,0
+poc_019,Beautiful product,The design is beautiful and the material feels premium.,positive,0,0,1
+poc_020,Box opened on arrival,The shipping box was open when it arrived but the product inside was fine.,neutral,1,0,1
+poc_021,Helpful return process,Support gave clear instructions and the return label was easy to download.,positive,0,1,0
+poc_022,Poor build quality,The product broke during the first use and the plastic feels weak.,negative,0,0,1
+poc_023,Fast shipping poor item,Delivery was very fast but the item quality was disappointing.,neutral,1,0,1
+poc_024,Support never called back,I was promised a callback about my complaint but nobody contacted me.,negative,0,1,0
+poc_025,Delivered to wrong address,The carrier delivered my order to the wrong address and I had to chase support.,negative,1,1,0
+poc_026,Easy setup,The product was easy to set up and worked immediately.,positive,0,0,1
+poc_027,Replacement arrived quickly,After the first item failed support sent a replacement that arrived quickly.,positive,1,1,1
+poc_028,Confusing refund,The refund status was confusing and support gave different answers each time.,negative,0,1,0
+poc_029,On time but average item,Delivery was on time but the product quality is just average.,neutral,1,0,1
+poc_030,Excellent support and product,Customer service was friendly and the product exceeded my expectations.,positive,0,1,1
+poc_031,Late delivery no apology,The parcel arrived a week late and the company gave no explanation.,negative,1,0,0
+poc_032,Good product bad packaging,The product itself is good but the packaging was weak and torn.,neutral,1,0,1
+poc_033,Quick refund,Support processed my refund quickly after I sent the return proof.,positive,0,1,0
+poc_034,Item not as described,The item color and dimensions do not match the description on the website.,negative,0,0,1
+poc_035,Tracking worked well,Tracking updates were accurate and the package arrived exactly when expected.,positive,1,0,0
+poc_036,Acceptable experience,The delivery support and product were all acceptable but not impressive.,neutral,1,1,1
+poc_037,Support closed ticket too soon,My ticket was closed before the issue was solved and I had to reopen it.,negative,0,1,0
+poc_038,Premium feel,The product feels premium and the instructions were clear.,positive,0,0,1
+poc_039,Lost parcel,The parcel seems lost and support only sends generic replies.,negative,1,1,0
+poc_040,Good delivery damaged product,Delivery was quick but the product had scratches out of the box.,neutral,1,0,1
