@@ -169,6 +169,21 @@ py -3 pipelines/train_models.py --dataset-path data/validated/training_dataset_<
 
 Sans `--dataset-path`, la pipeline continue d'utiliser le dataset de demonstration integre afin de conserver le comportement historique et la CI existante.
 
+Commande combinee ingestion + retraining:
+
+```bash
+py -3 pipelines/ingest_and_retrain.py data/sample/reviews_poc_test.csv --dataset-version poc_test_40
+```
+
+Cette commande fait en une seule execution:
+
+- ingestion du CSV source
+- archive du brut
+- ecriture du dataset nettoye
+- ecriture du dataset valide pour training
+- retraining des artefacts modele
+- sortie JSON avec chemins `data/validated/...` et `artifacts/trained_models_<version>/...`
+
 ### Tracking training et MLflow Model Registry
 
 Le retraining peut aussi creer un run MLflow et enregistrer une version candidate dans le Model Registry.
@@ -192,6 +207,12 @@ Commande:
 
 ```bash
 py -3 pipelines/train_models.py --dataset-path data/validated/training_dataset_<version>.csv --mlflow-log --register-model
+```
+
+Commande combinee ingestion + retraining + registry:
+
+```bash
+py -3 pipelines/ingest_and_retrain.py data/sample/reviews_poc_test.csv --dataset-version poc_test_40 --mlflow-log --register-model
 ```
 
 Effets attendus:
