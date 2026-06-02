@@ -18,3 +18,18 @@ def test_training_pipeline_writes_model_artifacts():
         assert (work_dir / filename).exists()
 
     shutil.rmtree(work_dir)
+
+
+def test_training_pipeline_accepts_validated_dataset_path():
+    work_dir = Path("tests_runtime/training_artifacts_from_csv")
+    if work_dir.exists():
+        shutil.rmtree(work_dir)
+
+    dataset_path = Path("data/sample/reviews_sample.csv")
+    summary = build_training_artifacts(work_dir, dataset_path=dataset_path)
+
+    assert summary["rows"] >= 1
+    assert summary["training_dataset"] == str(dataset_path)
+    assert (work_dir / "manifest.json").exists()
+
+    shutil.rmtree(work_dir)

@@ -126,6 +126,49 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
+## Pipeline data locale et retraining
+
+Le POC peut maintenant utiliser des CSV comme source d'alimentation tout en les stockant dans une structure locale versionnee:
+
+```text
+data/
+|-- raw/
+|   |-- incoming/
+|   `-- archive/
+|-- processed/
+|-- validated/
+|-- registry/
+`-- sample/
+```
+
+Les fichiers generes dans `raw/`, `processed/`, `validated/` et `registry/` sont ignores par Git, sauf les placeholders. Le dossier `data/sample/` contient un exemple versionne du format attendu.
+
+Colonnes attendues pour un dataset d'entrainement:
+
+- `review_id`
+- `review_title`
+- `review_body`
+- `sentiment_label`
+- `theme_livraison`
+- `theme_sav`
+- `theme_produit`
+
+Ingestion d'un CSV:
+
+```bash
+py -3 pipelines/ingest_csv_dataset.py data/sample/reviews_sample.csv
+```
+
+La commande archive le brut, ecrit une version nettoyee, cree un dataset valide pour le training et ajoute un manifest dans `data/registry/`.
+
+Retraining depuis un dataset valide:
+
+```bash
+py -3 pipelines/train_models.py --dataset-path data/validated/training_dataset_<version>.csv
+```
+
+Sans `--dataset-path`, la pipeline continue d'utiliser le dataset de demonstration integre afin de conserver le comportement historique et la CI existante.
+
 ### API
 
 ```bash

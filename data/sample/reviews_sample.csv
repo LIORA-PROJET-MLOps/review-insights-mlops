@@ -1,0 +1,4 @@
+review_id,review_title,review_body,sentiment_label,theme_livraison,theme_sav,theme_produit
+sample_1,Fast delivery,The parcel arrived quickly and the item was perfect.,positive,1,0,1
+sample_2,No answer from support,I contacted support twice and nobody answered my refund request.,negative,0,1,0
+sample_3,Average product,The product is okay overall but the material feels basic.,neutral,0,0,1

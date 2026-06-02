@@ -19,6 +19,7 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
+from src.review_insights.data_store import load_training_dataset
 from src.review_insights.dataset import load_default_dataset, prepare_dataset
 from src.review_insights.evaluation import evaluate_predictions
 from src.review_insights.model_backend import THEME_ORDER, analyze_with_project_models, load_project_model_artifacts
@@ -60,7 +61,7 @@ def _theme_classifier() -> Pipeline:
     )
 
 
-def _write_manifest(output_dir: Path, threshold: float) -> Path:
+def _write_manifest(output_dir: Path, threshold: float, training_dataset: str) -> Path:
     manifest = {
         "project": "Review Insights+",
         "artifact_set_version": "0.1.0-training-pipeline",
@@ -83,7 +84,7 @@ def _write_manifest(output_dir: Path, threshold: float) -> Path:
         "runtime_notes": {
             "backend_name": "project_models_v1",
             "fallback_backend": "heuristic_rules_v1",
-            "training_dataset": "default_reviews",
+            "training_dataset": training_dataset,
         },
     }
     manifest_path = output_dir / "manifest.json"
@@ -91,9 +92,8 @@ def _write_manifest(output_dir: Path, threshold: float) -> Path:
     return manifest_path
 
 
-def _evaluate_trained_artifacts(output_dir: Path) -> Dict:
+def _evaluate_trained_artifacts(output_dir: Path, df: pd.DataFrame) -> Dict:
     artifacts = load_project_model_artifacts(str(output_dir), source="local")
-    df = prepare_dataset(load_default_dataset())
     rows = []
     for _, row in df.iterrows():
         review_text = f"{row.get('review_title', '')} {row.get('review_body', '')}".strip()
@@ -108,9 +108,14 @@ def _evaluate_trained_artifacts(output_dir: Path) -> Dict:
     return evaluate_predictions(pd.DataFrame(rows), backend_name="project_models_v1").to_dict()
 
 
-def build_training_artifacts(output_dir: Path, threshold: float = 0.5) -> Dict:
+def build_training_artifacts(output_dir: Path, threshold: float = 0.5, dataset_path: Path | None = None) -> Dict:
     output_dir.mkdir(parents=True, exist_ok=True)
-    df = prepare_dataset(load_default_dataset())
+    if dataset_path:
+        df = load_training_dataset(dataset_path)
+        training_dataset = str(dataset_path)
+    else:
+        df = prepare_dataset(load_default_dataset())
+        training_dataset = "default_reviews"
     texts = _review_texts(df)
 
     themes_model = _theme_classifier()
@@ -124,10 +129,11 @@ def build_training_artifacts(output_dir: Path, threshold: float = 0.5) -> Dict:
         model.fit(texts, sentiment_targets)
         joblib.dump(model, output_dir / f"sent_{theme}.joblib")
 
-    manifest_path = _write_manifest(output_dir, threshold)
-    summary = _evaluate_trained_artifacts(output_dir)
+    manifest_path = _write_manifest(output_dir, threshold, training_dataset)
+    summary = _evaluate_trained_artifacts(output_dir, df)
     summary["output_dir"] = str(output_dir)
     summary["manifest_path"] = str(manifest_path)
+    summary["training_dataset"] = training_dataset
     return summary
 
 
@@ -135,9 +141,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train Review Insights+ model artifacts from the default dataset.")
     parser.add_argument("--output-dir", default=str(ROOT_DIR / "artifacts" / "trained_models"))
     parser.add_argument("--threshold", type=float, default=0.5)
+    parser.add_argument("--dataset-path", default=None, help="Optional validated CSV dataset to train on.")
     args = parser.parse_args()
 
-    summary = build_training_artifacts(Path(args.output_dir), threshold=args.threshold)
+    dataset_path = Path(args.dataset_path) if args.dataset_path else None
+    summary = build_training_artifacts(Path(args.output_dir), threshold=args.threshold, dataset_path=dataset_path)
     print(json.dumps(summary, indent=2))
 
 
