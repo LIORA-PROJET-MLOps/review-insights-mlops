@@ -22,6 +22,6 @@ Copy-Item -LiteralPath (Join-Path $root "deploy\huggingface_frontend_space\Docke
 Copy-Item -LiteralPath (Join-Path $root "deploy\huggingface_frontend_space\README.md") -Destination (Join-Path $bundle "README.md")
 Copy-Item -LiteralPath (Join-Path $root "deploy\huggingface_frontend_space\.dockerignore") -Destination (Join-Path $bundle ".dockerignore")
 
-Copy-Item -LiteralPath (Join-Path $root "site\assets\*") -Destination (Join-Path $bundle "assets") -Recurse -Force
+Copy-Item -Path (Join-Path $root "site\assets\*") -Destination (Join-Path $bundle "assets") -Recurse -Force
 
 Write-Output "HF Frontend Space bundle generated in: $bundle"
