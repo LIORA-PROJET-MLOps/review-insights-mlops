@@ -42,15 +42,25 @@ def test_ingest_csv_dataset_writes_local_store_artifacts():
     assert result.rows_rejected == 1
     assert Path(result.raw_archive_path).exists()
     assert Path(result.processed_path).exists()
+    assert Path(result.processed_parquet_path).exists()
     assert Path(result.validated_path).exists()
+    assert Path(result.validated_parquet_path).exists()
     assert Path(result.quarantine_path).exists()
+    assert Path(result.quarantine_parquet_path).exists()
+    assert Path(result.annotation_queue_path).exists()
+    assert Path(result.annotation_queue_parquet_path).exists()
+    assert Path(result.quality_report_path).exists()
     assert Path(result.manifest_path).exists()
     assert result.source_sha256
     assert result.processed_sha256
+    assert result.processed_parquet_sha256
     assert result.validated_sha256
-    assert latest_validated_dataset(work_dir / "data") == Path(result.validated_path)
+    assert result.validated_parquet_sha256
+    assert result.annotation_rows == 2
+    assert result.quality_status == "not_ready"
+    assert latest_validated_dataset(work_dir / "data") == Path(result.validated_parquet_path)
 
-    training_df = load_training_dataset(Path(result.validated_path))
+    training_df = load_training_dataset(Path(result.validated_parquet_path))
     assert list(training_df["review_id"]) == ["r1", "r2"]
 
     shutil.rmtree(work_dir)
@@ -127,12 +137,64 @@ def test_large_ingestion_writes_deterministic_splits():
     )
 
     assert result.train_path
+    assert result.train_parquet_path
     assert result.validation_path
+    assert result.validation_parquet_path
     assert result.test_path
+    assert result.test_parquet_path
     split_ids = []
-    for path in (result.train_path, result.validation_path, result.test_path):
-        split_ids.extend(pd.read_csv(path)["review_id"].tolist())
+    for path in (result.train_parquet_path, result.validation_parquet_path, result.test_parquet_path):
+        split_ids.extend(pd.read_parquet(path)["review_id"].tolist())
     assert len(split_ids) == result.rows_valid
     assert len(set(split_ids)) == result.rows_valid
+
+    shutil.rmtree(work_dir)
+
+
+def test_missing_theme_sentiments_are_queued_for_annotation_not_rejected():
+    df = pd.DataFrame(
+        [
+            {
+                "review_id": "r1",
+                "review_title": "Fast delivery",
+                "review_body": "The parcel arrived quickly.",
+                "sentiment_label": "positive",
+                "theme_livraison": 1,
+                "theme_sav": 0,
+                "theme_produit": 0,
+                "sentiment_livraison": "",
+            }
+        ]
+    )
+
+    valid, rejected = validate_training_dataset(df)
+
+    assert len(valid) == 1
+    assert rejected.empty
+
+
+def test_strict_quality_gates_fail_after_writing_diagnostics():
+    work_dir = Path("tests_runtime/data_store_strict_quality")
+    _clean_work_dir(work_dir)
+    source_path = Path("data/sample/reviews_sample.csv")
+
+    with pytest.raises(ValueError, match="Dataset quality gates failed"):
+        ingest_csv_dataset(
+            source_path,
+            work_dir / "data",
+            dataset_version="strict_quality",
+            enforce_quality_gates=True,
+        )
+
+    assert (work_dir / "data" / "registry" / "quality_report_strict_quality.json").exists()
+    assert (work_dir / "data" / "registry" / "dataset_strict_quality.json").exists()
+
+    with pytest.raises(ValueError, match="Dataset quality gates failed"):
+        ingest_csv_dataset(
+            source_path,
+            work_dir / "data",
+            dataset_version="strict_quality",
+            enforce_quality_gates=True,
+        )
 
     shutil.rmtree(work_dir)

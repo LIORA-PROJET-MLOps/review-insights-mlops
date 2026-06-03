@@ -1,0 +1,20 @@
+{
+  "policy_version": "1.0.0",
+  "registered_model_name": "review-insights-project-models",
+  "candidate_alias": "candidate",
+  "champion_alias": "champion",
+  "previous_champion_alias": "previous_champion",
+  "required_metrics": {
+    "rows": 30,
+    "sentiment_accuracy": 0.55,
+    "theme_exact_match": 0.65,
+    "theme_precision_macro": 0.85,
+    "theme_recall_macro": 0.85
+  },
+  "max_metric_regression": {
+    "sentiment_accuracy": 0.02,
+    "theme_exact_match": 0.02,
+    "theme_precision_macro": 0.02,
+    "theme_recall_macro": 0.02
+  }
+}

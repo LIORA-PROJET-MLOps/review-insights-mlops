@@ -23,7 +23,7 @@ class MLflowRunResult:
     artifact_count: int = 0
     registered_model_name: str | None = None
     registered_model_version: str | None = None
-    model_stage: str | None = None
+    model_alias: str | None = None
 
 
 def _configure_mlflow_console_output() -> None:
@@ -103,6 +103,23 @@ def _extract_registered_model_version(model_info: object) -> str | None:
     return None
 
 
+def _review_insights_model_signature(mlflow_module: object) -> object | None:
+    try:
+        model_signature = mlflow_module.models.ModelSignature
+        schema = mlflow_module.types.Schema
+        col_spec = mlflow_module.types.ColSpec
+        return model_signature(
+            inputs=schema(
+                [
+                    col_spec("string", "review_id"),
+                    col_spec("string", "review_text"),
+                ]
+            )
+        )
+    except Exception:
+        return None
+
+
 def _find_registered_model_version(
     client: object | None,
     *,
@@ -130,13 +147,13 @@ def _tag_registered_model_version(
     *,
     registered_model_name: str,
     registered_model_version: str | None,
-    model_stage: str,
+    model_alias: str,
     summary: Dict,
 ) -> None:
     if client is None or registered_model_version is None:
         return
     tags = {
-        "stage": model_stage,
+        "lifecycle_alias": model_alias,
         "training_dataset": str(summary.get("training_dataset", "unknown")),
         "backend_name": str(summary.get("backend_name", "project_models_v1")),
     }
@@ -144,7 +161,7 @@ def _tag_registered_model_version(
         for key, value in tags.items():
             client.set_model_version_tag(registered_model_name, registered_model_version, key, value)
     if hasattr(client, "set_registered_model_alias"):
-        client.set_registered_model_alias(registered_model_name, model_stage, registered_model_version)
+        client.set_registered_model_alias(registered_model_name, model_alias, registered_model_version)
 
 
 def _register_training_model(
@@ -158,10 +175,11 @@ def _register_training_model(
 
     try:
         model_info = mlflow_module.pyfunc.log_model(
-            artifact_path="registered_model",
+            name="registered_model",
             python_model=ReviewInsightsPyFuncModel(),
             artifacts={"model_dir": str(model_dir)},
             registered_model_name=registered_model_name,
+            signature=_review_insights_model_signature(mlflow_module),
         )
         return _extract_registered_model_version(model_info), None
     except Exception as exc:
@@ -172,7 +190,7 @@ def _register_training_model(
             try:
                 client.create_registered_model(
                     registered_model_name,
-                    tags={"project": "Review Insights+", "registry_stage": "candidate"},
+                    tags={"project": "Review Insights+", "registry_alias": "candidate"},
                     description="Review Insights+ retraining candidates.",
                 )
             except Exception:
@@ -246,7 +264,7 @@ def _log_training_with_mlflow_client(
     model_dir: Path,
     register_model: bool,
     registered_model_name: str,
-    model_stage: str,
+    model_alias: str,
 ) -> MLflowRunResult:
     mlflow_module.set_tracking_uri(tracking_uri)
     mlflow_module.set_experiment(experiment_name)
@@ -256,7 +274,7 @@ def _log_training_with_mlflow_client(
             "backend_name": summary.get("backend_name", "project_models_v1"),
             "dataset": summary.get("training_dataset", "unknown"),
             "threshold": str(summary.get("threshold", "unknown")),
-            "model_stage": model_stage,
+            "model_alias": model_alias,
             **_model_params(model_dir),
         }
         mlflow_module.log_params(params)
@@ -264,7 +282,7 @@ def _log_training_with_mlflow_client(
             mlflow_module.set_tags(
                 {
                     "pipeline": "training",
-                    "model_stage": model_stage,
+                    "model_alias": model_alias,
                     "training_dataset": str(summary.get("training_dataset", "unknown")),
                 }
             )
@@ -296,7 +314,7 @@ def _log_training_with_mlflow_client(
                     client,
                     registered_model_name=registered_model_name,
                     registered_model_version=registered_model_version,
-                    model_stage=model_stage,
+                    model_alias=model_alias,
                     summary=summary,
                 )
             except Exception as exc:
@@ -311,7 +329,7 @@ def _log_training_with_mlflow_client(
             artifact_count=artifact_count,
             registered_model_name=registered_model_name if register_model else None,
             registered_model_version=registered_model_version,
-            model_stage=model_stage if register_model else None,
+            model_alias=model_alias if register_model else None,
             reason=registry_reason,
         )
 
@@ -376,7 +394,7 @@ def log_training_run(
     run_name: str = "model_retraining",
     register_model: bool = False,
     registered_model_name: str = "review-insights-project-models",
-    model_stage: str = "candidate",
+    model_alias: str = "candidate",
 ) -> MLflowRunResult:
     resolved_settings = settings or get_settings()
     tracking_uri = resolved_settings.mlflow_tracking_uri
@@ -419,7 +437,7 @@ def log_training_run(
         model_dir=model_dir,
         register_model=register_model,
         registered_model_name=registered_model_name,
-        model_stage=model_stage,
+        model_alias=model_alias,
     )
 
 

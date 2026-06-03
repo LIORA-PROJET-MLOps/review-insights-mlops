@@ -196,12 +196,12 @@ def test_mlflow_training_registers_candidate_model(monkeypatch):
     assert result.run_id == "training_run_123"
     assert result.registered_model_name == "review-insights-project-models"
     assert result.registered_model_version == "7"
-    assert result.model_stage == "candidate"
+    assert result.model_alias == "candidate"
     assert fake_mlflow.artifact_dirs == [(str(model_dir), "model")]
     assert fake_mlflow.registered[0]["registered_model_name"] == "review-insights-project-models"
-    assert fake_mlflow.registered[0]["artifact_path"] == "registered_model"
+    assert fake_mlflow.registered[0]["name"] == "registered_model"
     assert fake_client.aliases == [("review-insights-project-models", "candidate", "7")]
-    assert ("review-insights-project-models", "7", "stage", "candidate") in fake_client.version_tags
+    assert ("review-insights-project-models", "7", "lifecycle_alias", "candidate") in fake_client.version_tags
 
     shutil.rmtree(work_dir)
 

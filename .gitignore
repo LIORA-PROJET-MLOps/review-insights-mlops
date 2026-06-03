@@ -1,4 +1,5 @@
 .venv/
+.env
 .cache/
 __pycache__/
 .pytest_cache/
@@ -21,11 +22,13 @@ data/validated/*
 data/quarantine/*
 data/splits/*
 data/registry/*
+.dvc-storage/
 !data/raw/.gitkeep
 !data/raw/incoming/.gitkeep
 !data/raw/archive/.gitkeep
 !data/processed/.gitkeep
 !data/validated/.gitkeep
+!data/validated/*.dvc
 !data/quarantine/.gitkeep
 !data/splits/.gitkeep
 !data/registry/.gitkeep

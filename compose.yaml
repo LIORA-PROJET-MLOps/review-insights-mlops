@@ -1,16 +1,77 @@
 services:
+  postgres:
+    image: postgres:16.14-alpine@sha256:16bc17c64a573ef34162af9298258d1aec548232985b33ed7b1eac33ba35c229
+    environment:
+      POSTGRES_USER: ${MLFLOW_DB_USER:-mlflow}
+      POSTGRES_PASSWORD: ${MLFLOW_DB_PASSWORD:-change-me-mlflow-db}
+      POSTGRES_DB: ${MLFLOW_DB_NAME:-mlflow}
+    volumes:
+      - mlflow_postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${MLFLOW_DB_USER:-mlflow} -d ${MLFLOW_DB_NAME:-mlflow}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  minio:
+    image: quay.io/minio/minio@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-review-insights}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-change-me-minio-secret}
+    ports:
+      - "9100:9000"
+      - "9101:9001"
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  minio-init:
+    image: quay.io/minio/mc@sha256:a7fe349ef4bd8521fb8497f55c6042871b2ae640607cf99d9bede5e9bdf11727
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-review-insights}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-change-me-minio-secret}
+      MLFLOW_ARTIFACT_BUCKET: ${MLFLOW_ARTIFACT_BUCKET:-mlflow-artifacts}
+      DVC_DATA_BUCKET: ${DVC_DATA_BUCKET:-review-insights-data}
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set local http://minio:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD;
+      /usr/bin/mc mb --ignore-existing local/$$MLFLOW_ARTIFACT_BUCKET;
+      /usr/bin/mc mb --ignore-existing local/$$DVC_DATA_BUCKET;
+      "
+
   mlflow:
     build:
       context: .
       dockerfile: docker/mlflow/Dockerfile
     environment:
-      MLFLOW_BACKEND_STORE_URI: sqlite:////mlflow/mlflow.db
-      MLFLOW_DEFAULT_ARTIFACT_ROOT: mlflow-artifacts:/
+      MLFLOW_BACKEND_STORE_URI: postgresql+psycopg2://${MLFLOW_DB_USER:-mlflow}:${MLFLOW_DB_PASSWORD:-change-me-mlflow-db}@postgres:5432/${MLFLOW_DB_NAME:-mlflow}
+      MLFLOW_ARTIFACTS_DESTINATION: s3://${MLFLOW_ARTIFACT_BUCKET:-mlflow-artifacts}
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-review-insights}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-change-me-minio-secret}
+      AWS_DEFAULT_REGION: us-east-1
+      MLFLOW_SERVER_ALLOWED_HOSTS: localhost:*,127.0.0.1:*,mlflow:5000
+      MLFLOW_SERVER_CORS_ALLOWED_ORIGINS: http://localhost:5000,http://127.0.0.1:5000
     ports:
       - "5000:5000"
-    volumes:
-      - mlflow_data:/mlflow
     restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=3)"]
       interval: 30s
@@ -113,4 +174,5 @@ services:
 volumes:
   reports:
   artifacts:
-  mlflow_data:
+  mlflow_postgres_data:
+  minio_data:

@@ -11,10 +11,18 @@ from typing import Iterable
 
 import pandas as pd
 
+from .data_quality import (
+    DEFAULT_QUALITY_POLICY_PATH,
+    THEMES,
+    build_annotation_queue,
+    build_quality_report,
+    load_quality_policy,
+)
 from .dataset import prepare_dataset
 
 
 DATASET_SCHEMA_VERSION = "1.0.0"
+DATASET_MANIFEST_SCHEMA_VERSION = "2.0.0"
 REQUIRED_TRAINING_COLUMNS = [
     "review_id",
     "review_body",
@@ -45,24 +53,42 @@ DATASET_VERSION_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 class DatasetIngestionResult:
     dataset_version: str
     schema_version: str
+    manifest_schema_version: str
     source_file: str
     source_sha256: str
     raw_archive_path: str
     processed_path: str
+    processed_parquet_path: str
     validated_path: str
+    validated_parquet_path: str
     quarantine_path: str
+    quarantine_parquet_path: str
+    annotation_queue_path: str
+    annotation_queue_parquet_path: str
+    quality_report_path: str
     train_path: str | None
+    train_parquet_path: str | None
     validation_path: str | None
+    validation_parquet_path: str | None
     test_path: str | None
+    test_parquet_path: str | None
     manifest_path: str
     rows_ingested: int
     rows_valid: int
     rows_rejected: int
     duplicate_review_ids: int
+    annotation_rows: int
     processed_sha256: str
+    processed_parquet_sha256: str
     validated_sha256: str
+    validated_parquet_sha256: str
+    artifact_sha256: dict[str, str]
     sentiment_distribution: dict[str, int]
     theme_counts: dict[str, int]
+    quality_policy_path: str
+    quality_policy_version: str
+    quality_status: str
+    quality_failed_checks: list[str]
     created_at: str
 
 
@@ -91,7 +117,14 @@ def ensure_data_store(data_root: Path) -> None:
 
 
 def load_training_dataset(dataset_path: Path) -> pd.DataFrame:
-    return prepare_dataset(pd.read_csv(dataset_path))
+    suffix = dataset_path.suffix.lower()
+    if suffix == ".csv":
+        df = pd.read_csv(dataset_path)
+    elif suffix in {".parquet", ".pq"}:
+        df = pd.read_parquet(dataset_path, engine="pyarrow")
+    else:
+        raise ValueError(f"Unsupported training dataset format: {dataset_path.suffix}")
+    return prepare_dataset(df)
 
 
 def _add_rejection_reason(reasons: pd.Series, mask: pd.Series, reason: str) -> None:
@@ -128,9 +161,7 @@ def validate_training_dataset(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFr
         if sentiment_column in prepared.columns:
             theme_sentiments = prepared[sentiment_column].astype(str).str.lower().str.strip()
             invalid_sentiment = theme_sentiments.ne("") & ~theme_sentiments.isin(ALLOWED_SENTIMENTS)
-            missing_for_present_theme = numeric.eq(1) & theme_sentiments.eq("")
             _add_rejection_reason(reasons, invalid_sentiment, f"invalid_{sentiment_column}")
-            _add_rejection_reason(reasons, missing_for_present_theme, f"missing_{sentiment_column}")
             prepared[sentiment_column] = theme_sentiments
 
     valid_mask = reasons.apply(len).eq(0)
@@ -156,8 +187,21 @@ def _registry_path(data_root: Path) -> Path:
 
 
 def _write_json_atomic(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     temporary_path = path.with_suffix(f"{path.suffix}.tmp")
     temporary_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    temporary_path.replace(path)
+
+
+def _write_dataframe_atomic(df: pd.DataFrame, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path = path.with_suffix(f"{path.suffix}.tmp")
+    if path.suffix.lower() == ".csv":
+        df.to_csv(temporary_path, index=False)
+    elif path.suffix.lower() in {".parquet", ".pq"}:
+        df.to_parquet(temporary_path, index=False, engine="pyarrow", compression="zstd")
+    else:
+        raise ValueError(f"Unsupported dataframe artifact format: {path.suffix}")
     temporary_path.replace(path)
 
 
@@ -189,6 +233,21 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _artifact_checksums(data_root: Path, paths: Iterable[Path | None]) -> dict[str, str]:
+    return {
+        path.relative_to(data_root).as_posix(): _sha256(path)
+        for path in paths
+        if path is not None and path.exists()
+    }
+
+
+def _raise_for_failed_quality_gates(result: DatasetIngestionResult) -> None:
+    if result.quality_status == "ready":
+        return
+    failed = ", ".join(result.quality_failed_checks)
+    raise ValueError(f"Dataset quality gates failed for {result.dataset_version}: {failed}")
 
 
 def _stable_row_score(review_id: str, seed: int) -> str:
@@ -258,6 +317,9 @@ def ingest_csv_dataset(
     source_path: Path,
     data_root: Path,
     dataset_version: str | None = None,
+    *,
+    quality_policy_path: Path | None = None,
+    enforce_quality_gates: bool = False,
 ) -> DatasetIngestionResult:
     if not source_path.exists() or not source_path.is_file():
         raise FileNotFoundError(f"Source CSV file not found: {source_path}")
@@ -269,69 +331,143 @@ def ingest_csv_dataset(
 
     raw_archive_path = data_root / "raw" / "archive" / f"{version}_{source_path.name}"
     processed_path = data_root / "processed" / f"reviews_clean_{version}.csv"
+    processed_parquet_path = data_root / "processed" / f"reviews_clean_{version}.parquet"
     validated_path = data_root / "validated" / f"training_dataset_{version}.csv"
+    validated_parquet_path = data_root / "validated" / f"training_dataset_{version}.parquet"
     quarantine_path = data_root / "quarantine" / f"rejected_reviews_{version}.csv"
+    quarantine_parquet_path = data_root / "quarantine" / f"rejected_reviews_{version}.parquet"
+    annotation_queue_path = data_root / "quarantine" / f"annotation_queue_{version}.csv"
+    annotation_queue_parquet_path = data_root / "quarantine" / f"annotation_queue_{version}.parquet"
     split_dir = data_root / "splits" / version
     manifest_path = data_root / "registry" / f"dataset_{version}.json"
+    quality_report_path = data_root / "registry" / f"quality_report_{version}.json"
     source_sha256 = _sha256(source_path)
 
     existing = _existing_ingestion_result(manifest_path, source_sha256)
     if existing is not None:
+        if enforce_quality_gates:
+            _raise_for_failed_quality_gates(existing)
         return existing
 
     raw_df = pd.read_csv(source_path)
     valid_df, rejected_df = validate_training_dataset(raw_df)
+    annotation_queue = build_annotation_queue(valid_df)
+    resolved_quality_policy_path = quality_policy_path or DEFAULT_QUALITY_POLICY_PATH
+    quality_policy = load_quality_policy(resolved_quality_policy_path)
+    if quality_policy.dataset_schema_version != DATASET_SCHEMA_VERSION:
+        raise ValueError(
+            "Quality policy dataset schema version does not match the training dataset contract."
+        )
+    quality_report = build_quality_report(raw_df, valid_df, rejected_df, quality_policy)
     duplicate_review_ids = int(raw_df["review_id"].astype(str).duplicated().sum())
     train_df, validation_df, test_df = split_training_dataset(valid_df)
 
     _copy_raw_source(source_path, raw_archive_path)
-    prepare_dataset(raw_df).to_csv(processed_path, index=False)
-    valid_df.to_csv(validated_path, index=False)
-    rejected_df.to_csv(quarantine_path, index=False)
+    processed_df = prepare_dataset(raw_df)
+    _write_dataframe_atomic(processed_df, processed_path)
+    _write_dataframe_atomic(processed_df, processed_parquet_path)
+    _write_dataframe_atomic(valid_df, validated_path)
+    _write_dataframe_atomic(valid_df, validated_parquet_path)
+    _write_dataframe_atomic(rejected_df, quarantine_path)
+    _write_dataframe_atomic(rejected_df, quarantine_parquet_path)
+    _write_dataframe_atomic(annotation_queue, annotation_queue_path)
+    _write_dataframe_atomic(annotation_queue, annotation_queue_parquet_path)
+    _write_json_atomic(quality_report_path, quality_report)
 
     train_path: Path | None = None
+    train_parquet_path: Path | None = None
     validation_path: Path | None = None
+    validation_parquet_path: Path | None = None
     test_path: Path | None = None
+    test_parquet_path: Path | None = None
     if len(validation_df) and len(test_df):
         split_dir.mkdir(parents=True, exist_ok=True)
         train_path = split_dir / "train.csv"
+        train_parquet_path = split_dir / "train.parquet"
         validation_path = split_dir / "validation.csv"
+        validation_parquet_path = split_dir / "validation.parquet"
         test_path = split_dir / "test.csv"
-        train_df.to_csv(train_path, index=False)
-        validation_df.to_csv(validation_path, index=False)
-        test_df.to_csv(test_path, index=False)
+        test_parquet_path = split_dir / "test.parquet"
+        _write_dataframe_atomic(train_df, train_path)
+        _write_dataframe_atomic(train_df, train_parquet_path)
+        _write_dataframe_atomic(validation_df, validation_path)
+        _write_dataframe_atomic(validation_df, validation_parquet_path)
+        _write_dataframe_atomic(test_df, test_path)
+        _write_dataframe_atomic(test_df, test_parquet_path)
+
+    artifact_sha256 = _artifact_checksums(
+        data_root,
+        (
+            raw_archive_path,
+            processed_path,
+            processed_parquet_path,
+            validated_path,
+            validated_parquet_path,
+            quarantine_path,
+            quarantine_parquet_path,
+            annotation_queue_path,
+            annotation_queue_parquet_path,
+            quality_report_path,
+            train_path,
+            train_parquet_path,
+            validation_path,
+            validation_parquet_path,
+            test_path,
+            test_parquet_path,
+        ),
+    )
 
     result = DatasetIngestionResult(
         dataset_version=version,
         schema_version=DATASET_SCHEMA_VERSION,
+        manifest_schema_version=DATASET_MANIFEST_SCHEMA_VERSION,
         source_file=str(source_path),
         source_sha256=source_sha256,
         raw_archive_path=str(raw_archive_path),
         processed_path=str(processed_path),
+        processed_parquet_path=str(processed_parquet_path),
         validated_path=str(validated_path),
+        validated_parquet_path=str(validated_parquet_path),
         quarantine_path=str(quarantine_path),
+        quarantine_parquet_path=str(quarantine_parquet_path),
+        annotation_queue_path=str(annotation_queue_path),
+        annotation_queue_parquet_path=str(annotation_queue_parquet_path),
+        quality_report_path=str(quality_report_path),
         train_path=str(train_path) if train_path else None,
+        train_parquet_path=str(train_parquet_path) if train_parquet_path else None,
         validation_path=str(validation_path) if validation_path else None,
+        validation_parquet_path=str(validation_parquet_path) if validation_parquet_path else None,
         test_path=str(test_path) if test_path else None,
+        test_parquet_path=str(test_parquet_path) if test_parquet_path else None,
         manifest_path=str(manifest_path),
         rows_ingested=int(len(raw_df)),
         rows_valid=int(len(valid_df)),
         rows_rejected=int(len(rejected_df)),
         duplicate_review_ids=duplicate_review_ids,
+        annotation_rows=int(len(annotation_queue)),
         processed_sha256=_sha256(processed_path),
+        processed_parquet_sha256=_sha256(processed_parquet_path),
         validated_sha256=_sha256(validated_path),
+        validated_parquet_sha256=_sha256(validated_parquet_path),
+        artifact_sha256=artifact_sha256,
         sentiment_distribution={
             str(label): int(count)
             for label, count in valid_df["sentiment_label"].value_counts().sort_index().items()
         },
         theme_counts={
             theme: int(valid_df[f"theme_{theme}"].sum())
-            for theme in ("livraison", "sav", "produit")
+            for theme in THEMES
         },
+        quality_policy_path=str(resolved_quality_policy_path),
+        quality_policy_version=quality_policy.policy_version,
+        quality_status=str(quality_report["status"]),
+        quality_failed_checks=list(quality_report["failed_checks"]),
         created_at=datetime.now(timezone.utc).isoformat(),
     )
     _write_json_atomic(manifest_path, asdict(result))
     _write_registry_entry(data_root, result)
+    if enforce_quality_gates:
+        _raise_for_failed_quality_gates(result)
     return result
 
 
@@ -339,5 +475,9 @@ def latest_validated_dataset(data_root: Path) -> Path | None:
     validated_dir = data_root / "validated"
     if not validated_dir.exists():
         return None
-    candidates: Iterable[Path] = validated_dir.glob("training_dataset_*.csv")
-    return max(candidates, key=lambda path: path.stat().st_mtime, default=None)
+    parquet_candidates: Iterable[Path] = validated_dir.glob("training_dataset_*.parquet")
+    latest_parquet = max(parquet_candidates, key=lambda path: path.stat().st_mtime, default=None)
+    if latest_parquet is not None:
+        return latest_parquet
+    csv_candidates: Iterable[Path] = validated_dir.glob("training_dataset_*.csv")
+    return max(csv_candidates, key=lambda path: path.stat().st_mtime, default=None)

@@ -149,7 +149,8 @@ data/
 
 Les fichiers generes dans `raw/`, `processed/`, `validated`, `quarantine`, `splits` et `registry`
 sont ignores par Git, sauf les placeholders. Le contrat versionne est disponible dans
-`data/contracts/reviews_v1.json`.
+`data/contracts/reviews_v1.json` et la politique de qualite staging dans
+`data/contracts/reviews_quality_policy_v1.json`.
 
 Colonnes attendues pour un dataset d'entrainement:
 
@@ -167,22 +168,35 @@ Ingestion d'un CSV:
 py -3 pipelines/ingest_csv_dataset.py data/sample/reviews_sample.csv
 ```
 
-La commande archive le brut, ecrit une version nettoyee, place les lignes rejetees en quarantaine,
-cree un dataset valide, genere des splits deterministes quand le volume le permet, calcule les
-checksums et ajoute un manifest dans `data/registry/`.
+La commande archive le brut, ecrit des versions CSV de compatibilite et Parquet canoniques, place
+les lignes rejetees en quarantaine, cree une file d'annotation pour les sentiments par theme
+manquants, genere des splits deterministes quand le volume le permet, calcule les checksums et
+ajoute un manifest et un rapport de qualite dans `data/registry/`.
 
-Retraining depuis un dataset valide:
+Le manifest distingue un dataset techniquement valide d'un dataset pret pour un entrainement
+partage. Pour bloquer le retraining quand les gates staging ne passent pas:
+
+```powershell
+py -3 pipelines/ingest_csv_dataset.py data/sample/reviews_poc_test.csv `
+  --dataset-version candidate_v1 `
+  --enforce-quality-gates
+```
+
+Le dataset POC de 40 reviews est volontairement `not_ready`: il manque de volume et ne contient pas
+encore les labels de sentiment explicites par theme. Les labels ne sont jamais inventes.
+
+Retraining depuis un dataset valide, de preference avec le Parquet canonique:
 
 ```bash
-py -3 pipelines/train_models.py --dataset-path data/validated/training_dataset_<version>.csv
+py -3 pipelines/train_models.py --dataset-path data/validated/training_dataset_<version>.parquet
 ```
 
 Pour fournir un jeu d'evaluation independant:
 
 ```powershell
 py -3 pipelines/train_models.py `
-  --dataset-path data/splits/<version>/train.csv `
-  --evaluation-dataset-path data/splits/<version>/test.csv
+  --dataset-path data/splits/<version>/train.parquet `
+  --evaluation-dataset-path data/splits/<version>/test.parquet
 ```
 
 Sans `--dataset-path`, la pipeline entraine sur le dataset de demonstration integre et evalue sur
@@ -205,6 +219,22 @@ Cette commande fait en une seule execution:
 - retraining des artefacts modele
 - evaluation sur le split test, jamais sur les lignes d'entrainement
 - sortie JSON avec chemins data, checksums et `artifacts/trained_models_<version>/...`
+
+### Versionnement DVC
+
+DVC est initialise avec un remote local de developpement `localstore`. L'artefact canonique
+`data/validated/training_dataset_poc_reference_v1.parquet` est suivi par son fichier `.dvc`.
+
+```powershell
+py -3 -m pip install -r requirements-data-versioning.txt
+dvc status
+dvc push
+dvc pull
+```
+
+Pour un environnement partage, remplacer le remote par un bucket S3 ou un endpoint compatible S3
+et conserver les credentials uniquement dans `.dvc/config.local` avec `dvc remote modify --local`.
+Le workflow complet est documente dans `docs/DATA_GOVERNANCE_FR.md`.
 
 ### Tracking training et MLflow Model Registry
 
@@ -244,7 +274,28 @@ Effets attendus:
 - logging des artefacts `joblib`, seuils et manifest
 - creation d'une version candidate dans le registered model `review-insights-project-models`
 
-Le registry ne remplace pas automatiquement les artefacts actifs dans `models/`. La promotion vers `models/` reste volontaire et sera portee par une etape de comparaison/promotion.
+Le registry utilise les alias `candidate`, `champion` et `previous_champion`. La promotion reste
+volontaire et applique les gates versionnees de `config/model_promotion_policy_v1.json`.
+
+Dry-run de promotion:
+
+```powershell
+py -3 pipelines/promote_model.py --tracking-uri http://localhost:5000 --dry-run
+```
+
+Promotion et deploiement atomique vers les artefacts actifs:
+
+```powershell
+py -3 pipelines/promote_model.py --tracking-uri http://localhost:5000 --deploy-model-dir models
+```
+
+Rollback:
+
+```powershell
+py -3 pipelines/rollback_model.py --tracking-uri http://localhost:5000 --deploy-model-dir models
+```
+
+Le runbook complet est disponible dans `docs/MODEL_GOVERNANCE_FR.md`.
 
 ### API
 
@@ -264,6 +315,7 @@ Services exposes:
 - API inference: `http://localhost:8000`
 - Data service: `http://localhost:8001`
 - MLflow tracking UI: `http://localhost:5000`
+- MinIO API et console: `http://localhost:9100` et `http://localhost:9101`
 - Monitoring gateway and Prometheus text metrics: `http://localhost:9000`
 - Frontend Streamlit: `http://localhost:8501`
 
@@ -319,7 +371,9 @@ Le projet est maintenant separe en services Docker specialises:
 
 - `api`: service FastAPI d'inference, expose `/health`, `/v1/analyze`, `/metrics` et `/v1/evaluate/default`.
 - `data`: service FastAPI data/evaluation, expose le dataset de demonstration via `/v1/datasets/default`, son profil via `/v1/datasets/default/profile` et l'evaluation de reference sur 40 reviews via `/v1/evaluate/default`.
-- `mlflow`: serveur de tracking des experiences modele, expose l'interface MLflow sur `http://localhost:5000`.
+- `postgres`: stockage des metadonnees MLflow.
+- `minio` et `minio-init`: stockage objet des artefacts MLflow et des datasets DVC.
+- `mlflow`: serveur de tracking et Model Registry, expose l'interface MLflow sur `http://localhost:5000`.
 - `monitoring`: gateway de supervision, interroge l'API interne, expose `/v1/api/health`, `/v1/api/metrics` et `/metrics` au format texte compatible Prometheus.
 - `streamlit`: frontend POC client des services `api`, `data` et `monitoring`, sans chargement local des modeles.
 
@@ -347,7 +401,8 @@ Volumes:
 
 - `./models:/app/models:ro` garde les artefacts modeles montes en lecture seule dans les services qui inferent.
 - `reports` et `artifacts` isolent les sorties du service data/pipelines.
-- `mlflow_data` conserve la base SQLite MLflow et les artefacts de runs.
+- `mlflow_postgres_data` conserve les metadonnees MLflow.
+- `minio_data` conserve les artefacts MLflow et les objets DVC.
 
 ### Evaluation offline
 
@@ -412,9 +467,9 @@ MLFLOW_EXPERIMENT_NAME=review-insights-default
 
 Dans Compose, le service `data` utilise `http://mlflow:5000` et embarque le client `mlflow` pour uploader les artefacts modele dans le run. En local hors Docker, installer aussi `requirements-mlflow.txt` si l'environnement courant ne contient pas encore le package `mlflow`.
 
-Important: cette version journalise les artefacts modele dans les runs MLflow et peut enregistrer les
-candidats dans le Model Registry. La promotion `Staging` / `Production`, les gates automatiques et le
-rollback restent a industrialiser avant un environnement partage.
+Important: cette version journalise les artefacts modele dans les runs MLflow, enregistre les
+candidates dans le Model Registry, applique des gates de promotion et conserve un rollback via les
+alias `champion` et `previous_champion`.
 
 ### Pipeline d'entrainement reproductible
 
@@ -541,8 +596,8 @@ pytest
 
 Etat verifie sur cette base:
 
-- `47 passed`
-- couverture globale: `73%`
+- `60 passed`
+- couverture globale: `76%`
 - lint Ruff: propre
 - cinq services Docker Compose construits et verifies
 - bundle Hugging Face API reconstruit et charge depuis une revision immuable
@@ -567,6 +622,8 @@ Etat verifie sur cette base:
 - [README.md](README.md)
 - [PROJECT_MLOPS_GUIDE_FR.md](PROJECT_MLOPS_GUIDE_FR.md)
 - [ETAT_DES_LIEUX_PLAN_PHASE_FINALE_FR.md](docs/ETAT_DES_LIEUX_PLAN_PHASE_FINALE_FR.md)
+- [DATA_GOVERNANCE_FR.md](docs/DATA_GOVERNANCE_FR.md)
+- [MODEL_GOVERNANCE_FR.md](docs/MODEL_GOVERNANCE_FR.md)
 - [SECURITE_EXPLOITATION_FR.md](docs/SECURITE_EXPLOITATION_FR.md)
 - [LIVRABLES_FINAUX_FR.md](docs/LIVRABLES_FINAUX_FR.md)
 - [SOUTENANCE_READY_FR.md](docs/SOUTENANCE_READY_FR.md)
@@ -604,7 +661,6 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_hf_frontend_space_bundl
 
 ## Suite recommandee
 
-1. Remplacer le jeu de reference POC par un dataset projet plus large, gele et valide metier.
-2. Ajouter des labels de sentiment explicites par theme.
-3. Ajouter la promotion MLflow Model Registry avec gates et rollback.
-4. Brancher un stockage objet, PostgreSQL, Grafana et le drift monitoring.
+1. Collecter et annoter un dataset projet qui passe les gates de `reviews_quality_policy_v1.json`.
+2. Ajouter l'orchestration Airflow des pipelines deja fiables.
+3. Ajouter Grafana, alerting et drift monitoring.

@@ -262,12 +262,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train Review Insights+ model artifacts from the default dataset.")
     parser.add_argument("--output-dir", default=str(ROOT_DIR / "artifacts" / "trained_models"))
     parser.add_argument("--threshold", type=float, default=0.5)
-    parser.add_argument("--dataset-path", default=None, help="Optional validated CSV dataset to train on.")
-    parser.add_argument("--evaluation-dataset-path", default=None, help="Optional independent validated CSV dataset for evaluation.")
+    parser.add_argument("--dataset-path", default=None, help="Optional validated CSV or Parquet dataset to train on.")
+    parser.add_argument("--evaluation-dataset-path", default=None, help="Optional independent validated CSV or Parquet dataset for evaluation.")
     parser.add_argument("--mlflow-log", action="store_true", help="Log the training run and model artifacts to MLflow.")
     parser.add_argument("--register-model", action="store_true", help="Register the trained model as an MLflow candidate model version.")
     parser.add_argument("--registered-model-name", default="review-insights-project-models")
-    parser.add_argument("--model-stage", default="candidate")
+    parser.add_argument("--model-alias", default="candidate")
     args = parser.parse_args()
 
     dataset_path = Path(args.dataset_path) if args.dataset_path else None
@@ -285,7 +285,7 @@ def main() -> None:
             model_artifact_dir=output_dir,
             register_model=args.register_model,
             registered_model_name=args.registered_model_name,
-            model_stage=args.model_stage,
+            model_alias=args.model_alias,
         )
         summary["mlflow"] = asdict(mlflow_result)
     print(json.dumps(summary, indent=2))

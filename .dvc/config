@@ -1,0 +1,7 @@
+[core]
+    remote = localstore
+['remote "localstore"']
+    url = ../.dvc-storage
+['remote "minio"']
+    url = s3://review-insights-data
+    endpointurl = http://localhost:9100

@@ -59,3 +59,22 @@ def test_training_pipeline_accepts_independent_evaluation_dataset():
     assert summary["evaluation_dataset"] == str(evaluation_path)
 
     shutil.rmtree(work_dir)
+
+
+def test_training_pipeline_accepts_parquet_dataset():
+    work_dir = Path("tests_runtime/training_artifacts_from_parquet")
+    if work_dir.exists():
+        shutil.rmtree(work_dir)
+    work_dir.mkdir(parents=True)
+
+    dataset_path = work_dir / "reviews_sample.parquet"
+    import pandas as pd
+
+    pd.read_csv("data/sample/reviews_sample.csv").to_parquet(dataset_path, index=False)
+    summary = build_training_artifacts(work_dir / "models", dataset_path=dataset_path)
+
+    assert summary["training_rows"] == 3
+    assert summary["training_dataset"] == str(dataset_path)
+    assert (work_dir / "models" / "manifest.json").exists()
+
+    shutil.rmtree(work_dir)

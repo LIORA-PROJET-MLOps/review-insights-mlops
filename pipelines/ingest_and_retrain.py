@@ -31,16 +31,20 @@ def ingest_and_retrain(
     mlflow_log: bool = False,
     register_model: bool = False,
     registered_model_name: str = "review-insights-project-models",
-    model_stage: str = "candidate",
+    model_alias: str = "candidate",
+    quality_policy_path: Path | None = None,
+    enforce_quality_gates: bool = False,
 ) -> dict[str, Any]:
     ingestion = ingest_csv_dataset(
         source_path=source_csv,
         data_root=data_root,
         dataset_version=dataset_version,
+        quality_policy_path=quality_policy_path,
+        enforce_quality_gates=enforce_quality_gates,
     )
     resolved_output_dir = output_dir or ROOT_DIR / "artifacts" / f"trained_models_{_safe_name(ingestion.dataset_version)}"
-    training_dataset_path = Path(ingestion.train_path or ingestion.validated_path)
-    evaluation_dataset_path = Path(ingestion.test_path) if ingestion.test_path else None
+    training_dataset_path = Path(ingestion.train_parquet_path or ingestion.validated_parquet_path)
+    evaluation_dataset_path = Path(ingestion.test_parquet_path) if ingestion.test_parquet_path else None
     training = build_training_artifacts(
         resolved_output_dir,
         threshold=threshold,
@@ -53,7 +57,7 @@ def ingest_and_retrain(
             model_artifact_dir=resolved_output_dir,
             register_model=register_model,
             registered_model_name=registered_model_name,
-            model_stage=model_stage,
+            model_alias=model_alias,
         )
         training["mlflow"] = asdict(mlflow_result)
     return {
@@ -72,7 +76,13 @@ def main() -> None:
     parser.add_argument("--mlflow-log", action="store_true", help="Log the training run and artifacts to MLflow.")
     parser.add_argument("--register-model", action="store_true", help="Register the trained model as a candidate model version.")
     parser.add_argument("--registered-model-name", default="review-insights-project-models")
-    parser.add_argument("--model-stage", default="candidate")
+    parser.add_argument("--model-alias", default="candidate")
+    parser.add_argument("--quality-policy-path", default=None)
+    parser.add_argument(
+        "--enforce-quality-gates",
+        action="store_true",
+        help="Stop before retraining when the ingested dataset is not staging-ready.",
+    )
     args = parser.parse_args()
 
     result = ingest_and_retrain(
@@ -84,7 +94,9 @@ def main() -> None:
         mlflow_log=args.mlflow_log,
         register_model=args.register_model,
         registered_model_name=args.registered_model_name,
-        model_stage=args.model_stage,
+        model_alias=args.model_alias,
+        quality_policy_path=Path(args.quality_policy_path) if args.quality_policy_path else None,
+        enforce_quality_gates=args.enforce_quality_gates,
     )
     print(json.dumps(result, indent=2))
 
