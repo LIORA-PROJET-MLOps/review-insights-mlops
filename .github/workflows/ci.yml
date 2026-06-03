@@ -27,19 +27,61 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Run tests
-        run: pytest -q
+        run: pytest -q --cov=src.review_insights --cov-report=term-missing --cov-fail-under=70
 
       - name: Validate Docker Compose config
         run: docker compose config --quiet
 
+      - name: Run lint
+        run: python -m ruff check .
+
       - name: Run offline evaluation pipeline
         run: python pipelines/evaluate_default.py
-
-      - name: Run training placeholder
-        run: python pipelines/train_placeholder.py
 
       - name: Run reproducible training pipeline
         run: python pipelines/train_models.py --output-dir artifacts/ci_trained_models
 
-      - name: Build Docker image
+      - name: Run ingest and retrain pipeline
+        run: python pipelines/ingest_and_retrain.py data/sample/reviews_poc_test.csv --data-root tests_runtime/ci_data --dataset-version ci --output-dir artifacts/ci_ingested_models
+
+      - name: Build Hugging Face bundles
+        shell: pwsh
+        run: |
+          ./scripts/build_hf_space_bundle.ps1
+          ./scripts/build_hf_frontend_space_bundle.ps1
+
+      - name: Smoke test Hugging Face API bundle
+        working-directory: dist/hf_space_api_bundle
+        env:
+          MODEL_SOURCE: hf_hub
+          HF_MODEL_REPO_ID: Francescogiraldi/review-insights-models
+          HF_MODEL_REVISION: 1d6a5bd3e653ba75b6c8fed614e156d1a3c73779
+        run: python -c "from api_app import app; assert app.title == 'Review Insights+'"
+
+      - name: Build root Docker image
         run: docker build -t review-insights-poc:ci .
+
+      - name: Build Docker Compose services
+        run: docker compose build
+
+      - name: Smoke test Docker Compose services
+        run: |
+          docker compose up -d
+          for url in \
+            http://localhost:8000/health \
+            http://localhost:8001/health \
+            http://localhost:5000/health \
+            http://localhost:9000/health \
+            http://localhost:8501; do
+            for attempt in {1..30}; do
+              if curl --fail --silent --show-error "$url" >/dev/null; then
+                break
+              fi
+              sleep 2
+            done
+            curl --fail --silent --show-error "$url" >/dev/null
+          done
+
+      - name: Stop Docker Compose services
+        if: always()
+        run: docker compose down -v

@@ -1,6 +1,7 @@
 {
   "project": "Review Insights+",
   "artifact_set_version": "0.1.0",
+  "manifest_schema_version": "1.0.0",
   "language_scope": "english_reviews_only",
   "theme_model": {
     "file": "themes_clf.joblib",
@@ -28,6 +29,13 @@
       "1": "neutral",
       "2": "positive"
     }
+  },
+  "artifact_sha256": {
+    "themes_clf.joblib": "67a4d830cf1ee4ed9125ffb34895e922493da3d0b98bb78f5ecfd30517e111d7",
+    "themes_thresholds.npy": "2dc5a149bc45290f7b26cf6bcce1b5071a40a3a88dd08eb78cc73ce6283b30b5",
+    "sent_livraison.joblib": "5f4dd1169989d20d26568c92ddd383470b49111ddcace2e58801c18a44e2cd28",
+    "sent_sav.joblib": "b929c33074b542be81c547a081066fab4c8881074cf195d07db703a73360430b",
+    "sent_produit.joblib": "adee3f05d2b9365f2f62b205aa35cbc7fb64e605a9e8233f05e17046100ebaa2"
   },
   "runtime_notes": {
     "backend_name": "project_models_v1",

@@ -38,7 +38,7 @@ Le runtime charge alors les artefacts depuis le model repo au demarrage via:
 ```env
 MODEL_SOURCE=hf_hub
 HF_MODEL_REPO_ID=Francescogiraldi/review-insights-models
-HF_MODEL_REVISION=main
+HF_MODEL_REVISION=1d6a5bd3e653ba75b6c8fed614e156d1a3c73779
 HF_TOKEN=
 HF_CACHE_DIR=.cache/huggingface
 HF_ARTIFACTS_DIR=.cache/review_insights/models

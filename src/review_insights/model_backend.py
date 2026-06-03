@@ -40,15 +40,18 @@ class ProjectModelArtifacts:
     thresholds: np.ndarray
     sentiment_models: Dict[str, object]
     sentiment_class_map: Dict[str, Dict[int, str]]
+    artifact_set_version: str
+    manifest: Dict
 
 
-ARTIFACT_FILENAMES = (
+MODEL_ARTIFACT_FILENAMES = (
     "themes_clf.joblib",
     "themes_thresholds.npy",
     "sent_livraison.joblib",
     "sent_sav.joblib",
     "sent_produit.joblib",
 )
+ARTIFACT_FILENAMES = MODEL_ARTIFACT_FILENAMES + ("manifest.json",)
 
 
 def _patch_pipeline_for_predict_proba(model: object) -> object:
@@ -68,6 +71,39 @@ def _load_joblib(path: Path) -> object:
         warnings.simplefilter("ignore", InconsistentVersionWarning)
         model = joblib.load(path)
     return _patch_pipeline_for_predict_proba(model)
+
+
+def _sha256(path: Path) -> str:
+    import hashlib
+
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _load_manifest(base_dir: Path) -> Dict:
+    manifest_path = base_dir / "manifest.json"
+    if not manifest_path.exists():
+        return {}
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        raise ValueError("Model manifest must contain a JSON object.")
+    return manifest
+
+
+def _verify_artifact_checksums(base_dir: Path, manifest: Dict) -> None:
+    expected_checksums = manifest.get("artifact_sha256", {})
+    if not isinstance(expected_checksums, dict):
+        raise ValueError("Model manifest artifact_sha256 must be a JSON object.")
+    for filename, expected_checksum in expected_checksums.items():
+        if filename not in MODEL_ARTIFACT_FILENAMES:
+            continue
+        artifact_path = base_dir / filename
+        actual_checksum = _sha256(artifact_path)
+        if actual_checksum != str(expected_checksum):
+            raise ValueError(f"Checksum mismatch for model artifact: {filename}")
 
 
 def _build_sentiment_class_map(theme: str, model: object) -> Dict[int, str]:
@@ -128,7 +164,6 @@ def download_hf_model_artifacts(
             token=token,
             cache_dir=cache_dir,
             local_dir=target_dir,
-            local_dir_use_symlinks=False,
         )
     return target_dir
 
@@ -136,6 +171,8 @@ def download_hf_model_artifacts(
 def load_project_model_artifacts(models_dir: str | None = None, *, source: str | None = None) -> ProjectModelArtifacts:
     settings = get_settings()
     resolved_source = (source or settings.model_source).strip().lower()
+    if resolved_source not in {"local", "hf_hub"}:
+        raise ValueError(f"Unsupported model source: {resolved_source}")
     if resolved_source == "hf_hub":
         if not settings.hf_model_repo_id:
             raise ValueError("HF_MODEL_REPO_ID must be configured when MODEL_SOURCE=hf_hub.")
@@ -148,8 +185,12 @@ def load_project_model_artifacts(models_dir: str | None = None, *, source: str |
         )
     else:
         base_dir = Path(models_dir or settings.models_dir)
+    manifest = _load_manifest(base_dir)
+    _verify_artifact_checksums(base_dir, manifest)
     themes_model = _load_joblib(base_dir / "themes_clf.joblib")
     thresholds = np.load(base_dir / "themes_thresholds.npy", allow_pickle=True)
+    if len(thresholds) != len(THEME_ORDER):
+        raise ValueError("Theme thresholds length does not match the configured theme order.")
     sentiment_models = {
         "livraison": _load_joblib(base_dir / "sent_livraison.joblib"),
         "sav": _load_joblib(base_dir / "sent_sav.joblib"),
@@ -161,11 +202,21 @@ def load_project_model_artifacts(models_dir: str | None = None, *, source: str |
         thresholds=thresholds,
         sentiment_models=sentiment_models,
         sentiment_class_map=sentiment_class_map,
+        artifact_set_version=str(manifest.get("artifact_set_version", "unknown")),
+        manifest=manifest,
     )
 
 
 def _join_text(review_text: str) -> str:
     return str(review_text or "").strip()
+
+
+def _predicted_class_probability(model: object, probabilities: np.ndarray, predicted_class: int) -> float:
+    classes = np.asarray(getattr(model, "classes_", np.arange(len(probabilities))))
+    matches = np.where(classes == predicted_class)[0]
+    if len(matches):
+        return float(probabilities[int(matches[0])])
+    return float(np.max(probabilities))
 
 
 def analyze_with_project_models(review_text: str, review_id: str, artifacts: ProjectModelArtifacts, threshold_override: float | None = None) -> Dict:
@@ -204,7 +255,9 @@ def analyze_with_project_models(review_text: str, review_id: str, artifacts: Pro
         probabilities = np.asarray(model.predict_proba([text])[0], dtype=float)
         predicted_class = int(model.predict([text])[0])
         sentiment = artifacts.sentiment_class_map[theme_key].get(predicted_class, "neutral")
-        sentiment_confidence = float(np.clip(probabilities[predicted_class], 0.0, 1.0))
+        sentiment_confidence = float(
+            np.clip(_predicted_class_probability(model, probabilities, predicted_class), 0.0, 1.0)
+        )
         combined_confidence = round(min(theme_results[theme_key]["confidence"] * 0.6 + sentiment_confidence * 0.4, 0.99), 2)
         theme_results[theme_key]["sentiment"] = sentiment
         theme_results[theme_key]["confidence"] = combined_confidence

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import time
 from typing import Dict
 
 import pandas as pd
@@ -22,6 +23,12 @@ class ReviewAnalysisService:
         self.settings = get_settings()
         self.backend_name = "heuristic_rules_v1"
         self.model_source = self.settings.model_source
+        self.model_revision = (
+            self.settings.hf_model_revision
+            if self.settings.model_source.strip().lower() == "hf_hub"
+            else "local"
+        )
+        self.artifact_set_version = "unavailable"
         self._artifacts = None
         self.model_load_error: str | None = None
         self.monitoring = MonitoringStore()
@@ -31,10 +38,12 @@ class ReviewAnalysisService:
         try:
             self._artifacts = load_project_model_artifacts(self.settings.models_dir)
             self.backend_name = "project_models_v1"
+            self.artifact_set_version = self._artifacts.artifact_set_version
             self.model_load_error = None
         except Exception as exc:
             self._artifacts = None
             self.backend_name = "heuristic_rules_v1"
+            self.artifact_set_version = "unavailable"
             self.model_load_error = str(exc)
             logger.warning(
                 "Falling back to %s because project model artifacts could not be loaded: %s",
@@ -43,6 +52,7 @@ class ReviewAnalysisService:
             )
 
     def analyze(self, review_text: str, review_id: str, threshold: float | None = None) -> AnalyzeReviewResponse:
+        started_at = time.perf_counter()
         effective_threshold = threshold if threshold is not None else self.settings.theme_threshold
         if self._artifacts is not None:
             result = analyze_with_project_models(
@@ -53,7 +63,8 @@ class ReviewAnalysisService:
             )
         else:
             result = analyze_review(review_text, review_id=review_id, threshold=effective_threshold)
-        self.monitoring.record_prediction(result, self.backend_name)
+        latency_ms = (time.perf_counter() - started_at) * 1000
+        self.monitoring.record_prediction(result, self.backend_name, latency_ms)
         return AnalyzeReviewResponse(**result)
 
     def analyze_dataframe(self, df: pd.DataFrame, threshold: float | None = None) -> pd.DataFrame:
@@ -66,6 +77,10 @@ class ReviewAnalysisService:
                 threshold=threshold,
             ).model_dump()
             merged: Dict = dict(row)
+            for theme in ("livraison", "sav", "produit"):
+                column = f"theme_{theme}"
+                if column in merged:
+                    merged[f"true_{column}"] = merged[column]
             merged.update(result)
             rows.append(merged)
         return pd.DataFrame(rows)

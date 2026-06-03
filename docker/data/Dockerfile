@@ -3,6 +3,7 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PIP_NO_CACHE_DIR=1
+ENV GIT_PYTHON_REFRESH=quiet
 
 WORKDIR /app
 
@@ -13,6 +14,7 @@ COPY data_app.py ./
 COPY pipelines ./pipelines
 COPY src ./src
 COPY models ./models
+COPY data/sample ./data/sample
 
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser:appuser /app
 USER appuser

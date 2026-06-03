@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "language_scope": "english_reviews_only",
+  "required_columns": {
+    "review_id": {
+      "type": "string",
+      "nullable": false,
+      "unique": true
+    },
+    "review_body": {
+      "type": "string",
+      "nullable": false,
+      "min_length": 1
+    },
+    "sentiment_label": {
+      "type": "string",
+      "allowed_values": ["negative", "neutral", "positive"]
+    },
+    "theme_livraison": {
+      "type": "integer",
+      "allowed_values": [0, 1]
+    },
+    "theme_sav": {
+      "type": "integer",
+      "allowed_values": [0, 1]
+    },
+    "theme_produit": {
+      "type": "integer",
+      "allowed_values": [0, 1]
+    }
+  },
+  "optional_columns": {
+    "review_title": {
+      "type": "string"
+    },
+    "sentiment_livraison": {
+      "type": "string",
+      "allowed_values": ["negative", "neutral", "positive"],
+      "required_when": "theme_livraison == 1"
+    },
+    "sentiment_sav": {
+      "type": "string",
+      "allowed_values": ["negative", "neutral", "positive"],
+      "required_when": "theme_sav == 1"
+    },
+    "sentiment_produit": {
+      "type": "string",
+      "allowed_values": ["negative", "neutral", "positive"],
+      "required_when": "theme_produit == 1"
+    }
+  }
+}

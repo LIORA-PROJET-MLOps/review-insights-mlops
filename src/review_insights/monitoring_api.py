@@ -4,8 +4,10 @@ import os
 from typing import Any
 
 import httpx
-from fastapi import FastAPI, Response
+from fastapi import Depends, FastAPI, Request, Response
+from fastapi.security import APIKeyHeader
 
+from .security import enforce_api_key
 from .settings import get_settings
 
 
@@ -36,6 +38,11 @@ def _format_prometheus(metrics: dict[str, Any]) -> str:
         "# HELP review_insights_human_review_rate Ratio of requests flagged for human review.",
         "# TYPE review_insights_human_review_rate gauge",
         f"review_insights_human_review_rate {metrics.get('human_review_rate', 0.0)}",
+        "# HELP review_insights_inference_latency_ms Inference latency in milliseconds.",
+        "# TYPE review_insights_inference_latency_ms gauge",
+        f'review_insights_inference_latency_ms{{stat="avg"}} {metrics.get("inference_latency_ms_avg", 0.0)}',
+        f'review_insights_inference_latency_ms{{stat="p50"}} {metrics.get("inference_latency_ms_p50", 0.0)}',
+        f'review_insights_inference_latency_ms{{stat="p95"}} {metrics.get("inference_latency_ms_p95", 0.0)}',
     ]
 
     for sentiment, value in metrics.get("sentiment_distribution", {}).items():
@@ -55,6 +62,10 @@ def create_app() -> FastAPI:
         version=settings.app_version,
         summary="Monitoring gateway for Review Insights+ API metrics.",
     )
+    api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+    def require_api_security(request: Request, api_key: str | None = Depends(api_key_header)) -> None:
+        enforce_api_key(settings, request, api_key)
 
     @app.get("/health")
     async def healthcheck() -> dict:
@@ -71,15 +82,15 @@ def create_app() -> FastAPI:
             "api": api_health,
         }
 
-    @app.get("/v1/api/health")
+    @app.get("/v1/api/health", dependencies=[Depends(require_api_security)])
     async def api_health() -> dict:
         return await _fetch_json("/health")
 
-    @app.get("/v1/api/metrics")
+    @app.get("/v1/api/metrics", dependencies=[Depends(require_api_security)])
     async def api_metrics() -> dict:
         return await _fetch_json("/metrics")
 
-    @app.get("/metrics")
+    @app.get("/metrics", dependencies=[Depends(require_api_security)])
     async def prometheus_metrics() -> Response:
         metrics = await _fetch_json("/metrics")
         return Response(content=_format_prometheus(metrics), media_type="text/plain; version=0.0.4")

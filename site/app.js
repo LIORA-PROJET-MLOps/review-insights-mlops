@@ -19,15 +19,6 @@ function getApiBase() {
   return qs("apiBase").value.trim().replace(/\/$/, "") || DEFAULT_API_BASE;
 }
 
-function getHeaders() {
-  const headers = { "Content-Type": "application/json" };
-  const apiKey = qs("apiKey").value.trim();
-  if (apiKey) {
-    headers["X-API-Key"] = apiKey;
-  }
-  return headers;
-}
-
 function toJsonBlock(nodeId, payload) {
   qs(nodeId).textContent = JSON.stringify(payload, null, 2);
 }
@@ -41,12 +32,13 @@ function pill(label, variant = "neutral") {
 }
 
 async function callApi(path, options = {}) {
+  const headers = { ...(options.headers || {}) };
+  if (options.body && !headers["Content-Type"]) {
+    headers["Content-Type"] = "application/json";
+  }
   const response = await fetch(`${getApiBase()}${path}`, {
     ...options,
-    headers: {
-      ...getHeaders(),
-      ...(options.headers || {}),
-    },
+    headers,
   });
 
   if (!response.ok) {
@@ -241,11 +233,12 @@ function exportBatchCsv() {
 
 async function runEvaluation() {
   const payload = await callApi("/v1/evaluate/default", { method: "GET", headers: {} });
+  const summary = payload.summary || {};
   qs("evaluationStats").innerHTML = [
-    card("Sentiment accuracy", payload.sentiment_accuracy),
-    card("Theme exact match", payload.theme_exact_match),
-    card("Precision macro", payload.theme_precision_macro),
-    card("Recall macro", payload.theme_recall_macro),
+    card("Sentiment accuracy", summary.sentiment_accuracy),
+    card("Theme exact match", summary.theme_exact_match),
+    card("Precision macro", summary.theme_precision_macro),
+    card("Recall macro", summary.theme_recall_macro),
   ].join("");
   toJsonBlock("evaluationJson", payload);
 }

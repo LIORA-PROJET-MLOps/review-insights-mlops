@@ -3,6 +3,7 @@
 ## Livrables techniques
 
 - Application Streamlit de demonstration: `app.py`
+- Client HTTP Streamlit: `src/review_insights/api_client.py`
 - API FastAPI: `api_app.py` et `src/review_insights/api.py`
 - Service metier: `src/review_insights/service.py`
 - Backend modeles reels: `src/review_insights/model_backend.py`
@@ -14,6 +15,8 @@
 
 - Artefacts modeles: `models/`
 - Manifest d'artefacts: `models/manifest.json`
+- Contrat data: `data/contracts/reviews_v1.json`
+- Pipeline ingestion avec quarantaine, checksums et splits: `src/review_insights/data_store.py`
 - Pipeline evaluation: `pipelines/evaluate_default.py`
 - Pipeline training reproductible: `pipelines/train_models.py`
 - Placeholder training historique: `pipelines/train_placeholder.py`
@@ -26,6 +29,7 @@
 - Orchestration locale: `compose.yaml`
 - Configuration: `.env.example`
 - CI: `.github/workflows/ci.yml`
+- Bundles Hugging Face reproductibles: `scripts/build_hf_space_bundle.ps1` et `scripts/build_hf_frontend_space_bundle.ps1`
 
 ## Livrables documentation
 
@@ -34,3 +38,4 @@
 - Securite et exploitation: `docs/SECURITE_EXPLOITATION_FR.md`
 - Livrables finaux: `docs/LIVRABLES_FINAUX_FR.md`
 - Dossier soutenance: `docs/SOUTENANCE_READY_FR.md`
+- Etat des lieux et plan final: `docs/ETAT_DES_LIEUX_PLAN_PHASE_FINALE_FR.md`

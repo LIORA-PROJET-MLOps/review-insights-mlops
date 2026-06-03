@@ -54,13 +54,17 @@ def evaluate_predictions(df: pd.DataFrame, backend_name: str) -> EvaluationSumma
     precisions: List[float] = []
     recalls: List[float] = []
     for _, row in working.iterrows():
-        truth = [int(row.get(column, 0)) for column in THEME_COLUMNS.values()]
+        truth = [
+            int(row.get(f"true_{column}", row.get(column, 0)))
+            for column in THEME_COLUMNS.values()
+        ]
         pred = [int(row.get(f"theme_{theme}", 0)) for theme in THEME_COLUMNS]
         if truth == pred:
             exact_match_hits += 1
 
     for theme, column in THEME_COLUMNS.items():
-        y_true = working[column].astype(int)
+        truth_column = f"true_{column}" if f"true_{column}" in working.columns else column
+        y_true = working[truth_column].astype(int)
         y_pred = working[f"theme_{theme}"].astype(int)
         tp = int(((y_true == 1) & (y_pred == 1)).sum())
         fp = int(((y_true == 0) & (y_pred == 1)).sum())

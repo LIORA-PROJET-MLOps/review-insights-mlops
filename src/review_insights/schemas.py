@@ -50,6 +50,8 @@ class HealthResponse(BaseModel):
     environment: str
     inference_backend: str
     model_source: str
+    model_revision: str
+    artifact_set_version: str
     models_manifest_present: bool
     protected_endpoints: bool
     model_load_error: Optional[str] = None
@@ -59,6 +61,9 @@ class MetricsResponse(BaseModel):
     total_requests: int
     human_review_requests: int
     human_review_rate: float
+    inference_latency_ms_avg: float
+    inference_latency_ms_p50: float
+    inference_latency_ms_p95: float
     sentiment_distribution: dict = Field(default_factory=dict)
     theme_distribution: dict = Field(default_factory=dict)
     backend_distribution: dict = Field(default_factory=dict)

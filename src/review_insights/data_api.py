@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, Request
+from fastapi.security import APIKeyHeader
 
-from .dataset import load_default_dataset, prepare_dataset
+from .dataset import load_default_dataset, load_reference_evaluation_dataset, prepare_dataset
 from .mlflow_tracking import log_evaluation_run
 from .schemas import EvaluationResponse
+from .security import enforce_api_key
 from .service import get_review_analysis_service
 from .settings import get_settings
 
@@ -19,6 +21,10 @@ def create_app() -> FastAPI:
     )
     app.state.settings = settings
     app.state.service = service
+    api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+    def require_api_security(request: Request, api_key: str | None = Depends(api_key_header)) -> None:
+        enforce_api_key(settings, request, api_key)
 
     @app.get("/health")
     def healthcheck() -> dict:
@@ -29,11 +35,13 @@ def create_app() -> FastAPI:
             "model_source": settings.model_source,
             "inference_backend": service.backend_name,
             "model_load_error": service.model_load_error,
+            "model_revision": service.model_revision,
+            "artifact_set_version": service.artifact_set_version,
             "mlflow_tracking_enabled": settings.mlflow_tracking_enabled,
             "mlflow_tracking_uri": settings.mlflow_tracking_uri,
         }
 
-    @app.get("/v1/datasets/default")
+    @app.get("/v1/datasets/default", dependencies=[Depends(require_api_security)])
     def default_dataset() -> dict:
         df = prepare_dataset(load_default_dataset())
         return {
@@ -43,7 +51,7 @@ def create_app() -> FastAPI:
             "records": df.to_dict(orient="records"),
         }
 
-    @app.get("/v1/datasets/default/profile")
+    @app.get("/v1/datasets/default/profile", dependencies=[Depends(require_api_security)])
     def default_dataset_profile() -> dict:
         df = prepare_dataset(load_default_dataset())
         return {
@@ -56,9 +64,9 @@ def create_app() -> FastAPI:
             },
         }
 
-    @app.get("/v1/evaluate/default", response_model=EvaluationResponse)
+    @app.get("/v1/evaluate/default", response_model=EvaluationResponse, dependencies=[Depends(require_api_security)])
     def evaluate_default_dataset() -> EvaluationResponse:
-        df = prepare_dataset(load_default_dataset())
+        df = prepare_dataset(load_reference_evaluation_dataset())
         report = service.evaluate_dataframe(df)
         log_evaluation_run(report, run_name="data_api_default_evaluation")
         return EvaluationResponse(**report)

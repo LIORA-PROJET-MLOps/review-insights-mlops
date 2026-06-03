@@ -29,4 +29,4 @@ Le frontend vise par defaut:
 ## Remarques
 
 - aucun secret n'est requis si l'API reste publique
-- si une cle API est activee cote backend, elle peut etre saisie directement dans l'interface
+- si une cle API est activee cote backend, utiliser un backend de confiance; ne jamais exposer le secret dans le navigateur

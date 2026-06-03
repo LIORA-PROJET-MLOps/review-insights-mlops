@@ -1,10 +1,13 @@
 import shutil
 from pathlib import Path
 
+import pytest
+
 from src.review_insights.model_backend import (
     ARTIFACT_FILENAMES,
     _load_manifest_sentiment_class_map,
     download_hf_model_artifacts,
+    load_project_model_artifacts,
 )
 
 
@@ -34,6 +37,19 @@ def test_download_hf_model_artifacts_requests_all_files(monkeypatch):
     assert target_dir.exists()
     assert len(calls) == len(ARTIFACT_FILENAMES)
     assert {call["filename"] for call in calls} == set(ARTIFACT_FILENAMES)
+
+    shutil.rmtree(work_dir)
+
+
+def test_model_artifact_checksum_mismatch_is_rejected():
+    work_dir = Path("tests_runtime/models_checksum")
+    if work_dir.exists():
+        shutil.rmtree(work_dir)
+    shutil.copytree("models", work_dir)
+    (work_dir / "themes_thresholds.npy").write_bytes(b"tampered")
+
+    with pytest.raises(ValueError, match="Checksum mismatch"):
+        load_project_model_artifacts(str(work_dir), source="local")
 
     shutil.rmtree(work_dir)
 

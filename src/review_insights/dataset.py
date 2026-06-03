@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from io import StringIO
+from pathlib import Path
 from typing import BinaryIO
 
 import pandas as pd
@@ -17,10 +18,17 @@ r6,Average experience,The product is okay overall but nothing special.,neutral,0
 r7,Great all around,Fast delivery and excellent quality.,positive,1,0,1
 r8,Refund process was frustrating,The return was accepted but the refund process was slow and confusing.,negative,0,1,0
 """
+REFERENCE_EVALUATION_DATASET = Path(__file__).resolve().parents[2] / "data" / "sample" / "reviews_poc_test.csv"
 
 
 def load_default_dataset() -> pd.DataFrame:
     return pd.read_csv(StringIO(SAMPLE_DATASET))
+
+
+def load_reference_evaluation_dataset() -> pd.DataFrame:
+    if not REFERENCE_EVALUATION_DATASET.exists():
+        raise FileNotFoundError(f"Reference evaluation dataset not found: {REFERENCE_EVALUATION_DATASET}")
+    return pd.read_csv(REFERENCE_EVALUATION_DATASET)
 
 
 def safe_read_csv_filelike(file_obj: BinaryIO) -> pd.DataFrame:

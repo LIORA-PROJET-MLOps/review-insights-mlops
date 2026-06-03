@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir -r requirements-api.txt
 COPY api_app.py ./
 COPY src ./src
 COPY models ./models
+COPY data/sample ./data/sample
 
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser:appuser /app
 USER appuser

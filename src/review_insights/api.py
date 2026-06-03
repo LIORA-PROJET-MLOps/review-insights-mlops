@@ -9,7 +9,7 @@ from fastapi.security import APIKeyHeader
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from .dataset import load_default_dataset, prepare_dataset
+from .dataset import load_reference_evaluation_dataset, prepare_dataset
 from .schemas import AnalyzeReviewRequest, AnalyzeReviewResponse, EvaluationResponse, HealthResponse, MetricsResponse
 from .security import InMemoryRateLimiter, client_identifier, enforce_api_key, log_security_event
 from .service import get_review_analysis_service
@@ -86,6 +86,8 @@ def create_app() -> FastAPI:
             environment=settings.app_env,
             inference_backend=service.backend_name,
             model_source=resolved_source,
+            model_revision=service.model_revision or "unknown",
+            artifact_set_version=service.artifact_set_version,
             models_manifest_present=manifest_present,
             protected_endpoints=settings.require_api_key or bool(settings.api_key),
             model_load_error=service.model_load_error,
@@ -110,7 +112,7 @@ def create_app() -> FastAPI:
 
     @app.get("/v1/evaluate/default", response_model=EvaluationResponse, dependencies=[Depends(require_api_security)])
     def evaluate_default_dataset() -> EvaluationResponse:
-        df = prepare_dataset(load_default_dataset())
+        df = prepare_dataset(load_reference_evaluation_dataset())
         report = service.evaluate_dataframe(df)
         return EvaluationResponse(**report)
 

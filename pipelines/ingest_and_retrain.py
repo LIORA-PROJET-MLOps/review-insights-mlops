@@ -39,10 +39,13 @@ def ingest_and_retrain(
         dataset_version=dataset_version,
     )
     resolved_output_dir = output_dir or ROOT_DIR / "artifacts" / f"trained_models_{_safe_name(ingestion.dataset_version)}"
+    training_dataset_path = Path(ingestion.train_path or ingestion.validated_path)
+    evaluation_dataset_path = Path(ingestion.test_path) if ingestion.test_path else None
     training = build_training_artifacts(
         resolved_output_dir,
         threshold=threshold,
-        dataset_path=Path(ingestion.validated_path),
+        dataset_path=training_dataset_path,
+        evaluation_dataset_path=evaluation_dataset_path,
     )
     if mlflow_log or register_model:
         mlflow_result = log_training_run(

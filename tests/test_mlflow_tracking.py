@@ -1,11 +1,22 @@
+import os
 import sys
 import shutil
 from pathlib import Path
 from types import SimpleNamespace
 
 from src.review_insights.model_backend import ARTIFACT_FILENAMES
-from src.review_insights.mlflow_tracking import log_evaluation_run, log_training_run
+from src.review_insights.mlflow_tracking import _configure_mlflow_console_output, log_evaluation_run, log_training_run
 from src.review_insights.settings import Settings
+
+
+def test_mlflow_console_urls_are_suppressed_by_default(monkeypatch):
+    monkeypatch.delenv("MLFLOW_SUPPRESS_PRINTING_URL_TO_STDOUT", raising=False)
+    monkeypatch.delenv("MLFLOW_PRINT_MODEL_URLS_ON_CREATION", raising=False)
+
+    _configure_mlflow_console_output()
+
+    assert os.environ["MLFLOW_SUPPRESS_PRINTING_URL_TO_STDOUT"] == "true"
+    assert os.environ["MLFLOW_PRINT_MODEL_URLS_ON_CREATION"] == "false"
 
 
 def test_mlflow_tracking_disabled_returns_status():

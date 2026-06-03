@@ -1,6 +1,7 @@
 .git
 .github
 .venv
+.cache
 __pycache__
 .pytest_cache
 pytest-cache-files-*
@@ -15,3 +16,9 @@ build
 *.log
 reports
 artifacts
+data/raw
+data/processed
+data/validated
+data/quarantine
+data/splits
+data/registry

@@ -24,7 +24,7 @@ Space Docker prevu pour exposer l'API FastAPI de Review Insights+.
 - `APP_VERSION=0.2.0`
 - `MODEL_SOURCE=hf_hub`
 - `HF_MODEL_REPO_ID=Francescogiraldi/review-insights-models`
-- `HF_MODEL_REVISION=main`
+- `HF_MODEL_REVISION=1d6a5bd3e653ba75b6c8fed614e156d1a3c73779`
 - `HF_TOKEN=<token-hf-si-repo-prive>`
 - `HF_CACHE_DIR=/data/huggingface`
 - `HF_ARTIFACTS_DIR=/data/review_insights/models`

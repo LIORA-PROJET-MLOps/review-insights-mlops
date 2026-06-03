@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+import os
 from pathlib import Path
 import time
 from typing import Dict, Iterable
@@ -23,6 +24,12 @@ class MLflowRunResult:
     registered_model_name: str | None = None
     registered_model_version: str | None = None
     model_stage: str | None = None
+
+
+def _configure_mlflow_console_output() -> None:
+    # MLflow 3 prints emoji-prefixed run URLs, which can fail on Windows cp1252 consoles.
+    os.environ.setdefault("MLFLOW_SUPPRESS_PRINTING_URL_TO_STDOUT", "true")
+    os.environ.setdefault("MLFLOW_PRINT_MODEL_URLS_ON_CREATION", "false")
 
 
 def _numeric_metrics(summary: Dict) -> Dict[str, float]:
@@ -331,6 +338,7 @@ def log_evaluation_run(
 
     model_dir = _complete_model_artifact_dir(resolved_settings, model_artifact_dir)
 
+    _configure_mlflow_console_output()
     try:
         import mlflow
     except ImportError:
@@ -391,6 +399,7 @@ def log_training_run(
             reason="Complete model artifacts were not found.",
         )
 
+    _configure_mlflow_console_output()
     try:
         import mlflow
     except ImportError:

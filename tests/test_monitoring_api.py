@@ -16,3 +16,4 @@ def test_prometheus_formatter_exports_core_metrics():
     assert "review_insights_requests_total 3" in payload
     assert 'review_insights_sentiment_total{sentiment="negative"} 2' in payload
     assert 'review_insights_theme_total{theme="sav"} 2' in payload
+    assert 'review_insights_inference_latency_ms{stat="p95"} 0.0' in payload

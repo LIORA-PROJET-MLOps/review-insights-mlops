@@ -1,6 +1,8 @@
 .venv/
+.cache/
 __pycache__/
 .pytest_cache/
+.coverage
 .pytest_tmp/
 pytest-cache-files-*
 tests_runtime/
@@ -16,12 +18,16 @@ data/raw/incoming/*
 data/raw/archive/*
 data/processed/*
 data/validated/*
+data/quarantine/*
+data/splits/*
 data/registry/*
 !data/raw/.gitkeep
 !data/raw/incoming/.gitkeep
 !data/raw/archive/.gitkeep
 !data/processed/.gitkeep
 !data/validated/.gitkeep
+!data/quarantine/.gitkeep
+!data/splits/.gitkeep
 !data/registry/.gitkeep
 dist/
 build/

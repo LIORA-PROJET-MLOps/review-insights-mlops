@@ -11,7 +11,6 @@ RUN pip install --no-cache-dir -r requirements-frontend.txt
 
 COPY app.py ./
 COPY src ./src
-COPY models ./models
 
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser:appuser /app
 USER appuser

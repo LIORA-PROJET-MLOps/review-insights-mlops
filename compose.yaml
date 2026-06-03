@@ -101,8 +101,6 @@ services:
       MONITORING_URL: http://monitoring:9000
     ports:
       - "8501:8501"
-    volumes:
-      - ./models:/app/models:ro
     restart: unless-stopped
     depends_on:
       api:

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import hashlib
+import secrets
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
@@ -19,9 +20,6 @@ def client_identifier(request: Request, api_key: str | None = None) -> str:
     if api_key:
         digest = hashlib.sha256(api_key.encode("utf-8")).hexdigest()[:12]
         return f"api_key:{digest}"
-    forwarded_for = request.headers.get("x-forwarded-for")
-    if forwarded_for:
-        return f"ip:{forwarded_for.split(',')[0].strip()}"
     host = request.client.host if request.client else "unknown"
     return f"ip:{host}"
 
@@ -76,7 +74,7 @@ def enforce_api_key(settings: Settings, request: Request, api_key: str | None) -
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="API key protection is required but not configured.",
         )
-    if api_key != configured_key:
+    if not api_key or not secrets.compare_digest(api_key, configured_key):
         log_security_event("api_key_rejected", request, "Invalid or missing API key.")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

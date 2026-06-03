@@ -5,13 +5,13 @@ from typing import Dict
 import pandas as pd
 import streamlit as st
 
+from .api_client import ReviewInsightsApiClient, ReviewInsightsClientError
 from .config import APP_SUBTITLE, APP_TITLE, DEFAULT_THEME_THRESHOLD, MAX_SELECTABLE_ROWS, THEMES
 from .dataset import flatten_results, load_default_dataset, prepare_dataset, safe_read_csv_filelike
 from .engine import actionable_text
-from .service import get_review_analysis_service
 
 
-SERVICE = get_review_analysis_service()
+CLIENT = ReviewInsightsApiClient.from_env()
 
 
 def configure_page() -> None:
@@ -153,12 +153,16 @@ def filter_dataset(df: pd.DataFrame, query: str, sentiment_filter: str, theme_fi
 def analyze_dataframe(df: pd.DataFrame, threshold: float) -> pd.DataFrame:
     rows = []
     for _, row in df.iterrows():
-        analysis = analyze_review(
-            f"{row['review_title']} {row['review_body']}".strip(),
+        analysis = CLIENT.analyze(
+            review_text=f"{row['review_title']} {row['review_body']}".strip(),
             review_id=str(row["review_id"]),
             threshold=threshold,
         )
         record = dict(row)
+        for theme in ("livraison", "sav", "produit"):
+            column = f"theme_{theme}"
+            if column in record:
+                record[f"true_{column}"] = record[column]
         record.update(analysis)
         rows.append(record)
     return pd.DataFrame(rows)
@@ -246,7 +250,15 @@ def main() -> None:
         st.markdown("## Notes produit")
         st.caption("Documentation en francais. Analyse courante optimisee pour les commentaires en anglais.")
 
-    raw_df = safe_read_csv_filelike(uploaded_file) if uploaded_file is not None else load_default_dataset()
+    if uploaded_file is not None:
+        raw_df = safe_read_csv_filelike(uploaded_file)
+    else:
+        try:
+            dataset_payload = CLIENT.default_dataset()
+            raw_df = pd.DataFrame(dataset_payload.get("records", []))
+        except ReviewInsightsClientError as exc:
+            st.sidebar.warning(f"Service data indisponible, dataset local utilise: {exc}")
+            raw_df = load_default_dataset()
     df = prepare_dataset(raw_df)
 
     render_header(df)
@@ -265,7 +277,7 @@ def main() -> None:
 
         filtered_df = filter_dataset(df, query, sentiment_filter, theme_filter)
         st.caption(f"{len(filtered_df)} ligne(s) disponible(s) pour analyse.")
-        st.dataframe(filtered_df[["review_id", "review_title", "review_body", "sentiment_label"]].head(MAX_SELECTABLE_ROWS), use_container_width=True, height=280)
+        st.dataframe(filtered_df[["review_id", "review_title", "review_body", "sentiment_label"]].head(MAX_SELECTABLE_ROWS), width="stretch", height=280)
 
         selection_options = ["Saisie manuelle"]
         lookup = {}
@@ -289,20 +301,37 @@ def main() -> None:
         with left:
             review_text = st.text_area("Texte de la review", value=selected_text, height=220, placeholder="Type an English customer review here.")
             review_id = st.text_input("Review ID", value=selected_id)
+            analyze_clicked = st.button("Lancer l'analyse", width="stretch")
+            if analyze_clicked:
+                if not review_text.strip():
+                    st.warning("Le texte de la review est obligatoire.")
+                else:
+                    try:
+                        st.session_state["instant_result"] = CLIENT.analyze(
+                            review_text=review_text,
+                            review_id=review_id,
+                            threshold=threshold,
+                        )
+                    except ReviewInsightsClientError as exc:
+                        st.error(str(exc))
+        result = st.session_state.get("instant_result")
         with right:
-            result = SERVICE.analyze(review_text=review_text, review_id=review_id, threshold=threshold).model_dump()
-            render_summary(result)
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown('<div class="section-title">Lecture operationnelle</div>', unsafe_allow_html=True)
-            if result["needs_human_review"]:
-                st.warning("Cas borderline ou ambigu: une revue humaine est recommandee.")
+            if result:
+                render_summary(result)
+                st.markdown('<div class="card">', unsafe_allow_html=True)
+                st.markdown('<div class="section-title">Lecture operationnelle</div>', unsafe_allow_html=True)
+                if result["needs_human_review"]:
+                    st.warning("Cas borderline ou ambigu: une revue humaine est recommandee.")
+                else:
+                    st.success("Signal suffisamment clair pour une lecture operationnelle rapide.")
+                st.write(f"Indices positifs: {', '.join(result['positive_terms']) if result['positive_terms'] else 'Aucun'}")
+                st.write(f"Indices negatifs: {', '.join(result['negative_terms']) if result['negative_terms'] else 'Aucun'}")
+                st.markdown('</div>', unsafe_allow_html=True)
             else:
-                st.success("Signal suffisamment clair pour une lecture operationnelle rapide.")
-            st.write(f"Indices positifs: {', '.join(result['positive_terms']) if result['positive_terms'] else 'Aucun'}")
-            st.write(f"Indices negatifs: {', '.join(result['negative_terms']) if result['negative_terms'] else 'Aucun'}")
-            st.markdown('</div>', unsafe_allow_html=True)
+                st.info("Lancez une analyse pour afficher le resultat.")
 
-        render_theme_cards(result)
+        if result:
+            render_theme_cards(result)
 
         if ground_truth:
             st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -314,24 +343,31 @@ def main() -> None:
             cols[3].metric("Produit", int(ground_truth["theme_produit"]))
             st.markdown('</div>', unsafe_allow_html=True)
 
-        with st.expander("Afficher le JSON de sortie"):
-            st.json(result)
+        if result:
+            with st.expander("Afficher le JSON de sortie"):
+                st.json(result)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with tab2:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="section-title">Dataset complet</div>', unsafe_allow_html=True)
-        st.dataframe(df, use_container_width=True, height=620)
+        st.dataframe(df, width="stretch", height=620)
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="section-title">Batch re-analysis</div>', unsafe_allow_html=True)
-        enriched = SERVICE.analyze_dataframe(df, threshold)
-        export_df = flatten_results(enriched)
-        st.dataframe(export_df, use_container_width=True, height=520)
-        c1, c2 = st.columns(2)
-        c1.download_button("Telecharger le CSV enrichi", data=export_df.to_csv(index=False).encode("utf-8"), file_name="review_insights_poc.csv", mime="text/csv", use_container_width=True)
-        c2.download_button("Telecharger le JSON enrichi", data=enriched.to_json(orient="records", force_ascii=False, indent=2), file_name="review_insights_poc.json", mime="application/json", use_container_width=True)
+        if st.button("Lancer la re-analyse du dataset", width="stretch"):
+            try:
+                st.session_state["batch_enriched"] = analyze_dataframe(df, threshold)
+            except ReviewInsightsClientError as exc:
+                st.error(str(exc))
+        enriched = st.session_state.get("batch_enriched")
+        if enriched is not None:
+            export_df = flatten_results(enriched)
+            st.dataframe(export_df, width="stretch", height=520)
+            c1, c2 = st.columns(2)
+            c1.download_button("Telecharger le CSV enrichi", data=export_df.to_csv(index=False).encode("utf-8"), file_name="review_insights_poc.csv", mime="text/csv", width="stretch")
+            c2.download_button("Telecharger le JSON enrichi", data=enriched.to_json(orient="records", force_ascii=False, indent=2), file_name="review_insights_poc.json", mime="application/json", width="stretch")
         st.markdown('</div>', unsafe_allow_html=True)
 
     with tab3:
@@ -344,18 +380,28 @@ def main() -> None:
 
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="section-title">Backend et monitoring</div>', unsafe_allow_html=True)
-        metrics = SERVICE.get_monitoring_metrics()
-        m1, m2, m3 = st.columns(3)
-        m1.metric("Backend actif", SERVICE.backend_name)
-        m2.metric("Requetes analysees", metrics["total_requests"])
-        m3.metric("Taux human review", metrics["human_review_rate"])
-        st.json(metrics)
+        try:
+            health = CLIENT.health()
+            metrics = CLIENT.metrics()
+            m1, m2, m3 = st.columns(3)
+            m1.metric("Backend actif", health.get("inference_backend", "unknown"))
+            m2.metric("Requetes analysees", metrics.get("total_requests", 0))
+            m3.metric("Taux human review", metrics.get("human_review_rate", 0.0))
+            st.json(metrics)
+        except ReviewInsightsClientError as exc:
+            st.error(str(exc))
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="section-title">Evaluation offline</div>', unsafe_allow_html=True)
-        evaluation = SERVICE.evaluate_dataframe(df)
-        st.json(evaluation["summary"])
+        if st.button("Lancer l'evaluation de reference", width="stretch"):
+            try:
+                st.session_state["default_evaluation"] = CLIENT.evaluate_default()
+            except ReviewInsightsClientError as exc:
+                st.error(str(exc))
+        evaluation = st.session_state.get("default_evaluation")
+        if evaluation:
+            st.json(evaluation.get("summary", {}))
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="card">', unsafe_allow_html=True)

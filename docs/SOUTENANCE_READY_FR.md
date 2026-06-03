@@ -37,7 +37,7 @@ Review Insights+ est un POC/MVP NLP pour analyser des avis Trustpilot en anglais
 
 - Le projet n'est pas seulement un modele NLP: c'est une base MLOps exploitable.
 - Les livrables sont alignes avec les 4 phases du kickoff Liora.
-- La detection des themes est solide sur le dataset de demonstration.
+- La detection des themes est mesuree sur un jeu de reference distinct de 40 reviews.
 - Le sentiment reste perfectible, ce qui justifie la phase suivante de calibration et retraining.
 - Les limites sont tracees, mesurees et documentees.
 
@@ -53,13 +53,15 @@ Parce que les modeles et les donnees du projet actuel sont calibres pour l'angla
 
 ### Quelle est la prochaine priorite technique ?
 
-Brancher la validation sur un vrai dataset projet, puis ajouter la promotion MLflow Model Registry et le retraining automatise.
+Remplacer le jeu de reference POC par un dataset projet plus large, ajouter des labels de sentiment
+par theme, puis mettre en place la promotion MLflow avec gates et rollback.
 
 ## Checklist avant passage
 
-- `pytest -q`
+- `pytest -q --cov=src.review_insights --cov-fail-under=70`
+- `py -3 -m ruff check .`
 - `py -3 pipelines/evaluate_default.py`
 - `py -3 pipelines/train_models.py`
-- `streamlit run app.py`
-- `uvicorn api_app:app --host 0.0.0.0 --port 8000`
+- `docker compose up --build`
 - verifier le backend actif dans `/health`
+- verifier les 40 lignes dans `/v1/evaluate/default`

@@ -14,6 +14,8 @@ def test_healthcheck():
     assert payload["inference_backend"] in {"heuristic_rules_v1", "project_models_v1"}
     assert "app_version" in payload
     assert "models_manifest_present" in payload
+    assert "model_revision" in payload
+    assert "artifact_set_version" in payload
     assert payload["model_source"] in {"local", "hf_hub"}
 
 
@@ -64,7 +66,8 @@ def test_evaluate_default_dataset_endpoint():
     assert response.status_code == 200
     payload = response.json()
     assert "summary" in payload
-    assert payload["summary"]["rows"] >= 1
+    assert payload["summary"]["rows"] == 40
+    assert payload["summary"]["theme_exact_match"] < 1.0
 
 
 def test_api_key_protection_when_configured(monkeypatch):

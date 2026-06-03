@@ -122,9 +122,12 @@ Le backend reel est branche sans changer l'architecture applicative: seule la co
 ### Frontend Streamlit
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-frontend.txt
 streamlit run app.py
 ```
+
+Le frontend Streamlit est un client des services `api`, `data` et `monitoring`. Pour un lancement
+complet, utiliser `docker compose up --build` ou demarrer les trois services avant Streamlit.
 
 ## Pipeline data locale et retraining
 
@@ -137,11 +140,16 @@ data/
 |   `-- archive/
 |-- processed/
 |-- validated/
+|-- quarantine/
+|-- splits/
+|-- contracts/
 |-- registry/
 `-- sample/
 ```
 
-Les fichiers generes dans `raw/`, `processed/`, `validated/` et `registry/` sont ignores par Git, sauf les placeholders. Le dossier `data/sample/` contient un exemple versionne du format attendu.
+Les fichiers generes dans `raw/`, `processed/`, `validated`, `quarantine`, `splits` et `registry`
+sont ignores par Git, sauf les placeholders. Le contrat versionne est disponible dans
+`data/contracts/reviews_v1.json`.
 
 Colonnes attendues pour un dataset d'entrainement:
 
@@ -159,7 +167,9 @@ Ingestion d'un CSV:
 py -3 pipelines/ingest_csv_dataset.py data/sample/reviews_sample.csv
 ```
 
-La commande archive le brut, ecrit une version nettoyee, cree un dataset valide pour le training et ajoute un manifest dans `data/registry/`.
+La commande archive le brut, ecrit une version nettoyee, place les lignes rejetees en quarantaine,
+cree un dataset valide, genere des splits deterministes quand le volume le permet, calcule les
+checksums et ajoute un manifest dans `data/registry/`.
 
 Retraining depuis un dataset valide:
 
@@ -167,7 +177,16 @@ Retraining depuis un dataset valide:
 py -3 pipelines/train_models.py --dataset-path data/validated/training_dataset_<version>.csv
 ```
 
-Sans `--dataset-path`, la pipeline continue d'utiliser le dataset de demonstration integre afin de conserver le comportement historique et la CI existante.
+Pour fournir un jeu d'evaluation independant:
+
+```powershell
+py -3 pipelines/train_models.py `
+  --dataset-path data/splits/<version>/train.csv `
+  --evaluation-dataset-path data/splits/<version>/test.csv
+```
+
+Sans `--dataset-path`, la pipeline entraine sur le dataset de demonstration integre et evalue sur
+`data/sample/reviews_poc_test.csv`, qui contient 40 reviews distinctes.
 
 Commande combinee ingestion + retraining:
 
@@ -180,9 +199,12 @@ Cette commande fait en une seule execution:
 - ingestion du CSV source
 - archive du brut
 - ecriture du dataset nettoye
+- ecriture de la quarantaine et des manifests de qualite
 - ecriture du dataset valide pour training
+- generation de splits train / validation / test quand le volume le permet
 - retraining des artefacts modele
-- sortie JSON avec chemins `data/validated/...` et `artifacts/trained_models_<version>/...`
+- evaluation sur le split test, jamais sur les lignes d'entrainement
+- sortie JSON avec chemins data, checksums et `artifacts/trained_models_<version>/...`
 
 ### Tracking training et MLflow Model Registry
 
@@ -296,10 +318,10 @@ Puis relancer le build service par service.
 Le projet est maintenant separe en services Docker specialises:
 
 - `api`: service FastAPI d'inference, expose `/health`, `/v1/analyze`, `/metrics` et `/v1/evaluate/default`.
-- `data`: service FastAPI data/evaluation, expose le dataset de demonstration via `/v1/datasets/default`, son profil via `/v1/datasets/default/profile` et l'evaluation offline via `/v1/evaluate/default`.
+- `data`: service FastAPI data/evaluation, expose le dataset de demonstration via `/v1/datasets/default`, son profil via `/v1/datasets/default/profile` et l'evaluation de reference sur 40 reviews via `/v1/evaluate/default`.
 - `mlflow`: serveur de tracking des experiences modele, expose l'interface MLflow sur `http://localhost:5000`.
 - `monitoring`: gateway de supervision, interroge l'API interne, expose `/v1/api/health`, `/v1/api/metrics` et `/metrics` au format texte compatible Prometheus.
-- `streamlit`: frontend POC existant, isole dans son propre container.
+- `streamlit`: frontend POC client des services `api`, `data` et `monitoring`, sans chargement local des modeles.
 
 Dockerfiles:
 
@@ -390,7 +412,9 @@ MLFLOW_EXPERIMENT_NAME=review-insights-default
 
 Dans Compose, le service `data` utilise `http://mlflow:5000` et embarque le client `mlflow` pour uploader les artefacts modele dans le run. En local hors Docker, installer aussi `requirements-mlflow.txt` si l'environnement courant ne contient pas encore le package `mlflow`.
 
-Important: cette version journalise les artefacts modele dans les runs MLflow. Le Model Registry MLflow peut etre ajoute ensuite si un workflow de promotion `Staging` / `Production` est requis.
+Important: cette version journalise les artefacts modele dans les runs MLflow et peut enregistrer les
+candidats dans le Model Registry. La promotion `Staging` / `Production`, les gates automatiques et le
+rollback restent a industrialiser avant un environnement partage.
 
 ### Pipeline d'entrainement reproductible
 
@@ -436,6 +460,7 @@ Retourne:
 - version applicative
 - backend d'inference actif
 - source modele active (`local` ou `hf_hub`)
+- revision modele et version du jeu d'artefacts
 - presence du manifest modele
 - activation ou non de la protection des endpoints
 - erreur de chargement modele si le backend reel bascule sur le fallback heuristique
@@ -457,6 +482,7 @@ Endpoints proteges quand `REQUIRE_API_KEY=true` ou quand `API_KEY` est configure
 - `POST /v1/analyze`
 - `GET /metrics`
 - `GET /v1/evaluate/default`
+- endpoints sensibles des services `data` et `monitoring`
 
 Endpoint public:
 
@@ -491,13 +517,14 @@ Retourne les metriques runtime:
 
 - nombre total de requetes
 - nombre et taux de revue humaine
+- latence d'inference moyenne, p50 et p95
 - distribution des sentiments
 - distribution des themes
 - distribution des backends
 
 ### `GET /v1/evaluate/default`
 
-Lance une evaluation offline sur le dataset de demonstration.
+Lance une evaluation offline sur le dataset de reference `data/sample/reviews_poc_test.csv`.
 
 Metriques calculees:
 
@@ -514,25 +541,32 @@ pytest
 
 Etat verifie sur cette base:
 
-- `26 passed`
+- `47 passed`
+- couverture globale: `73%`
+- lint Ruff: propre
+- cinq services Docker Compose construits et verifies
+- bundle Hugging Face API reconstruit et charge depuis une revision immuable
 - rapport offline genere avec `project_models_v1`
-- metriques observees sur dataset demo:
-- `sentiment_accuracy = 0.75`
-- `theme_exact_match = 1.0`
-- `theme_precision_macro = 1.0`
-- `theme_recall_macro = 1.0`
+- metriques observees sur les 40 reviews de reference:
+- `sentiment_accuracy = 0.575`
+- `theme_exact_match = 0.675`
+- `theme_precision_macro = 0.8787`
+- `theme_recall_macro = 0.8972`
 
 ## Limites connues
 
 - les modeles de sentiment embarquent maintenant un mapping de classes versionne dans `models/manifest.json`
+- les artefacts actifs embarquent des checksums SHA-256 verifies au chargement
 - le fallback par calibration reste disponible si un manifest externe est incomplet
 - compatibilite scikit-learn liee a la version de serialisation des artefacts
-- la pipeline d'entrainement existe, mais le retraining automatise et la validation sur dataset externe restent a industrialiser
+- les labels de sentiment par theme explicites sont supportes; en leur absence, le training utilise le sentiment global uniquement sur les reviews ou le theme est present
+- la promotion automatique, le stockage objet, PostgreSQL pour MLflow et le drift monitoring restent a industrialiser
 
 ## Documents projet
 
 - [README.md](README.md)
 - [PROJECT_MLOPS_GUIDE_FR.md](PROJECT_MLOPS_GUIDE_FR.md)
+- [ETAT_DES_LIEUX_PLAN_PHASE_FINALE_FR.md](docs/ETAT_DES_LIEUX_PLAN_PHASE_FINALE_FR.md)
 - [SECURITE_EXPLOITATION_FR.md](docs/SECURITE_EXPLOITATION_FR.md)
 - [LIVRABLES_FINAUX_FR.md](docs/LIVRABLES_FINAUX_FR.md)
 - [SOUTENANCE_READY_FR.md](docs/SOUTENANCE_READY_FR.md)
@@ -570,7 +604,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_hf_frontend_space_bundl
 
 ## Suite recommandee
 
-1. Ajouter une vraie evaluation sur un dataset de validation projet.
-2. Ajouter promotion MLflow Model Registry pour les modeles valides.
-3. Exposer des metriques compatibles Prometheus.
-4. Ajouter versionnement de donnees/modeles et logique de retraining.
+1. Remplacer le jeu de reference POC par un dataset projet plus large, gele et valide metier.
+2. Ajouter des labels de sentiment explicites par theme.
+3. Ajouter la promotion MLflow Model Registry avec gates et rollback.
+4. Brancher un stockage objet, PostgreSQL, Grafana et le drift monitoring.
