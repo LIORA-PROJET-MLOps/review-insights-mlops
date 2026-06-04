@@ -19,6 +19,11 @@ Statut actuel:
 - les bundles Hugging Face, les images Docker, Docker Compose, MLflow, les API et le frontend ont ete
   testes de bout en bout;
 - la suite locale compte **47 tests passes** avec **73 % de couverture**.
+- mise a jour du 4 juin 2026: la suite locale compte maintenant **65 tests passes** avec environ
+  **78 % de couverture**; l'evaluation expose aussi F1 macro sentiment, F1 macro themes, details
+  par classe, matrice de confusion, taux de revue humaine; le healthcheck expose un profil securite;
+  le monitoring suit `X-Request-ID`, metriques HTTP, taux d'erreur et export Prometheus enrichi;
+  les gates de promotion acceptent des seuils minimums et des plafonds de metriques.
 
 Le projet est maintenant une base de POC MLOps solide et reproductible pour une demonstration
 controlee. Il ne doit pas encore etre presente comme une plateforme de production: les priorites P1

@@ -34,7 +34,19 @@ def _configure_mlflow_console_output() -> None:
 
 def _numeric_metrics(summary: Dict) -> Dict[str, float]:
     metrics: Dict[str, float] = {}
-    for key in ("rows", "sentiment_accuracy", "theme_exact_match", "theme_precision_macro", "theme_recall_macro"):
+    for key in (
+        "rows",
+        "sentiment_accuracy",
+        "sentiment_macro_precision",
+        "sentiment_macro_recall",
+        "sentiment_macro_f1",
+        "sentiment_evaluated_rows",
+        "theme_exact_match",
+        "theme_precision_macro",
+        "theme_recall_macro",
+        "theme_f1_macro",
+        "human_review_rate",
+    ):
         value = summary.get(key)
         if isinstance(value, (int, float)):
             metrics[key] = float(value)

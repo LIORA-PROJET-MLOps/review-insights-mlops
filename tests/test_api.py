@@ -17,6 +17,8 @@ def test_healthcheck():
     assert "model_revision" in payload
     assert "artifact_set_version" in payload
     assert payload["model_source"] in {"local", "hf_hub"}
+    assert "security_profile" in payload
+    assert isinstance(payload["security_warnings"], list)
 
 
 def test_healthcheck_has_security_headers():
@@ -59,6 +61,20 @@ def test_metrics_endpoint():
     assert response.status_code == 200
     payload = response.json()
     assert payload["total_requests"] >= 1
+    assert payload["http_requests_total"] >= 1
+    assert "http_status_distribution" in payload
+
+
+def test_request_id_is_returned_and_http_metrics_are_recorded():
+    isolated_client = TestClient(create_app())
+
+    health = isolated_client.get("/health", headers={"X-Request-ID": "req-test-123"})
+    metrics = isolated_client.get("/metrics")
+    payload = metrics.json()
+
+    assert health.headers["x-request-id"] == "req-test-123"
+    assert payload["http_requests_total"] >= 1
+    assert payload["http_endpoint_distribution"]["GET /health"] == 1
 
 
 def test_evaluate_default_dataset_endpoint():
@@ -103,6 +119,30 @@ def test_api_key_required_without_config_returns_service_error(monkeypatch):
     assert response.status_code == 503
     assert response.json()["detail"] == "API key protection is required but not configured."
     monkeypatch.delenv("REQUIRE_API_KEY", raising=False)
+
+
+def test_healthcheck_flags_unhardened_staging_configuration(monkeypatch):
+    monkeypatch.setenv("APP_ENV", "staging")
+    monkeypatch.delenv("API_KEY", raising=False)
+    monkeypatch.setenv("REQUIRE_API_KEY", "false")
+    monkeypatch.setenv("ALLOWED_ORIGINS", "*")
+    monkeypatch.setenv("TRUSTED_HOSTS", "*")
+    monkeypatch.setenv("ENABLE_DOCS", "true")
+
+    staging_client = TestClient(create_app())
+    payload = staging_client.get("/health").json()
+
+    assert payload["security_profile"] == "needs_hardening"
+    assert "api_key_not_required" in payload["security_warnings"]
+    assert "wildcard_cors" in payload["security_warnings"]
+    assert "wildcard_trusted_hosts" in payload["security_warnings"]
+    assert "docs_enabled" in payload["security_warnings"]
+
+    monkeypatch.delenv("APP_ENV", raising=False)
+    monkeypatch.delenv("REQUIRE_API_KEY", raising=False)
+    monkeypatch.delenv("ALLOWED_ORIGINS", raising=False)
+    monkeypatch.delenv("TRUSTED_HOSTS", raising=False)
+    monkeypatch.delenv("ENABLE_DOCS", raising=False)
 
 
 def test_rate_limit_blocks_excess_requests(monkeypatch):

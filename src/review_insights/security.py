@@ -14,6 +14,41 @@ from .settings import Settings
 
 
 security_logger = logging.getLogger("review_insights.security")
+LOCAL_ENVIRONMENTS = {"local", "dev", "development", "test"}
+
+
+def build_security_profile(settings: Settings) -> dict[str, object]:
+    warnings: list[str] = []
+    non_local = settings.app_env.strip().lower() not in LOCAL_ENVIRONMENTS
+    protected_endpoints = settings.require_api_key or bool(settings.api_key)
+
+    if non_local and not protected_endpoints:
+        warnings.append("api_key_not_required")
+    if "*" in settings.allowed_origins:
+        warnings.append("wildcard_cors")
+    if "*" in settings.trusted_hosts:
+        warnings.append("wildcard_trusted_hosts")
+    if non_local and settings.enable_docs:
+        warnings.append("docs_enabled")
+    if not settings.rate_limit_enabled:
+        warnings.append("rate_limit_disabled")
+    if settings.model_source.strip().lower() == "hf_hub" and settings.hf_model_revision in {None, "", "main"}:
+        warnings.append("mutable_model_revision")
+
+    if warnings:
+        level = "local_relaxed" if not non_local else "needs_hardening"
+    else:
+        level = "staging_ready" if non_local else "local_hardened"
+
+    return {
+        "level": level,
+        "warnings": warnings,
+        "protected_endpoints": protected_endpoints,
+        "docs_enabled": settings.enable_docs,
+        "allowed_origins": list(settings.allowed_origins),
+        "trusted_hosts": list(settings.trusted_hosts),
+        "rate_limit_enabled": settings.rate_limit_enabled,
+    }
 
 
 def client_identifier(request: Request, api_key: str | None = None) -> str:

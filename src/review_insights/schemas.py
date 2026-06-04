@@ -54,6 +54,8 @@ class HealthResponse(BaseModel):
     artifact_set_version: str
     models_manifest_present: bool
     protected_endpoints: bool
+    security_profile: str
+    security_warnings: List[str] = Field(default_factory=list)
     model_load_error: Optional[str] = None
 
 
@@ -67,6 +69,14 @@ class MetricsResponse(BaseModel):
     sentiment_distribution: dict = Field(default_factory=dict)
     theme_distribution: dict = Field(default_factory=dict)
     backend_distribution: dict = Field(default_factory=dict)
+    http_requests_total: int = 0
+    http_error_requests: int = 0
+    http_error_rate: float = 0.0
+    http_latency_ms_avg: float = 0.0
+    http_latency_ms_p50: float = 0.0
+    http_latency_ms_p95: float = 0.0
+    http_status_distribution: dict = Field(default_factory=dict)
+    http_endpoint_distribution: dict = Field(default_factory=dict)
 
 
 class EvaluationResponse(BaseModel):

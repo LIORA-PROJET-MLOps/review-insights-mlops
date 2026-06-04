@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+import time
+import uuid
 
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,7 +13,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .dataset import load_reference_evaluation_dataset, prepare_dataset
 from .schemas import AnalyzeReviewRequest, AnalyzeReviewResponse, EvaluationResponse, HealthResponse, MetricsResponse
-from .security import InMemoryRateLimiter, client_identifier, enforce_api_key, log_security_event
+from .security import InMemoryRateLimiter, build_security_profile, client_identifier, enforce_api_key, log_security_event
 from .service import get_review_analysis_service
 from .settings import get_settings
 
@@ -57,6 +59,22 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    @app.middleware("http")
+    async def request_telemetry_middleware(request: Request, call_next):
+        request_id = request.headers.get("X-Request-ID") or uuid.uuid4().hex
+        request.state.request_id = request_id
+        started_at = time.perf_counter()
+        try:
+            response = await call_next(request)
+        except Exception:
+            latency_ms = (time.perf_counter() - started_at) * 1000
+            service.monitoring.record_http_request(request.method, request.url.path, 500, latency_ms)
+            raise
+        latency_ms = (time.perf_counter() - started_at) * 1000
+        service.monitoring.record_http_request(request.method, request.url.path, response.status_code, latency_ms)
+        response.headers["X-Request-ID"] = request_id
+        return response
+
     api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
     def require_api_security(request: Request, api_key: str | None = Depends(api_key_header)) -> None:
@@ -79,6 +97,7 @@ def create_app() -> FastAPI:
         resolved_source = settings.model_source.strip().lower()
         manifest_path = Path(settings.models_dir) / "manifest.json"
         manifest_present = service.backend_name == "project_models_v1" if resolved_source == "hf_hub" else manifest_path.exists()
+        security_profile = build_security_profile(settings)
         return HealthResponse(
             status="ok",
             app_name=settings.app_name,
@@ -89,7 +108,9 @@ def create_app() -> FastAPI:
             model_revision=service.model_revision or "unknown",
             artifact_set_version=service.artifact_set_version,
             models_manifest_present=manifest_present,
-            protected_endpoints=settings.require_api_key or bool(settings.api_key),
+            protected_endpoints=bool(security_profile["protected_endpoints"]),
+            security_profile=str(security_profile["level"]),
+            security_warnings=list(security_profile["warnings"]),
             model_load_error=service.model_load_error,
         )
 

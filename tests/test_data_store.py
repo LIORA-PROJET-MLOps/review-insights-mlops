@@ -58,6 +58,11 @@ def test_ingest_csv_dataset_writes_local_store_artifacts():
     assert result.validated_parquet_sha256
     assert result.annotation_rows == 2
     assert result.quality_status == "not_ready"
+    assert result.dataset_contract_sha256
+    assert result.quality_policy_sha256
+    assert result.git_commit
+    assert result.pipeline_name == "ingest_csv_dataset"
+    assert result.split_rows == {"train": 2, "validation": 0, "test": 0}
     assert latest_validated_dataset(work_dir / "data") == Path(result.validated_parquet_path)
 
     training_df = load_training_dataset(Path(result.validated_parquet_path))
@@ -147,6 +152,7 @@ def test_large_ingestion_writes_deterministic_splits():
         split_ids.extend(pd.read_parquet(path)["review_id"].tolist())
     assert len(split_ids) == result.rows_valid
     assert len(set(split_ids)) == result.rows_valid
+    assert result.split_rows == {"train": 24, "validation": 8, "test": 8}
 
     shutil.rmtree(work_dir)
 

@@ -4,7 +4,8 @@ import hashlib
 import json
 import re
 import shutil
-from dataclasses import asdict, dataclass
+import subprocess
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
@@ -22,7 +23,10 @@ from .dataset import prepare_dataset
 
 
 DATASET_SCHEMA_VERSION = "1.0.0"
-DATASET_MANIFEST_SCHEMA_VERSION = "2.0.0"
+DATASET_MANIFEST_SCHEMA_VERSION = "2.1.0"
+DEFAULT_DATASET_CONTRACT_PATH = (
+    Path(__file__).resolve().parents[2] / "data" / "contracts" / "reviews_v1.json"
+)
 REQUIRED_TRAINING_COLUMNS = [
     "review_id",
     "review_body",
@@ -90,6 +94,12 @@ class DatasetIngestionResult:
     quality_status: str
     quality_failed_checks: list[str]
     created_at: str
+    dataset_contract_path: str = ""
+    dataset_contract_sha256: str = ""
+    quality_policy_sha256: str = ""
+    git_commit: str = "unknown"
+    pipeline_name: str = "ingest_csv_dataset"
+    split_rows: dict[str, int] = field(default_factory=dict)
 
 
 def default_data_root(project_root: Path | None = None) -> Path:
@@ -233,6 +243,22 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _current_git_commit(project_root: Path | None = None) -> str:
+    root = project_root or Path(__file__).resolve().parents[2]
+    try:
+        completed = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+    except Exception:
+        return "unknown"
+    return completed.stdout.strip() or "unknown"
 
 
 def _artifact_checksums(data_root: Path, paths: Iterable[Path | None]) -> dict[str, str]:
@@ -463,6 +489,15 @@ def ingest_csv_dataset(
         quality_status=str(quality_report["status"]),
         quality_failed_checks=list(quality_report["failed_checks"]),
         created_at=datetime.now(timezone.utc).isoformat(),
+        dataset_contract_path=str(DEFAULT_DATASET_CONTRACT_PATH),
+        dataset_contract_sha256=_sha256(DEFAULT_DATASET_CONTRACT_PATH),
+        quality_policy_sha256=_sha256(resolved_quality_policy_path),
+        git_commit=_current_git_commit(),
+        split_rows={
+            "train": int(len(train_df)),
+            "validation": int(len(validation_df)),
+            "test": int(len(test_df)),
+        },
     )
     _write_json_atomic(manifest_path, asdict(result))
     _write_registry_entry(data_root, result)

@@ -14,7 +14,7 @@ Alias utilises:
 - `champion`: version approuvee pour deploiement
 - `previous_champion`: version precedente disponible pour rollback
 
-La politique versionnee est `config/model_promotion_policy_v1.json`.
+La politique versionnee est `config/model_promotion_policy_v1.json` (`policy_version` 1.1.0).
 
 ## Demarrage
 
@@ -56,7 +56,15 @@ d'entrainement ne doit pas servir de preuve de promotion.
 La commande compare les metriques de la candidate:
 
 - aux seuils absolus de la politique
+- aux plafonds de metriques quand une valeur plus basse est meilleure
 - aux metriques du champion actuel, avec une regression maximale autorisee
+
+Les gates actuels couvrent notamment:
+
+- volume evalue (`rows`)
+- `sentiment_accuracy` et `sentiment_macro_f1`
+- `theme_exact_match`, precision/recall macro et `theme_f1_macro`
+- plafond `human_review_rate`
 
 ```powershell
 py -3 pipelines/promote_model.py `

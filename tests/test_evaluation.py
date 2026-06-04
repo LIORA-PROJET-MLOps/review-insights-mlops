@@ -23,3 +23,42 @@ def test_theme_metrics_use_preserved_ground_truth():
 
     assert summary["theme_exact_match"] == 0.0
     assert summary["theme_recall_macro"] < 1.0
+
+
+def test_evaluation_exposes_class_level_metrics():
+    predictions = pd.DataFrame(
+        [
+            {
+                "true_theme_livraison": 1,
+                "true_theme_sav": 0,
+                "true_theme_produit": 0,
+                "theme_livraison": 1,
+                "theme_sav": 0,
+                "theme_produit": 0,
+                "sentiment_label": "positive",
+                "global_sentiment": "positive",
+                "needs_human_review": False,
+            },
+            {
+                "true_theme_livraison": 0,
+                "true_theme_sav": 1,
+                "true_theme_produit": 0,
+                "theme_livraison": 0,
+                "theme_sav": 0,
+                "theme_produit": 0,
+                "sentiment_label": "negative",
+                "global_sentiment": "neutral",
+                "needs_human_review": True,
+            },
+        ]
+    )
+
+    summary = evaluate_predictions(predictions, backend_name="test").to_dict()
+
+    assert summary["sentiment_accuracy"] == 0.5
+    assert summary["sentiment_macro_f1"] < 1.0
+    assert summary["sentiment_per_class"]["positive"]["f1"] == 1.0
+    assert summary["sentiment_confusion_matrix"]["negative"]["neutral"] == 1
+    assert summary["theme_metrics"]["sav"]["fn"] == 1
+    assert summary["theme_f1_macro"] < 1.0
+    assert summary["human_review_rate"] == 0.5

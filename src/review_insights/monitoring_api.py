@@ -43,6 +43,20 @@ def _format_prometheus(metrics: dict[str, Any]) -> str:
         f'review_insights_inference_latency_ms{{stat="avg"}} {metrics.get("inference_latency_ms_avg", 0.0)}',
         f'review_insights_inference_latency_ms{{stat="p50"}} {metrics.get("inference_latency_ms_p50", 0.0)}',
         f'review_insights_inference_latency_ms{{stat="p95"}} {metrics.get("inference_latency_ms_p95", 0.0)}',
+        "# HELP review_insights_http_requests_total Total HTTP requests observed by the API.",
+        "# TYPE review_insights_http_requests_total counter",
+        f"review_insights_http_requests_total {metrics.get('http_requests_total', 0)}",
+        "# HELP review_insights_http_error_requests_total HTTP 5xx requests observed by the API.",
+        "# TYPE review_insights_http_error_requests_total counter",
+        f"review_insights_http_error_requests_total {metrics.get('http_error_requests', 0)}",
+        "# HELP review_insights_http_error_rate Ratio of HTTP 5xx requests.",
+        "# TYPE review_insights_http_error_rate gauge",
+        f"review_insights_http_error_rate {metrics.get('http_error_rate', 0.0)}",
+        "# HELP review_insights_http_latency_ms HTTP request latency in milliseconds.",
+        "# TYPE review_insights_http_latency_ms gauge",
+        f'review_insights_http_latency_ms{{stat="avg"}} {metrics.get("http_latency_ms_avg", 0.0)}',
+        f'review_insights_http_latency_ms{{stat="p50"}} {metrics.get("http_latency_ms_p50", 0.0)}',
+        f'review_insights_http_latency_ms{{stat="p95"}} {metrics.get("http_latency_ms_p95", 0.0)}',
     ]
 
     for sentiment, value in metrics.get("sentiment_distribution", {}).items():
@@ -51,6 +65,10 @@ def _format_prometheus(metrics: dict[str, Any]) -> str:
         lines.append(f'review_insights_theme_total{{theme="{theme}"}} {value}')
     for backend, value in metrics.get("backend_distribution", {}).items():
         lines.append(f'review_insights_backend_total{{backend="{backend}"}} {value}')
+    for status, value in metrics.get("http_status_distribution", {}).items():
+        lines.append(f'review_insights_http_status_total{{status="{status}"}} {value}')
+    for endpoint, value in metrics.get("http_endpoint_distribution", {}).items():
+        lines.append(f'review_insights_http_endpoint_total{{endpoint="{endpoint}"}} {value}')
 
     return "\n".join(lines) + "\n"
 

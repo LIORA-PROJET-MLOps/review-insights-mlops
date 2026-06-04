@@ -1,12 +1,76 @@
 # Rapport d'evaluation
 
-- Date UTC: 2026-06-03T08:58:30.379489+00:00
+- Date UTC: 2026-06-04T14:14:20.733378+00:00
 - Backend: project_models_v1
 - Lignes evaluees: 40
 - Accuracy sentiment: 0.575
+- F1 macro sentiment: 0.5111
 - Theme exact match: 0.675
 - Theme precision macro: 0.8787
 - Theme recall macro: 0.8972
+- Theme F1 macro: 0.8877
+- Taux human review: 0.5
+
+## Sentiment par classe
+
+{
+  "negative": {
+    "precision": 0.5833,
+    "recall": 0.875,
+    "f1": 0.7,
+    "support": 16,
+    "predicted": 24
+  },
+  "neutral": {
+    "precision": 0.3333,
+    "recall": 0.2,
+    "f1": 0.25,
+    "support": 10,
+    "predicted": 6
+  },
+  "positive": {
+    "precision": 0.7,
+    "recall": 0.5,
+    "f1": 0.5833,
+    "support": 14,
+    "predicted": 10
+  }
+}
+
+## Themes par classe
+
+{
+  "livraison": {
+    "precision": 0.9,
+    "recall": 0.9,
+    "f1": 0.9,
+    "support": 20,
+    "predicted": 20,
+    "tp": 18,
+    "fp": 2,
+    "fn": 2
+  },
+  "sav": {
+    "precision": 0.9444,
+    "recall": 1.0,
+    "f1": 0.9714,
+    "support": 17,
+    "predicted": 18,
+    "tp": 17,
+    "fp": 1,
+    "fn": 0
+  },
+  "produit": {
+    "precision": 0.7917,
+    "recall": 0.7917,
+    "f1": 0.7917,
+    "support": 24,
+    "predicted": 24,
+    "tp": 19,
+    "fp": 5,
+    "fn": 5
+  }
+}
 
 ## Preview
 

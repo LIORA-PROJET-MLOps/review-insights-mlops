@@ -5,9 +5,11 @@ from types import SimpleNamespace
 import pytest
 
 from src.review_insights.model_registry import (
+    DEFAULT_PROMOTION_POLICY_PATH,
     PromotionPolicy,
     deploy_run_model_artifacts,
     evaluate_promotion_gates,
+    load_promotion_policy,
     promote_candidate,
     rollback_champion,
 )
@@ -85,6 +87,36 @@ def test_evaluate_promotion_gates_rejects_regression():
 
     assert report["status"] == "rejected"
     assert report["failed_checks"] == ["max_regression_sentiment_accuracy"]
+
+
+def test_evaluate_promotion_gates_supports_maximum_metrics():
+    policy = PromotionPolicy(
+        policy_version="test",
+        registered_model_name="review-insights-project-models",
+        candidate_alias="candidate",
+        champion_alias="champion",
+        previous_champion_alias="previous_champion",
+        required_metrics={"rows": 30.0},
+        maximum_metrics={"human_review_rate": 0.5},
+        max_metric_regression={},
+    )
+
+    report = evaluate_promotion_gates(
+        {"rows": 40.0, "human_review_rate": 0.75},
+        None,
+        policy,
+    )
+
+    assert report["status"] == "rejected"
+    assert report["failed_checks"] == ["maximum_human_review_rate"]
+
+
+def test_default_promotion_policy_loads_f1_and_maximum_gates():
+    policy = load_promotion_policy(DEFAULT_PROMOTION_POLICY_PATH)
+
+    assert "sentiment_macro_f1" in policy.required_metrics
+    assert "theme_f1_macro" in policy.required_metrics
+    assert policy.maximum_metrics["human_review_rate"] == 0.6
 
 
 def test_promote_candidate_bootstraps_champion_and_writes_report(tmp_path: Path):

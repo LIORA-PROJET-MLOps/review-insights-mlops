@@ -44,6 +44,7 @@ Ce depot contient une base finale de POC/MVP alignee avec les lignes guides du p
 - suivi du volume de requetes
 - suivi du taux de revue humaine
 - distributions des predictions
+- metriques HTTP, taux d'erreur et `X-Request-ID`
 - rapports exportables dans `reports/`
 
 ### Securite et exploitation
@@ -270,7 +271,7 @@ py -3 pipelines/ingest_and_retrain.py data/sample/reviews_poc_test.csv --dataset
 Effets attendus:
 
 - creation d'un run MLflow de training
-- logging des metriques `sentiment_accuracy`, `theme_exact_match`, `theme_precision_macro`, `theme_recall_macro`
+- logging des metriques `sentiment_accuracy`, `sentiment_macro_f1`, `theme_exact_match`, `theme_precision_macro`, `theme_recall_macro`, `theme_f1_macro` et `human_review_rate`
 - logging des artefacts `joblib`, seuils et manifest
 - creation d'une version candidate dans le registered model `review-insights-project-models`
 
@@ -468,8 +469,8 @@ MLFLOW_EXPERIMENT_NAME=review-insights-default
 Dans Compose, le service `data` utilise `http://mlflow:5000` et embarque le client `mlflow` pour uploader les artefacts modele dans le run. En local hors Docker, installer aussi `requirements-mlflow.txt` si l'environnement courant ne contient pas encore le package `mlflow`.
 
 Important: cette version journalise les artefacts modele dans les runs MLflow, enregistre les
-candidates dans le Model Registry, applique des gates de promotion et conserve un rollback via les
-alias `champion` et `previous_champion`.
+candidates dans le Model Registry, applique des gates de promotion avec seuils minimums et plafonds
+de metriques, puis conserve un rollback via les alias `champion` et `previous_champion`.
 
 ### Pipeline d'entrainement reproductible
 
@@ -518,6 +519,8 @@ Retourne:
 - revision modele et version du jeu d'artefacts
 - presence du manifest modele
 - activation ou non de la protection des endpoints
+- profil securite (`local_relaxed`, `needs_hardening`, `staging_ready`, etc.)
+- warnings de configuration (`wildcard_cors`, `docs_enabled`, `api_key_not_required`, etc.)
 - erreur de chargement modele si le backend reel bascule sur le fallback heuristique
 
 ### Securite API
@@ -530,6 +533,9 @@ API_KEY=change-me-with-a-long-secret
 RATE_LIMIT_ENABLED=true
 RATE_LIMIT_REQUESTS=60
 RATE_LIMIT_WINDOW_SECONDS=60
+ALLOWED_ORIGINS=https://votre-frontend.example
+TRUSTED_HOSTS=votre-api.example
+ENABLE_DOCS=false
 ```
 
 Endpoints proteges quand `REQUIRE_API_KEY=true` ou quand `API_KEY` est configuree:
@@ -576,6 +582,8 @@ Retourne les metriques runtime:
 - distribution des sentiments
 - distribution des themes
 - distribution des backends
+- volume HTTP, taux d'erreur 5xx, latence HTTP p50/p95
+- distribution des statuts et endpoints HTTP
 
 ### `GET /v1/evaluate/default`
 
@@ -584,9 +592,17 @@ Lance une evaluation offline sur le dataset de reference `data/sample/reviews_po
 Metriques calculees:
 
 - `sentiment_accuracy`
+- `sentiment_macro_precision`
+- `sentiment_macro_recall`
+- `sentiment_macro_f1`
+- `sentiment_per_class`
+- `sentiment_confusion_matrix`
 - `theme_exact_match`
 - `theme_precision_macro`
 - `theme_recall_macro`
+- `theme_f1_macro`
+- `theme_metrics`
+- `human_review_rate`
 
 ## Verification locale
 
@@ -596,17 +612,20 @@ pytest
 
 Etat verifie sur cette base:
 
-- `60 passed`
-- couverture globale: `76%`
+- `65 passed`
+- couverture globale: `78.04%`
 - lint Ruff: propre
 - cinq services Docker Compose construits et verifies
 - bundle Hugging Face API reconstruit et charge depuis une revision immuable
 - rapport offline genere avec `project_models_v1`
 - metriques observees sur les 40 reviews de reference:
 - `sentiment_accuracy = 0.575`
+- `sentiment_macro_f1 = 0.5111`
 - `theme_exact_match = 0.675`
 - `theme_precision_macro = 0.8787`
 - `theme_recall_macro = 0.8972`
+- `theme_f1_macro = 0.8877`
+- `human_review_rate = 0.5`
 
 ## Limites connues
 
@@ -615,7 +634,7 @@ Etat verifie sur cette base:
 - le fallback par calibration reste disponible si un manifest externe est incomplet
 - compatibilite scikit-learn liee a la version de serialisation des artefacts
 - les labels de sentiment par theme explicites sont supportes; en leur absence, le training utilise le sentiment global uniquement sur les reviews ou le theme est present
-- la promotion automatique, le stockage objet, PostgreSQL pour MLflow et le drift monitoring restent a industrialiser
+- le stockage objet partage, Grafana/alertes et le drift monitoring restent a industrialiser
 
 ## Documents projet
 

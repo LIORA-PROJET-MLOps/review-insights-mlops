@@ -4,7 +4,7 @@ import json
 import shutil
 import tempfile
 import uuid
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -26,6 +26,7 @@ class PromotionPolicy:
     previous_champion_alias: str
     required_metrics: dict[str, float]
     max_metric_regression: dict[str, float]
+    maximum_metrics: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -60,6 +61,10 @@ def load_promotion_policy(path: Path | None = None) -> PromotionPolicy:
             str(name): float(value)
             for name, value in payload["max_metric_regression"].items()
         },
+        maximum_metrics={
+            str(name): float(value)
+            for name, value in payload.get("maximum_metrics", {}).items()
+        },
     )
 
 
@@ -75,6 +80,15 @@ def evaluate_promotion_gates(
             "passed": actual is not None and float(actual) >= threshold,
             "actual": actual,
             "operator": ">=",
+            "threshold": threshold,
+        }
+
+    for metric_name, threshold in policy.maximum_metrics.items():
+        actual = candidate_metrics.get(metric_name)
+        checks[f"maximum_{metric_name}"] = {
+            "passed": actual is not None and float(actual) <= threshold,
+            "actual": actual,
+            "operator": "<=",
             "threshold": threshold,
         }
 

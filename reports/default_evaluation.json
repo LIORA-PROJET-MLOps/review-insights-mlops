@@ -2,9 +2,87 @@
   "summary": {
     "rows": 40,
     "sentiment_accuracy": 0.575,
+    "sentiment_macro_precision": 0.5389,
+    "sentiment_macro_recall": 0.525,
+    "sentiment_macro_f1": 0.5111,
+    "sentiment_evaluated_rows": 40,
+    "sentiment_per_class": {
+      "negative": {
+        "precision": 0.5833,
+        "recall": 0.875,
+        "f1": 0.7,
+        "support": 16,
+        "predicted": 24
+      },
+      "neutral": {
+        "precision": 0.3333,
+        "recall": 0.2,
+        "f1": 0.25,
+        "support": 10,
+        "predicted": 6
+      },
+      "positive": {
+        "precision": 0.7,
+        "recall": 0.5,
+        "f1": 0.5833,
+        "support": 14,
+        "predicted": 10
+      }
+    },
+    "sentiment_confusion_matrix": {
+      "negative": {
+        "negative": 14,
+        "neutral": 2,
+        "positive": 0
+      },
+      "neutral": {
+        "negative": 5,
+        "neutral": 2,
+        "positive": 3
+      },
+      "positive": {
+        "negative": 5,
+        "neutral": 2,
+        "positive": 7
+      }
+    },
     "theme_exact_match": 0.675,
     "theme_precision_macro": 0.8787,
     "theme_recall_macro": 0.8972,
+    "theme_f1_macro": 0.8877,
+    "theme_metrics": {
+      "livraison": {
+        "precision": 0.9,
+        "recall": 0.9,
+        "f1": 0.9,
+        "support": 20,
+        "predicted": 20,
+        "tp": 18,
+        "fp": 2,
+        "fn": 2
+      },
+      "sav": {
+        "precision": 0.9444,
+        "recall": 1.0,
+        "f1": 0.9714,
+        "support": 17,
+        "predicted": 18,
+        "tp": 17,
+        "fp": 1,
+        "fn": 0
+      },
+      "produit": {
+        "precision": 0.7917,
+        "recall": 0.7917,
+        "f1": 0.7917,
+        "support": 24,
+        "predicted": 24,
+        "tp": 19,
+        "fp": 5,
+        "fn": 5
+      }
+    },
+    "human_review_rate": 0.5,
     "backend_name": "project_models_v1"
   },
   "rows_preview": [
