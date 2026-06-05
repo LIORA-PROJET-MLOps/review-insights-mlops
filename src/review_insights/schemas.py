@@ -82,3 +82,13 @@ class MetricsResponse(BaseModel):
 class EvaluationResponse(BaseModel):
     summary: dict
     rows_preview: List[dict] = Field(default_factory=list)
+
+
+class HumanFeedbackRequest(BaseModel):
+    review_id: str = Field(min_length=1)
+    theme: str
+    corrected_theme_present: int
+    corrected_sentiment: str
+    reviewer: str = "anonymous"
+    notes: str = ""
+    source: str = "manual"

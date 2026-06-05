@@ -1,6 +1,6 @@
 # Etat des lieux pedagogique du POC Review Insights+
 
-Date de verification locale: 2026-06-04
+Date de verification locale: 2026-06-05
 
 Ce document explique le POC de facon simple: ce qu'il fait, comment il est organise, ce qui est deja solide, et ce qui reste a renforcer avant une vraie mise en production.
 
@@ -25,7 +25,7 @@ Etat actuel:
 | Inference API | OK | L'API FastAPI fonctionne et charge les modeles locaux. |
 | Modeles ML | OK pour POC | Les artefacts sont presents, verifies par checksum, et utilises par defaut. |
 | Frontend | OK pour demo | Streamlit local + page web statique connectable a une API publique. |
-| Tests | OK | 65 tests passent en local avec `py -3 -m pytest -q`. |
+| Tests | OK | 69 tests passent en local avec `py -3 -m pytest -q`. |
 | Data pipeline | Bon socle | Ingestion, validation, quarantaine, splits, manifestes et quality gates existent. |
 | MLOps | Bon socle | MLflow, model registry, gates minimum/maximum, promotion et rollback sont prepares. |
 | Monitoring | POC+ | Metriques runtime, HTTP, request ID et Prometheus presents, mais stockes en memoire. |
@@ -320,7 +320,7 @@ On peut montrer une analyse unitaire, un batch, un dashboard, une evaluation off
 
 5. Tests automatises.
 
-La suite locale passe avec 65 tests.
+La suite locale passe avec 69 tests.
 
 ## Limites actuelles
 

@@ -217,6 +217,38 @@ def render_theme_cards(result: Dict) -> None:
         )
 
 
+def render_feedback_form(result: Dict) -> None:
+    with st.expander("Correction humaine"):
+        theme = st.selectbox("Theme corrige", [theme.key for theme in THEMES], key="feedback_theme")
+        corrected_theme_present = st.checkbox("Theme present", value=bool(result.get(f"theme_{theme}", 0)), key="feedback_present")
+        corrected_sentiment = st.selectbox(
+            "Sentiment corrige",
+            ["negative", "neutral", "positive"],
+            index=["negative", "neutral", "positive"].index(result.get(f"sent_{theme}") or "neutral")
+            if (result.get(f"sent_{theme}") or "neutral") in {"negative", "neutral", "positive"}
+            else 1,
+            key="feedback_sentiment",
+        )
+        reviewer = st.text_input("Annotateur", value="demo_user", key="feedback_reviewer")
+        notes = st.text_area("Notes", value="", height=90, key="feedback_notes")
+        if st.button("Enregistrer la correction", width="stretch"):
+            try:
+                feedback = CLIENT.submit_feedback(
+                    {
+                        "review_id": result["review_id"],
+                        "theme": theme,
+                        "corrected_theme_present": int(corrected_theme_present),
+                        "corrected_sentiment": corrected_sentiment,
+                        "reviewer": reviewer,
+                        "notes": notes,
+                        "source": "streamlit",
+                    }
+                )
+                st.success(f"Correction enregistree: {feedback.get('status', 'ok')}")
+            except ReviewInsightsClientError as exc:
+                st.error(str(exc))
+
+
 def render_dashboard(df: pd.DataFrame) -> None:
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown('<div class="section-title">Dashboard de cadrage</div>', unsafe_allow_html=True)
@@ -332,6 +364,7 @@ def main() -> None:
 
         if result:
             render_theme_cards(result)
+            render_feedback_form(result)
 
         if ground_truth:
             st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -401,7 +434,27 @@ def main() -> None:
                 st.error(str(exc))
         evaluation = st.session_state.get("default_evaluation")
         if evaluation:
-            st.json(evaluation.get("summary", {}))
+            summary = evaluation.get("summary", {})
+            e1, e2, e3, e4, e5 = st.columns(5)
+            e1.metric("Sentiment accuracy", summary.get("sentiment_accuracy", 0.0))
+            e2.metric("Sentiment F1", summary.get("sentiment_macro_f1", 0.0))
+            e3.metric("Theme exact", summary.get("theme_exact_match", 0.0))
+            e4.metric("Theme F1", summary.get("theme_f1_macro", 0.0))
+            e5.metric("Human review", summary.get("human_review_rate", 0.0))
+            st.json(summary)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Feedback humain recent</div>', unsafe_allow_html=True)
+        try:
+            feedback = CLIENT.recent_feedback(limit=20)
+            records = feedback.get("records", [])
+            if records:
+                st.dataframe(pd.DataFrame(records), width="stretch", height=260)
+            else:
+                st.info("Aucune correction humaine enregistree.")
+        except ReviewInsightsClientError as exc:
+            st.warning(str(exc))
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="card">', unsafe_allow_html=True)

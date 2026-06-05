@@ -22,6 +22,7 @@ data/validated/*
 data/quarantine/*
 data/splits/*
 data/registry/*
+data/feedback/*
 .dvc-storage/
 !data/raw/.gitkeep
 !data/raw/incoming/.gitkeep
@@ -32,6 +33,7 @@ data/registry/*
 !data/quarantine/.gitkeep
 !data/splits/.gitkeep
 !data/registry/.gitkeep
+!data/feedback/.gitkeep
 dist/
 build/
 *.egg-info/

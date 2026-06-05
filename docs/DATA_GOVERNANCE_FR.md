@@ -61,6 +61,18 @@ py -3 pipelines/ingest_csv_dataset.py data/sample/reviews_poc_test.csv `
 
 Le retraining partage doit utiliser ce mode strict.
 
+## Annotation
+
+Pour preparer un paquet portable pour annotateurs:
+
+```powershell
+py -3 pipelines/prepare_annotation_batch.py data/sample/reviews_poc_test.csv `
+  --dataset-version annotation_poc_40 `
+  --output-dir artifacts/annotation_batches/annotation_poc_40
+```
+
+Le guide d'annotation theme/sentiment est `docs/ANNOTATION_GUIDE_FR.md`.
+
 ## Versionnement DVC
 
 DVC est initialise avec un remote local `localstore` pour verifier le workflow sans credentials.

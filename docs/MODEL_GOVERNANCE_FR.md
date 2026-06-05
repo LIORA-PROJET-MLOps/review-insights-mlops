@@ -84,6 +84,15 @@ Une promotion refusee retourne un code non nul, marque la version candidate et e
 JSON dans `reports/model_registry/`. Une promotion acceptee conserve l'ancien champion sous
 `previous_champion`.
 
+Un rapport local peut etre genere sans connexion MLflow:
+
+```powershell
+py -3 pipelines/build_model_release_report.py
+```
+
+Il applique la politique de promotion au rapport `reports/default_evaluation.json` et produit une
+preuve JSON/Markdown dans `reports/`.
+
 ## Rollback
 
 ```powershell

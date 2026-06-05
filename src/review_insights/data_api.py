@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.security import APIKeyHeader
+from pathlib import Path
 
 from .dataset import load_default_dataset, load_reference_evaluation_dataset, prepare_dataset
+from .feedback_store import HumanFeedbackRecord, append_feedback, read_feedback
 from .mlflow_tracking import log_evaluation_run
-from .schemas import EvaluationResponse
+from .schemas import EvaluationResponse, HumanFeedbackRequest
 from .security import enforce_api_key
 from .service import get_review_analysis_service
 from .settings import get_settings
@@ -39,6 +41,7 @@ def create_app() -> FastAPI:
             "artifact_set_version": service.artifact_set_version,
             "mlflow_tracking_enabled": settings.mlflow_tracking_enabled,
             "mlflow_tracking_uri": settings.mlflow_tracking_uri,
+            "feedback_store_path": settings.feedback_store_path,
         }
 
     @app.get("/v1/datasets/default", dependencies=[Depends(require_api_security)])
@@ -70,6 +73,25 @@ def create_app() -> FastAPI:
         report = service.evaluate_dataframe(df)
         log_evaluation_run(report, run_name="data_api_default_evaluation")
         return EvaluationResponse(**report)
+
+    @app.post("/v1/feedback", dependencies=[Depends(require_api_security)])
+    def create_feedback(payload: HumanFeedbackRequest) -> dict:
+        record = append_feedback(
+            HumanFeedbackRecord(**payload.model_dump()),
+            Path(settings.feedback_store_path),
+        )
+        return {
+            "status": "recorded",
+            "record": record.to_dict(),
+        }
+
+    @app.get("/v1/feedback/recent", dependencies=[Depends(require_api_security)])
+    def recent_feedback(limit: int = 100) -> dict:
+        records = read_feedback(Path(settings.feedback_store_path), limit=limit)
+        return {
+            "rows": len(records),
+            "records": records,
+        }
 
     return app
 

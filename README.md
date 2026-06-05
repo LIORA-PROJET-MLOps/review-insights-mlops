@@ -200,6 +200,15 @@ py -3 pipelines/train_models.py `
   --evaluation-dataset-path data/splits/<version>/test.parquet
 ```
 
+Pour tuner les seuils des themes sur un split de validation:
+
+```powershell
+py -3 pipelines/train_models.py `
+  --dataset-path data/splits/<version>/train.parquet `
+  --validation-dataset-path data/splits/<version>/validation.parquet `
+  --evaluation-dataset-path data/splits/<version>/test.parquet
+```
+
 Sans `--dataset-path`, la pipeline entraine sur le dataset de demonstration integre et evalue sur
 `data/sample/reviews_poc_test.csv`, qui contient 40 reviews distinctes.
 
@@ -220,6 +229,16 @@ Cette commande fait en une seule execution:
 - retraining des artefacts modele
 - evaluation sur le split test, jamais sur les lignes d'entrainement
 - sortie JSON avec chemins data, checksums et `artifacts/trained_models_<version>/...`
+
+Preparer un paquet d'annotation des sentiments par theme:
+
+```powershell
+py -3 pipelines/prepare_annotation_batch.py data/sample/reviews_poc_test.csv `
+  --dataset-version annotation_poc_40 `
+  --output-dir artifacts/annotation_batches/annotation_poc_40
+```
+
+Le guide d'annotation est disponible dans `docs/ANNOTATION_GUIDE_FR.md`.
 
 ### Versionnement DVC
 
@@ -296,6 +315,12 @@ Rollback:
 py -3 pipelines/rollback_model.py --tracking-uri http://localhost:5000 --deploy-model-dir models
 ```
 
+Rapport local de release sans dependance MLflow:
+
+```powershell
+py -3 pipelines/build_model_release_report.py
+```
+
 Le runbook complet est disponible dans `docs/MODEL_GOVERNANCE_FR.md`.
 
 ### API
@@ -319,6 +344,15 @@ Services exposes:
 - MinIO API et console: `http://localhost:9100` et `http://localhost:9101`
 - Monitoring gateway and Prometheus text metrics: `http://localhost:9000`
 - Frontend Streamlit: `http://localhost:8501`
+
+Observabilite optionnelle Prometheus/Grafana:
+
+```powershell
+docker compose -f compose.yaml -f deploy/monitoring/compose.observability.yaml up -d
+```
+
+- Prometheus: `http://localhost:9090`
+- Grafana: `http://localhost:3000` (`admin` / `admin` en local)
 
 ### Build Docker recommande
 
@@ -544,6 +578,8 @@ Endpoints proteges quand `REQUIRE_API_KEY=true` ou quand `API_KEY` est configure
 - `GET /metrics`
 - `GET /v1/evaluate/default`
 - endpoints sensibles des services `data` et `monitoring`
+- `POST /v1/feedback`
+- `GET /v1/feedback/recent`
 
 Endpoint public:
 
@@ -604,6 +640,24 @@ Metriques calculees:
 - `theme_metrics`
 - `human_review_rate`
 
+### Feedback humain
+
+Le service data peut enregistrer des corrections humaines dans un fichier JSONL local ignore par Git:
+
+```powershell
+Invoke-RestMethod `
+  -Uri "http://localhost:8001/v1/feedback" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"review_id":"r1","theme":"sav","corrected_theme_present":1,"corrected_sentiment":"negative","reviewer":"qa"}'
+```
+
+Lire les corrections recentes:
+
+```powershell
+Invoke-RestMethod http://localhost:8001/v1/feedback/recent
+```
+
 ## Verification locale
 
 ```bash
@@ -612,8 +666,8 @@ pytest
 
 Etat verifie sur cette base:
 
-- `65 passed`
-- couverture globale: `78.04%`
+- `69 passed`
+- couverture globale: `78.11%`
 - lint Ruff: propre
 - cinq services Docker Compose construits et verifies
 - bundle Hugging Face API reconstruit et charge depuis une revision immuable

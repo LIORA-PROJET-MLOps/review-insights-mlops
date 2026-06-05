@@ -55,6 +55,8 @@ def test_ingest_and_retrain_pipeline_uses_generated_test_split():
     assert ingestion["test_path"]
     assert ingestion["test_parquet_path"]
     assert training["training_dataset"] == ingestion["train_parquet_path"]
+    assert training["validation_dataset"] == ingestion["validation_parquet_path"]
+    assert training["threshold_strategy"] == "validation_f1_tuned"
     assert training["evaluation_dataset"] == ingestion["test_parquet_path"]
     assert training["rows"] > 0
 

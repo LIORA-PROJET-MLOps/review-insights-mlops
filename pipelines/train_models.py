@@ -45,6 +45,7 @@ MODEL_ARTIFACT_FILENAMES = (
     "sent_produit.joblib",
 )
 DEFAULT_EVALUATION_DATASET = ROOT_DIR / "data" / "sample" / "reviews_poc_test.csv"
+THRESHOLD_CANDIDATES = np.round(np.arange(0.2, 0.81, 0.05), 2)
 
 
 def _review_texts(df) -> list[str]:
@@ -87,6 +88,49 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _binary_f1(y_true: np.ndarray, scores: np.ndarray, threshold: float) -> float:
+    y_pred = (scores >= threshold).astype(int)
+    tp = int(((y_true == 1) & (y_pred == 1)).sum())
+    fp = int(((y_true == 0) & (y_pred == 1)).sum())
+    fn = int(((y_true == 1) & (y_pred == 0)).sum())
+    precision = tp / (tp + fp) if tp + fp else 0.0
+    recall = tp / (tp + fn) if tp + fn else 0.0
+    return 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+
+
+def _tune_theme_thresholds(
+    themes_model: Pipeline,
+    validation_df: pd.DataFrame,
+    default_threshold: float,
+) -> tuple[np.ndarray, Dict[str, Dict[str, float]]]:
+    probabilities = np.asarray(themes_model.predict_proba(_review_texts(validation_df)), dtype=float)
+    truth = _theme_targets(validation_df)
+    thresholds: list[float] = []
+    report: Dict[str, Dict[str, float]] = {}
+
+    for idx, theme in enumerate(THEME_ORDER):
+        best_threshold = float(default_threshold)
+        best_f1 = -1.0
+        for candidate in THRESHOLD_CANDIDATES:
+            candidate_threshold = float(candidate)
+            candidate_f1 = _binary_f1(truth[:, idx], probabilities[:, idx], candidate_threshold)
+            better_score = candidate_f1 > best_f1
+            closer_to_default = (
+                candidate_f1 == best_f1
+                and abs(candidate_threshold - default_threshold) < abs(best_threshold - default_threshold)
+            )
+            if better_score or closer_to_default:
+                best_f1 = candidate_f1
+                best_threshold = candidate_threshold
+        thresholds.append(best_threshold)
+        report[theme] = {
+            "threshold": round(best_threshold, 4),
+            "validation_f1": round(best_f1, 4),
+        }
+
+    return np.asarray(thresholds, dtype=float), report
+
+
 def _theme_sentiment_training_data(df: pd.DataFrame, theme: str) -> tuple[list[str], np.ndarray, str]:
     theme_column = f"theme_{theme}"
     explicit_column = THEME_SENTIMENT_COLUMNS[theme]
@@ -120,8 +164,11 @@ def _theme_sentiment_training_data(df: pd.DataFrame, theme: str) -> tuple[list[s
 
 def _write_manifest(
     output_dir: Path,
-    threshold: float,
+    thresholds: np.ndarray,
+    threshold_strategy: str,
+    threshold_tuning_report: Dict[str, Dict[str, float]],
     training_dataset: str,
+    validation_dataset: str | None,
     evaluation_dataset: str | None,
     training_rows: int,
     sentiment_supervision: Dict[str, str],
@@ -135,7 +182,13 @@ def _write_manifest(
             "file": "themes_clf.joblib",
             "thresholds_file": "themes_thresholds.npy",
             "themes_order": THEME_ORDER,
-            "default_threshold": threshold,
+            "default_threshold": float(np.median(thresholds)),
+            "threshold_strategy": threshold_strategy,
+            "thresholds": {
+                theme: round(float(thresholds[idx]), 4)
+                for idx, theme in enumerate(THEME_ORDER)
+            },
+            "threshold_tuning_report": threshold_tuning_report,
         },
         "sentiment_models": {
             "livraison": "sent_livraison.joblib",
@@ -152,6 +205,7 @@ def _write_manifest(
         },
         "training": {
             "training_dataset": training_dataset,
+            "validation_dataset": validation_dataset,
             "evaluation_dataset": evaluation_dataset,
             "training_rows": training_rows,
             "sentiment_supervision": sentiment_supervision,
@@ -166,6 +220,7 @@ def _write_manifest(
             "backend_name": "project_models_v1",
             "fallback_backend": "heuristic_rules_v1",
             "training_dataset": training_dataset,
+            "validation_dataset": validation_dataset,
             "evaluation_dataset": evaluation_dataset,
         },
     }
@@ -198,6 +253,7 @@ def build_training_artifacts(
     output_dir: Path,
     threshold: float = 0.5,
     dataset_path: Path | None = None,
+    validation_dataset_path: Path | None = None,
     evaluation_dataset_path: Path | None = None,
 ) -> Dict:
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -207,6 +263,12 @@ def build_training_artifacts(
     else:
         df = prepare_dataset(load_default_dataset())
         training_dataset = "default_reviews"
+    if validation_dataset_path:
+        validation_df = load_training_dataset(validation_dataset_path)
+        validation_dataset = str(validation_dataset_path)
+    else:
+        validation_df = None
+        validation_dataset = None
     if evaluation_dataset_path:
         evaluation_df = load_training_dataset(evaluation_dataset_path)
         evaluation_dataset = str(evaluation_dataset_path)
@@ -221,7 +283,18 @@ def build_training_artifacts(
     themes_model = _theme_classifier()
     themes_model.fit(texts, _theme_targets(df))
     joblib.dump(themes_model, output_dir / "themes_clf.joblib")
-    np.save(output_dir / "themes_thresholds.npy", np.full(len(THEME_ORDER), float(threshold)))
+    if validation_df is not None and len(validation_df):
+        thresholds, threshold_tuning_report = _tune_theme_thresholds(
+            themes_model,
+            validation_df,
+            default_threshold=float(threshold),
+        )
+        threshold_strategy = "validation_f1_tuned"
+    else:
+        thresholds = np.full(len(THEME_ORDER), float(threshold))
+        threshold_tuning_report = {}
+        threshold_strategy = "fixed"
+    np.save(output_dir / "themes_thresholds.npy", thresholds)
 
     sentiment_supervision: Dict[str, str] = {}
     for theme in THEME_ORDER:
@@ -233,8 +306,11 @@ def build_training_artifacts(
 
     manifest_path = _write_manifest(
         output_dir,
-        threshold,
+        thresholds,
+        threshold_strategy,
+        threshold_tuning_report,
         training_dataset,
+        validation_dataset,
         evaluation_dataset,
         len(df),
         sentiment_supervision,
@@ -252,8 +328,15 @@ def build_training_artifacts(
     summary["manifest_path"] = str(manifest_path)
     summary["training_dataset"] = training_dataset
     summary["training_rows"] = int(len(df))
+    summary["validation_dataset"] = validation_dataset
     summary["evaluation_dataset"] = evaluation_dataset
     summary["threshold"] = float(threshold)
+    summary["theme_thresholds"] = {
+        theme: round(float(thresholds[idx]), 4)
+        for idx, theme in enumerate(THEME_ORDER)
+    }
+    summary["threshold_strategy"] = threshold_strategy
+    summary["threshold_tuning_report"] = threshold_tuning_report
     summary["sentiment_supervision"] = sentiment_supervision
     return summary
 
@@ -263,6 +346,7 @@ def main() -> None:
     parser.add_argument("--output-dir", default=str(ROOT_DIR / "artifacts" / "trained_models"))
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--dataset-path", default=None, help="Optional validated CSV or Parquet dataset to train on.")
+    parser.add_argument("--validation-dataset-path", default=None, help="Optional validation CSV or Parquet dataset used to tune theme thresholds.")
     parser.add_argument("--evaluation-dataset-path", default=None, help="Optional independent validated CSV or Parquet dataset for evaluation.")
     parser.add_argument("--mlflow-log", action="store_true", help="Log the training run and model artifacts to MLflow.")
     parser.add_argument("--register-model", action="store_true", help="Register the trained model as an MLflow candidate model version.")
@@ -271,12 +355,14 @@ def main() -> None:
     args = parser.parse_args()
 
     dataset_path = Path(args.dataset_path) if args.dataset_path else None
+    validation_dataset_path = Path(args.validation_dataset_path) if args.validation_dataset_path else None
     evaluation_dataset_path = Path(args.evaluation_dataset_path) if args.evaluation_dataset_path else None
     output_dir = Path(args.output_dir)
     summary = build_training_artifacts(
         output_dir,
         threshold=args.threshold,
         dataset_path=dataset_path,
+        validation_dataset_path=validation_dataset_path,
         evaluation_dataset_path=evaluation_dataset_path,
     )
     if args.mlflow_log or args.register_model:

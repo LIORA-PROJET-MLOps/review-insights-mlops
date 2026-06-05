@@ -48,3 +48,31 @@ def test_data_endpoints_use_api_key_when_configured(monkeypatch):
     assert unauthorized.status_code == 401
     assert authorized.status_code == 200
     monkeypatch.delenv("API_KEY", raising=False)
+
+
+def test_feedback_endpoint_records_and_returns_recent_feedback(monkeypatch, tmp_path):
+    feedback_path = tmp_path / "feedback.jsonl"
+    monkeypatch.setenv("FEEDBACK_STORE_PATH", str(feedback_path))
+    feedback_client = TestClient(create_app())
+
+    created = feedback_client.post(
+        "/v1/feedback",
+        json={
+            "review_id": "r1",
+            "theme": "sav",
+            "corrected_theme_present": 1,
+            "corrected_sentiment": "negative",
+            "reviewer": "qa",
+            "notes": "Support issue confirmed.",
+        },
+    )
+    recent = feedback_client.get("/v1/feedback/recent")
+
+    assert created.status_code == 200
+    assert created.json()["status"] == "recorded"
+    assert feedback_path.exists()
+    assert recent.status_code == 200
+    assert recent.json()["rows"] == 1
+    assert recent.json()["records"][0]["theme"] == "sav"
+
+    monkeypatch.delenv("FEEDBACK_STORE_PATH", raising=False)
