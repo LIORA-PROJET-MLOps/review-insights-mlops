@@ -664,9 +664,23 @@ Invoke-RestMethod http://localhost:8001/v1/feedback/recent
 pytest
 ```
 
+### Tests fonctionnels Docker
+
+Un jeu de test bout en bout est disponible dans:
+
+- `data/sample/reviews_functional_test.csv`
+- `scripts/run_functional_smoke_tests.ps1`
+- `docs/TESTS_FONCTIONNELS_FR.md`
+
+Commande principale:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\run_functional_smoke_tests.ps1
+```
+
 Etat verifie sur cette base:
 
-- `69 passed`
+- `72 passed`
 - couverture globale: `78.11%`
 - lint Ruff: propre
 - cinq services Docker Compose construits et verifies

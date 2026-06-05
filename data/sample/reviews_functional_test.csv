@@ -1,0 +1,13 @@
+review_id,review_title,review_body,sentiment_label,theme_livraison,theme_sav,theme_produit,sentiment_livraison,sentiment_sav,sentiment_produit
+func_001,Fast delivery and solid item,The parcel arrived early and the product feels sturdy and exactly as described.,positive,1,0,1,positive,,positive
+func_002,Support ignored refund,I contacted customer support three times for a refund and nobody answered.,negative,0,1,0,,negative,
+func_003,Wrong size cheap fabric,The product size is completely wrong and the fabric feels cheap.,negative,0,0,1,,,negative
+func_004,Delayed but fixed by support,The package was delayed but customer service explained the issue and helped me track it.,neutral,1,1,0,negative,positive,
+func_005,No theme general praise,Everything was smooth and I am happy with the overall experience.,positive,0,0,0,,,
+func_006,Missing item and slow support,One item was missing from the package and support was slow to respond.,negative,1,1,1,negative,negative,negative
+func_007,Average product,The product is okay overall but nothing special for the price.,neutral,0,0,1,,,neutral
+func_008,Replacement handled well,Customer service arranged a replacement quickly after I reported the damaged item.,positive,0,1,1,,positive,negative
+func_009,Tracking unclear,There was no tracking information and the delivery status stayed unclear for days.,negative,1,0,0,negative,,
+func_010,Premium material,The design is beautiful and the material feels premium.,positive,0,0,1,,,positive
+func_011,Opened box but item fine,The shipping box was open when it arrived but the product inside was fine.,neutral,1,0,1,negative,,positive
+func_012,Rude service,The support agent was rude and did not answer my question about the return.,negative,0,1,0,,negative,

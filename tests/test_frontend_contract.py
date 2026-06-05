@@ -15,3 +15,13 @@ def test_public_frontend_does_not_collect_api_secrets():
 
     assert 'id="apiKey"' not in html
     assert "X-API-Key" not in script
+
+
+def test_streamlit_frontend_exposes_visible_workspace_navigation():
+    app = Path("src/review_insights/app.py").read_text(encoding="utf-8")
+
+    assert 'WORKSPACES = ["Analyse", "Batch", "Dataset", "Monitoring", "Evaluation"]' in app
+    assert "Espace de travail" in app
+    assert "render_analysis_workspace" in app
+    assert "render_monitoring_workspace" in app
+    assert "st.tabs(" not in app
