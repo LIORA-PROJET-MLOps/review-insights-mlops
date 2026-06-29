@@ -112,6 +112,10 @@ def create_app() -> FastAPI:
             security_profile=str(security_profile["level"]),
             security_warnings=list(security_profile["warnings"]),
             model_load_error=service.model_load_error,
+            sentiment_backend=service.sentiment_backend_name,
+            sentiment_model_id=service.sentiment_model_id,
+            sentiment_model_revision=service.sentiment_model_revision,
+            sentiment_load_error=service.sentiment_load_error,
         )
 
     @app.post("/v1/analyze", response_model=AnalyzeReviewResponse, dependencies=[Depends(require_api_security)])

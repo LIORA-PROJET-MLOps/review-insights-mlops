@@ -32,6 +32,31 @@ class Settings:
     hf_token: str | None = field(default_factory=lambda: os.getenv("HF_TOKEN") or None)
     hf_cache_dir: str = field(default_factory=lambda: os.getenv("HF_CACHE_DIR", ".cache/huggingface"))
     hf_artifacts_dir: str = field(default_factory=lambda: os.getenv("HF_ARTIFACTS_DIR", ".cache/review_insights/models"))
+    sentiment_backend: str = field(default_factory=lambda: os.getenv("SENTIMENT_BACKEND", "project"))
+    hf_sentiment_model_id: str = field(
+        default_factory=lambda: os.getenv(
+            "HF_SENTIMENT_MODEL_ID",
+            "SebasLopez-ai/distilbert-amazon-reviews-sentiment",
+        )
+    )
+    hf_sentiment_revision: str = field(
+        default_factory=lambda: os.getenv(
+            "HF_SENTIMENT_REVISION",
+            "881c6455b01b7ef50026f33902f6433651a1b1f0",
+        )
+    )
+    hf_sentiment_artifacts_dir: str = field(
+        default_factory=lambda: os.getenv(
+            "HF_SENTIMENT_ARTIFACTS_DIR",
+            ".cache/review_insights/sentiment",
+        )
+    )
+    hf_sentiment_max_length: int = field(
+        default_factory=lambda: int(os.getenv("HF_SENTIMENT_MAX_LENGTH", "256"))
+    )
+    sentiment_review_threshold: float = field(
+        default_factory=lambda: float(os.getenv("SENTIMENT_REVIEW_THRESHOLD", "0.45"))
+    )
     api_key: str | None = field(default_factory=lambda: os.getenv("API_KEY") or None)
     require_api_key: bool = field(default_factory=lambda: _parse_bool_env("REQUIRE_API_KEY", False))
     rate_limit_enabled: bool = field(default_factory=lambda: _parse_bool_env("RATE_LIMIT_ENABLED", True))

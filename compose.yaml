@@ -87,10 +87,14 @@ services:
       - .env.example
     environment:
       APP_ENV: docker
+      SENTIMENT_BACKEND: ${SENTIMENT_BACKEND:-project}
+      HF_SENTIMENT_MODEL_ID: ${HF_SENTIMENT_MODEL_ID:-SebasLopez-ai/distilbert-amazon-reviews-sentiment}
+      HF_SENTIMENT_REVISION: ${HF_SENTIMENT_REVISION:-881c6455b01b7ef50026f33902f6433651a1b1f0}
     ports:
       - "8000:8000"
     volumes:
       - ./models:/app/models:ro
+      - transformer_sentiment_cache:/app/.cache/review_insights/sentiment
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
@@ -176,3 +180,4 @@ volumes:
   artifacts:
   mlflow_postgres_data:
   minio_data:
+  transformer_sentiment_cache:

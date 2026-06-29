@@ -19,6 +19,9 @@ def test_healthcheck():
     assert payload["model_source"] in {"local", "hf_hub"}
     assert "security_profile" in payload
     assert isinstance(payload["security_warnings"], list)
+    assert "sentiment_backend" in payload
+    assert "sentiment_model_revision" in payload
+    assert "sentiment_load_error" in payload
 
 
 def test_healthcheck_has_security_headers():

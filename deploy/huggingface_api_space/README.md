@@ -28,6 +28,10 @@ Space Docker prevu pour exposer l'API FastAPI de Review Insights+.
 - `HF_TOKEN=<token-hf-si-repo-prive>`
 - `HF_CACHE_DIR=/data/huggingface`
 - `HF_ARTIFACTS_DIR=/data/review_insights/models`
+- `SENTIMENT_BACKEND=project` ou `hf_onnx` apres validation du benchmark
+- `HF_SENTIMENT_MODEL_ID=SebasLopez-ai/distilbert-amazon-reviews-sentiment`
+- `HF_SENTIMENT_REVISION=881c6455b01b7ef50026f33902f6433651a1b1f0`
+- `HF_SENTIMENT_ARTIFACTS_DIR=/data/review_insights/sentiment`
 - `API_KEY=<optionnel>`
 - `TRUSTED_HOSTS=*`
 - `ALLOWED_ORIGINS=*`

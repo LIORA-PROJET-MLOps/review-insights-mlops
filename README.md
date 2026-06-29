@@ -57,6 +57,39 @@ Ce depot contient une base finale de POC/MVP alignee avec les lignes guides du p
 
 ## Backend d'inference
 
+### Sentiment Transformer optionnel
+
+Le sentiment global peut utiliser un DistilBERT ONNX quantifie depuis Hugging Face sans changer
+le contrat de l'API. Les themes et leurs sentiments restent servis par les modeles projet. Le
+backend historique reste le fallback automatique si le modele optionnel ne charge pas ou echoue.
+
+Le backend est volontairement desactive par defaut tant que son gain n'a pas ete confirme sur le
+jeu de reference:
+
+```env
+SENTIMENT_BACKEND=hf_onnx
+HF_SENTIMENT_MODEL_ID=SebasLopez-ai/distilbert-amazon-reviews-sentiment
+HF_SENTIMENT_REVISION=881c6455b01b7ef50026f33902f6433651a1b1f0
+```
+
+La revision est figee et les artefacts ONNX sont telecharges puis caches au premier demarrage.
+`GET /health` expose le backend sentiment actif et toute erreur de fallback.
+
+Benchmark local de reference du 29 juin 2026, sur les memes 40 reviews:
+
+| Backend sentiment | Accuracy | Macro F1 | Temps moyen CPU apres cache |
+| --- | ---: | ---: | ---: |
+| Modeles projet | 0.5750 | 0.5111 | reference historique |
+| DistilBERT ONNX quantifie | 0.9000 | 0.8932 | 35.3 ms / review |
+
+Le benchmark reste de taille POC. Le backend est active dans l'exemple staging et reste opt-in en
+local/CI afin d'eviter un telechargement reseau implicite. Avec Docker Compose:
+
+```powershell
+$env:SENTIMENT_BACKEND='hf_onnx'
+docker compose up --build api
+```
+
 Le service utilise automatiquement:
 
 - `project_models_v1` si les artefacts du projet sont presents dans `models/`

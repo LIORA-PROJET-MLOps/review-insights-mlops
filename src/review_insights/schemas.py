@@ -57,6 +57,10 @@ class HealthResponse(BaseModel):
     security_profile: str
     security_warnings: List[str] = Field(default_factory=list)
     model_load_error: Optional[str] = None
+    sentiment_backend: str
+    sentiment_model_id: Optional[str] = None
+    sentiment_model_revision: Optional[str] = None
+    sentiment_load_error: Optional[str] = None
 
 
 class MetricsResponse(BaseModel):
