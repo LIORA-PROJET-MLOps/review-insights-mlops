@@ -73,7 +73,7 @@ class ReviewInsightsApiClient:
         return self._request(self.data_url, "GET", "/v1/datasets/default")
 
     def evaluate_default(self) -> dict[str, Any]:
-        return self._request(self.data_url, "GET", "/v1/evaluate/default")
+        return self._request(self.api_url, "GET", "/v1/evaluate/default")
 
     def submit_feedback(self, payload: dict[str, Any]) -> dict[str, Any]:
         return self._request(self.data_url, "POST", "/v1/feedback", json=payload)

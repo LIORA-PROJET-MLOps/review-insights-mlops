@@ -11,8 +11,7 @@ def test_data_healthcheck():
     assert response.status_code == 200
     payload = response.json()
     assert payload["service"] == "data"
-    assert "model_revision" in payload
-    assert "artifact_set_version" in payload
+    assert payload["inference_api_url"]
 
 
 def test_default_dataset_endpoint():
@@ -33,7 +32,15 @@ def test_default_dataset_profile_endpoint():
 
 
 def test_reference_evaluation_endpoint_uses_test_dataset():
-    response = client.get("/v1/evaluate/default")
+    evaluation_client = TestClient(
+        create_app(
+            evaluation_fetcher=lambda: {
+                "summary": {"rows": 40, "backend_name": "project_models_v1+hf_onnx_sentiment_v1"},
+                "rows_preview": [],
+            }
+        )
+    )
+    response = evaluation_client.get("/v1/evaluate/default")
     assert response.status_code == 200
     assert response.json()["summary"]["rows"] == 40
 

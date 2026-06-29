@@ -1,28 +1,48 @@
 from __future__ import annotations
 
+import os
+from collections.abc import Callable
+
+import httpx
 from fastapi import Depends, FastAPI, Request
 from fastapi.security import APIKeyHeader
 from pathlib import Path
 
-from .dataset import load_default_dataset, load_reference_evaluation_dataset, prepare_dataset
+from .dataset import load_default_dataset, prepare_dataset
 from .feedback_store import HumanFeedbackRecord, append_feedback, read_feedback
-from .mlflow_tracking import log_evaluation_run
 from .schemas import EvaluationResponse, HumanFeedbackRequest
 from .security import enforce_api_key
-from .service import get_review_analysis_service
 from .settings import get_settings
 
 
-def create_app() -> FastAPI:
+def _inference_api_url() -> str:
+    return os.getenv("API_URL", "http://api:8000").rstrip("/")
+
+
+def _fetch_inference_evaluation() -> dict:
+    headers = {}
+    api_key = os.getenv("API_KEY")
+    if api_key:
+        headers["X-API-Key"] = api_key
+    timeout = float(os.getenv("SERVICE_TIMEOUT_SECONDS", "60"))
+    with httpx.Client(timeout=timeout) as client:
+        response = client.get(f"{_inference_api_url()}/v1/evaluate/default", headers=headers)
+        response.raise_for_status()
+        payload = response.json()
+    if not isinstance(payload, dict):
+        raise ValueError("Inference API returned a non-object evaluation payload.")
+    return payload
+
+
+def create_app(evaluation_fetcher: Callable[[], dict] | None = None) -> FastAPI:
     settings = get_settings()
-    service = get_review_analysis_service()
+    fetch_evaluation = evaluation_fetcher or _fetch_inference_evaluation
     app = FastAPI(
         title=f"{settings.app_name} Data Service",
         version=settings.app_version,
         summary="Dataset and offline evaluation service for Review Insights+.",
     )
     app.state.settings = settings
-    app.state.service = service
     api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
     def require_api_security(request: Request, api_key: str | None = Depends(api_key_header)) -> None:
@@ -34,11 +54,7 @@ def create_app() -> FastAPI:
             "status": "ok",
             "service": "data",
             "environment": settings.app_env,
-            "model_source": settings.model_source,
-            "inference_backend": service.backend_name,
-            "model_load_error": service.model_load_error,
-            "model_revision": service.model_revision,
-            "artifact_set_version": service.artifact_set_version,
+            "inference_api_url": _inference_api_url(),
             "mlflow_tracking_enabled": settings.mlflow_tracking_enabled,
             "mlflow_tracking_uri": settings.mlflow_tracking_uri,
             "feedback_store_path": settings.feedback_store_path,
@@ -69,9 +85,7 @@ def create_app() -> FastAPI:
 
     @app.get("/v1/evaluate/default", response_model=EvaluationResponse, dependencies=[Depends(require_api_security)])
     def evaluate_default_dataset() -> EvaluationResponse:
-        df = prepare_dataset(load_reference_evaluation_dataset())
-        report = service.evaluate_dataframe(df)
-        log_evaluation_run(report, run_name="data_api_default_evaluation")
+        report = fetch_evaluation()
         return EvaluationResponse(**report)
 
     @app.post("/v1/feedback", dependencies=[Depends(require_api_security)])

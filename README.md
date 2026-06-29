@@ -74,6 +74,9 @@ HF_SENTIMENT_REVISION=881c6455b01b7ef50026f33902f6433651a1b1f0
 
 La revision est figee et les artefacts ONNX sont telecharges puis caches au premier demarrage.
 `GET /health` expose le backend sentiment actif et toute erreur de fallback.
+Chaque resultat expose aussi un bloc `provenance` (backends, source, revisions et version
+d'artefacts). Si le sentiment global et le sentiment d'un theme actif sont opposes, la reponse
+contient `sentiment_conflict=true`, la liste des themes concernes et force la revue humaine.
 
 Benchmark local de reference du 29 juin 2026, sur les memes 40 reviews:
 
@@ -438,12 +441,17 @@ Puis relancer le build service par service.
 Le projet est maintenant separe en services Docker specialises:
 
 - `api`: service FastAPI d'inference, expose `/health`, `/v1/analyze`, `/metrics` et `/v1/evaluate/default`.
-- `data`: service FastAPI data/evaluation, expose le dataset de demonstration via `/v1/datasets/default`, son profil via `/v1/datasets/default/profile` et l'evaluation de reference sur 40 reviews via `/v1/evaluate/default`.
+- `data`: service FastAPI leger pour datasets et feedback. Son endpoint historique `/v1/evaluate/default` relaie l'API d'inference afin de garantir une seule implementation de l'evaluation.
 - `postgres`: stockage des metadonnees MLflow.
 - `minio` et `minio-init`: stockage objet des artefacts MLflow et des datasets DVC.
 - `mlflow`: serveur de tracking et Model Registry, expose l'interface MLflow sur `http://localhost:5000`.
 - `monitoring`: gateway de supervision, interroge l'API interne, expose `/v1/api/health`, `/v1/api/metrics` et `/metrics` au format texte compatible Prometheus.
 - `streamlit`: frontend POC client des services `api`, `data` et `monitoring`, sans chargement local des modeles.
+
+L'interface ne depend au demarrage que de `api`: MLflow, PostgreSQL, MinIO, `data` et
+`monitoring` peuvent etre indisponibles sans bloquer l'analyse unitaire. Le healthcheck API laisse
+une fenetre de 180 secondes configurable (`API_START_PERIOD`) au premier chargement ONNX.
+L'enregistrement MLflow d'une evaluation est lance en tache de fond et ne bloque pas sa reponse.
 
 Dockerfiles:
 
@@ -485,7 +493,7 @@ Sorties generees:
 
 Si `MLFLOW_TRACKING_ENABLED=true`, le script logge aussi dans MLflow:
 
-- parametres: backend modele et dataset
+- parametres: backend composite, dataset, modele Transformer, revision Hugging Face et contrat runtime
 - metriques: lignes, accuracy sentiment, exact match theme, precision/recall macro
 - artefacts JSON/Markdown
 - artefacts modele sous le chemin MLflow `model/` quand le package `mlflow` est installe dans le runtime

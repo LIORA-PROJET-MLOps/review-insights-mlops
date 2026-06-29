@@ -90,6 +90,35 @@ def _model_params(model_dir: Path | None) -> Dict[str, str]:
     return params
 
 
+def _runtime_model_params(settings: Settings, summary: Dict | None = None) -> Dict[str, str]:
+    summary = summary or {}
+    configured_backend = settings.sentiment_backend.strip().lower() or "project"
+    default_backend = "hf_onnx_sentiment_v1" if configured_backend == "hf_onnx" else str(
+        summary.get("theme_backend_name") or summary.get("backend_name") or "project_models_v1"
+    )
+    sentiment_backend = str(summary.get("sentiment_backend_name") or default_backend)
+    transformer_active = sentiment_backend == "hf_onnx_sentiment_v1"
+    return {
+        "runtime_model_contract": "review-insights-hybrid-v1",
+        "configured_sentiment_backend": configured_backend,
+        "configured_sentiment_model_id": settings.hf_sentiment_model_id,
+        "configured_sentiment_model_revision": settings.hf_sentiment_revision,
+        "theme_backend_name": str(
+            summary.get("theme_backend_name") or summary.get("backend_name") or "project_models_v1"
+        ),
+        "sentiment_backend_name": sentiment_backend,
+        "sentiment_model_id": str(
+            summary.get("sentiment_model_id")
+            or (settings.hf_sentiment_model_id if transformer_active else "none")
+        ),
+        "sentiment_model_revision": str(
+            summary.get("sentiment_model_revision")
+            or (settings.hf_sentiment_revision if transformer_active else "none")
+        ),
+        "sentiment_model_artifact": "onnx/model_quantized.onnx" if transformer_active else "project-model",
+    }
+
+
 def _count_files(path: Path) -> int:
     if path.is_file():
         return 1
@@ -161,6 +190,7 @@ def _tag_registered_model_version(
     registered_model_version: str | None,
     model_alias: str,
     summary: Dict,
+    runtime_params: Dict[str, str],
 ) -> None:
     if client is None or registered_model_version is None:
         return
@@ -168,6 +198,10 @@ def _tag_registered_model_version(
         "lifecycle_alias": model_alias,
         "training_dataset": str(summary.get("training_dataset", "unknown")),
         "backend_name": str(summary.get("backend_name", "project_models_v1")),
+        "runtime_model_contract": runtime_params["runtime_model_contract"],
+        "sentiment_backend_name": runtime_params["sentiment_backend_name"],
+        "sentiment_model_id": runtime_params["sentiment_model_id"],
+        "sentiment_model_revision": runtime_params["sentiment_model_revision"],
     }
     if hasattr(client, "set_model_version_tag"):
         for key, value in tags.items():
@@ -228,6 +262,7 @@ def _log_with_mlflow_client(
     run_name: str,
     artifact_paths: Iterable[Path] | None,
     model_dir: Path | None,
+    settings: Settings,
 ) -> MLflowRunResult:
     summary = report.get("summary", {})
     mlflow_module.set_tracking_uri(tracking_uri)
@@ -238,6 +273,7 @@ def _log_with_mlflow_client(
                 "backend_name": summary.get("backend_name", "unknown"),
                 "dataset": "default_reviews",
                 **_model_params(model_dir),
+                **_runtime_model_params(settings, summary),
             }
         )
         for metric_name, metric_value in _numeric_metrics(summary).items():
@@ -277,17 +313,20 @@ def _log_training_with_mlflow_client(
     register_model: bool,
     registered_model_name: str,
     model_alias: str,
+    settings: Settings,
 ) -> MLflowRunResult:
     mlflow_module.set_tracking_uri(tracking_uri)
     mlflow_module.set_experiment(experiment_name)
     with mlflow_module.start_run(run_name=run_name) as active_run:
         run_id = active_run.info.run_id
+        runtime_params = _runtime_model_params(settings, summary)
         params = {
             "backend_name": summary.get("backend_name", "project_models_v1"),
             "dataset": summary.get("training_dataset", "unknown"),
             "threshold": str(summary.get("threshold", "unknown")),
             "model_alias": model_alias,
             **_model_params(model_dir),
+            **runtime_params,
         }
         mlflow_module.log_params(params)
         if hasattr(mlflow_module, "set_tags"):
@@ -296,6 +335,9 @@ def _log_training_with_mlflow_client(
                     "pipeline": "training",
                     "model_alias": model_alias,
                     "training_dataset": str(summary.get("training_dataset", "unknown")),
+                    "runtime_model_contract": runtime_params["runtime_model_contract"],
+                    "sentiment_backend_name": runtime_params["sentiment_backend_name"],
+                    "sentiment_model_revision": runtime_params["sentiment_model_revision"],
                 }
             )
 
@@ -328,6 +370,7 @@ def _log_training_with_mlflow_client(
                     registered_model_version=registered_model_version,
                     model_alias=model_alias,
                     summary=summary,
+                    runtime_params=runtime_params,
                 )
             except Exception as exc:
                 registry_reason = f"model registry registration failed ({type(exc).__name__})."
@@ -379,6 +422,7 @@ def log_evaluation_run(
                 report=report,
                 run_name=run_name,
                 model_dir=model_dir,
+                settings=resolved_settings,
             )
         return MLflowRunResult(
             status="skipped",
@@ -395,6 +439,7 @@ def log_evaluation_run(
         run_name=run_name,
         artifact_paths=artifact_paths,
         model_dir=model_dir,
+        settings=resolved_settings,
     )
 
 
@@ -450,6 +495,7 @@ def log_training_run(
         register_model=register_model,
         registered_model_name=registered_model_name,
         model_alias=model_alias,
+        settings=resolved_settings,
     )
 
 
@@ -495,6 +541,7 @@ def _log_evaluation_run_http(
     report: Dict,
     run_name: str,
     model_dir: Path | None = None,
+    settings: Settings | None = None,
 ) -> MLflowRunResult:
     try:
         experiment_id = _get_or_create_experiment_id(tracking_uri, experiment_name)
@@ -510,6 +557,7 @@ def _log_evaluation_run_http(
         )
         run_id = run_response["run"]["info"]["run_id"]
         summary = report.get("summary", {})
+        resolved_settings = settings or get_settings()
         _mlflow_request(
             tracking_uri,
             "/api/2.0/mlflow/runs/log-batch",
@@ -521,6 +569,10 @@ def _log_evaluation_run_http(
                     *[
                         {"key": key, "value": value}
                         for key, value in _model_params(model_dir).items()
+                    ],
+                    *[
+                        {"key": key, "value": value}
+                        for key, value in _runtime_model_params(resolved_settings, summary).items()
                     ],
                 ],
                 "metrics": [

@@ -88,7 +88,17 @@ def test_mlflow_tracking_logs_model_artifacts(monkeypatch):
     monkeypatch.setitem(sys.modules, "mlflow", fake_mlflow)
 
     result = log_evaluation_run(
-        {"summary": {"rows": 2, "sentiment_accuracy": 0.5, "backend_name": "project_models_v1"}},
+        {
+            "summary": {
+                "rows": 2,
+                "sentiment_accuracy": 0.5,
+                "backend_name": "project_models_v1+hf_onnx_sentiment_v1",
+                "theme_backend_name": "project_models_v1",
+                "sentiment_backend_name": "hf_onnx_sentiment_v1",
+                "sentiment_model_id": "test/sentiment",
+                "sentiment_model_revision": "immutable-test-revision",
+            }
+        },
         settings=Settings(
             mlflow_tracking_enabled=True,
             mlflow_tracking_uri=str(work_dir / "mlruns"),
@@ -103,6 +113,9 @@ def test_mlflow_tracking_logs_model_artifacts(monkeypatch):
     assert result.artifact_count >= len(ARTIFACT_FILENAMES) + 1
     assert fake_mlflow.artifact_dirs == [(str(model_dir), "model")]
     assert fake_mlflow.params[0]["model_artifacts_present"] == "true"
+    assert fake_mlflow.params[0]["runtime_model_contract"] == "review-insights-hybrid-v1"
+    assert fake_mlflow.params[0]["sentiment_model_id"] == "test/sentiment"
+    assert fake_mlflow.params[0]["sentiment_model_revision"] == "immutable-test-revision"
 
     shutil.rmtree(work_dir)
 
@@ -187,6 +200,9 @@ def test_mlflow_training_registers_candidate_model(monkeypatch):
             mlflow_tracking_enabled=True,
             mlflow_tracking_uri=str(work_dir / "mlruns"),
             mlflow_experiment_name="review-insights-training",
+            sentiment_backend="hf_onnx",
+            hf_sentiment_model_id="test/sentiment",
+            hf_sentiment_revision="immutable-test-revision",
         ),
         register_model=True,
         registered_model_name="review-insights-project-models",
@@ -202,6 +218,12 @@ def test_mlflow_training_registers_candidate_model(monkeypatch):
     assert fake_mlflow.registered[0]["name"] == "registered_model"
     assert fake_client.aliases == [("review-insights-project-models", "candidate", "7")]
     assert ("review-insights-project-models", "7", "lifecycle_alias", "candidate") in fake_client.version_tags
+    assert (
+        "review-insights-project-models",
+        "7",
+        "sentiment_model_revision",
+        "immutable-test-revision",
+    ) in fake_client.version_tags
 
     shutil.rmtree(work_dir)
 

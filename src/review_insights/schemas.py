@@ -19,6 +19,17 @@ class AnalyzeReviewRequest(BaseModel):
     threshold: Optional[float] = None
 
 
+class ModelProvenance(BaseModel):
+    inference_backend: str
+    theme_backend: str
+    theme_model_source: str
+    theme_model_revision: str
+    artifact_set_version: str
+    sentiment_backend: str
+    sentiment_model_id: Optional[str] = None
+    sentiment_model_revision: Optional[str] = None
+
+
 class AnalyzeReviewResponse(BaseModel):
     review_id: str
     review_text: str
@@ -28,6 +39,9 @@ class AnalyzeReviewResponse(BaseModel):
     negative_terms: List[str] = Field(default_factory=list)
     themes_detected: List[str] = Field(default_factory=list)
     needs_human_review: bool
+    sentiment_conflict: bool = False
+    sentiment_conflict_themes: List[str] = Field(default_factory=list)
+    provenance: ModelProvenance
     insights: List[ThemeInsight] = Field(default_factory=list)
     theme_livraison: int
     sent_livraison: Optional[str] = None
@@ -73,6 +87,7 @@ class MetricsResponse(BaseModel):
     sentiment_distribution: dict = Field(default_factory=dict)
     theme_distribution: dict = Field(default_factory=dict)
     backend_distribution: dict = Field(default_factory=dict)
+    sentiment_backend_distribution: dict = Field(default_factory=dict)
     http_requests_total: int = 0
     http_error_requests: int = 0
     http_error_rate: float = 0.0

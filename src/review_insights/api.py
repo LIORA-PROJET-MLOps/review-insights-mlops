@@ -4,7 +4,7 @@ from pathlib import Path
 import time
 import uuid
 
-from fastapi import Depends, FastAPI, HTTPException, Request, status
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
@@ -12,6 +12,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .dataset import load_reference_evaluation_dataset, prepare_dataset
+from .mlflow_tracking import log_evaluation_run
 from .schemas import AnalyzeReviewRequest, AnalyzeReviewResponse, EvaluationResponse, HealthResponse, MetricsResponse
 from .security import InMemoryRateLimiter, build_security_profile, client_identifier, enforce_api_key, log_security_event
 from .service import get_review_analysis_service
@@ -103,7 +104,7 @@ def create_app() -> FastAPI:
             app_name=settings.app_name,
             app_version=settings.app_version,
             environment=settings.app_env,
-            inference_backend=service.backend_name,
+            inference_backend=service.active_backend_name,
             model_source=resolved_source,
             model_revision=service.model_revision or "unknown",
             artifact_set_version=service.artifact_set_version,
@@ -136,9 +137,14 @@ def create_app() -> FastAPI:
         return MetricsResponse(**service.get_monitoring_metrics())
 
     @app.get("/v1/evaluate/default", response_model=EvaluationResponse, dependencies=[Depends(require_api_security)])
-    def evaluate_default_dataset() -> EvaluationResponse:
+    def evaluate_default_dataset(background_tasks: BackgroundTasks) -> EvaluationResponse:
         df = prepare_dataset(load_reference_evaluation_dataset())
         report = service.evaluate_dataframe(df)
+        background_tasks.add_task(
+            log_evaluation_run,
+            report,
+            run_name="inference_api_default_evaluation",
+        )
         return EvaluationResponse(**report)
 
     return app

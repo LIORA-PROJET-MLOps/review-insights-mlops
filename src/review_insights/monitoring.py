@@ -13,6 +13,7 @@ class MonitoringStore:
     sentiment_counter: Counter = field(default_factory=Counter)
     theme_counter: Counter = field(default_factory=Counter)
     backend_counter: Counter = field(default_factory=Counter)
+    sentiment_backend_counter: Counter = field(default_factory=Counter)
     inference_latency_ms: deque[float] = field(default_factory=lambda: deque(maxlen=1000))
     http_requests_total: int = 0
     http_error_requests: int = 0
@@ -21,10 +22,17 @@ class MonitoringStore:
     http_latency_ms: deque[float] = field(default_factory=lambda: deque(maxlen=1000))
     _lock: Lock = field(default_factory=Lock)
 
-    def record_prediction(self, result: Dict, backend_name: str, latency_ms: float) -> None:
+    def record_prediction(
+        self,
+        result: Dict,
+        backend_name: str,
+        latency_ms: float,
+        sentiment_backend_name: str | None = None,
+    ) -> None:
         with self._lock:
             self.total_requests += 1
             self.backend_counter[backend_name] += 1
+            self.sentiment_backend_counter[sentiment_backend_name or backend_name] += 1
             self.inference_latency_ms.append(latency_ms)
             self.sentiment_counter[result.get("global_sentiment", "unknown")] += 1
             if result.get("needs_human_review"):
@@ -70,6 +78,7 @@ class MonitoringStore:
                 "sentiment_distribution": dict(self.sentiment_counter),
                 "theme_distribution": dict(self.theme_counter),
                 "backend_distribution": dict(self.backend_counter),
+                "sentiment_backend_distribution": dict(self.sentiment_backend_counter),
                 "http_requests_total": self.http_requests_total,
                 "http_error_requests": self.http_error_requests,
                 "http_error_rate": http_error_rate,

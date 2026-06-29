@@ -63,10 +63,11 @@ def prepare_dataset(df: pd.DataFrame) -> pd.DataFrame:
 def flatten_results(df: pd.DataFrame) -> pd.DataFrame:
     export = df.copy()
     for col in export.columns:
-        if export[col].apply(lambda v: isinstance(v, list)).any():
+        if export[col].apply(lambda v: isinstance(v, (list, dict))).any():
             export[col] = export[col].apply(
-                lambda values: json.dumps(values, ensure_ascii=False)
-                if isinstance(values, list) and values and isinstance(values[0], dict)
+                lambda values: json.dumps(values, ensure_ascii=False, sort_keys=True)
+                if isinstance(values, dict)
+                or (isinstance(values, list) and values and isinstance(values[0], dict))
                 else ", ".join(values)
                 if isinstance(values, list)
                 else values

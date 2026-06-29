@@ -31,6 +31,7 @@ def test_api_client_routes_calls_to_the_configured_services():
     client.health()
     client.analyze("good product", "r1")
     client.default_dataset()
+    client.evaluate_default()
     client.metrics()
     client.submit_feedback(
         {
@@ -46,6 +47,7 @@ def test_api_client_routes_calls_to_the_configured_services():
         ("GET", "http://api:8000/health", "secret"),
         ("POST", "http://api:8000/v1/analyze", "secret"),
         ("GET", "http://data:8001/v1/datasets/default", "secret"),
+        ("GET", "http://api:8000/v1/evaluate/default", "secret"),
         ("GET", "http://monitoring:9000/v1/api/metrics", "secret"),
         ("POST", "http://data:8001/v1/feedback", "secret"),
         ("GET", "http://data:8001/v1/feedback/recent?limit=5", "secret"),

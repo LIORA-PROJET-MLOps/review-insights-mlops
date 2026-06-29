@@ -41,6 +41,24 @@ class ReviewAnalysisService:
         self.sentiment_load_error: str | None = None
         self._load_transformer_sentiment_if_enabled()
 
+    @property
+    def active_backend_name(self) -> str:
+        if self.sentiment_backend_name == self.backend_name:
+            return self.backend_name
+        return f"{self.backend_name}+{self.sentiment_backend_name}"
+
+    def _model_provenance(self) -> Dict:
+        return {
+            "inference_backend": self.active_backend_name,
+            "theme_backend": self.backend_name,
+            "theme_model_source": self.model_source,
+            "theme_model_revision": self.model_revision or "unknown",
+            "artifact_set_version": self.artifact_set_version,
+            "sentiment_backend": self.sentiment_backend_name,
+            "sentiment_model_id": self.sentiment_model_id,
+            "sentiment_model_revision": self.sentiment_model_revision,
+        }
+
     def _load_real_models_if_available(self) -> None:
         try:
             self._artifacts = load_project_model_artifacts(self.settings.models_dir)
@@ -110,6 +128,21 @@ class ReviewAnalysisService:
             result["needs_human_review"] = True
         return result
 
+    @staticmethod
+    def _detect_sentiment_conflicts(result: Dict) -> Dict:
+        global_sentiment = result.get("global_sentiment")
+        opposite = {"positive": "negative", "negative": "positive"}.get(global_sentiment)
+        conflicting_themes = []
+        if opposite:
+            for theme in ("livraison", "sav", "produit"):
+                if result.get(f"theme_{theme}") and result.get(f"sent_{theme}") == opposite:
+                    conflicting_themes.append(theme)
+        result["sentiment_conflict"] = bool(conflicting_themes)
+        result["sentiment_conflict_themes"] = conflicting_themes
+        if conflicting_themes:
+            result["needs_human_review"] = True
+        return result
+
     def analyze(self, review_text: str, review_id: str, threshold: float | None = None) -> AnalyzeReviewResponse:
         started_at = time.perf_counter()
         effective_threshold = threshold if threshold is not None else self.settings.theme_threshold
@@ -123,8 +156,15 @@ class ReviewAnalysisService:
         else:
             result = analyze_review(review_text, review_id=review_id, threshold=effective_threshold)
         result = self._apply_transformer_sentiment(result, review_text)
+        result = self._detect_sentiment_conflicts(result)
+        result["provenance"] = self._model_provenance()
         latency_ms = (time.perf_counter() - started_at) * 1000
-        self.monitoring.record_prediction(result, self.backend_name, latency_ms)
+        self.monitoring.record_prediction(
+            result,
+            self.active_backend_name,
+            latency_ms,
+            sentiment_backend_name=self.sentiment_backend_name,
+        )
         return AnalyzeReviewResponse(**result)
 
     def analyze_dataframe(self, df: pd.DataFrame, threshold: float | None = None) -> pd.DataFrame:
@@ -150,9 +190,18 @@ class ReviewAnalysisService:
 
     def evaluate_dataframe(self, df: pd.DataFrame, threshold: float | None = None) -> Dict:
         predictions = self.analyze_dataframe(df, threshold=threshold)
-        summary = evaluate_predictions(predictions, backend_name=self.backend_name)
+        summary = evaluate_predictions(predictions, backend_name=self.active_backend_name).to_dict()
+        summary.update(
+            {
+                "theme_backend_name": self.backend_name,
+                "sentiment_backend_name": self.sentiment_backend_name,
+                "sentiment_model_id": self.sentiment_model_id,
+                "sentiment_model_revision": self.sentiment_model_revision,
+                "artifact_set_version": self.artifact_set_version,
+            }
+        )
         return {
-            "summary": summary.to_dict(),
+            "summary": summary,
             "rows_preview": flatten_results(predictions.head(20)).to_dict(orient="records"),
         }
 

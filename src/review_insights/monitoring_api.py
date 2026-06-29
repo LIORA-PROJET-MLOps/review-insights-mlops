@@ -65,6 +65,8 @@ def _format_prometheus(metrics: dict[str, Any]) -> str:
         lines.append(f'review_insights_theme_total{{theme="{theme}"}} {value}')
     for backend, value in metrics.get("backend_distribution", {}).items():
         lines.append(f'review_insights_backend_total{{backend="{backend}"}} {value}')
+    for backend, value in metrics.get("sentiment_backend_distribution", {}).items():
+        lines.append(f'review_insights_sentiment_backend_total{{backend="{backend}"}} {value}')
     for status, value in metrics.get("http_status_distribution", {}).items():
         lines.append(f'review_insights_http_status_total{{status="{status}"}} {value}')
     for endpoint, value in metrics.get("http_endpoint_distribution", {}).items():

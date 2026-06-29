@@ -52,6 +52,12 @@ def test_optional_transformer_overrides_only_global_sentiment(monkeypatch):
     assert result.score_global == 0.91
     assert "sav" in result.themes_detected
     assert service.sentiment_backend_name == "hf_onnx_sentiment_v1"
+    assert result.sentiment_conflict is True
+    assert result.sentiment_conflict_themes == ["sav"]
+    assert result.needs_human_review is True
+    assert result.provenance.sentiment_model_id == "test/sentiment"
+    assert result.provenance.sentiment_model_revision == "immutable-test-revision"
+    assert result.provenance.inference_backend == "project_models_v1+hf_onnx_sentiment_v1"
 
 
 def test_optional_transformer_load_failure_keeps_project_backend(monkeypatch):
@@ -79,3 +85,31 @@ def test_optional_transformer_load_failure_keeps_project_backend(monkeypatch):
     assert result.score_global == baseline.score_global
     assert service.sentiment_backend_name == service.backend_name
     assert service.sentiment_load_error == "model unavailable"
+    assert result.provenance.sentiment_backend == service.backend_name
+
+
+def test_evaluation_reports_the_effective_sentiment_backend(monkeypatch):
+    class FakeSentimentBackend:
+        name = "hf_onnx_sentiment_v1"
+        model_id = "test/sentiment"
+        revision = "immutable-test-revision"
+
+        def __init__(self, **_kwargs):
+            pass
+
+        def predict(self, _text):
+            return SentimentPrediction(
+                label="positive",
+                confidence=0.91,
+                probabilities={"negative": 0.02, "neutral": 0.07, "positive": 0.91},
+            )
+
+    monkeypatch.setenv("SENTIMENT_BACKEND", "hf_onnx")
+    monkeypatch.setattr("src.review_insights.service.OnnxSentimentBackend", FakeSentimentBackend)
+    service = ReviewAnalysisService()
+
+    report = service.evaluate_dataframe(prepare_dataset(load_default_dataset().head(2)))
+
+    assert report["summary"]["backend_name"] == "project_models_v1+hf_onnx_sentiment_v1"
+    assert report["summary"]["sentiment_backend_name"] == "hf_onnx_sentiment_v1"
+    assert report["summary"]["sentiment_model_revision"] == "immutable-test-revision"

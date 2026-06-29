@@ -42,6 +42,8 @@ def test_analyze_endpoint():
     payload = response.json()
     assert payload["global_sentiment"] in {"positive", "neutral"}
     assert "livraison" in payload["themes_detected"]
+    assert payload["provenance"]["inference_backend"]
+    assert "sentiment_conflict" in payload
 
 
 def test_analyze_rejects_oversized_payload():
@@ -66,6 +68,7 @@ def test_metrics_endpoint():
     assert payload["total_requests"] >= 1
     assert payload["http_requests_total"] >= 1
     assert "http_status_distribution" in payload
+    assert "sentiment_backend_distribution" in payload
 
 
 def test_request_id_is_returned_and_http_metrics_are_recorded():
