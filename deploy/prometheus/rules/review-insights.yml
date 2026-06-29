@@ -1,0 +1,63 @@
+groups:
+  - name: review-insights-service-alerts
+    rules:
+      - alert: ReviewInsightsApiDown
+        expr: probe_success{instance="http://api:8000/health"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          domain: api
+        annotations:
+          summary: Review Insights inference API is unavailable
+
+      - alert: ReviewInsightsHighErrorRate
+        expr: review_insights_http_error_rate > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          domain: api
+        annotations:
+          summary: API HTTP 5xx error rate is above 5 percent
+
+      - alert: ReviewInsightsHighHumanReviewRate
+        expr: review_insights_human_review_rate > 0.60
+        for: 15m
+        labels:
+          severity: warning
+          domain: business
+        annotations:
+          summary: More than 60 percent of predictions require human review
+
+      - alert: ReviewInsightsHighSentimentConflictRate
+        expr: review_insights_sentiment_conflict_rate > 0.20
+        for: 15m
+        labels:
+          severity: warning
+          domain: model
+        annotations:
+          summary: Global and theme sentiment conflicts exceed 20 percent
+
+      - alert: ReviewInsightsDatasetQualityRejected
+        expr: review_insights_data_quality_ready == 0
+        for: 1m
+        labels:
+          severity: warning
+          domain: data
+        annotations:
+          summary: Latest ingested dataset did not pass quality gates
+
+      - alert: ReviewInsightsCandidateRejected
+        expr: review_insights_model_release_approved == 0
+        for: 1m
+        labels:
+          severity: warning
+          domain: model
+        annotations:
+          summary: Latest model candidate did not pass release gates
+
+  - name: review-insights-recording-rules
+    rules:
+      - record: review_insights:container_cpu_rate:5m
+        expr: sum by (name) (rate(container_cpu_usage_seconds_total{name!=""}[5m]))
+      - record: review_insights:container_memory_bytes
+        expr: sum by (name) (container_memory_working_set_bytes{name!=""})

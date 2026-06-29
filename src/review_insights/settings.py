@@ -21,7 +21,7 @@ def _parse_bool_env(name: str, default: bool) -> bool:
 class Settings:
     app_env: str = field(default_factory=lambda: os.getenv("APP_ENV", "local"))
     app_name: str = field(default_factory=lambda: os.getenv("APP_NAME", "Review Insights+"))
-    app_version: str = field(default_factory=lambda: os.getenv("APP_VERSION", "0.2.0"))
+    app_version: str = field(default_factory=lambda: os.getenv("APP_VERSION", "1.0.0"))
     api_host: str = field(default_factory=lambda: os.getenv("API_HOST", "0.0.0.0"))
     api_port: int = field(default_factory=lambda: int(os.getenv("API_PORT", "8000")))
     theme_threshold: float = field(default_factory=lambda: float(os.getenv("THEME_THRESHOLD", "0.34")))

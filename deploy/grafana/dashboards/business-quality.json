@@ -1,0 +1,86 @@
+{
+  "annotations": {"list": []},
+  "editable": false,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [{"title": "Application", "type": "link", "url": "http://localhost:8501", "targetBlank": true}],
+  "panels": [
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 5, "w": 6, "x": 0, "y": 0},
+      "id": 1,
+      "targets": [{"expr": "review_insights_requests_total", "refId": "A"}],
+      "title": "Avis analysés",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"max": 1, "min": 0, "unit": "percentunit"}},
+      "gridPos": {"h": 5, "w": 6, "x": 6, "y": 0},
+      "id": 2,
+      "targets": [{"expr": "review_insights_human_review_rate", "refId": "A"}],
+      "title": "Taux de revue humaine",
+      "type": "gauge"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"max": 1, "min": 0, "unit": "percentunit"}},
+      "gridPos": {"h": 5, "w": 6, "x": 12, "y": 0},
+      "id": 3,
+      "targets": [{"expr": "review_insights_sentiment_conflict_rate", "refId": "A"}],
+      "title": "Contradictions",
+      "type": "gauge"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 5, "w": 6, "x": 18, "y": 0},
+      "id": 4,
+      "targets": [{"expr": "review_insights_data_rows{status=\"annotation_queue\"}", "refId": "A"}],
+      "title": "Backlog annotation",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 5},
+      "id": 5,
+      "options": {"legend": {"displayMode": "table", "placement": "right"}},
+      "targets": [{"expr": "review_insights_sentiment_total", "legendFormat": "{{sentiment}}", "refId": "A"}],
+      "title": "Distribution des sentiments",
+      "type": "piechart"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 5},
+      "id": 6,
+      "options": {"displayMode": "gradient", "orientation": "horizontal"},
+      "targets": [{"expr": "review_insights_theme_total", "legendFormat": "{{theme}}", "refId": "A"}],
+      "title": "Thèmes détectés",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 13},
+      "id": 7,
+      "targets": [{"expr": "review_insights_backend_total", "legendFormat": "{{backend}}", "refId": "A"}],
+      "title": "Provenance des analyses",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 13},
+      "id": 8,
+      "targets": [{"expr": "ALERTS{alertstate=\"firing\",domain=\"business\"}", "format": "table", "instant": true, "refId": "A"}],
+      "title": "Alertes qualité métier",
+      "type": "table"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 41,
+  "tags": ["review-insights", "business", "quality"],
+  "templating": {"list": []},
+  "time": {"from": "now-24h", "to": "now"},
+  "timezone": "browser",
+  "title": "Review Insights - Qualité Métier",
+  "uid": "review-insights-business",
+  "version": 1
+}

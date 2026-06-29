@@ -109,7 +109,10 @@ def enforce_api_key(settings: Settings, request: Request, api_key: str | None) -
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="API key protection is required but not configured.",
         )
-    if not api_key or not secrets.compare_digest(api_key, configured_key):
+    authorization = request.headers.get("Authorization", "")
+    bearer_key = authorization[7:].strip() if authorization.lower().startswith("bearer ") else None
+    presented_key = api_key or bearer_key
+    if not presented_key or not secrets.compare_digest(presented_key, configured_key):
         log_security_event("api_key_rejected", request, "Invalid or missing API key.")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

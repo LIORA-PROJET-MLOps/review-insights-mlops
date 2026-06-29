@@ -1,3 +1,33 @@
+x-dagster-common: &dagster-common
+  build:
+    context: .
+    dockerfile: docker/orchestrator/Dockerfile
+  profiles: ["control"]
+  env_file:
+    - .env.example
+  environment:
+    DAGSTER_PG_HOST: dagster-postgres
+    DAGSTER_PG_USER: ${DAGSTER_DB_USER:-dagster}
+    DAGSTER_PG_PASSWORD: ${DAGSTER_DB_PASSWORD:-change-me-dagster-db}
+    DAGSTER_PG_DB: ${DAGSTER_DB_NAME:-dagster}
+    MLFLOW_TRACKING_ENABLED: "true"
+    MLFLOW_TRACKING_URI: http://mlflow:5000
+    MLFLOW_EXPERIMENT_NAME: review-insights-orchestrated
+    PUSHGATEWAY_URL: http://pushgateway:9091
+    ORCHESTRATOR_DATA_ROOT: /app/data_store
+    ORCHESTRATOR_INCOMING_DIR: /app/data_store/raw/incoming
+    ORCHESTRATOR_MODEL_OUTPUT_ROOT: /app/artifacts/orchestrated_models
+    ORCHESTRATOR_REPORT_ROOT: /app/reports/orchestration
+    ALERT_WEBHOOK_URL: ${ALERT_WEBHOOK_URL:-}
+  volumes:
+    - orchestrator_data:/app/data_store
+    - ./data/raw/incoming:/app/data_store/raw/incoming
+    - artifacts:/app/artifacts
+    - reports:/app/reports
+    - ./models:/app/models
+    - dagster_compute_logs:/opt/dagster/storage
+  restart: unless-stopped
+
 services:
   postgres:
     image: postgres:16.14-alpine@sha256:16bc17c64a573ef34162af9298258d1aec548232985b33ed7b1eac33ba35c229
@@ -87,6 +117,7 @@ services:
       - .env.example
     environment:
       APP_ENV: docker
+      API_KEY: ${API_KEY:-}
       SENTIMENT_BACKEND: ${SENTIMENT_BACKEND:-project}
       HF_SENTIMENT_MODEL_ID: ${HF_SENTIMENT_MODEL_ID:-SebasLopez-ai/distilbert-amazon-reviews-sentiment}
       HF_SENTIMENT_REVISION: ${HF_SENTIMENT_REVISION:-881c6455b01b7ef50026f33902f6433651a1b1f0}
@@ -114,6 +145,7 @@ services:
       - .env.example
     environment:
       APP_ENV: docker
+      API_KEY: ${API_KEY:-}
       API_URL: http://api:8000
     ports:
       - "8001:8001"
@@ -137,6 +169,7 @@ services:
       - .env.example
     environment:
       APP_ENV: docker
+      API_KEY: ${API_KEY:-}
       API_URL: http://api:8000
     ports:
       - "9000:9000"
@@ -159,6 +192,7 @@ services:
       - .env.example
     environment:
       APP_ENV: docker
+      API_KEY: ${API_KEY:-}
       API_URL: http://api:8000
       DATA_URL: http://data:8001
       MONITORING_URL: http://monitoring:9000
@@ -169,9 +203,141 @@ services:
       api:
         condition: service_healthy
 
+  dagster-postgres:
+    image: postgres:16.14-alpine@sha256:16bc17c64a573ef34162af9298258d1aec548232985b33ed7b1eac33ba35c229
+    profiles: ["control"]
+    environment:
+      POSTGRES_USER: ${DAGSTER_DB_USER:-dagster}
+      POSTGRES_PASSWORD: ${DAGSTER_DB_PASSWORD:-change-me-dagster-db}
+      POSTGRES_DB: ${DAGSTER_DB_NAME:-dagster}
+    volumes:
+      - dagster_postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DAGSTER_DB_USER:-dagster} -d ${DAGSTER_DB_NAME:-dagster}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  dagster-code:
+    <<: *dagster-common
+    command: ["dagster", "code-server", "start", "-h", "0.0.0.0", "-p", "4000", "-m", "orchestration.definitions"]
+    depends_on:
+      dagster-postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "dagster", "api", "grpc-health-check", "-h", "127.0.0.1", "-p", "4000"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  dagster-webserver:
+    <<: *dagster-common
+    command: ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000", "-w", "/app/orchestration/workspace.yaml"]
+    ports:
+      - "3001:3000"
+    depends_on:
+      dagster-code:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:3000/server_info', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  dagster-daemon:
+    <<: *dagster-common
+    command: ["dagster-daemon", "run", "-w", "/app/orchestration/workspace.yaml"]
+    depends_on:
+      dagster-code:
+        condition: service_healthy
+
+  pushgateway:
+    image: prom/pushgateway:v1.11.3
+    profiles: ["control"]
+    ports:
+      - "9091:9091"
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    profiles: ["control"]
+    command: ["--config.file=/etc/alertmanager/alertmanager.yml", "--storage.path=/alertmanager"]
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./deploy/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager_data:/alertmanager
+    restart: unless-stopped
+
+  blackbox-exporter:
+    image: prom/blackbox-exporter:v0.27.0
+    profiles: ["control"]
+    command: ["--config.file=/etc/blackbox_exporter/config.yml"]
+    volumes:
+      - ./deploy/blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    restart: unless-stopped
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.57.0
+    profiles: ["control"]
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+    restart: unless-stopped
+
+  prometheus:
+    build:
+      context: .
+      dockerfile: docker/prometheus/Dockerfile
+    profiles: ["control"]
+    environment:
+      API_KEY: ${API_KEY:-}
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+    restart: unless-stopped
+    depends_on:
+      - monitoring
+      - pushgateway
+      - alertmanager
+      - blackbox-exporter
+      - cadvisor
+
+  grafana:
+    image: grafana/grafana:12.4.3
+    profiles: ["control"]
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-change-me-grafana}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
 volumes:
   reports:
   artifacts:
   mlflow_postgres_data:
   minio_data:
   transformer_sentiment_cache:
+  orchestrator_data:
+  dagster_postgres_data:
+  dagster_compute_logs:
+  prometheus_data:
+  grafana_data:
+  alertmanager_data:

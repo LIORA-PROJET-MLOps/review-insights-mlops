@@ -1,0 +1,13 @@
+dagster==1.13.6
+dagster-webserver==1.13.6
+dagster-postgres==0.29.6
+prometheus-client>=0.22,<1
+mlflow>=3.13,<3.14
+boto3>=1.40,<2
+psycopg2-binary>=2.9,<3
+pandas>=2.2,<3
+pyarrow>=18,<25
+numpy>=2.0,<3
+joblib>=1.4,<2
+scikit-learn>=1.6,<1.7
+huggingface_hub>=0.35,<1

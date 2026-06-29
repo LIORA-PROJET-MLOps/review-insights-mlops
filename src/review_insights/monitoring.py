@@ -10,6 +10,7 @@ from typing import Dict
 class MonitoringStore:
     total_requests: int = 0
     human_review_requests: int = 0
+    sentiment_conflict_requests: int = 0
     sentiment_counter: Counter = field(default_factory=Counter)
     theme_counter: Counter = field(default_factory=Counter)
     backend_counter: Counter = field(default_factory=Counter)
@@ -37,6 +38,8 @@ class MonitoringStore:
             self.sentiment_counter[result.get("global_sentiment", "unknown")] += 1
             if result.get("needs_human_review"):
                 self.human_review_requests += 1
+            if result.get("sentiment_conflict"):
+                self.sentiment_conflict_requests += 1
             for theme in result.get("themes_detected", []):
                 self.theme_counter[theme] += 1
 
@@ -55,6 +58,11 @@ class MonitoringStore:
     def snapshot(self) -> Dict:
         with self._lock:
             human_review_rate = round(self.human_review_requests / self.total_requests, 4) if self.total_requests else 0.0
+            sentiment_conflict_rate = (
+                round(self.sentiment_conflict_requests / self.total_requests, 4)
+                if self.total_requests
+                else 0.0
+            )
             sorted_latencies = sorted(self.inference_latency_ms)
             sorted_http_latencies = sorted(self.http_latency_ms)
 
@@ -70,6 +78,8 @@ class MonitoringStore:
                 "total_requests": self.total_requests,
                 "human_review_requests": self.human_review_requests,
                 "human_review_rate": human_review_rate,
+                "sentiment_conflict_requests": self.sentiment_conflict_requests,
+                "sentiment_conflict_rate": sentiment_conflict_rate,
                 "inference_latency_ms_avg": round(sum(sorted_latencies) / len(sorted_latencies), 2)
                 if sorted_latencies
                 else 0.0,

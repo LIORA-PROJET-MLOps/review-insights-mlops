@@ -22,11 +22,16 @@
 - Placeholder training historique: `pipelines/train_placeholder.py`
 - Rapports generes: `reports/default_evaluation.json` et `reports/default_evaluation.md`
 - Placeholder artifact training: `artifacts/TRAINING_PLACEHOLDER.md`
+- Orchestration Dagster: `orchestration/definitions.py`
+- Métriques batch: `orchestration/control_metrics.py`
+- Règles Prometheus: `deploy/prometheus/rules/review-insights.yml`
+- Dashboards Grafana provisionnés: `deploy/grafana/dashboards/`
 
 ## Livrables exploitation
 
 - Containerisation: `Dockerfile`
 - Orchestration locale: `compose.yaml`
+- Profil de contrôle: `docker compose --profile control up --build -d`
 - Configuration: `.env.example`
 - CI: `.github/workflows/ci.yml`
 - Bundles Hugging Face reproductibles: `scripts/build_hf_space_bundle.ps1` et `scripts/build_hf_frontend_space_bundle.ps1`
@@ -39,3 +44,4 @@
 - Livrables finaux: `docs/LIVRABLES_FINAUX_FR.md`
 - Dossier soutenance: `docs/SOUTENANCE_READY_FR.md`
 - Etat des lieux et plan final: `docs/ETAT_DES_LIEUX_PLAN_PHASE_FINALE_FR.md`
+- Orchestration et centre de contrôle: `docs/ORCHESTRATION_CONTROL_CENTER_FR.md`

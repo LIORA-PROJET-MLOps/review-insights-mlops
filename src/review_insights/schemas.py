@@ -81,6 +81,8 @@ class MetricsResponse(BaseModel):
     total_requests: int
     human_review_requests: int
     human_review_rate: float
+    sentiment_conflict_requests: int = 0
+    sentiment_conflict_rate: float = 0.0
     inference_latency_ms_avg: float
     inference_latency_ms_p50: float
     inference_latency_ms_p95: float

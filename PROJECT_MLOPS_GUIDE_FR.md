@@ -54,11 +54,11 @@ Elements deja presents:
 
 ### Phase 3 - Orchestration et deploiement
 
-Objectifs prepares:
+Objectifs couverts:
 
 - application executable via API ou Streamlit
 - containerisation initiale
-- orchestration locale simple
+- orchestration Dagster par assets, jobs, schedules et sensors
 - healthcheck API
 - contrats d'E/S stabilises
 - verification automatique par CI
@@ -72,6 +72,7 @@ Elements deja presents:
 - scripts `pipelines/evaluate_default.py`, `pipelines/train_models.py` et `pipelines/train_placeholder.py`
 - generation d'artefacts dans `reports/` et `artifacts/`
 - workflow `.github/workflows/ci.yml`
+- package `orchestration/` et image `docker/orchestrator/`
 
 ### Phase 4 - Monitoring et maintenance
 
@@ -96,6 +97,9 @@ Elements deja presents:
 - rapports d'evaluation exportes en JSON et Markdown
 - logging des runs de retraining et enregistrement de versions candidates dans MLflow Model Registry
 - service `monitoring` avec endpoint `/metrics` compatible Prometheus
+- stockage temporel Prometheus et métriques batch via Pushgateway
+- contrôle de disponibilité Blackbox et ressources conteneurs cAdvisor
+- Alertmanager et quatre dashboards Grafana provisionnés
 
 ## Securite et gouvernance technique
 
@@ -111,25 +115,19 @@ Elements ajoutes dans la base finale:
 
 ## Architecture logique finale du POC
 
-```text
-Review text
-   |
-   v
-Streamlit / frontend statique
-   |
-   v
-API REST
-   |
-   v
-ReviewAnalysisService
-   |
-   +--> backend real models (project_models_v1)
-   |
-   +--> fallback heuristic backend
-   |
-   +--> monitoring runtime
-   |
-   +--> evaluation batch
+```mermaid
+flowchart LR
+    UI["Streamlit"] --> API["API d'inférence"]
+    API --> SVC["ReviewAnalysisService"]
+    SVC --> PROJECT["Modèles projet"]
+    SVC --> TRANSFORMER["Transformer ONNX optionnel"]
+    SVC -. fallback .-> RULES["Règles heuristiques"]
+    DAGSTER["Dagster"] --> DATA["Pipeline data"]
+    DATA --> TRAIN["Training et évaluation"]
+    TRAIN --> MLFLOW["MLflow Registry"]
+    API --> PROM["Prometheus"]
+    DAGSTER --> PROM
+    PROM --> GRAFANA["Grafana"]
 ```
 
 ## Principes retenus
@@ -146,8 +144,8 @@ ReviewAnalysisService
 
 - Les modeles de sentiment embarquent maintenant un mapping de classes explicite dans `models/manifest.json`.
 - Les artefacts `joblib` ont une sensibilite de version `scikit-learn`.
-- La pipeline d'entrainement peut utiliser un CSV valide et enregistrer un candidat dans MLflow Model Registry, mais la promotion automatique reste a industrialiser.
-- Le monitoring est exporte au format Prometheus, mais Grafana et les alertes restent a brancher.
+- La promotion MLflow est disponible avec gates et rollback, mais reste volontairement en dry-run par défaut dans Dagster.
+- Les dashboards et règles d'alerte sont provisionnés; un receiver externe Alertmanager reste à configurer selon l'organisation.
 - Les labels de sentiment par theme explicites sont supportes; sans eux, le training utilise le sentiment global uniquement sur les reviews ou le theme est present.
 
 ## Resultat observable sur la base finale
@@ -159,6 +157,8 @@ ReviewAnalysisService
 - Pipeline training reproductible: `pipelines/train_models.py`
 - Pipeline data locale: `pipelines/ingest_csv_dataset.py`
 - Registry MLflow candidate: `review-insights-project-models`
+- Orchestrateur: Dagster sur `http://localhost:3001`
+- Centre de contrôle: Grafana sur `http://localhost:3000`
 - Placeholder historique: `artifacts/TRAINING_PLACEHOLDER.md`
 - Score observe sur les 40 reviews de reference:
 - `sentiment_accuracy = 0.575`
@@ -170,6 +170,6 @@ ReviewAnalysisService
 
 1. Remplacer le jeu de reference POC par un dataset projet plus large et gele.
 2. Ajouter des labels de sentiment explicites par theme.
-3. Ajouter la promotion des versions MLflow candidates avec gates et rollback.
-4. Ajouter stockage objet, PostgreSQL, Grafana et drift monitoring.
-5. Figer les versions exactes des dependances de training et runtime.
+3. Configurer les receivers Alertmanager de l'organisation.
+4. Ajouter un calcul statistique de drift sur un dataset de production suffisamment volumineux.
+5. Activer la promotion automatique seulement après validation opérationnelle du rollback.

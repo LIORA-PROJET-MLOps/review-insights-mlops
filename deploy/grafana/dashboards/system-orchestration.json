@@ -1,0 +1,67 @@
+{
+  "annotations": {"list": []},
+  "editable": false,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {"title": "Dagster", "type": "link", "url": "http://localhost:3001", "targetBlank": true},
+    {"title": "Prometheus", "type": "link", "url": "http://localhost:9090", "targetBlank": true}
+  ],
+  "panels": [
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "id": 1,
+      "targets": [{"expr": "probe_success", "format": "table", "instant": true, "legendFormat": "{{instance}}", "refId": "A"}],
+      "title": "Disponibilité des services",
+      "type": "table"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"unit": "percentunit"}},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "id": 2,
+      "targets": [{"expr": "review_insights:container_cpu_rate:5m", "legendFormat": "{{name}}", "refId": "A"}],
+      "title": "CPU conteneurs",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"unit": "bytes"}},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "id": 3,
+      "options": {"displayMode": "gradient", "orientation": "horizontal"},
+      "targets": [{"expr": "topk(12, review_insights:container_memory_bytes)", "legendFormat": "{{name}}", "refId": "A"}],
+      "title": "Mémoire conteneurs",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "id": 4,
+      "targets": [
+        {"expr": "up{job=~\"prometheus|cadvisor|pushgateway|review-insights-monitoring\"}", "legendFormat": "{{job}}", "refId": "A"},
+        {"expr": "probe_success{instance=~\".*dagster.*|.*mlflow.*\"}", "legendFormat": "{{instance}}", "refId": "B"}
+      ],
+      "title": "Services de contrôle",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 7, "w": 24, "x": 0, "y": 16},
+      "id": 5,
+      "targets": [{"expr": "ALERTS{alertstate=\"firing\"}", "format": "table", "instant": true, "refId": "A"}],
+      "title": "Toutes les alertes actives",
+      "type": "table"
+    }
+  ],
+  "refresh": "15s",
+  "schemaVersion": 41,
+  "tags": ["review-insights", "system", "orchestration"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "browser",
+  "title": "Review Insights - Système & Orchestration",
+  "uid": "review-insights-system",
+  "version": 1
+}

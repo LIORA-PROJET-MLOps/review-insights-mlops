@@ -30,7 +30,12 @@ jobs:
         run: pytest -q --cov=src.review_insights --cov-report=term-missing --cov-fail-under=70
 
       - name: Validate Docker Compose config
-        run: docker compose config --quiet
+        run: |
+          docker compose config --quiet
+          docker compose --profile control config --quiet
+
+      - name: Validate provisioned dashboards
+        run: python -c "import json, pathlib; [json.loads(path.read_text()) for path in pathlib.Path('deploy/grafana/dashboards').glob('*.json')]"
 
       - name: Run lint
         run: python -m ruff check .
@@ -64,6 +69,9 @@ jobs:
       - name: Build Docker Compose services
         run: docker compose build
 
+      - name: Build control-plane services
+        run: docker compose --profile control build dagster-code prometheus
+
       - name: Smoke test Docker Compose services
         run: |
           docker compose up -d
@@ -82,6 +90,23 @@ jobs:
             curl --fail --silent --show-error "$url" >/dev/null
           done
 
+      - name: Smoke test control plane
+        run: |
+          docker compose --profile control up -d dagster-webserver grafana
+          for url in \
+            http://localhost:3001/server_info \
+            http://localhost:9090/-/healthy \
+            http://localhost:9093/-/healthy \
+            http://localhost:3000/api/health; do
+            for attempt in {1..45}; do
+              if curl --fail --silent --show-error "$url" >/dev/null; then
+                break
+              fi
+              sleep 2
+            done
+            curl --fail --silent --show-error "$url" >/dev/null
+          done
+
       - name: Stop Docker Compose services
         if: always()
-        run: docker compose down -v
+        run: docker compose --profile control down -v

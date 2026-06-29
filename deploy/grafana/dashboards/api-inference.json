@@ -1,0 +1,97 @@
+{
+  "annotations": {"list": []},
+  "editable": false,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {"title": "API health", "type": "link", "url": "http://localhost:8000/health", "targetBlank": true},
+    {"title": "Prometheus", "type": "link", "url": "http://localhost:9090", "targetBlank": true}
+  ],
+  "panels": [
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"mappings": [{"options": {"0": {"color": "red", "text": "DOWN"}, "1": {"color": "green", "text": "UP"}}, "type": "value"}], "thresholds": {"mode": "absolute", "steps": [{"color": "red"}, {"color": "green", "value": 1}]}}},
+      "gridPos": {"h": 5, "w": 4, "x": 0, "y": 0},
+      "id": 1,
+      "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "center", "textMode": "auto"},
+      "targets": [{"expr": "probe_success{instance=\"http://api:8000/health\"}", "refId": "A"}],
+      "title": "API inference",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"unit": "reqps"}},
+      "gridPos": {"h": 8, "w": 10, "x": 4, "y": 0},
+      "id": 2,
+      "targets": [{"expr": "rate(review_insights_http_requests_total[5m])", "legendFormat": "requests/s", "refId": "A"}],
+      "title": "Débit API",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"unit": "ms"}},
+      "gridPos": {"h": 8, "w": 10, "x": 14, "y": 0},
+      "id": 3,
+      "targets": [
+        {"expr": "review_insights_http_latency_ms{stat=\"avg\"}", "legendFormat": "avg", "refId": "A"},
+        {"expr": "review_insights_http_latency_ms{stat=\"p95\"}", "legendFormat": "p95", "refId": "B"},
+        {"expr": "review_insights_inference_latency_ms{stat=\"p95\"}", "legendFormat": "inference p95", "refId": "C"}
+      ],
+      "title": "Latence",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"max": 1, "min": 0, "unit": "percentunit", "thresholds": {"mode": "absolute", "steps": [{"color": "green"}, {"color": "orange", "value": 0.02}, {"color": "red", "value": 0.05}]}}},
+      "gridPos": {"h": 5, "w": 4, "x": 0, "y": 5},
+      "id": 4,
+      "targets": [{"expr": "review_insights_http_error_rate", "refId": "A"}],
+      "title": "Erreurs HTTP",
+      "type": "gauge"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"max": 1, "min": 0, "unit": "percentunit"}},
+      "gridPos": {"h": 6, "w": 6, "x": 0, "y": 10},
+      "id": 5,
+      "targets": [{"expr": "review_insights_human_review_rate", "refId": "A"}],
+      "title": "Revue humaine",
+      "type": "gauge"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"max": 1, "min": 0, "unit": "percentunit"}},
+      "gridPos": {"h": 6, "w": 6, "x": 6, "y": 10},
+      "id": 6,
+      "targets": [{"expr": "review_insights_sentiment_conflict_rate", "refId": "A"}],
+      "title": "Contradictions sentiment",
+      "type": "gauge"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 6, "w": 12, "x": 12, "y": 10},
+      "id": 7,
+      "options": {"legend": {"displayMode": "table", "placement": "right"}},
+      "targets": [{"expr": "review_insights_sentiment_backend_total", "legendFormat": "{{backend}}", "refId": "A"}],
+      "title": "Backend sentiment utilisé",
+      "type": "piechart"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 7, "w": 24, "x": 0, "y": 16},
+      "id": 8,
+      "targets": [{"expr": "ALERTS{alertstate=\"firing\",domain=~\"api|model\"}", "format": "table", "instant": true, "refId": "A"}],
+      "title": "Alertes API et modèle actives",
+      "type": "table"
+    }
+  ],
+  "refresh": "15s",
+  "schemaVersion": 41,
+  "tags": ["review-insights", "api", "inference"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "browser",
+  "title": "Review Insights - API & Inférence",
+  "uid": "review-insights-api",
+  "version": 1
+}

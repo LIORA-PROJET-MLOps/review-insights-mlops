@@ -1,4 +1,4 @@
-# Review Insights+ - base finale POC/MVP MLOps
+# Review Insights+ 1.0 - plateforme MLOps finale
 
 ## Vue d'ensemble
 
@@ -46,6 +46,8 @@ Ce depot contient une base finale de POC/MVP alignee avec les lignes guides du p
 - distributions des predictions
 - metriques HTTP, taux d'erreur et `X-Request-ID`
 - rapports exportables dans `reports/`
+- orchestration Dagster des pipelines data et ML
+- Prometheus, règles d'alerte et quatre dashboards Grafana provisionnés
 
 ### Securite et exploitation
 
@@ -447,11 +449,23 @@ Le projet est maintenant separe en services Docker specialises:
 - `mlflow`: serveur de tracking et Model Registry, expose l'interface MLflow sur `http://localhost:5000`.
 - `monitoring`: gateway de supervision, interroge l'API interne, expose `/v1/api/health`, `/v1/api/metrics` et `/metrics` au format texte compatible Prometheus.
 - `streamlit`: frontend POC client des services `api`, `data` et `monitoring`, sans chargement local des modeles.
+- `dagster-code`, `dagster-webserver` et `dagster-daemon`: orchestration des assets, jobs, schedules et sensors.
+- `prometheus`, `pushgateway`, `blackbox-exporter` et `cadvisor`: collecte batch, disponibilité et ressources système.
+- `grafana`: centre de contrôle API, données/modèles, système/orchestration et qualité métier.
 
 L'interface ne depend au demarrage que de `api`: MLflow, PostgreSQL, MinIO, `data` et
 `monitoring` peuvent etre indisponibles sans bloquer l'analyse unitaire. Le healthcheck API laisse
 une fenetre de 180 secondes configurable (`API_START_PERIOD`) au premier chargement ONNX.
 L'enregistrement MLflow d'une evaluation est lance en tache de fond et ne bloque pas sa reponse.
+
+La couche de contrôle complète est optionnelle au démarrage :
+
+```powershell
+docker compose --profile control up --build -d
+```
+
+Consulter [le guide orchestration et dashboards](docs/ORCHESTRATION_CONTROL_CENTER_FR.md) pour les
+jobs, schedules, sensors, alertes et URLs de contrôle.
 
 Dockerfiles:
 

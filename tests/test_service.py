@@ -58,6 +58,9 @@ def test_optional_transformer_overrides_only_global_sentiment(monkeypatch):
     assert result.provenance.sentiment_model_id == "test/sentiment"
     assert result.provenance.sentiment_model_revision == "immutable-test-revision"
     assert result.provenance.inference_backend == "project_models_v1+hf_onnx_sentiment_v1"
+    metrics = service.get_monitoring_metrics()
+    assert metrics["sentiment_conflict_requests"] == 1
+    assert metrics["sentiment_conflict_rate"] == 1.0
 
 
 def test_optional_transformer_load_failure_keeps_project_backend(monkeypatch):

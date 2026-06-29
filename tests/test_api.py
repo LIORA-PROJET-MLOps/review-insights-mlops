@@ -112,6 +112,19 @@ def test_api_key_protection_when_configured(monkeypatch):
     monkeypatch.delenv("API_KEY", raising=False)
 
 
+def test_api_accepts_bearer_token_for_internal_monitoring(monkeypatch):
+    monkeypatch.setenv("API_KEY", "secret-key")
+    secured_client = TestClient(create_app())
+
+    response = secured_client.get(
+        "/metrics",
+        headers={"Authorization": "Bearer secret-key"},
+    )
+
+    assert response.status_code == 200
+    monkeypatch.delenv("API_KEY", raising=False)
+
+
 def test_api_key_required_without_config_returns_service_error(monkeypatch):
     monkeypatch.setenv("REQUIRE_API_KEY", "true")
     monkeypatch.delenv("API_KEY", raising=False)

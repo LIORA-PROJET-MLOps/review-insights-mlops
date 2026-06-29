@@ -1,6 +1,6 @@
 # Etat des lieux pedagogique du POC Review Insights+
 
-Date de verification locale: 2026-06-05
+Date de verification locale: 2026-06-29
 
 Ce document explique le POC de facon simple: ce qu'il fait, comment il est organise, ce qui est deja solide, et ce qui reste a renforcer avant une vraie mise en production.
 
@@ -25,11 +25,12 @@ Etat actuel:
 | Inference API | OK | L'API FastAPI fonctionne et charge les modeles locaux. |
 | Modeles ML | OK pour POC | Les artefacts sont presents, verifies par checksum, et utilises par defaut. |
 | Frontend | OK pour demo | Streamlit local + page web statique connectable a une API publique. |
-| Tests | OK | 72 tests passent en local avec `py -3 -m pytest -q`. |
+| Tests | OK | 84 tests passent avec une couverture globale de 77,05 %. |
 | Data pipeline | Bon socle | Ingestion, validation, quarantaine, splits, manifestes et quality gates existent. |
 | MLOps | Bon socle | MLflow, model registry, gates minimum/maximum, promotion et rollback sont prepares. |
-| Monitoring | POC+ | Metriques runtime, HTTP, request ID et Prometheus presents, mais stockes en memoire. |
-| Production | Pas encore | Les performances et la securite doivent etre durcies. |
+| Orchestration | OK | Dagster expose les assets, jobs, schedules, sensors et quality checks. |
+| Monitoring | OK pour MVP | Prometheus, Pushgateway, Blackbox, cAdvisor, Alertmanager et Grafana sont provisionnes. |
+| Production | À valider | Le socle est industrialisable; dataset réel, secrets et receivers d'alerte restent à configurer. |
 
 Verification runtime:
 

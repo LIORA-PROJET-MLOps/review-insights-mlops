@@ -7,6 +7,8 @@ def test_prometheus_formatter_exports_core_metrics():
             "total_requests": 3,
             "human_review_requests": 1,
             "human_review_rate": 0.3333,
+            "sentiment_conflict_requests": 1,
+            "sentiment_conflict_rate": 0.3333,
             "http_requests_total": 4,
             "http_error_requests": 1,
             "http_error_rate": 0.25,
@@ -23,6 +25,8 @@ def test_prometheus_formatter_exports_core_metrics():
     assert 'review_insights_sentiment_total{sentiment="negative"} 2' in payload
     assert 'review_insights_theme_total{theme="sav"} 2' in payload
     assert 'review_insights_sentiment_backend_total{backend="hf_onnx_sentiment_v1"} 3' in payload
+    assert "review_insights_sentiment_conflict_requests_total 1" in payload
+    assert "review_insights_sentiment_conflict_rate 0.3333" in payload
     assert 'review_insights_inference_latency_ms{stat="p95"} 0.0' in payload
     assert "review_insights_http_requests_total 4" in payload
     assert 'review_insights_http_status_total{status="200"} 3' in payload
