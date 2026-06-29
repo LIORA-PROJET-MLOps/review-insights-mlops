@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Fonctionnalités de Review Insights+</title>
+  <desc id="desc">Carte des entrées, capacités d'analyse et résultats de Review Insights+.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111A"/>
+      <stop offset="1" stop-color="#0D1C28"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#1FD3B5"/>
+      <stop offset="1" stop-color="#6ED3FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#6ED3FF"/>
+    </marker>
+    <style>
+      .title{font:700 48px 'Plus Jakarta Sans',Arial,sans-serif;fill:#EEF5FB}
+      .subtitle{font:400 22px 'Plus Jakarta Sans',Arial,sans-serif;fill:#A7BBCA}
+      .col{font:700 18px 'Plus Jakarta Sans',Arial,sans-serif;fill:#6ED3FF;letter-spacing:2px}
+      .card-title{font:700 23px 'Plus Jakarta Sans',Arial,sans-serif;fill:#EEF5FB}
+      .copy{font:400 17px 'Plus Jakarta Sans',Arial,sans-serif;fill:#A7BBCA}
+      .small{font:500 16px 'Plus Jakarta Sans',Arial,sans-serif;fill:#A7BBCA}
+      .panel{fill:#0F2231;stroke:#294356;stroke-width:2}
+      .card{fill:#132B3C;stroke:#315066;stroke-width:2}
+      .flow{fill:none;stroke:#6ED3FF;stroke-width:4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <text class="title" x="70" y="72">Fonctionnalités de Review Insights+</text>
+  <text class="subtitle" x="70" y="110">Des avis bruts aux décisions produit, support et logistique.</text>
+
+  <!-- Colonnes -->
+  <rect class="panel" x="70" y="150" width="315" height="680" rx="28"/>
+  <rect class="panel" x="430" y="150" width="740" height="680" rx="28"/>
+  <rect class="panel" x="1215" y="150" width="315" height="680" rx="28"/>
+  <text class="col" x="100" y="190">ENTRÉES</text>
+  <text class="col" x="460" y="190">CAPACITÉS D'ANALYSE</text>
+  <text class="col" x="1245" y="190">RÉSULTATS</text>
+
+  <!-- Entrées -->
+  <g filter="url(#shadow)">
+    <rect class="card" x="105" y="225" width="245" height="135" rx="22"/>
+    <rect class="card" x="105" y="390" width="245" height="135" rx="22"/>
+    <rect class="card" x="105" y="555" width="245" height="135" rx="22"/>
+  </g>
+  <circle cx="145" cy="265" r="20" fill="#1FD3B5" opacity="0.9"/>
+  <text class="card-title" x="180" y="272">Avis unitaire</text>
+  <text class="copy" x="130" y="310">Titre + contenu d'une review</text>
+  <text class="copy" x="130" y="336">en anglais.</text>
+  <circle cx="145" cy="430" r="20" fill="#6ED3FF" opacity="0.9"/>
+  <text class="card-title" x="180" y="437">Fichier CSV</text>
+  <text class="copy" x="130" y="475">Analyse par lot et</text>
+  <text class="copy" x="130" y="501">enrichissement de données.</text>
+  <circle cx="145" cy="595" r="20" fill="#F3B44F" opacity="0.95"/>
+  <text class="card-title" x="180" y="602">Appel API</text>
+  <text class="copy" x="130" y="640">Intégration depuis une</text>
+  <text class="copy" x="130" y="666">application métier.</text>
+  <rect x="105" y="726" width="245" height="70" rx="18" fill="#102A38"/>
+  <text class="small" x="227" y="755" text-anchor="middle">Contrat d'entrée validé</text>
+  <text class="small" x="227" y="779" text-anchor="middle">et taille contrôlée</text>
+
+  <!-- Capacités -->
+  <g filter="url(#shadow)">
+    <rect x="465" y="225" width="320" height="155" rx="24" fill="#113344" stroke="#1FD3B5" stroke-width="2"/>
+    <rect x="815" y="225" width="320" height="155" rx="24" fill="#113344" stroke="#6ED3FF" stroke-width="2"/>
+    <rect class="card" x="465" y="410" width="320" height="155" rx="24"/>
+    <rect class="card" x="815" y="410" width="320" height="155" rx="24"/>
+    <rect class="card" x="465" y="595" width="320" height="155" rx="24"/>
+    <rect x="815" y="595" width="320" height="155" rx="24" fill="#302819" stroke="#F3B44F" stroke-width="2"/>
+  </g>
+  <text class="card-title" x="495" y="266">Sentiment global</text>
+  <text class="copy" x="495" y="300">Classe chaque avis en positif,</text>
+  <text class="copy" x="495" y="326">neutre ou négatif avec un</text>
+  <text class="copy" x="495" y="352">score de confiance.</text>
+  <text class="card-title" x="845" y="266">Thèmes multi-label</text>
+  <text class="copy" x="845" y="300">Détecte simultanément livraison,</text>
+  <text class="copy" x="845" y="326">service client et produit.</text>
+  <text class="copy" x="845" y="352">Une review peut avoir 3 thèmes.</text>
+  <text class="card-title" x="495" y="451">Sentiment par thème</text>
+  <text class="copy" x="495" y="485">Précise si chaque sujet détecté</text>
+  <text class="copy" x="495" y="511">est perçu positivement,</text>
+  <text class="copy" x="495" y="537">négativement ou sans polarité.</text>
+  <text class="card-title" x="845" y="451">Confiance &amp; evidence</text>
+  <text class="copy" x="845" y="485">Expose les scores et les indices</text>
+  <text class="copy" x="845" y="511">utilisés pour faciliter la lecture</text>
+  <text class="copy" x="845" y="537">et l'audit humain.</text>
+  <text class="card-title" x="495" y="636">Actions recommandées</text>
+  <text class="copy" x="495" y="670">Traduit le diagnostic en action</text>
+  <text class="copy" x="495" y="696">pour les équipes CX, support,</text>
+  <text class="copy" x="495" y="722">logistique ou produit.</text>
+  <text x="845" y="636" font-family="Plus Jakarta Sans,Arial" font-size="23" font-weight="700" fill="#F3B44F">Human review</text>
+  <text class="copy" x="845" y="670">Signale les cas ambigus ou à</text>
+  <text class="copy" x="845" y="696">faible confiance pour éviter</text>
+  <text class="copy" x="845" y="722">une automatisation risquée.</text>
+
+  <!-- Résultats -->
+  <g filter="url(#shadow)">
+    <rect class="card" x="1250" y="225" width="245" height="145" rx="22"/>
+    <rect class="card" x="1250" y="400" width="245" height="145" rx="22"/>
+    <rect class="card" x="1250" y="575" width="245" height="145" rx="22"/>
+  </g>
+  <text class="card-title" x="1372" y="267" text-anchor="middle">Insight structuré</text>
+  <text class="copy" x="1372" y="304" text-anchor="middle">Sentiment · thèmes</text>
+  <text class="copy" x="1372" y="331" text-anchor="middle">scores · action</text>
+  <text class="card-title" x="1372" y="442" text-anchor="middle">Priorisation</text>
+  <text class="copy" x="1372" y="479" text-anchor="middle">Irritants, signaux faibles</text>
+  <text class="copy" x="1372" y="506" text-anchor="middle">et cas à revoir</text>
+  <text class="card-title" x="1372" y="617" text-anchor="middle">Restitution</text>
+  <text class="copy" x="1372" y="654" text-anchor="middle">Interface · JSON</text>
+  <text class="copy" x="1372" y="681" text-anchor="middle">CSV enrichi · API</text>
+  <rect x="1250" y="756" width="245" height="40" rx="20" fill="url(#accent)"/>
+  <text x="1372" y="782" text-anchor="middle" font-family="Plus Jakarta Sans,Arial" font-size="17" font-weight="700" fill="#08222D">Décision métier plus rapide</text>
+
+  <!-- Flux -->
+  <path class="flow" d="M385 490H420"/>
+  <path class="flow" d="M1170 490H1205"/>
+</svg>

@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cycle MLOps de Review Insights+</title>
+  <desc id="desc">Cycle de la donnée au monitoring avec retour de la revue humaine.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111A"/>
+      <stop offset="1" stop-color="#0D1C28"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#6ED3FF"/>
+    </marker>
+    <marker id="amberArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#F3B44F"/>
+    </marker>
+    <style>
+      .title{font:700 48px 'Plus Jakarta Sans',Arial,sans-serif;fill:#EEF5FB}
+      .subtitle{font:400 22px 'Plus Jakarta Sans',Arial,sans-serif;fill:#A7BBCA}
+      .step{font:800 18px 'Plus Jakarta Sans',Arial,sans-serif;fill:#07111A}
+      .card-title{font:700 23px 'Plus Jakarta Sans',Arial,sans-serif;fill:#EEF5FB}
+      .copy{font:400 16px 'Plus Jakarta Sans',Arial,sans-serif;fill:#A7BBCA}
+      .card{fill:#112837;stroke:#315066;stroke-width:2}
+      .flow{fill:none;stroke:#6ED3FF;stroke-width:4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <text class="title" x="70" y="72">Cycle MLOps et amélioration continue</text>
+  <text class="subtitle" x="70" y="110">Chaque modèle est relié à une version de données, des métriques et une boucle de feedback.</text>
+
+  <!-- Ligne haute -->
+  <g filter="url(#shadow)">
+    <rect class="card" x="85" y="185" width="270" height="170" rx="25"/>
+    <rect class="card" x="395" y="185" width="270" height="170" rx="25"/>
+    <rect class="card" x="705" y="185" width="270" height="170" rx="25"/>
+    <rect class="card" x="1015" y="185" width="270" height="170" rx="25"/>
+  </g>
+  <circle cx="125" cy="225" r="23" fill="#1FD3B5"/><text class="step" x="125" y="232" text-anchor="middle">1</text>
+  <text class="card-title" x="165" y="232">Collecte</text>
+  <text class="copy" x="115" y="275">Avis clients bruts, batch CSV</text>
+  <text class="copy" x="115" y="301">et feedbacks humains.</text>
+  <text class="copy" x="115" y="327">Zone raw immuable.</text>
+  <circle cx="435" cy="225" r="23" fill="#1FD3B5"/><text class="step" x="435" y="232" text-anchor="middle">2</text>
+  <text class="card-title" x="475" y="232">Qualité data</text>
+  <text class="copy" x="425" y="275">Contrat, schéma, langue, PII,</text>
+  <text class="copy" x="425" y="301">doublons et quarantaine.</text>
+  <text class="copy" x="425" y="327">Quality gates versionnés.</text>
+  <circle cx="745" cy="225" r="23" fill="#6ED3FF"/><text class="step" x="745" y="232" text-anchor="middle">3</text>
+  <text class="card-title" x="785" y="232">Version &amp; splits</text>
+  <text class="copy" x="735" y="275">Train, validation et test</text>
+  <text class="copy" x="735" y="301">indépendants et reproductibles.</text>
+  <text class="copy" x="735" y="327">Manifestes, hashes et DVC.</text>
+  <circle cx="1055" cy="225" r="23" fill="#6ED3FF"/><text class="step" x="1055" y="232" text-anchor="middle">4</text>
+  <text class="card-title" x="1095" y="232">Entraînement</text>
+  <text class="copy" x="1045" y="275">Modèle multi-label thèmes</text>
+  <text class="copy" x="1045" y="301">et modèles de sentiment.</text>
+  <text class="copy" x="1045" y="327">Artefacts et checksums.</text>
+
+  <!-- Gate central -->
+  <rect x="1325" y="185" width="190" height="445" rx="28" fill="#302819" stroke="#F3B44F" stroke-width="3" filter="url(#shadow)"/>
+  <circle cx="1420" cy="242" r="31" fill="#F3B44F"/>
+  <path d="M1404 242L1416 254L1438 229" fill="none" stroke="#4D2C00" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1420" y="308" text-anchor="middle" font-family="Plus Jakarta Sans,Arial" font-size="24" font-weight="700" fill="#F3B44F">Gate de</text>
+  <text x="1420" y="337" text-anchor="middle" font-family="Plus Jakarta Sans,Arial" font-size="24" font-weight="700" fill="#F3B44F">promotion</text>
+  <text class="copy" x="1420" y="385" text-anchor="middle">Seuils minimum</text>
+  <text class="copy" x="1420" y="412" text-anchor="middle">Non-régression</text>
+  <text class="copy" x="1420" y="439" text-anchor="middle">Revue humaine</text>
+  <line x1="1360" y1="470" x2="1480" y2="470" stroke="#725422"/>
+  <text class="copy" x="1420" y="510" text-anchor="middle">Candidate</text>
+  <path d="M1420 526V555" stroke="#F3B44F" stroke-width="3" marker-end="url(#amberArrow)"/>
+  <text class="card-title" x="1420" y="590" text-anchor="middle">Champion</text>
+
+  <!-- Ligne basse -->
+  <g filter="url(#shadow)">
+    <rect class="card" x="1015" y="535" width="270" height="170" rx="25"/>
+    <rect class="card" x="705" y="535" width="270" height="170" rx="25"/>
+    <rect class="card" x="395" y="535" width="270" height="170" rx="25"/>
+    <rect class="card" x="85" y="535" width="270" height="170" rx="25"/>
+  </g>
+  <circle cx="1055" cy="575" r="23" fill="#6ED3FF"/><text class="step" x="1055" y="582" text-anchor="middle">5</text>
+  <text class="card-title" x="1095" y="582">Évaluation</text>
+  <text class="copy" x="1045" y="625">Accuracy, macro F1, thèmes</text>
+  <text class="copy" x="1045" y="651">et taux de revue humaine.</text>
+  <text class="copy" x="1045" y="677">Rapport de release.</text>
+  <circle cx="745" cy="575" r="23" fill="#1FD3B5"/><text class="step" x="745" y="582" text-anchor="middle">6</text>
+  <text class="card-title" x="785" y="582">Registry</text>
+  <text class="copy" x="735" y="625">MLflow candidate / champion,</text>
+  <text class="copy" x="735" y="651">traçabilité des runs</text>
+  <text class="copy" x="735" y="677">et rollback documenté.</text>
+  <circle cx="435" cy="575" r="23" fill="#1FD3B5"/><text class="step" x="435" y="582" text-anchor="middle">7</text>
+  <text class="card-title" x="475" y="582">Déploiement</text>
+  <text class="copy" x="425" y="625">API, Docker et Hugging Face</text>
+  <text class="copy" x="425" y="651">avec révision immuable.</text>
+  <text class="copy" x="425" y="677">Smoke tests automatisés.</text>
+  <circle cx="125" cy="575" r="23" fill="#F3B44F"/><text class="step" x="125" y="582" text-anchor="middle">8</text>
+  <text class="card-title" x="165" y="582">Monitoring</text>
+  <text class="copy" x="115" y="625">Latence, erreurs, distributions,</text>
+  <text class="copy" x="115" y="651">drift et qualité métier.</text>
+  <text class="copy" x="115" y="677">Alertes et revue humaine.</text>
+
+  <!-- Flèches -->
+  <path class="flow" d="M355 270H385"/>
+  <path class="flow" d="M665 270H695"/>
+  <path class="flow" d="M975 270H1005"/>
+  <path class="flow" d="M1285 270H1315"/>
+  <path d="M1325 595H1295" fill="none" stroke="#F3B44F" stroke-width="4" marker-end="url(#amberArrow)"/>
+  <path class="flow" d="M1015 620H985"/>
+  <path class="flow" d="M705 620H675"/>
+  <path class="flow" d="M395 620H365"/>
+
+  <!-- Boucle feedback -->
+  <path d="M220 705V790H1420V640" fill="none" stroke="#F3B44F" stroke-width="3" stroke-dasharray="10 10" marker-end="url(#amberArrow)"/>
+  <path d="M1420 790H220V715" fill="none" stroke="#1FD3B5" stroke-width="3" stroke-dasharray="10 10" marker-end="url(#arrow)"/>
+  <rect x="505" y="758" width="590" height="64" rx="22" fill="#102B39" stroke="#36576C"/>
+  <text x="800" y="787" text-anchor="middle" font-family="Plus Jakarta Sans,Arial" font-size="19" font-weight="700" fill="#EEF5FB">Feedback humain + signaux de production</text>
+  <text x="800" y="811" text-anchor="middle" font-family="Plus Jakarta Sans,Arial" font-size="16" fill="#A7BBCA">alimentent la prochaine version du dataset et du modèle</text>
+</svg>
