@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 
 from .api_client import ReviewInsightsApiClient, ReviewInsightsClientError
-from .config import APP_SUBTITLE, APP_TITLE, DEFAULT_THEME_THRESHOLD, MAX_SELECTABLE_ROWS, THEMES
+from .config import APP_TITLE, DEFAULT_THEME_THRESHOLD, MAX_SELECTABLE_ROWS, THEMES
 from .dataset import flatten_results, load_default_dataset, prepare_dataset, safe_read_csv_filelike
 from .engine import actionable_text
 
@@ -330,6 +330,126 @@ def inject_styles() -> None:
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Minimal, high-contrast interface */
+        :root {
+            --ri-bg: #f7f7f5;
+            --ri-surface: #ffffff;
+            --ri-ink: #000000;
+            --ri-muted: #000000;
+            --ri-border: #d8d8d4;
+            --ri-blue: #2563eb;
+            --ri-blue-soft: #eef4ff;
+            --ri-green: #000000;
+            --ri-green-soft: #eaf7ef;
+            --ri-red: #000000;
+            --ri-red-soft: #fff0f0;
+            --ri-amber: #000000;
+            --ri-amber-soft: #fff7e6;
+            --ri-purple: #000000;
+            --ri-purple-soft: #f4f0ff;
+            --ri-shadow: none;
+        }
+        html, body, [class*="css"], .stApp,
+        .stApp p, .stApp span, .stApp label, .stApp li,
+        .stApp h1, .stApp h2, .stApp h3, .stApp small,
+        .stApp div[data-testid="stMarkdownContainer"] {
+            color: #000000 !important;
+        }
+        .stApp { background: var(--ri-bg); }
+        .block-container {
+            max-width: 1120px;
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+        }
+        section[data-testid="stSidebar"] > div { padding-top: 1.5rem; }
+        section[data-testid="stSidebar"] {
+            min-width: 290px !important;
+            max-width: 290px !important;
+        }
+        .ri-header { margin-bottom: 2rem; }
+        .ri-header h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+        }
+        .ri-header p {
+            max-width: 650px;
+            margin: 0.6rem 0 0;
+            font-size: 1.05rem;
+            line-height: 1.55;
+        }
+        .ri-hero { display: block; margin-bottom: 1.5rem; }
+        .ri-hero-main {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+        .ri-hero-side, .ri-overline { display: none; }
+        .ri-panel, .ri-kpi, .ri-theme-card, .ri-result-card,
+        div[data-testid="stMetric"],
+        div[data-testid="stVerticalBlockBorderWrapper"] {
+            background: #ffffff;
+            border: 1px solid var(--ri-border);
+            border-radius: 12px;
+            box-shadow: none;
+        }
+        .ri-kpi, .ri-theme-card, .ri-result-card { padding: 1rem; }
+        .ri-kpi { min-height: auto; border-top-width: 1px; }
+        .ri-kpi-grid { gap: 12px; margin: 0 0 1.25rem; }
+        .ri-kpi-label, .ri-kpi-note, .ri-result-card span { color: #000000; }
+        .ri-kpi-value { color: #000000; font-size: 1.5rem; font-weight: 700; }
+        .ri-section-title { margin: 0 0 1rem; }
+        .ri-section-title h2 { font-size: 1.25rem; letter-spacing: -0.02em; }
+        .ri-section-title p { color: #000000; line-height: 1.5; }
+        .ri-result-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+        .ri-result-card { min-height: 92px; }
+        .ri-badge {
+            min-height: 28px;
+            padding: 0 0.6rem;
+            border-radius: 6px;
+            border-color: var(--ri-border);
+            color: #000000 !important;
+            font-weight: 650;
+        }
+        .ri-theme-card { min-height: 200px; border-left-width: 1px; }
+        .ri-theme-card p { color: #000000; }
+        .ri-confidence { height: 6px; background: #e8e8e4; }
+        .ri-confidence span { background: var(--ri-blue); }
+        .stTextInput input, .stTextArea textarea,
+        div[data-baseweb="select"] > div {
+            color: #000000 !important;
+            background: #ffffff !important;
+            border-color: var(--ri-border) !important;
+        }
+        .stButton > button, .stDownloadButton > button,
+        .stFormSubmitButton > button {
+            color: #000000 !important;
+            border-color: var(--ri-border);
+            border-radius: 8px;
+            font-weight: 650;
+        }
+        .stButton > button[kind="primary"],
+        .stFormSubmitButton > button[kind="primary"] {
+            color: #000000 !important;
+            background: #dce8ff;
+            border-color: #b7cdfa;
+        }
+        div[data-testid="stDataFrame"], div[data-testid="stExpander"] {
+            border-color: var(--ri-border);
+            border-radius: 10px;
+        }
+        div[data-testid="stExpander"] { background: #ffffff; }
+        header[data-testid="stHeader"] { background: transparent; }
+        @media (max-width: 900px) {
+            .ri-theme-grid, .ri-result-grid { grid-template-columns: 1fr; }
+        }
         </style>
         """,
         unsafe_allow_html=True,
@@ -409,29 +529,13 @@ def render_section_title(title: str, subtitle: str | None = None) -> None:
     )
 
 
-def render_header(df: pd.DataFrame) -> None:
-    negative = int((df["sentiment_label"] == "negative").sum())
-    positive = int((df["sentiment_label"] == "positive").sum())
-    neutral = int((df["sentiment_label"] == "neutral").sum())
-    side_cards = "".join(
-        [
-            _kpi_card("Dataset", len(df), "blue", "reviews chargees"),
-            _kpi_card("Negatives", negative, "red", "labels reference"),
-            _kpi_card("Positives", positive, "green", "labels reference"),
-            _kpi_card("Neutres", neutral, "amber", "labels reference"),
-        ]
-    )
+def render_header() -> None:
     st.markdown(
         (
-            '<div class="ri-hero"><div class="ri-hero-main">'
-            '<div class="ri-overline">Console POC</div>'
-            f"<h1>{escape(APP_TITLE)}</h1><p>{escape(APP_SUBTITLE)}</p>"
-            '<div class="ri-badge-row">'
-            f'{theme_badge("Livraison")}{theme_badge("Service client")}'
-            f'{theme_badge("Produit")}'
-            '<span class="ri-badge ri-badge-warning">Human review</span>'
-            '</div></div><div class="ri-hero-side">'
-            f"{side_cards}</div></div>"
+            '<div class="ri-header">'
+            "<h1>Review Insights</h1>"
+            "<p>Comprenez rapidement le sentiment et les sujets clés d'un avis client.</p>"
+            "</div>"
         ),
         unsafe_allow_html=True,
     )
@@ -493,31 +597,11 @@ def render_result_cards(result: Dict[str, Any]) -> None:
             '<div class="ri-result-grid">'
             '<div class="ri-result-card"><span>Sentiment global</span>'
             f'<strong>{sentiment_badge(result.get("global_sentiment"))}</strong></div>'
-            '<div class="ri-result-card"><span>Themes detectes</span>'
+            '<div class="ri-result-card"><span>Thèmes détectés</span>'
             f'<div class="ri-badge-row">{theme_html}</div></div>'
-            '<div class="ri-result-card"><span>Score global</span>'
-            f'<strong>{escape(_display_text(result.get("score_global")))}</strong></div>'
             '<div class="ri-result-card"><span>Revue humaine</span>'
             f'<div class="ri-badge-row"><span class="ri-badge {human_badge}">'
             f"{human_review}</span></div></div></div>"
-        ),
-        unsafe_allow_html=True,
-    )
-
-
-def render_operational_reading(result: Dict[str, Any]) -> None:
-    positives = ", ".join(result.get("positive_terms", [])) or "Aucun"
-    negatives = ", ".join(result.get("negative_terms", [])) or "Aucun"
-    if result.get("needs_human_review"):
-        st.warning("Cas ambigu: revue humaine recommandee.")
-    else:
-        st.success("Signal exploitable pour une lecture operationnelle rapide.")
-    st.markdown(
-        (
-            '<div class="ri-badge-row">'
-            f'<span class="ri-badge ri-badge-positive">Positifs: {escape(positives)}</span>'
-            f'<span class="ri-badge ri-badge-negative">Negatifs: {escape(negatives)}</span>'
-            "</div>"
         ),
         unsafe_allow_html=True,
     )
@@ -538,7 +622,7 @@ def render_theme_cards(result: Dict[str, Any]) -> None:
         elif present:
             css = "ri-theme-neutral"
 
-        status = "Detecte" if present else "Non detecte"
+        status = "Détecté" if present else "Non détecté"
         sentiment_html = sentiment_badge(sentiment) if present else sentiment_badge("unknown")
         evidence_html = "".join(theme_badge(str(item)) for item in evidence[:4])
         if not evidence_html:
@@ -546,7 +630,7 @@ def render_theme_cards(result: Dict[str, Any]) -> None:
         action_text = (
             actionable_text(theme.key, result.get(f"sent_{theme.key}"))
             if present
-            else "Pas de signal exploitable sur ce theme."
+            else "Pas de signal exploitable sur ce thème."
         )
         width = _confidence_width(confidence)
         cards.append(
@@ -615,61 +699,31 @@ def render_dataset_filters(df: pd.DataFrame) -> pd.DataFrame:
         sentiment_filter = st.radio("Sentiment", SENTIMENT_OPTIONS, horizontal=True)
     with c3:
         theme_filter = st.radio("Theme", THEME_FILTER_OPTIONS, horizontal=True)
-    filtered_df = filter_dataset(df, query, sentiment_filter, theme_filter)
-    render_kpi_grid(
-        [
-            ("Resultats", len(filtered_df), "blue", "apres filtres"),
-            ("Livraison", int(filtered_df["theme_livraison"].sum()), "purple", None),
-            ("SAV", int(filtered_df["theme_sav"].sum()), "amber", None),
-            ("Produit", int(filtered_df["theme_produit"].sum()), "green", None),
-        ]
-    )
-    return filtered_df
+    return filter_dataset(df, query, sentiment_filter, theme_filter)
 
 
-def render_analysis_workspace(df: pd.DataFrame, threshold: float) -> None:
-    render_section_title("Analyse instantanee", "Selection, saisie et resultat sur le meme ecran.")
-    with st.container(border=True):
-        filtered_df = render_dataset_filters(df)
-        table_cols = ["review_id", "review_title", "review_body", "sentiment_label"]
-        st.dataframe(
-            filtered_df[table_cols].head(MAX_SELECTABLE_ROWS),
-            height=250,
-            use_container_width=True,
-        )
-
-    selection_options = ["Saisie manuelle"]
-    lookup = {}
-    for _, row in filtered_df.head(MAX_SELECTABLE_ROWS).iterrows():
-        preview = str(row["review_body"])[:110].replace("\n", " ")
-        label = f"{row['review_id']} - {preview}"
-        selection_options.append(label)
-        lookup[label] = row.to_dict()
-
-    left, right = st.columns([0.95, 1.05])
+def render_analysis_workspace(_df: pd.DataFrame, threshold: float) -> None:
+    render_section_title("Analyser un avis", "Saisissez un avis client pour obtenir une lecture immédiate.")
+    left = st.container()
+    right = st.container()
     selected_text = ""
     selected_id = "manual_review"
-    ground_truth = None
 
     with left:
         with st.container(border=True):
-            render_section_title("Review a analyser")
-            sample_choice = st.selectbox("Exemple rapide", ["Aucun", *SAMPLE_REVIEWS.keys()])
-            selected = st.selectbox("Review du dataset", selection_options)
+            render_section_title("Avis client")
+            sample_choice = st.selectbox(
+                "Utiliser un exemple",
+                ["Aucun", *SAMPLE_REVIEWS.keys()],
+                help="Facultatif : charge un texte de démonstration.",
+            )
             if sample_choice != "Aucun":
                 selected_id, selected_text = SAMPLE_REVIEWS[sample_choice]
-            elif selected != "Saisie manuelle":
-                row = lookup[selected]
-                selected_text = f"{row['review_title']} {row['review_body']}".strip()
-                selected_id = str(row["review_id"])
-                ground_truth = row
-
-            review_id = st.text_input("Review ID", value=selected_id)
             review_text = st.text_area(
-                "Texte de la review",
+                "Texte de l'avis",
                 value=selected_text,
-                height=210,
-                placeholder="Type an English customer review here.",
+                height=220,
+                placeholder="Ex. The parcel arrived early and the tracking was clear.",
             )
             analyze_clicked = st.button(
                 "Analyser",
@@ -678,12 +732,12 @@ def render_analysis_workspace(df: pd.DataFrame, threshold: float) -> None:
             )
             if analyze_clicked:
                 if not review_text.strip():
-                    st.warning("Le texte de la review est obligatoire.")
+                    st.warning("Saisissez un avis avant de lancer l'analyse.")
                 else:
                     try:
                         st.session_state["instant_result"] = CLIENT.analyze(
                             review_text=review_text,
-                            review_id=review_id,
+                            review_id=selected_id,
                             threshold=threshold,
                         )
                     except ReviewInsightsClientError as exc:
@@ -692,46 +746,27 @@ def render_analysis_workspace(df: pd.DataFrame, threshold: float) -> None:
     result = st.session_state.get("instant_result")
     with right:
         with st.container(border=True):
-            render_section_title("Resultat")
+            render_section_title("Résultat")
             if result:
                 render_result_cards(result)
-                render_operational_reading(result)
             else:
-                st.info("Aucun resultat pour le moment.")
+                st.info("Le résultat apparaîtra ici après l'analyse.")
 
     if result:
-        render_section_title("Details par theme")
+        render_section_title("Détail par thème")
         render_theme_cards(result)
-        render_feedback_form(result)
-        with st.expander("JSON de sortie"):
+        with st.expander("Corriger le résultat"):
+            render_feedback_form(result)
+        with st.expander("Données techniques"):
             st.json(result)
-
-    if ground_truth:
-        with st.container(border=True):
-            render_section_title("Verite terrain")
-            render_kpi_grid(
-                [
-                    ("Sentiment", ground_truth["sentiment_label"], "blue", None),
-                    ("Livraison", int(ground_truth["theme_livraison"]), "purple", None),
-                    ("SAV", int(ground_truth["theme_sav"]), "amber", None),
-                    ("Produit", int(ground_truth["theme_produit"]), "green", None),
-                ]
-            )
 
 
 def render_batch_workspace(df: pd.DataFrame, threshold: float) -> None:
-    render_section_title("Batch", "Re-analyse et export du dataset charge.")
+    render_section_title("Analyse groupée", "Analysez le dataset chargé puis exportez les résultats.")
     with st.container(border=True):
-        render_kpi_grid(
-            [
-                ("Lignes", len(df), "blue", "dataset actif"),
-                ("Seuil", threshold, "amber", "themes"),
-                ("Colonnes", len(df.columns), "purple", "schema"),
-                ("Max preview", MAX_SELECTABLE_ROWS, "green", None),
-            ]
-        )
+        st.caption(f"{len(df)} avis chargés")
         st.dataframe(df.head(MAX_SELECTABLE_ROWS), height=320, use_container_width=True)
-        if st.button("Lancer la re-analyse du dataset", type="primary", use_container_width=True):
+        if st.button("Analyser le dataset", type="primary", use_container_width=True):
             try:
                 st.session_state["batch_enriched"] = analyze_dataframe(df, threshold)
             except ReviewInsightsClientError as exc:
@@ -761,7 +796,7 @@ def render_batch_workspace(df: pd.DataFrame, threshold: float) -> None:
 
 
 def render_dataset_workspace(df: pd.DataFrame) -> None:
-    render_section_title("Dataset", "Exploration rapide des donnees chargees.")
+    render_section_title("Dataset", "Recherchez et filtrez les avis chargés.")
     with st.container(border=True):
         filtered_df = render_dataset_filters(df)
         st.dataframe(filtered_df, height=620, use_container_width=True)
@@ -890,8 +925,8 @@ def load_active_dataset(uploaded_file: Any | None) -> pd.DataFrame:
         try:
             dataset_payload = CLIENT.default_dataset()
             raw_df = pd.DataFrame(dataset_payload.get("records", []))
-        except ReviewInsightsClientError as exc:
-            st.sidebar.warning(f"Service data indisponible, dataset local utilise: {exc}")
+        except ReviewInsightsClientError:
+            st.sidebar.info("Mode local : dataset de démonstration utilisé.")
             raw_df = load_default_dataset()
     return prepare_dataset(raw_df)
 
@@ -901,22 +936,32 @@ def main() -> None:
     inject_styles()
 
     with st.sidebar:
-        st.markdown("## Review Insights+")
-        workspace = st.radio("Espace de travail", WORKSPACES, index=0)
-        st.markdown("---")
-        uploaded_file = st.file_uploader("Dataset CSV", type=["csv"])
-        threshold = st.slider(
-            "Seuil themes",
-            0.15,
-            0.85,
-            DEFAULT_THEME_THRESHOLD,
-            0.05,
+        st.markdown("## Review Insights")
+        workspace_labels = {
+            "Analyse": "Analyse",
+            "Batch": "Analyse groupée",
+            "Dataset": "Données",
+            "Monitoring": "Suivi",
+            "Evaluation": "Évaluation",
+        }
+        workspace = st.radio(
+            "Espace de travail",
+            WORKSPACES,
+            index=0,
+            format_func=lambda value: workspace_labels[value],
         )
-        st.markdown("---")
-        st.caption("API, data, monitoring et feedback sont accessibles depuis les ecrans dedies.")
+        with st.expander("Données et réglages"):
+            uploaded_file = st.file_uploader("Importer un CSV", type=["csv"])
+            threshold = st.slider(
+                "Seuil de détection",
+                0.15,
+                0.85,
+                DEFAULT_THEME_THRESHOLD,
+                0.05,
+            )
 
     df = load_active_dataset(uploaded_file)
-    render_header(df)
+    render_header()
 
     if workspace == "Analyse":
         render_analysis_workspace(df, threshold)
