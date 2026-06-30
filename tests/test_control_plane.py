@@ -31,6 +31,17 @@ def test_control_plane_yaml_files_are_valid():
     assert all(yaml.safe_load(path.read_text(encoding="utf-8")) for path in paths)
 
 
+def test_dagster_artifact_storage_uses_the_shared_volume():
+    dagster_config = yaml.safe_load(Path("orchestration/dagster.yaml").read_text(encoding="utf-8"))
+    compose = yaml.safe_load(Path("compose.yaml").read_text(encoding="utf-8"))
+
+    artifact_dir = dagster_config["local_artifact_storage"]["config"]["base_dir"]
+    dagster_volumes = compose["x-dagster-common"]["volumes"]
+
+    assert artifact_dir == "/opt/dagster/storage/artifacts"
+    assert "dagster_compute_logs:/opt/dagster/storage" in dagster_volumes
+
+
 def test_webhook_is_optional():
     assert send_webhook(None, {"event": "test"}) is False
 
