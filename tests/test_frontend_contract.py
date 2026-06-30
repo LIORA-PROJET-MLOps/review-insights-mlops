@@ -25,3 +25,9 @@ def test_streamlit_frontend_exposes_visible_workspace_navigation():
     assert "render_analysis_workspace" in app
     assert "render_monitoring_workspace" in app
     assert "st.tabs(" not in app
+
+
+def test_streamlit_threshold_slider_accepts_the_default_value():
+    app = Path("src/review_insights/app.py").read_text(encoding="utf-8")
+
+    assert "DEFAULT_THEME_THRESHOLD,\n                0.01," in app

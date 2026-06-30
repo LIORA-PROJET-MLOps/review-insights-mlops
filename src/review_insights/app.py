@@ -957,7 +957,7 @@ def main() -> None:
                 0.15,
                 0.85,
                 DEFAULT_THEME_THRESHOLD,
-                0.05,
+                0.01,
             )
 
     df = load_active_dataset(uploaded_file)

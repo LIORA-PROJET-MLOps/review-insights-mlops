@@ -1,6 +1,6 @@
 # Synthese de l'etat du projet Review Insights+
 
-Date de verification : 29 juin 2026
+Date de verification initiale : 29 juin 2026. Mise a jour : 30 juin 2026.
 
 ## Verdict executif
 
@@ -12,7 +12,7 @@ Le projet reste cependant **un POC/MVP, pas un service pret pour la production**
 
 | Controle | Resultat | Lecture |
 | --- | --- | --- |
-| Tests Python | 72/72 passes | Suite fonctionnelle et de non-regression solide |
+| Tests Python | 88 collectes : 86 passes, 2 skips locaux | Les 2 tests Dagster exigent les dependances de developpement completes |
 | Couverture | 77,05 % | Superieure au gate CI de 70 % |
 | Lint Ruff | Aucun ecart | Code propre au regard des regles configurees |
 | Docker Compose | Configuration valide | Les services et dependances sont coherents |
@@ -64,7 +64,7 @@ La couverture est bonne sur les couches API, data, modeles, evaluation, securite
 | --- | --- | --- |
 | Demonstration produit | Pret | Parcours clair, plusieurs interfaces et exemples fournis |
 | Architecture logicielle | Bon | Separation nette entre API, service, modeles, data et monitoring |
-| Tests et CI | Bon | 72 tests, 77,05 % de couverture et pipeline CI complet |
+| Tests et CI | Bon | 88 tests collectes, 86 passes localement, 2 skips Dagster et pipeline CI complet |
 | Gouvernance data/modeles | Bon socle | Contrats, quality gates, manifestes, DVC, MLflow et rollback |
 | Qualite des modeles | POC | Themes encourageants, sentiment encore fragile |
 | Observabilite | POC+ | Exposition Prometheus presente, mais metriques runtime en memoire |
@@ -96,8 +96,7 @@ Tous les gates POC passent, mais les marges sentiment sont faibles. Le modele es
 5. **Securite par defaut.** `REQUIRE_API_KEY=false`, `ALLOWED_ORIGINS=*`, `TRUSTED_HOSTS=*` et les secrets Compose sont des valeurs de developpement.
 6. **Runtime complet a rejouer.** La configuration Compose est valide, mais le smoke test multi-services doit etre relance avec Docker Desktop actif.
 7. **Documentation en derive.** `ETAT_DES_LIEUX_PLAN_PHASE_FINALE_FR.md` decrit encore d'anciens blocages maintenant corriges. Il devrait etre marque comme historique.
-8. **Landing page a corriger.** `site/index.html` affiche encore `1.00` et `0.75`, alors que les metriques de reference actuelles sont `0.675` et `0.575`.
-9. **Warnings techniques.** Les tests passent avec 421 avertissements, principalement lies au chargement Joblib avec NumPy 2.5 et a une deprecation Starlette/httpx.
+8. **Compatibilite runtime locale.** Utiliser les dependances declarees dans `requirements-dev.txt` afin d'eviter de tester avec des versions Python obsoletes ou incompatibles.
 
 ## Prochaines etapes recommandees
 
@@ -131,7 +130,7 @@ Tous les gates POC passent, mais les marges sentiment sont faibles. Le modele es
 2. Proposition : transformer chaque review en sentiment, themes, confiance et action.
 3. Demonstration : analyse unitaire, batch et cas ambigu.
 4. Architecture : API, service metier, modeles, data, monitoring et MLOps.
-5. Preuves : 72 tests, 77,05 % de couverture, artefacts verifies et gates POC passes.
+5. Preuves : 88 tests collectes, couverture superieure a 70 %, artefacts verifies et gates POC passes.
 6. Transparence : performance sentiment et monitoring encore limites.
 7. Roadmap : enrichissement data, calibration, observabilite et durcissement production.
 

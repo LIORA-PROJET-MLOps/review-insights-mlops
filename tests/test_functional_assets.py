@@ -29,4 +29,15 @@ def test_functional_smoke_script_exists():
     script = Path("scripts/run_functional_smoke_tests.ps1")
 
     assert script.exists()
-    assert "Functional smoke tests passed" in script.read_text(encoding="utf-8")
+    content = script.read_text(encoding="utf-8")
+    assert "Functional smoke tests passed" in content
+    assert 'MonitoringBase "/metrics") -Headers $headers -UseBasicParsing' in content
+
+
+def test_public_metrics_match_reference_evaluation():
+    html = Path("site/index.html").read_text(encoding="utf-8")
+
+    assert "<strong>0.675</strong>" in html
+    assert "<strong>0.575</strong>" in html
+    assert "<strong>1.00</strong>" not in html
+    assert "<strong>0.75</strong>" not in html

@@ -32,7 +32,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_hf_space_bundle.ps1
 ```env
 APP_ENV=production
 APP_NAME=Review Insights+
-APP_VERSION=0.2.0
+APP_VERSION=1.0.0
 MODEL_SOURCE=hf_hub
 HF_MODEL_REPO_ID=Francescogiraldi/review-insights-models
 HF_MODEL_REVISION=1d6a5bd3e653ba75b6c8fed614e156d1a3c73779

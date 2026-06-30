@@ -126,7 +126,7 @@ $headers = @{}
 if ($ApiKey) {
   $headers["X-API-Key"] = $ApiKey
 }
-$prometheus = Invoke-WebRequest -Uri (Join-Url $MonitoringBase "/metrics") -Headers $headers
+$prometheus = Invoke-WebRequest -Uri (Join-Url $MonitoringBase "/metrics") -Headers $headers -UseBasicParsing
 Assert-True ($prometheus.Content -like "*review_insights_requests_total*") "Prometheus text missing requests metric."
 Assert-True ($prometheus.Content -like "*review_insights_http_requests_total*") "Prometheus text missing HTTP metric."
 Write-Host "Prometheus metrics exposed."
