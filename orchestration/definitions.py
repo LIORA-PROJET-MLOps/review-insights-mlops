@@ -273,28 +273,84 @@ model_training_job = dg.define_asset_job(
     description="Full data-to-candidate workflow with MLflow registration and release gates.",
 )
 
-daily_data_schedule = dg.ScheduleDefinition(
-    job=data_pipeline_job,
-    cron_schedule="0 2 * * *",
-    execution_timezone="Europe/Paris",
-)
-
-weekly_model_schedule = dg.ScheduleDefinition(
-    job=model_training_job,
-    cron_schedule="0 3 * * 0",
-    execution_timezone="Europe/Paris",
-)
-
-
 def _file_run_key(path: Path) -> str:
     stat = path.stat()
     value = f"{path.resolve()}:{stat.st_size}:{stat.st_mtime_ns}"
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
+def _incoming_dir() -> Path:
+    return Path(
+        os.getenv(
+            "ORCHESTRATOR_INCOMING_DIR",
+            str(Path(DEFAULT_DATA_ROOT) / "raw" / "incoming"),
+        )
+    )
+
+
+def _latest_incoming_csv() -> Path | None:
+    incoming_dir = _incoming_dir()
+    candidates = list(incoming_dir.glob("*.csv")) if incoming_dir.exists() else []
+    if not candidates:
+        return None
+    return max(candidates, key=lambda path: (path.stat().st_mtime_ns, path.name))
+
+
+def _source_already_ingested(source_path: Path, data_root: Path) -> bool:
+    registry_path = data_root / "registry" / "datasets_manifest.json"
+    if not registry_path.is_file():
+        return False
+    try:
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    digest = hashlib.sha256(source_path.read_bytes()).hexdigest()
+    return any(
+        entry.get("source_sha256") == digest for entry in registry.get("datasets", [])
+    )
+
+
+@dg.schedule(
+    job=model_training_job,
+    cron_schedule="0 19 * * *",
+    execution_timezone="Europe/Paris",
+    default_status=dg.DefaultScheduleStatus.RUNNING,
+    description="Daily full data-to-candidate pipeline using the latest incoming CSV.",
+)
+def daily_full_pipeline_schedule(
+    context: dg.ScheduleEvaluationContext,
+) -> dg.RunRequest | dg.SkipReason:
+    source_path = _latest_incoming_csv()
+    if source_path is None:
+        return dg.SkipReason(f"No CSV file found in {_incoming_dir()}")
+    data_root = Path(os.getenv("ORCHESTRATOR_DATA_ROOT", DEFAULT_DATA_ROOT))
+    if _source_already_ingested(source_path, data_root):
+        return dg.SkipReason(f"Latest CSV {source_path.name} was already ingested")
+
+    scheduled_at = context.scheduled_execution_time
+    tick_key = scheduled_at.isoformat() if scheduled_at else "manual"
+    return dg.RunRequest(
+        run_key=f"daily-full-pipeline:{tick_key}:{_file_run_key(source_path)}",
+        run_config={
+            "ops": {
+                "ingested_review_dataset": {
+                    "config": {
+                        "source_csv": str(source_path),
+                        "data_root": str(data_root),
+                    }
+                }
+            }
+        },
+        tags={
+            "source_csv": source_path.name,
+            "trigger": "daily_full_pipeline_schedule",
+        },
+    )
+
+
 @dg.sensor(job=data_pipeline_job, minimum_interval_seconds=30)
 def incoming_review_csv_sensor(context: dg.SensorEvaluationContext):
-    incoming_dir = Path(os.getenv("ORCHESTRATOR_INCOMING_DIR", str(Path(DEFAULT_DATA_ROOT) / "raw" / "incoming")))
+    incoming_dir = _incoming_dir()
     candidates = sorted(incoming_dir.glob("*.csv")) if incoming_dir.exists() else []
     if not candidates:
         yield dg.SkipReason(f"No CSV file found in {incoming_dir}")
@@ -317,7 +373,8 @@ def incoming_review_csv_sensor(context: dg.SensorEvaluationContext):
 
 
 @dg.run_failure_sensor(
-    monitored_jobs=[data_pipeline_job, model_training_job, model_promotion_job]
+    monitored_jobs=[data_pipeline_job, model_training_job, model_promotion_job],
+    default_status=dg.DefaultSensorStatus.RUNNING,
 )
 def pipeline_failure_alert(context: dg.RunFailureSensorContext) -> None:
     url = os.getenv("ALERT_WEBHOOK_URL") or None
@@ -344,6 +401,6 @@ defs = dg.Definitions(
     ],
     asset_checks=[dataset_quality_gates],
     jobs=[data_pipeline_job, model_training_job, model_promotion_job],
-    schedules=[daily_data_schedule, weekly_model_schedule],
+    schedules=[daily_full_pipeline_schedule],
     sensors=[incoming_review_csv_sensor, pipeline_failure_alert],
 )

@@ -4,6 +4,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PIP_NO_CACHE_DIR=1
 ENV DAGSTER_HOME=/opt/dagster/dagster_home
+ENV GIT_PYTHON_REFRESH=quiet
 
 WORKDIR /app
 
@@ -19,7 +20,20 @@ COPY data/sample ./data/sample
 COPY models ./models
 
 RUN adduser --disabled-password --gecos "" appuser \
-    && mkdir -p /opt/dagster/dagster_home /opt/dagster/storage/artifacts /opt/dagster/storage/compute_logs /app/data_store /app/artifacts /app/reports \
+    && mkdir -p \
+        /opt/dagster/dagster_home \
+        /opt/dagster/storage/artifacts \
+        /opt/dagster/storage/compute_logs \
+        /app/data_store/raw/incoming \
+        /app/data_store/raw/archive \
+        /app/data_store/processed \
+        /app/data_store/validated \
+        /app/data_store/quarantine \
+        /app/data_store/splits \
+        /app/data_store/registry \
+        /app/data_store/sample \
+        /app/artifacts \
+        /app/reports \
     && cp /app/orchestration/dagster.yaml /opt/dagster/dagster_home/dagster.yaml \
     && chown -R appuser:appuser /app /opt/dagster
 

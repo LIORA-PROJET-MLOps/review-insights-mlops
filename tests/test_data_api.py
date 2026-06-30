@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+import pandas as pd
 
 from src.review_insights.data_api import app, create_app
 
@@ -29,6 +30,42 @@ def test_default_dataset_profile_endpoint():
     payload = response.json()
     assert payload["rows"] >= 1
     assert "theme_counts" in payload
+
+
+def test_data_service_exposes_latest_ready_orchestrated_dataset(monkeypatch, tmp_path):
+    data_root = tmp_path / "data"
+    validated_dir = data_root / "validated"
+    registry_dir = data_root / "registry"
+    validated_dir.mkdir(parents=True)
+    registry_dir.mkdir(parents=True)
+    dataset_path = validated_dir / "training_dataset_ready_v1.csv"
+    pd.DataFrame(
+        [
+            {
+                "review_id": "orchestrated_1",
+                "review_title": "Fast delivery",
+                "review_body": "The parcel arrived early.",
+                "sentiment_label": "positive",
+                "theme_livraison": 1,
+                "theme_sav": 0,
+                "theme_produit": 0,
+            }
+        ]
+    ).to_csv(dataset_path, index=False)
+    (registry_dir / "dataset_ready_v1.json").write_text(
+        '{"quality_status":"ready","validated_path":"'
+        + dataset_path.as_posix()
+        + '"}',
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("ORCHESTRATOR_DATA_ROOT", str(data_root))
+
+    response = TestClient(create_app()).get("/v1/datasets/default")
+
+    assert response.status_code == 200
+    assert response.json()["rows"] == 1
+    assert response.json()["records"][0]["review_id"] == "orchestrated_1"
+    assert response.json()["source"] == str(dataset_path)
 
 
 def test_reference_evaluation_endpoint_uses_test_dataset():

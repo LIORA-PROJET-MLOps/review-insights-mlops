@@ -9,6 +9,7 @@ from fastapi.security import APIKeyHeader
 from pathlib import Path
 
 from .dataset import load_default_dataset, prepare_dataset
+from .data_store import latest_ready_validated_dataset, load_training_dataset
 from .feedback_store import HumanFeedbackRecord, append_feedback, read_feedback
 from .schemas import EvaluationResponse, HumanFeedbackRequest
 from .security import enforce_api_key
@@ -32,6 +33,15 @@ def _fetch_inference_evaluation() -> dict:
     if not isinstance(payload, dict):
         raise ValueError("Inference API returned a non-object evaluation payload.")
     return payload
+
+
+def _load_active_dataset():
+    data_root = os.getenv("ORCHESTRATOR_DATA_ROOT")
+    if data_root:
+        dataset_path = latest_ready_validated_dataset(Path(data_root))
+        if dataset_path is not None:
+            return load_training_dataset(dataset_path), dataset_path
+    return prepare_dataset(load_default_dataset()), None
 
 
 def create_app(evaluation_fetcher: Callable[[], dict] | None = None) -> FastAPI:
@@ -62,9 +72,10 @@ def create_app(evaluation_fetcher: Callable[[], dict] | None = None) -> FastAPI:
 
     @app.get("/v1/datasets/default", dependencies=[Depends(require_api_security)])
     def default_dataset() -> dict:
-        df = prepare_dataset(load_default_dataset())
+        df, dataset_path = _load_active_dataset()
         return {
-            "name": "default_reviews",
+            "name": dataset_path.stem if dataset_path else "default_reviews",
+            "source": str(dataset_path) if dataset_path else "embedded_sample",
             "rows": len(df),
             "columns": list(df.columns),
             "records": df.to_dict(orient="records"),
@@ -72,8 +83,10 @@ def create_app(evaluation_fetcher: Callable[[], dict] | None = None) -> FastAPI:
 
     @app.get("/v1/datasets/default/profile", dependencies=[Depends(require_api_security)])
     def default_dataset_profile() -> dict:
-        df = prepare_dataset(load_default_dataset())
+        df, dataset_path = _load_active_dataset()
         return {
+            "name": dataset_path.stem if dataset_path else "default_reviews",
+            "source": str(dataset_path) if dataset_path else "embedded_sample",
             "rows": len(df),
             "sentiment_distribution": df["sentiment_label"].value_counts().to_dict(),
             "theme_counts": {

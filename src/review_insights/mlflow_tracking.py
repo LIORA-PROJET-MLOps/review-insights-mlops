@@ -8,6 +8,8 @@ import time
 from typing import Dict, Iterable
 from urllib import parse, request
 
+import pandas as pd
+
 from .model_backend import ARTIFACT_FILENAMES
 from .settings import Settings, get_settings
 
@@ -226,6 +228,22 @@ def _register_training_model(
             artifacts={"model_dir": str(model_dir)},
             registered_model_name=registered_model_name,
             signature=_review_insights_model_signature(mlflow_module),
+            input_example=pd.DataFrame(
+                [
+                    {
+                        "review_id": "mlflow_contract_example",
+                        "review_text": "Fast delivery and helpful customer support.",
+                    }
+                ]
+            ),
+            code_paths=[str(Path(__file__).resolve().parents[1])],
+            pip_requirements=[
+                "cloudpickle>=3,<4",
+                "joblib>=1.4,<2",
+                "numpy>=2.0,<3",
+                "pandas>=2.2,<3",
+                "scikit-learn>=1.6,<1.7",
+            ],
         )
         return _extract_registered_model_version(model_info), None
     except Exception as exc:

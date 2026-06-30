@@ -152,7 +152,7 @@ def test_large_ingestion_writes_deterministic_splits():
         split_ids.extend(pd.read_parquet(path)["review_id"].tolist())
     assert len(split_ids) == result.rows_valid
     assert len(set(split_ids)) == result.rows_valid
-    assert result.split_rows == {"train": 24, "validation": 8, "test": 8}
+    assert result.split_rows == {"train": 24, "validation": 6, "test": 10}
 
     shutil.rmtree(work_dir)
 

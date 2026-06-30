@@ -212,6 +212,10 @@ les lignes rejetees en quarantaine, cree une file d'annotation pour les sentimen
 manquants, genere des splits deterministes quand le volume le permet, calcule les checksums et
 ajoute un manifest et un rapport de qualite dans `data/registry/`.
 
+Les splits reproductibles utilisent 60 % des lignes pour l'entrainement, 15 % pour la validation
+et 25 % pour le test independant. Un dataset de 120 lignes produit donc 30 lignes de test, en
+coherence avec le minimum d'evaluation defini dans la politique de promotion.
+
 Le manifest distingue un dataset techniquement valide d'un dataset pret pour un entrainement
 partage. Pour bloquer le retraining quand les gates staging ne passent pas:
 

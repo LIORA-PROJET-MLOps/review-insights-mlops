@@ -73,6 +73,14 @@ dataset qui n'a pas le statut `ready`.
 6. enregistre une version `candidate` ;
 7. génère le rapport de release et applique les seuils de promotion.
 
+Les splits déterministes utilisent 60 % des lignes pour l'entraînement, 15 % pour la validation
+et 25 % pour le test indépendant. Ainsi, le minimum de 120 lignes du jeu de test opérationnel
+fournit 30 observations d'évaluation et reste cohérent avec le gate de release `rows >= 30`.
+
+Le service data monte le volume orchestré en lecture seule et expose automatiquement le dernier
+dataset ayant le statut `ready` aux vues Streamlit. Les corrections humaines sont conservées dans
+le volume Docker `feedback_data`, y compris après recréation du conteneur.
+
 ### `model_promotion_job`
 
 La promotion est séparée de l'entraînement et fonctionne en `dry_run=true` par défaut. Cette
@@ -82,18 +90,31 @@ processus, lancer le job avec `dry_run=false` et, si nécessaire, renseigner `de
 ## Automatisations
 
 - `incoming_review_csv_sensor` surveille `data/raw/incoming/*.csv` toutes les 30 secondes ;
-- `daily_data_schedule` prépare les données chaque jour à 02:00 Europe/Paris ;
-- `weekly_model_schedule` prépare un candidat chaque dimanche à 03:00 Europe/Paris ;
+- `daily_full_pipeline_schedule` s'exécute chaque jour à 19:00 Europe/Paris, lit le CSV entrant le plus récent et lance ingestion, quality gates, entraînement, évaluation, enregistrement MLflow et rapport de release ;
 - `pipeline_failure_alert` envoie un webhook si `ALERT_WEBHOOK_URL` est configuré.
 
-Les schedules et sensors sont désactivés au premier démarrage par Dagster. Les activer depuis
-l'interface seulement après avoir vérifié la source et les seuils qualité.
+Le schedule quotidien est activé par défaut. S'il ne trouve aucun CSV dans
+`data/raw/incoming/`, le tick est marqué `SKIPPED` sans lancer de run. Le fichier doit respecter
+les quality gates, notamment au moins 100 lignes valides et 10 exemples par classe et par thème.
+Le SHA-256 du CSV le plus récent est comparé au registry : un fichier déjà ingéré est également
+marqué `SKIPPED`, tandis qu'un fichier nouveau ou modifié déclenche le workflow complet.
+La promotion du candidat reste volontairement séparée et n'est jamais automatique.
 
 Pour déposer un dataset automatiquement :
 
 ```powershell
 Copy-Item mon_dataset.csv data/raw/incoming/
 ```
+
+Tester les définitions et l'ingestion sans attendre 19:00 :
+
+```powershell
+py -3 -m pytest tests/test_control_plane.py -vv
+```
+
+Pour tester immédiatement le workflow complet, ouvrir Dagster sur `http://localhost:3001`, choisir
+`model_training_job`, ouvrir **Launchpad**, renseigner le chemin du CSV entrant dans la configuration
+de `ingested_review_dataset`, puis cliquer sur **Launch Run**.
 
 ## Dashboards provisionnés
 

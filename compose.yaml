@@ -147,12 +147,16 @@ services:
       APP_ENV: docker
       API_KEY: ${API_KEY:-}
       API_URL: http://api:8000
+      ORCHESTRATOR_DATA_ROOT: /app/data_store
+      FEEDBACK_STORE_PATH: /app/feedback/human_feedback.jsonl
     ports:
       - "8001:8001"
     volumes:
       - ./models:/app/models:ro
       - reports:/app/reports
       - artifacts:/app/artifacts
+      - orchestrator_data:/app/data_store:ro
+      - feedback_data:/app/feedback
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3)"]
@@ -230,6 +234,8 @@ services:
     depends_on:
       dagster-postgres:
         condition: service_healthy
+      mlflow:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "dagster", "api", "grpc-health-check", "-h", "127.0.0.1", "-p", "4000"]
       interval: 20s
@@ -286,7 +292,7 @@ services:
     restart: unless-stopped
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.57.0
+    image: ghcr.io/google/cadvisor:v0.57.0
     profiles: ["control"]
     privileged: true
     volumes:
@@ -327,7 +333,8 @@ services:
       - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./deploy/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
       - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro
     restart: unless-stopped
     depends_on:
@@ -345,3 +352,4 @@ volumes:
   prometheus_data:
   grafana_data:
   alertmanager_data:
+  feedback_data:

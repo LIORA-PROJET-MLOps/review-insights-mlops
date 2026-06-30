@@ -216,6 +216,12 @@ def test_mlflow_training_registers_candidate_model(monkeypatch):
     assert fake_mlflow.artifact_dirs == [(str(model_dir), "model")]
     assert fake_mlflow.registered[0]["registered_model_name"] == "review-insights-project-models"
     assert fake_mlflow.registered[0]["name"] == "registered_model"
+    assert list(fake_mlflow.registered[0]["input_example"].columns) == [
+        "review_id",
+        "review_text",
+    ]
+    assert "scikit-learn>=1.6,<1.7" in fake_mlflow.registered[0]["pip_requirements"]
+    assert fake_mlflow.registered[0]["code_paths"]
     assert fake_client.aliases == [("review-insights-project-models", "candidate", "7")]
     assert ("review-insights-project-models", "7", "lifecycle_alias", "candidate") in fake_client.version_tags
     assert (

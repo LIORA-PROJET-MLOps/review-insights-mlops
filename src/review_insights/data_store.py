@@ -284,8 +284,8 @@ def split_training_dataset(
     df: pd.DataFrame,
     *,
     seed: int = 42,
-    validation_fraction: float = 0.2,
-    test_fraction: float = 0.2,
+    validation_fraction: float = 0.15,
+    test_fraction: float = 0.25,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     if len(df) < 12:
         return df.copy(), df.iloc[0:0].copy(), df.iloc[0:0].copy()
@@ -516,3 +516,24 @@ def latest_validated_dataset(data_root: Path) -> Path | None:
         return latest_parquet
     csv_candidates: Iterable[Path] = validated_dir.glob("training_dataset_*.csv")
     return max(csv_candidates, key=lambda path: path.stat().st_mtime, default=None)
+
+
+def latest_ready_validated_dataset(data_root: Path) -> Path | None:
+    registry_dir = data_root / "registry"
+    manifests = sorted(
+        registry_dir.glob("dataset_*.json") if registry_dir.exists() else [],
+        key=lambda path: path.stat().st_mtime_ns,
+        reverse=True,
+    )
+    for manifest_path in manifests:
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if manifest.get("quality_status") != "ready":
+            continue
+        for field_name in ("validated_parquet_path", "validated_path"):
+            candidate = Path(str(manifest.get(field_name, "")))
+            if candidate.is_file():
+                return candidate
+    return None
