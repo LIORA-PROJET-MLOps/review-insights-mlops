@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from pathlib import Path
 import time
 from typing import Dict
 
@@ -11,6 +12,7 @@ from .engine import analyze_review
 from .evaluation import evaluate_predictions
 from .model_backend import analyze_with_project_models, load_project_model_artifacts
 from .monitoring import MonitoringStore
+from .prediction_store import PredictionEvent, append_prediction_event
 from .schemas import AnalyzeReviewResponse
 from .settings import get_settings
 from .transformer_sentiment import OnnxSentimentBackend
@@ -143,7 +145,14 @@ class ReviewAnalysisService:
             result["needs_human_review"] = True
         return result
 
-    def analyze(self, review_text: str, review_id: str, threshold: float | None = None) -> AnalyzeReviewResponse:
+    def analyze(
+        self,
+        review_text: str,
+        review_id: str,
+        threshold: float | None = None,
+        *,
+        record_event: bool = True,
+    ) -> AnalyzeReviewResponse:
         started_at = time.perf_counter()
         effective_threshold = threshold if threshold is not None else self.settings.theme_threshold
         if self._artifacts is not None:
@@ -159,15 +168,35 @@ class ReviewAnalysisService:
         result = self._detect_sentiment_conflicts(result)
         result["provenance"] = self._model_provenance()
         latency_ms = (time.perf_counter() - started_at) * 1000
-        self.monitoring.record_prediction(
-            result,
-            self.active_backend_name,
-            latency_ms,
-            sentiment_backend_name=self.sentiment_backend_name,
-        )
+        if record_event:
+            self.monitoring.record_prediction(
+                result,
+                self.active_backend_name,
+                latency_ms,
+                sentiment_backend_name=self.sentiment_backend_name,
+            )
+            if self.settings.prediction_event_store_path:
+                try:
+                    append_prediction_event(
+                        PredictionEvent.from_prediction(
+                            result,
+                            review_text=review_text,
+                            backend_name=self.active_backend_name,
+                            model_version=self.artifact_set_version,
+                        ),
+                        Path(self.settings.prediction_event_store_path),
+                    )
+                except (OSError, ValueError) as exc:
+                    logger.warning("Prediction event could not be persisted: %s", exc)
         return AnalyzeReviewResponse(**result)
 
-    def analyze_dataframe(self, df: pd.DataFrame, threshold: float | None = None) -> pd.DataFrame:
+    def analyze_dataframe(
+        self,
+        df: pd.DataFrame,
+        threshold: float | None = None,
+        *,
+        record_events: bool = True,
+    ) -> pd.DataFrame:
         rows = []
         for _, row in df.iterrows():
             review_text = f"{row.get('review_title', '')} {row.get('review_body', '')}".strip()
@@ -175,6 +204,7 @@ class ReviewAnalysisService:
                 review_text=review_text,
                 review_id=str(row.get("review_id", "manual_review")),
                 threshold=threshold,
+                record_event=record_events,
             ).model_dump()
             merged: Dict = dict(row)
             for theme in ("livraison", "sav", "produit"):
@@ -189,7 +219,7 @@ class ReviewAnalysisService:
         return flatten_results(self.analyze_dataframe(df, threshold=threshold))
 
     def evaluate_dataframe(self, df: pd.DataFrame, threshold: float | None = None) -> Dict:
-        predictions = self.analyze_dataframe(df, threshold=threshold)
+        predictions = self.analyze_dataframe(df, threshold=threshold, record_events=False)
         summary = evaluate_predictions(predictions, backend_name=self.active_backend_name).to_dict()
         summary.update(
             {

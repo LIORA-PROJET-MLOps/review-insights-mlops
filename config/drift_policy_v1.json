@@ -1,0 +1,19 @@
+{
+  "policy_version": "1.0.0",
+  "prediction_window_size": 500,
+  "minimum_prediction_events": 30,
+  "minimum_feedback_records": 10,
+  "minimum_retraining_rows": 100,
+  "minimum_changed_labeled_rows": 10,
+  "thresholds": {
+    "max_sentiment_js_divergence": 0.10,
+    "max_theme_js_divergence": 0.10,
+    "max_human_review_rate": 0.60,
+    "max_sentiment_conflict_rate": 0.20,
+    "min_feedback_combined_accuracy": 0.70
+  },
+  "automatic_retraining": {
+    "enabled": true,
+    "require_new_labeled_csv": true
+  }
+}

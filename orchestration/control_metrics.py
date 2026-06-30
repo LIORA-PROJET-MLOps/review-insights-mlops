@@ -131,3 +131,75 @@ def push_release_metrics(
     )
     timestamp.set(time.time())
     return _push(registry, gateway_url=gateway_url, job="review_insights_release_pipeline")
+
+
+def push_drift_metrics(
+    report: Mapping[str, Any],
+    *,
+    gateway_url: str | None,
+) -> bool:
+    from prometheus_client import CollectorRegistry, Gauge
+
+    registry = CollectorRegistry()
+    recommendation = Gauge(
+        "review_insights_drift_retraining_recommended",
+        "Whether drift monitoring recommends a controlled retraining run.",
+        registry=registry,
+    )
+    recommendation.set(1 if report.get("recommendation") == "retraining_recommended" else 0)
+
+    window = report.get("window", {})
+    events = Gauge(
+        "review_insights_drift_prediction_events",
+        "Prediction events evaluated in the latest drift window.",
+        registry=registry,
+    )
+    events.set(float(window.get("prediction_events", 0)))
+
+    metrics = report.get("metrics", {})
+    metric = Gauge(
+        "review_insights_drift_metric",
+        "Latest drift monitoring metric.",
+        ["metric"],
+        registry=registry,
+    )
+    for name in (
+        "sentiment_js_divergence",
+        "theme_js_divergence",
+        "human_review_rate",
+        "sentiment_conflict_rate",
+        "mean_global_confidence",
+    ):
+        value = metrics.get(name)
+        if isinstance(value, (int, float)):
+            metric.labels(name).set(float(value))
+    feedback = metrics.get("feedback", {})
+    for name in ("theme_presence_accuracy", "sentiment_accuracy", "combined_accuracy"):
+        value = feedback.get(name)
+        if isinstance(value, (int, float)):
+            metric.labels(f"feedback_{name}").set(float(value))
+
+    feedback_count = Gauge(
+        "review_insights_drift_feedback_records",
+        "Human feedback records joined to prediction events.",
+        registry=registry,
+    )
+    feedback_count.set(float(feedback.get("records_joined", 0)))
+
+    trigger = Gauge(
+        "review_insights_drift_trigger",
+        "Drift trigger status for the latest evaluation.",
+        ["trigger"],
+        registry=registry,
+    )
+    triggered = set(report.get("triggers", []))
+    for name in report.get("checks", {}):
+        trigger.labels(str(name)).set(1 if name in triggered else 0)
+
+    timestamp = Gauge(
+        "review_insights_drift_last_evaluation_timestamp_seconds",
+        "Unix timestamp of the latest drift evaluation.",
+        registry=registry,
+    )
+    timestamp.set(time.time())
+    return _push(registry, gateway_url=gateway_url, job="review_insights_drift_pipeline")

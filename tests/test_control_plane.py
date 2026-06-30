@@ -59,6 +59,8 @@ def test_orchestrator_image_precreates_writable_data_store_layout():
         "/app/data_store/quarantine",
         "/app/data_store/splits",
         "/app/data_store/registry",
+        "/app/predictions",
+        "/app/feedback",
     ):
         assert directory in dockerfile
 
@@ -81,9 +83,15 @@ def test_dagster_definitions_expose_final_workflows():
     assert defs.resolve_job_def("data_pipeline_job")
     assert defs.resolve_job_def("model_training_job")
     assert defs.get_job_def("model_promotion_job")
+    assert defs.get_job_def("drift_monitoring_job")
     repository = defs.get_repository_def()
     assert repository.has_sensor_def("incoming_review_csv_sensor")
     assert repository.has_sensor_def("pipeline_failure_alert")
+    assert repository.has_sensor_def("drift_retraining_sensor")
+    assert (
+        repository.get_sensor_def("drift_retraining_sensor").default_status
+        == dagster.DefaultSensorStatus.RUNNING
+    )
     assert (
         repository.get_sensor_def("pipeline_failure_alert").default_status
         == dagster.DefaultSensorStatus.RUNNING
@@ -94,6 +102,22 @@ def test_dagster_definitions_expose_final_workflows():
     assert schedule.cron_schedule == "0 19 * * *"
     assert schedule.execution_timezone == "Europe/Paris"
     assert schedule.default_status == dagster.DefaultScheduleStatus.RUNNING
+    assert repository.has_schedule_def("hourly_drift_monitoring_schedule")
+    drift_schedule = repository.get_schedule_def("hourly_drift_monitoring_schedule")
+    assert drift_schedule.job_name == "drift_monitoring_job"
+    assert drift_schedule.cron_schedule == "15 * * * *"
+    assert drift_schedule.execution_timezone == "Europe/Paris"
+    assert drift_schedule.default_status == dagster.DefaultScheduleStatus.RUNNING
+
+
+def test_compose_shares_prediction_and_feedback_data_with_dagster():
+    compose = yaml.safe_load(Path("compose.yaml").read_text(encoding="utf-8"))
+    dagster_volumes = compose["x-dagster-common"]["volumes"]
+    api_volumes = compose["services"]["api"]["volumes"]
+
+    assert "prediction_data:/app/predictions:ro" in dagster_volumes
+    assert "feedback_data:/app/feedback:ro" in dagster_volumes
+    assert "prediction_data:/app/predictions" in api_volumes
 
 
 def test_daily_schedule_selects_latest_incoming_csv(tmp_path, monkeypatch):

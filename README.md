@@ -48,6 +48,8 @@ Ce depot contient une base finale de POC/MVP alignee avec les lignes guides du p
 - rapports exportables dans `reports/`
 - orchestration Dagster des pipelines data et ML
 - Prometheus, règles d'alerte et quatre dashboards Grafana provisionnés
+- journalisation persistante des prédictions sans stocker le texte client
+- drift monitoring horaire et recommandation de retraining contrôlée
 
 ### Securite et exploitation
 
@@ -169,6 +171,31 @@ Le frontend Streamlit est un client des services `api`, `data` et `monitoring`. 
 complet, utiliser `docker compose up --build` ou demarrer les trois services avant Streamlit.
 
 ## Pipeline data locale et retraining
+
+### Boucle de drift et retraining contrôlé
+
+Les appels d'inférence de production alimentent un journal JSONL persistant. Pour limiter les
+données personnelles, ce journal ne contient jamais le texte de la review : uniquement son
+identifiant, la version du modèle, les sorties, confiances, indicateurs de revue/conflit et la
+longueur du texte. Les évaluations offline n'alimentent pas ce journal.
+
+Le job Dagster `drift_monitoring_job` s'exécute chaque heure à la minute 15 et compare les 500
+dernières prédictions au dernier dataset validé. Les seuils versionnés dans
+`config/drift_policy_v1.json` portent sur les divergences Jensen-Shannon des sentiments et thèmes,
+le taux de revue humaine, les conflits de sentiment et, à partir de 10 corrections jointes, la
+précision du feedback humain.
+
+Un drift ne remplace jamais directement le modèle actif. Le sensor `drift_retraining_sensor`
+lance `model_training_job` seulement si :
+
+1. au moins 30 prédictions ont été observées et un seuil est franchi ;
+2. le retraining automatique est autorisé par la politique ;
+3. un nouveau CSV non encore ingéré contient au moins 100 lignes complètement étiquetées et au
+   moins 10 lignes nouvelles ou réellement modifiées par rapport à la baseline ;
+4. le dataset passe ensuite les quality gates standards.
+
+Le run produit une version MLflow `candidate` et un rapport de release. La promotion du champion
+reste un job séparé, en dry-run par défaut.
 
 Le POC peut maintenant utiliser des CSV comme source d'alimentation tout en les stockant dans une structure locale versionnee:
 
@@ -739,10 +766,10 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run_functional_smoke_tests.ps
 
 Etat verifie sur cette base:
 
-- `72 passed`
+- `105 passed` (`4 skipped` localement si Dagster n'est pas installé dans le Python hôte)
 - couverture globale: `78.11%`
 - lint Ruff: propre
-- cinq services Docker Compose construits et verifies
+- stack Docker Compose complète construite et vérifiée, y compris Dagster, MLflow, Prometheus et Grafana
 - bundle Hugging Face API reconstruit et charge depuis une revision immuable
 - rapport offline genere avec `project_models_v1`
 - metriques observees sur les 40 reviews de reference:
@@ -761,7 +788,8 @@ Etat verifie sur cette base:
 - le fallback par calibration reste disponible si un manifest externe est incomplet
 - compatibilite scikit-learn liee a la version de serialisation des artefacts
 - les labels de sentiment par theme explicites sont supportes; en leur absence, le training utilise le sentiment global uniquement sur les reviews ou le theme est present
-- le stockage objet partage, Grafana/alertes et le drift monitoring restent a industrialiser
+- le stockage objet distribue reste a industrialiser pour un deploiement multi-noeuds
+- les seuils de drift doivent etre recalibres avec davantage de trafic et de feedback reel
 
 ## Documents projet
 
@@ -807,6 +835,6 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_hf_frontend_space_bundl
 
 ## Suite recommandee
 
-1. Collecter et annoter un dataset projet qui passe les gates de `reviews_quality_policy_v1.json`.
-2. Ajouter l'orchestration Airflow des pipelines deja fiables.
-3. Ajouter Grafana, alerting et drift monitoring.
+1. Collecter davantage de feedback humain pour recalibrer `config/drift_policy_v1.json`.
+2. Brancher le receiver Alertmanager de l'organisation en production.
+3. Faire valider manuellement chaque candidat avant promotion du champion.

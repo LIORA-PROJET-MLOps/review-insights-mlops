@@ -75,6 +75,7 @@ class HealthResponse(BaseModel):
     sentiment_model_id: Optional[str] = None
     sentiment_model_revision: Optional[str] = None
     sentiment_load_error: Optional[str] = None
+    prediction_event_store_enabled: bool = False
 
 
 class MetricsResponse(BaseModel):

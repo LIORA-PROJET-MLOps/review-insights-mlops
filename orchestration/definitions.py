@@ -9,12 +9,19 @@ import dagster as dg
 
 from orchestration.alerts import send_webhook
 from orchestration.control_metrics import (
+    push_drift_metrics,
     push_ingestion_metrics,
     push_release_metrics,
     push_training_metrics,
 )
 from pipelines.train_models import build_training_artifacts
-from src.review_insights.data_store import ingest_csv_dataset
+from src.review_insights.data_store import ingest_csv_dataset, latest_ready_validated_dataset
+from src.review_insights.drift import (
+    DEFAULT_DRIFT_POLICY_PATH,
+    evaluate_drift,
+    inspect_labeled_candidate_csv,
+    load_drift_policy,
+)
 from src.review_insights.mlflow_tracking import log_training_run
 from src.review_insights.model_registry import load_promotion_policy, promote_candidate
 from src.review_insights.release import build_model_release_report
@@ -34,6 +41,22 @@ DEFAULT_OUTPUT_ROOT = os.getenv(
 DEFAULT_REPORT_ROOT = os.getenv(
     "ORCHESTRATOR_REPORT_ROOT",
     str(PROJECT_ROOT / "reports" / "orchestration"),
+)
+DEFAULT_PREDICTION_EVENT_STORE = os.getenv(
+    "PREDICTION_EVENT_STORE_PATH",
+    str(PROJECT_ROOT / "predictions" / "prediction_events.jsonl"),
+)
+DEFAULT_FEEDBACK_STORE = os.getenv(
+    "FEEDBACK_STORE_PATH",
+    str(PROJECT_ROOT / "feedback" / "human_feedback.jsonl"),
+)
+DEFAULT_DRIFT_POLICY = os.getenv(
+    "DRIFT_POLICY_PATH",
+    str(DEFAULT_DRIFT_POLICY_PATH),
+)
+DEFAULT_DRIFT_REPORT = os.getenv(
+    "DRIFT_REPORT_PATH",
+    str(PROJECT_ROOT / "reports" / "drift" / "latest_drift_report.json"),
 )
 
 
@@ -273,6 +296,52 @@ model_training_job = dg.define_asset_job(
     description="Full data-to-candidate workflow with MLflow registration and release gates.",
 )
 
+
+@dg.op(
+    description="Evaluate production prediction drift against the latest ready dataset.",
+    config_schema={
+        "event_store_path": dg.Field(
+            dg.StringSource,
+            default_value=DEFAULT_PREDICTION_EVENT_STORE,
+        ),
+        "feedback_store_path": dg.Field(
+            dg.StringSource,
+            default_value=DEFAULT_FEEDBACK_STORE,
+        ),
+        "data_root": dg.Field(dg.StringSource, default_value=DEFAULT_DATA_ROOT),
+        "policy_path": dg.Field(dg.StringSource, default_value=DEFAULT_DRIFT_POLICY),
+        "output_path": dg.Field(dg.StringSource, default_value=DEFAULT_DRIFT_REPORT),
+    },
+)
+def evaluate_production_drift_op(context: dg.OpExecutionContext) -> dict[str, Any]:
+    config = context.op_config
+    report = evaluate_drift(
+        event_store_path=Path(config["event_store_path"]),
+        feedback_store_path=Path(config["feedback_store_path"]),
+        data_root=Path(config["data_root"]),
+        policy_path=Path(config["policy_path"]),
+        output_path=Path(config["output_path"]),
+    )
+    try:
+        push_drift_metrics(report, gateway_url=_pushgateway_url())
+    except Exception as exc:
+        context.log.warning("Control metric publication failed: %s", exc)
+    context.add_output_metadata(
+        {
+            "status": str(report["status"]),
+            "recommendation": str(report["recommendation"]),
+            "prediction_events": int(report["window"]["prediction_events"]),
+            "triggers": dg.MetadataValue.json(report.get("triggers", [])),
+            "report": dg.MetadataValue.path(str(config["output_path"])),
+        }
+    )
+    return report
+
+
+@dg.job(description="Hourly production drift evaluation and retraining recommendation.")
+def drift_monitoring_job() -> None:
+    evaluate_production_drift_op()
+
 def _file_run_key(path: Path) -> str:
     stat = path.stat()
     value = f"{path.resolve()}:{stat.st_size}:{stat.st_mtime_ns}"
@@ -348,6 +417,17 @@ def daily_full_pipeline_schedule(
     )
 
 
+@dg.schedule(
+    job=drift_monitoring_job,
+    cron_schedule="15 * * * *",
+    execution_timezone="Europe/Paris",
+    default_status=dg.DefaultScheduleStatus.RUNNING,
+    description="Evaluate production drift every hour at minute 15.",
+)
+def hourly_drift_monitoring_schedule() -> dg.RunRequest:
+    return dg.RunRequest(tags={"trigger": "hourly_drift_monitoring_schedule"})
+
+
 @dg.sensor(job=data_pipeline_job, minimum_interval_seconds=30)
 def incoming_review_csv_sensor(context: dg.SensorEvaluationContext):
     incoming_dir = _incoming_dir()
@@ -372,8 +452,82 @@ def incoming_review_csv_sensor(context: dg.SensorEvaluationContext):
         )
 
 
+@dg.sensor(
+    job=model_training_job,
+    minimum_interval_seconds=60,
+    default_status=dg.DefaultSensorStatus.RUNNING,
+    description="Start controlled retraining when drift and fresh labeled data are both ready.",
+)
+def drift_retraining_sensor(
+    context: dg.SensorEvaluationContext,
+) -> dg.RunRequest | dg.SkipReason:
+    report_path = Path(os.getenv("DRIFT_REPORT_PATH", DEFAULT_DRIFT_REPORT))
+    if not report_path.is_file():
+        return dg.SkipReason(f"No drift report found at {report_path}")
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return dg.SkipReason(f"Drift report is unreadable: {type(exc).__name__}")
+    if not report.get("automatic_retraining_allowed"):
+        return dg.SkipReason(
+            f"Automatic retraining not allowed; recommendation={report.get('recommendation')}"
+        )
+
+    policy_path = Path(os.getenv("DRIFT_POLICY_PATH", DEFAULT_DRIFT_POLICY))
+    try:
+        policy = load_drift_policy(policy_path)
+    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+        return dg.SkipReason(f"Drift policy is invalid: {type(exc).__name__}")
+    if not policy.automatic_retraining_enabled:
+        return dg.SkipReason("Automatic retraining is disabled by policy")
+
+    source_path = _latest_incoming_csv()
+    if source_path is None:
+        return dg.SkipReason(f"No labeled CSV file found in {_incoming_dir()}")
+    data_root = Path(os.getenv("ORCHESTRATOR_DATA_ROOT", DEFAULT_DATA_ROOT))
+    if policy.require_new_labeled_csv and _source_already_ingested(source_path, data_root):
+        return dg.SkipReason(f"Latest CSV {source_path.name} was already ingested")
+
+    candidate = inspect_labeled_candidate_csv(
+        source_path,
+        minimum_rows=policy.minimum_retraining_rows,
+        baseline_path=latest_ready_validated_dataset(data_root),
+        minimum_changed_rows=policy.minimum_changed_labeled_rows,
+    )
+    if not candidate["ready"]:
+        return dg.SkipReason(
+            f"Latest CSV {source_path.name} is not retraining-ready: {candidate['reason']}"
+        )
+
+    source_digest = hashlib.sha256(source_path.read_bytes()).hexdigest()
+    return dg.RunRequest(
+        run_key=f"drift-retraining:{source_digest}",
+        run_config={
+            "ops": {
+                "ingested_review_dataset": {
+                    "config": {
+                        "source_csv": str(source_path),
+                        "data_root": str(data_root),
+                    }
+                }
+            }
+        },
+        tags={
+            "source_csv": source_path.name,
+            "trigger": "drift_retraining_sensor",
+            "drift_report_created_at": str(report.get("created_at", "unknown")),
+            "drift_triggers": ",".join(map(str, report.get("triggers", []))),
+        },
+    )
+
+
 @dg.run_failure_sensor(
-    monitored_jobs=[data_pipeline_job, model_training_job, model_promotion_job],
+    monitored_jobs=[
+        data_pipeline_job,
+        model_training_job,
+        model_promotion_job,
+        drift_monitoring_job,
+    ],
     default_status=dg.DefaultSensorStatus.RUNNING,
 )
 def pipeline_failure_alert(context: dg.RunFailureSensorContext) -> None:
@@ -400,7 +554,12 @@ defs = dg.Definitions(
         model_release_report,
     ],
     asset_checks=[dataset_quality_gates],
-    jobs=[data_pipeline_job, model_training_job, model_promotion_job],
-    schedules=[daily_full_pipeline_schedule],
-    sensors=[incoming_review_csv_sensor, pipeline_failure_alert],
+    jobs=[
+        data_pipeline_job,
+        model_training_job,
+        model_promotion_job,
+        drift_monitoring_job,
+    ],
+    schedules=[daily_full_pipeline_schedule, hourly_drift_monitoring_schedule],
+    sensors=[incoming_review_csv_sensor, drift_retraining_sensor, pipeline_failure_alert],
 )

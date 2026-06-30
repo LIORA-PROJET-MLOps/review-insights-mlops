@@ -1,5 +1,6 @@
 from src.review_insights.service import ReviewAnalysisService
 from src.review_insights.dataset import load_default_dataset, prepare_dataset
+from src.review_insights.prediction_store import read_prediction_events
 from src.review_insights.transformer_sentiment import SentimentPrediction
 
 
@@ -116,3 +117,27 @@ def test_evaluation_reports_the_effective_sentiment_backend(monkeypatch):
     assert report["summary"]["backend_name"] == "project_models_v1+hf_onnx_sentiment_v1"
     assert report["summary"]["sentiment_backend_name"] == "hf_onnx_sentiment_v1"
     assert report["summary"]["sentiment_model_revision"] == "immutable-test-revision"
+
+
+def test_service_persists_privacy_safe_prediction_events(monkeypatch, tmp_path):
+    event_path = tmp_path / "prediction_events.jsonl"
+    monkeypatch.setenv("PREDICTION_EVENT_STORE_PATH", str(event_path))
+    service = ReviewAnalysisService()
+
+    service.analyze("This private review text must not be stored.", review_id="private-1")
+
+    events = read_prediction_events(event_path)
+    assert len(events) == 1
+    assert events[0]["review_id"] == "private-1"
+    assert "review_text" not in events[0]
+    assert "private review text" not in event_path.read_text(encoding="utf-8")
+
+
+def test_reference_evaluation_does_not_pollute_production_event_store(monkeypatch, tmp_path):
+    event_path = tmp_path / "prediction_events.jsonl"
+    monkeypatch.setenv("PREDICTION_EVENT_STORE_PATH", str(event_path))
+    service = ReviewAnalysisService()
+
+    service.evaluate_dataframe(prepare_dataset(load_default_dataset().head(2)))
+
+    assert read_prediction_events(event_path) == []

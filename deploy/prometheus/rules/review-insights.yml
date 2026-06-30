@@ -55,6 +55,33 @@ groups:
         annotations:
           summary: Latest model candidate did not pass release gates
 
+      - alert: ReviewInsightsDriftDetected
+        expr: review_insights_drift_retraining_recommended == 1
+        for: 5m
+        labels:
+          severity: warning
+          domain: model
+        annotations:
+          summary: Production drift recommends controlled model retraining
+
+      - alert: ReviewInsightsPerformanceDrift
+        expr: review_insights_drift_metric{metric="feedback_combined_accuracy"} < 0.70 and on() review_insights_drift_feedback_records >= 10
+        for: 5m
+        labels:
+          severity: warning
+          domain: model
+        annotations:
+          summary: Human feedback accuracy is below the 70 percent policy threshold
+
+      - alert: ReviewInsightsDriftEvaluationStale
+        expr: time() - review_insights_drift_last_evaluation_timestamp_seconds > 7200
+        for: 10m
+        labels:
+          severity: warning
+          domain: model
+        annotations:
+          summary: Production drift has not been evaluated for more than two hours
+
   - name: review-insights-recording-rules
     rules:
       - record: review_insights:container_cpu_rate:5m

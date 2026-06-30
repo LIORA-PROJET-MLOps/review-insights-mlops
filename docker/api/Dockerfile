@@ -14,7 +14,9 @@ COPY src ./src
 COPY models ./models
 COPY data/sample ./data/sample
 
-RUN adduser --disabled-password --gecos "" appuser && chown -R appuser:appuser /app
+RUN adduser --disabled-password --gecos "" appuser \
+    && mkdir -p /app/predictions \
+    && chown -R appuser:appuser /app
 USER appuser
 
 EXPOSE 8000

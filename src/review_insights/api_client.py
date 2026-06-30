@@ -80,3 +80,6 @@ class ReviewInsightsApiClient:
 
     def recent_feedback(self, limit: int = 100) -> dict[str, Any]:
         return self._request(self.data_url, "GET", f"/v1/feedback/recent?limit={int(limit)}")
+
+    def latest_drift(self) -> dict[str, Any]:
+        return self._request(self.data_url, "GET", "/v1/drift/latest")

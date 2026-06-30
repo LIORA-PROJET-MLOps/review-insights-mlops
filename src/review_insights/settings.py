@@ -68,6 +68,9 @@ class Settings:
     mlflow_tracking_uri: str = field(default_factory=lambda: os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns"))
     mlflow_experiment_name: str = field(default_factory=lambda: os.getenv("MLFLOW_EXPERIMENT_NAME", "review-insights-default"))
     feedback_store_path: str = field(default_factory=lambda: os.getenv("FEEDBACK_STORE_PATH", "data/feedback/human_feedback.jsonl"))
+    prediction_event_store_path: str | None = field(
+        default_factory=lambda: os.getenv("PREDICTION_EVENT_STORE_PATH") or None
+    )
     max_review_chars: int = field(default_factory=lambda: int(os.getenv("MAX_REVIEW_CHARS", "5000")))
     allowed_origins: tuple[str, ...] = field(default_factory=lambda: _parse_csv_env("ALLOWED_ORIGINS", "*"))
     trusted_hosts: tuple[str, ...] = field(default_factory=lambda: _parse_csv_env("TRUSTED_HOSTS", "*"))

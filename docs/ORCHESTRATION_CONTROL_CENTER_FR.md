@@ -19,6 +19,9 @@ flowchart LR
     GATES -->|approuvé| MODEL["Champion déployable"]
     GATES -->|rejeté| ALERTS["Alertes"]
     API["API d'inférence"] --> PROM["Prometheus"]
+    API --> EVENTS["Prédictions sans texte brut"]
+    EVENTS --> DRIFT["Drift horaire"]
+    DRIFT -->|drift + CSV étiqueté neuf| TRAIN
     DG --> PUSH["Pushgateway"]
     PUSH --> PROM
     SYS["cAdvisor et Blackbox"] --> PROM
@@ -81,6 +84,18 @@ Le service data monte le volume orchestré en lecture seule et expose automatiqu
 dataset ayant le statut `ready` aux vues Streamlit. Les corrections humaines sont conservées dans
 le volume Docker `feedback_data`, y compris après recréation du conteneur.
 
+### `drift_monitoring_job`
+
+Ce job lit la fenêtre des 500 dernières prédictions persistées, sans texte brut, et la compare au
+dernier dataset `ready`. Il calcule les divergences Jensen-Shannon des distributions de sentiments
+et de thèmes, le taux de revue humaine, les conflits, la confiance moyenne et la précision des
+corrections humaines jointes par `review_id` et thème. Avant 30 prédictions, le statut reste
+`insufficient_data`; avant 10 feedbacks joints, le signal de performance n'est pas utilisé.
+
+Le rapport atomique `reports/drift/latest_drift_report.json` est exposé par
+`GET /v1/drift/latest`, affiché dans Streamlit et publié dans Prometheus. Une baseline absente
+produit un diagnostic `baseline_unavailable` au lieu de faire échouer le job.
+
 ### `model_promotion_job`
 
 La promotion est séparée de l'entraînement et fonctionne en `dry_run=true` par défaut. Cette
@@ -91,6 +106,8 @@ processus, lancer le job avec `dry_run=false` et, si nécessaire, renseigner `de
 
 - `incoming_review_csv_sensor` surveille `data/raw/incoming/*.csv` toutes les 30 secondes ;
 - `daily_full_pipeline_schedule` s'exécute chaque jour à 19:00 Europe/Paris, lit le CSV entrant le plus récent et lance ingestion, quality gates, entraînement, évaluation, enregistrement MLflow et rapport de release ;
+- `hourly_drift_monitoring_schedule` s'exécute à la minute 15 de chaque heure en Europe/Paris ;
+- `drift_retraining_sensor` lance le pipeline complet seulement si le drift recommande un retraining et qu'un nouveau CSV de 100 lignes minimum, totalement étiqueté, jamais ingéré et contenant au moins 10 lignes nouvelles ou modifiées est disponible ;
 - `pipeline_failure_alert` envoie un webhook si `ALERT_WEBHOOK_URL` est configuré.
 
 Le schedule quotidien est activé par défaut. S'il ne trouve aucun CSV dans
@@ -99,6 +116,10 @@ les quality gates, notamment au moins 100 lignes valides et 10 exemples par clas
 Le SHA-256 du CSV le plus récent est comparé au registry : un fichier déjà ingéré est également
 marqué `SKIPPED`, tandis qu'un fichier nouveau ou modifié déclenche le workflow complet.
 La promotion du candidat reste volontairement séparée et n'est jamais automatique.
+
+Cette séparation est le garde-fou central : le drift automatise la détection et, si les données
+étiquetées sont prêtes, la création d'un nouveau candidat. Il ne promeut jamais seul ce candidat
+en production.
 
 Pour déposer un dataset automatiquement :
 
@@ -119,7 +140,7 @@ de `ingested_review_dataset`, puis cliquer sur **Launch Run**.
 ## Dashboards provisionnés
 
 1. **API & Inférence** : disponibilité, débit, erreurs, latence, backend Transformer, revue humaine et contradictions.
-2. **Données & Modèles** : qualité, volumes, fraîcheur, entraînement, métriques candidat et release gates.
+2. **Données & Modèles** : qualité, volumes, fraîcheur, entraînement, métriques candidat, release gates et drift.
 3. **Système & Orchestration** : disponibilité des services, CPU, mémoire, Dagster, MLflow et alertes actives.
 4. **Qualité Métier** : sentiments, thèmes, provenance, contradictions et backlog d'annotation.
 
@@ -136,6 +157,9 @@ Prometheus évalue les règles de `deploy/prometheus/rules/review-insights.yml` 
 - contradictions de sentiment supérieures à 20 % ;
 - dataset rejeté par les quality gates ;
 - candidat rejeté par les release gates.
+- drift recommandant un retraining ;
+- précision des feedbacks sous 70 % avec au moins 10 observations jointes ;
+- évaluation de drift absente depuis plus de deux heures.
 
 Les alertes sont envoyées à Alertmanager et visibles dans Grafana. Le receiver fourni conserve un
 centre de contrôle local sans envoyer de message externe. Pour la production, compléter

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 from collections.abc import Callable
 
@@ -44,6 +45,10 @@ def _load_active_dataset():
     return prepare_dataset(load_default_dataset()), None
 
 
+def _drift_report_path() -> Path:
+    return Path(os.getenv("DRIFT_REPORT_PATH", "reports/drift/latest_drift_report.json"))
+
+
 def create_app(evaluation_fetcher: Callable[[], dict] | None = None) -> FastAPI:
     settings = get_settings()
     fetch_evaluation = evaluation_fetcher or _fetch_inference_evaluation
@@ -68,6 +73,7 @@ def create_app(evaluation_fetcher: Callable[[], dict] | None = None) -> FastAPI:
             "mlflow_tracking_enabled": settings.mlflow_tracking_enabled,
             "mlflow_tracking_uri": settings.mlflow_tracking_uri,
             "feedback_store_path": settings.feedback_store_path,
+            "drift_report_path": str(_drift_report_path()),
         }
 
     @app.get("/v1/datasets/default", dependencies=[Depends(require_api_security)])
@@ -119,6 +125,26 @@ def create_app(evaluation_fetcher: Callable[[], dict] | None = None) -> FastAPI:
             "rows": len(records),
             "records": records,
         }
+
+    @app.get("/v1/drift/latest", dependencies=[Depends(require_api_security)])
+    def latest_drift_report() -> dict:
+        report_path = _drift_report_path()
+        if not report_path.is_file():
+            return {
+                "status": "unavailable",
+                "recommendation": "run_drift_monitoring_job",
+                "report_path": str(report_path),
+            }
+        try:
+            payload = json.loads(report_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            return {
+                "status": "invalid_report",
+                "recommendation": "run_drift_monitoring_job",
+                "report_path": str(report_path),
+                "error": type(exc).__name__,
+            }
+        return payload if isinstance(payload, dict) else {"status": "invalid_report"}
 
     return app
 

@@ -18,12 +18,18 @@ x-dagster-common: &dagster-common
     ORCHESTRATOR_INCOMING_DIR: /app/data_store/raw/incoming
     ORCHESTRATOR_MODEL_OUTPUT_ROOT: /app/artifacts/orchestrated_models
     ORCHESTRATOR_REPORT_ROOT: /app/reports/orchestration
+    PREDICTION_EVENT_STORE_PATH: /app/predictions/prediction_events.jsonl
+    FEEDBACK_STORE_PATH: /app/feedback/human_feedback.jsonl
+    DRIFT_POLICY_PATH: /app/config/drift_policy_v1.json
+    DRIFT_REPORT_PATH: /app/reports/drift/latest_drift_report.json
     ALERT_WEBHOOK_URL: ${ALERT_WEBHOOK_URL:-}
   volumes:
     - orchestrator_data:/app/data_store
     - ./data/raw/incoming:/app/data_store/raw/incoming
     - artifacts:/app/artifacts
     - reports:/app/reports
+    - prediction_data:/app/predictions:ro
+    - feedback_data:/app/feedback:ro
     - ./models:/app/models
     - dagster_compute_logs:/opt/dagster/storage
   restart: unless-stopped
@@ -124,11 +130,13 @@ services:
       MLFLOW_TRACKING_ENABLED: "true"
       MLFLOW_TRACKING_URI: http://mlflow:5000
       MLFLOW_EXPERIMENT_NAME: review-insights-default
+      PREDICTION_EVENT_STORE_PATH: /app/predictions/prediction_events.jsonl
     ports:
       - "8000:8000"
     volumes:
       - ./models:/app/models:ro
       - transformer_sentiment_cache:/app/.cache/review_insights/sentiment
+      - prediction_data:/app/predictions
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
@@ -149,6 +157,7 @@ services:
       API_URL: http://api:8000
       ORCHESTRATOR_DATA_ROOT: /app/data_store
       FEEDBACK_STORE_PATH: /app/feedback/human_feedback.jsonl
+      DRIFT_REPORT_PATH: /app/reports/drift/latest_drift_report.json
     ports:
       - "8001:8001"
     volumes:
@@ -353,3 +362,4 @@ volumes:
   grafana_data:
   alertmanager_data:
   feedback_data:
+  prediction_data:

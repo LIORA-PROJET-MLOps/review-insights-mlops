@@ -120,3 +120,26 @@ def test_feedback_endpoint_records_and_returns_recent_feedback(monkeypatch, tmp_
     assert recent.json()["records"][0]["theme"] == "sav"
 
     monkeypatch.delenv("FEEDBACK_STORE_PATH", raising=False)
+
+
+def test_drift_endpoint_returns_latest_report(monkeypatch, tmp_path):
+    report_path = tmp_path / "latest_drift_report.json"
+    report_path.write_text(
+        '{"status":"stable","recommendation":"continue_monitoring"}',
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("DRIFT_REPORT_PATH", str(report_path))
+
+    response = TestClient(create_app()).get("/v1/drift/latest")
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "stable"
+
+
+def test_drift_endpoint_explains_missing_report(monkeypatch, tmp_path):
+    monkeypatch.setenv("DRIFT_REPORT_PATH", str(tmp_path / "missing.json"))
+
+    response = TestClient(create_app()).get("/v1/drift/latest")
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "unavailable"

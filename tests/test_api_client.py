@@ -18,6 +18,8 @@ def test_api_client_routes_calls_to_the_configured_services():
             return httpx.Response(200, json={"status": "recorded"})
         if request.url.path == "/v1/feedback/recent":
             return httpx.Response(200, json={"records": []})
+        if request.url.path == "/v1/drift/latest":
+            return httpx.Response(200, json={"status": "stable"})
         return httpx.Response(200, json={"status": "ok"})
 
     client = ReviewInsightsApiClient(
@@ -42,6 +44,7 @@ def test_api_client_routes_calls_to_the_configured_services():
         }
     )
     client.recent_feedback(limit=5)
+    client.latest_drift()
 
     assert requests == [
         ("GET", "http://api:8000/health", "secret"),
@@ -51,4 +54,5 @@ def test_api_client_routes_calls_to_the_configured_services():
         ("GET", "http://monitoring:9000/v1/api/metrics", "secret"),
         ("POST", "http://data:8001/v1/feedback", "secret"),
         ("GET", "http://data:8001/v1/feedback/recent?limit=5", "secret"),
+        ("GET", "http://data:8001/v1/drift/latest", "secret"),
     ]

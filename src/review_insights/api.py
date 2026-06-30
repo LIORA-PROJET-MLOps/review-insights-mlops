@@ -117,6 +117,7 @@ def create_app() -> FastAPI:
             sentiment_model_id=service.sentiment_model_id,
             sentiment_model_revision=service.sentiment_model_revision,
             sentiment_load_error=service.sentiment_load_error,
+            prediction_event_store_enabled=bool(settings.prediction_event_store_path),
         )
 
     @app.post("/v1/analyze", response_model=AnalyzeReviewResponse, dependencies=[Depends(require_api_security)])

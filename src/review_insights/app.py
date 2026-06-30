@@ -860,6 +860,44 @@ def render_monitoring_workspace(df: pd.DataFrame) -> None:
             st.error(str(exc))
 
     with st.container(border=True):
+        render_section_title("Drift monitoring", "Derive statistique et performance annotee.")
+        try:
+            drift = CLIENT.latest_drift()
+            drift_metrics = drift.get("metrics", {})
+            feedback_metrics = drift_metrics.get("feedback", {})
+            render_kpi_grid(
+                [
+                    ("Statut", drift.get("status", "unavailable"), "blue", None),
+                    (
+                        "Sentiment drift",
+                        f"{float(drift_metrics.get('sentiment_js_divergence', 0.0)):.3f}",
+                        "amber",
+                        None,
+                    ),
+                    (
+                        "Theme drift",
+                        f"{float(drift_metrics.get('theme_js_divergence', 0.0)):.3f}",
+                        "purple",
+                        None,
+                    ),
+                    (
+                        "Feedback accuracy",
+                        _format_percent(feedback_metrics.get("combined_accuracy", 0.0) or 0.0),
+                        "green",
+                        None,
+                    ),
+                ]
+            )
+            if drift.get("recommendation") == "retraining_recommended":
+                st.warning("Retraining recommande; Dagster verifiera la presence d'un CSV annote.")
+            elif drift.get("status") == "unavailable":
+                st.info("Le premier rapport sera produit par le job Dagster de drift.")
+            with st.expander("Rapport drift"):
+                st.json(drift)
+        except ReviewInsightsClientError as exc:
+            st.warning(str(exc))
+
+    with st.container(border=True):
         render_section_title("Feedback recent")
         try:
             feedback = CLIENT.recent_feedback(limit=20)

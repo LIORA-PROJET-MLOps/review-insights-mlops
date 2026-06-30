@@ -32,6 +32,8 @@ RUN adduser --disabled-password --gecos "" appuser \
         /app/data_store/splits \
         /app/data_store/registry \
         /app/data_store/sample \
+        /app/predictions \
+        /app/feedback \
         /app/artifacts \
         /app/reports \
     && cp /app/orchestration/dagster.yaml /opt/dagster/dagster_home/dagster.yaml \

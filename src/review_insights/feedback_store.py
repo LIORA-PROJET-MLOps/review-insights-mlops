@@ -64,7 +64,18 @@ def append_feedback(record: HumanFeedbackRecord, store_path: Path) -> HumanFeedb
 def read_feedback(store_path: Path, *, limit: int = 100) -> list[dict[str, Any]]:
     if not store_path.exists():
         return []
+    if limit <= 0:
+        return []
     with store_path.open("r", encoding="utf-8") as handle:
         lines = [line.strip() for line in handle if line.strip()]
-    selected = lines[-max(0, limit) :] if limit else []
-    return [json.loads(line) for line in selected]
+    records: list[dict[str, Any]] = []
+    for line in reversed(lines):
+        try:
+            payload = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(payload, dict):
+            records.append(payload)
+        if len(records) == limit:
+            break
+    return list(reversed(records))

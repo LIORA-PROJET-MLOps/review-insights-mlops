@@ -1,0 +1,5 @@
+ops:
+  ingested_review_dataset:
+    config:
+      source_csv: /app/data/sample/reviews_dagster_test_120.csv
+      data_root: /app/data_store
