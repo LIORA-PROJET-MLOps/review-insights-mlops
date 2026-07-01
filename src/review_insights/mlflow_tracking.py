@@ -55,6 +55,18 @@ def _numeric_metrics(summary: Dict) -> Dict[str, float]:
     return metrics
 
 
+def _log_metrics_synchronously(mlflow_module: object, metrics: Dict[str, float]) -> None:
+    log_metrics = getattr(mlflow_module, "log_metrics", None)
+    if callable(log_metrics):
+        try:
+            log_metrics(metrics, synchronous=True)
+        except TypeError:
+            log_metrics(metrics)
+        return
+    for metric_name, metric_value in metrics.items():
+        mlflow_module.log_metric(metric_name, metric_value)
+
+
 def _resolve_model_artifact_dir(settings: Settings, model_artifact_dir: Path | str | None = None) -> Path:
     if model_artifact_dir is not None:
         return Path(model_artifact_dir)
@@ -294,8 +306,7 @@ def _log_with_mlflow_client(
                 **_runtime_model_params(settings, summary),
             }
         )
-        for metric_name, metric_value in _numeric_metrics(summary).items():
-            mlflow_module.log_metric(metric_name, metric_value)
+        _log_metrics_synchronously(mlflow_module, _numeric_metrics(summary))
 
         artifact_count = 0
         for artifact_path in artifact_paths or []:
@@ -359,8 +370,7 @@ def _log_training_with_mlflow_client(
                 }
             )
 
-        for metric_name, metric_value in _numeric_metrics(summary).items():
-            mlflow_module.log_metric(metric_name, metric_value)
+        _log_metrics_synchronously(mlflow_module, _numeric_metrics(summary))
 
         mlflow_module.log_artifacts(str(model_dir), artifact_path="model")
         artifact_count = _count_files(model_dir)

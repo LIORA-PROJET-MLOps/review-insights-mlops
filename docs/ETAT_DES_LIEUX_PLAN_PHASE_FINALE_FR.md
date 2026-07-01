@@ -1,5 +1,10 @@
 # Etat des lieux et plan de phase finale
 
+> **Document historique.** Cet audit de cadrage de juin 2026 conserve les constats qui ont guide
+> la phase finale. Les valeurs de tests et les lacunes de runtime qu'il contient ne decrivent plus
+> l'etat courant. La validation de reference est
+> `docs/SYNTHESE_TECHNIQUE_FINALE_2026-07-01_FR.md`.
+
 Date de l'audit: 3 juin 2026
 
 ## Mise a jour apres corrections

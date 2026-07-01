@@ -766,8 +766,8 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run_functional_smoke_tests.ps
 
 Etat verifie sur cette base:
 
-- `105 passed` (`4 skipped` localement si Dagster n'est pas installé dans le Python hôte)
-- couverture globale: `78.11%`
+- `106 passed` (`4 skipped` localement si Dagster n'est pas installé dans le Python hôte)
+- couverture globale: `78.32%`
 - lint Ruff: propre
 - stack Docker Compose complète construite et vérifiée, y compris Dagster, MLflow, Prometheus et Grafana
 - bundle Hugging Face API reconstruit et charge depuis une revision immuable
@@ -801,6 +801,8 @@ Etat verifie sur cette base:
 - [SECURITE_EXPLOITATION_FR.md](docs/SECURITE_EXPLOITATION_FR.md)
 - [LIVRABLES_FINAUX_FR.md](docs/LIVRABLES_FINAUX_FR.md)
 - [SOUTENANCE_READY_FR.md](docs/SOUTENANCE_READY_FR.md)
+- [SYNTHESE_TECHNIQUE_FINALE_2026-07-01_FR.md](docs/SYNTHESE_TECHNIQUE_FINALE_2026-07-01_FR.md)
+- [CONTENU_SLIDES_SOUTENANCE_2026-07-01_FR.md](docs/CONTENU_SLIDES_SOUTENANCE_2026-07-01_FR.md)
 - [HUGGINGFACE_MIGRATION_FR.md](HUGGINGFACE_MIGRATION_FR.md)
 
 ## GitHub Pages

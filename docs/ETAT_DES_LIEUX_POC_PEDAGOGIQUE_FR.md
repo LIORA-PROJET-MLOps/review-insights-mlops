@@ -1,6 +1,6 @@
 # Etat des lieux pedagogique du POC Review Insights+
 
-Date de verification locale: 2026-06-30
+Date de verification locale: 2026-07-01
 
 Ce document explique le POC de facon simple: ce qu'il fait, comment il est organise, ce qui est deja solide, et ce qui reste a renforcer avant une vraie mise en production.
 
@@ -25,7 +25,7 @@ Etat actuel:
 | Inference API | OK | L'API FastAPI fonctionne et charge les modeles locaux. |
 | Modeles ML | OK pour POC | Les artefacts sont presents, verifies par checksum, et utilises par defaut. |
 | Frontend | OK pour demo | Streamlit local + page web statique connectable a une API publique. |
-| Tests | OK | 88 tests sont collectes: 86 passent localement et 2 tests Dagster sont ignores si la dependance manque. |
+| Tests | OK | 106 tests passent et 4 tests Dagster sont ignores uniquement dans le Python hote sans dependances Dagster. |
 | Data pipeline | Bon socle | Ingestion, validation, quarantaine, splits, manifestes et quality gates existent. |
 | MLOps | Bon socle | MLflow, model registry, gates minimum/maximum, promotion et rollback sont prepares. |
 | Orchestration | OK | Dagster expose les assets, jobs, schedules, sensors et quality checks. |
@@ -98,7 +98,7 @@ flowchart TB
     API --> SVC["ReviewAnalysisService"]
     SVC --> MODEL["Modeles projet project_models_v1"]
     SVC -. secours .-> RULES["Regles heuristiques heuristic_rules_v1"]
-    SVC --> METRICS["MonitoringStore en memoire"]
+    SVC --> METRICS["Metriques runtime + journal prediction/feedback"]
 
     DATA --> DS["Datasets sample/reference"]
     DATA --> EVAL["Evaluation offline"]
@@ -321,7 +321,9 @@ On peut montrer une analyse unitaire, un batch, un dashboard, une evaluation off
 
 5. Tests automatises.
 
-La suite collecte 88 tests: 86 passent dans le runtime local actuel et 2 tests Dagster exigent les dependances de developpement completes.
+La suite locale finale passe 106 tests avec 4 skips conditionnels lorsque Dagster n'est pas installe
+dans le Python hote. Les definitions et les jobs Dagster sont valides et executes dans leur
+conteneur de reference.
 
 ## Limites actuelles
 
@@ -333,17 +335,20 @@ L'evaluation de reference donne `sentiment_accuracy = 0.575`, `sentiment_macro_f
 
 Le scope est volontairement limite aux reviews en anglais et aux trois themes livraison/SAV/produit.
 
-3. Monitoring non persistant.
+3. Retention de monitoring limitee au POC.
 
-Les metriques runtime sont stockees en memoire. Elles disparaissent au redemarrage et ne couvrent pas naturellement plusieurs replicas.
+Les evenements prediction/feedback et les resultats de drift sont persistants dans les volumes
+locaux. Prometheus, Pushgateway, Alertmanager et Grafana sont operationnels. Une retention longue,
+un stockage distant et une strategie multi-replicas restent necessaires en production.
 
 4. Securite configurable mais pas durcie par defaut.
 
 L'API key est optionnelle dans `.env.example`, les origins/trusted hosts sont ouverts par defaut, et les secrets Docker sont des placeholders.
 
-5. MLflow desactive par defaut en local simple.
+5. MLflow depend du profil Compose complet.
 
-La brique existe, mais il faut l'activer via variables d'environnement ou Docker Compose pour tracer les runs.
+Dans le profil `control`, MLflow, PostgreSQL et MinIO tracent les runs et stockent les artefacts.
+Le lancement Python minimal hors Compose ne fournit volontairement pas cette persistance.
 
 6. Frontend statique public limite.
 
@@ -361,5 +366,5 @@ La priorite de phase suivante devrait etre:
 2. ameliorer les modeles et leurs metriques;
 3. activer MLflow/registry sur une instance partagee avec artefacts durables;
 4. appliquer la configuration staging durcie: API key, CORS, hosts, docs fermees et secrets;
-5. rendre le monitoring persistant avec dashboards et alertes;
-6. preparer une demo soutenance avec un scenario court et reproductible.
+5. configurer retention, sauvegardes et receiver Alertmanager pour l'environnement cible;
+6. recalibrer la politique de drift avec du trafic et du feedback reels.

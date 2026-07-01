@@ -1,5 +1,9 @@
 # Synthese de l'etat du projet Review Insights+
 
+> **Document historique, photographie du 29 juin 2026.** Les nombres de tests, l'absence de
+> validation Docker et les limites de monitoring ci-dessous ont depuis ete depasses. Consulter
+> `docs/SYNTHESE_TECHNIQUE_FINALE_2026-07-01_FR.md` pour l'etat valide final.
+
 Date de verification initiale : 29 juin 2026. Mise a jour : 30 juin 2026.
 
 ## Verdict executif

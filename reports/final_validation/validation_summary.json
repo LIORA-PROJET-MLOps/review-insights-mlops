@@ -1,0 +1,72 @@
+{
+  "validated_at": "2026-07-01",
+  "result": "passed_with_expected_test_alerts",
+  "git_commit_under_test": "51a98233f86c151008df3c2119e985d9599606eb",
+  "static_validation": {
+    "ruff": "passed",
+    "tests_passed": 106,
+    "tests_skipped": 4,
+    "coverage_percent": 78.32,
+    "coverage_threshold_percent": 70,
+    "compose_config": "valid",
+    "dagster_definitions": "valid"
+  },
+  "runtime": {
+    "running_services": 17,
+    "prometheus_targets_up": 13,
+    "prometheus_targets_total": 13,
+    "functional_smoke_checks_passed": 10,
+    "functional_smoke_checks_total": 10,
+    "http_endpoints_checked": 9,
+    "http_endpoints_healthy": 9
+  },
+  "dataset": {
+    "source_rows": 120,
+    "valid_rows": 120,
+    "rejected_rows": 0,
+    "annotation_queue_rows": 0,
+    "train_rows": 72,
+    "validation_rows": 18,
+    "test_rows": 30,
+    "git_commit_recorded": "51a98233f86c151008df3c2119e985d9599606eb"
+  },
+  "model": {
+    "runtime_backend": "project_models_v1",
+    "mlflow_candidate_version": 2,
+    "candidate_alias": "candidate",
+    "promotion_test_status": "approved_dry_run",
+    "active_reference_sentiment_accuracy": 0.575,
+    "active_reference_theme_f1_macro": 0.8877
+  },
+  "drift_test": {
+    "prediction_events": 30,
+    "feedback_records": 10,
+    "feedback_combined_accuracy": 0.1,
+    "sentiment_js_divergence": 0.060578,
+    "theme_js_divergence": 0.01371,
+    "human_review_rate": 0.4,
+    "sentiment_conflict_rate": 0.2,
+    "retraining_recommended": true,
+    "trigger": "feedback_combined_accuracy",
+    "firing_alerts": [
+      "ReviewInsightsDriftDetected",
+      "ReviewInsightsPerformanceDrift"
+    ],
+    "interpretation": "Expected result produced by intentionally incorrect test feedback."
+  },
+  "dagster_runs": {
+    "training_run_id": "bb20b6cb-5116-408b-a71c-02b59e7b9716",
+    "training_status": "success",
+    "drift_run_id": "ae196fe2-04b8-4ab8-9c58-ccc2d0502020",
+    "drift_status": "success",
+    "promotion_run_id": "a4a9c0aa-1c2c-437d-8453-a210a6862640",
+    "promotion_status": "success_dry_run"
+  },
+  "automations": {
+    "daily_full_pipeline_schedule": "19:00 Europe/Paris",
+    "hourly_drift_monitoring_schedule": "minute 15 of every hour",
+    "drift_retraining_sensor": "running",
+    "pipeline_failure_alert_sensor": "running",
+    "incoming_review_dataset_sensor": "stopped_intentionally"
+  }
+}

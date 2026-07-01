@@ -22,6 +22,7 @@ x-dagster-common: &dagster-common
     FEEDBACK_STORE_PATH: /app/feedback/human_feedback.jsonl
     DRIFT_POLICY_PATH: /app/config/drift_policy_v1.json
     DRIFT_REPORT_PATH: /app/reports/drift/latest_drift_report.json
+    GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-unknown}
     ALERT_WEBHOOK_URL: ${ALERT_WEBHOOK_URL:-}
   volumes:
     - orchestrator_data:/app/data_store

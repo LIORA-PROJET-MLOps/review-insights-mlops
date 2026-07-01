@@ -13,6 +13,14 @@ from src.review_insights.data_store import (
 )
 
 
+def test_git_commit_prefers_deployment_metadata(monkeypatch):
+    from src.review_insights.data_store import _current_git_commit
+
+    monkeypatch.setenv("GIT_COMMIT_SHA", "deployment-sha-123")
+
+    assert _current_git_commit() == "deployment-sha-123"
+
+
 def _clean_work_dir(path: Path) -> None:
     if path.exists():
         shutil.rmtree(path)

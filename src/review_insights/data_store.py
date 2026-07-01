@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -246,6 +247,10 @@ def _sha256(path: Path) -> str:
 
 
 def _current_git_commit(project_root: Path | None = None) -> str:
+    for variable in ("GIT_COMMIT_SHA", "GITHUB_SHA", "SOURCE_VERSION"):
+        value = os.getenv(variable, "").strip()
+        if value:
+            return value
     root = project_root or Path(__file__).resolve().parents[2]
     try:
         completed = subprocess.run(
