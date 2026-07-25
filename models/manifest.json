@@ -31,11 +31,16 @@
     }
   },
   "artifact_sha256": {
-    "themes_clf.joblib": "67a4d830cf1ee4ed9125ffb34895e922493da3d0b98bb78f5ecfd30517e111d7",
+    "themes_clf.joblib": "a23cacc04e1f81a67cf5667e1ba37c2c55f4c1b11ae5cb3619610a48009d3dac",
     "themes_thresholds.npy": "2dc5a149bc45290f7b26cf6bcce1b5071a40a3a88dd08eb78cc73ce6283b30b5",
-    "sent_livraison.joblib": "5f4dd1169989d20d26568c92ddd383470b49111ddcace2e58801c18a44e2cd28",
-    "sent_sav.joblib": "b929c33074b542be81c547a081066fab4c8881074cf195d07db703a73360430b",
-    "sent_produit.joblib": "adee3f05d2b9365f2f62b205aa35cbc7fb64e605a9e8233f05e17046100ebaa2"
+    "sent_livraison.joblib": "c8492afde6d1b5d42d3007b79744695b2096e7f1c569a5f3b8d7f301aabcb70d",
+    "sent_sav.joblib": "ca8d0c40d4115df0a6552b5b20813ad8c289cb3fd43fbf7e7dc7e00ea4bc7715",
+    "sent_produit.joblib": "1e40900c24d5745a117a8d7eec64319c4f16fd28cfbd3633d3a7d27347dbaba2"
+  },
+  "artifact_compatibility": {
+    "serialized_with_scikit_learn": "1.6.1",
+    "runtime_requirement": "scikit-learn>=1.6,<1.7",
+    "prediction_parity_verified": true
   },
   "runtime_notes": {
     "backend_name": "project_models_v1",

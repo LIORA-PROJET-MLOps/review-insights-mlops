@@ -1,0 +1,381 @@
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"Review Insights+","textShapes":5}
+{"kind":"shape","id":"sh/547294r6","slide":1,"bbox":[0,0,770,720]}
+{"kind":"shape","id":"sh/k3yl0zql","slide":1,"bbox":[52,78,56,8]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"text":"Review Insights+","textPreview":"Review Insights+","textChars":16,"textLines":1,"bbox":[52,122,650,90]}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"text":"Des avis clients aux décisions, avec une chaîne MLOps gouvernée","textPreview":"Des avis clients aux décisions, avec une chaîne MLOps gouvernée","textChars":63,"textLines":1,"bbox":[52,235,610,112]}
+{"kind":"textbox","id":"sh/ts7md4r2","slide":1,"text":"POC / MVP NLP • Soutenance projet","textPreview":"POC / MVP NLP • Soutenance projet","textChars":33,"textLines":1,"bbox":[52,420,540,32]}
+{"kind":"textbox","id":"sh/sryl4zqx","slide":1,"text":"Analyse • contrôle humain • monitoring • retraining maîtrisé","textPreview":"Analyse • contrôle humain • monitoring • retraining maîtrisé","textChars":60,"textLines":1,"bbox":[52,470,610,62]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"text":"Juillet 2026","textPreview":"Juillet 2026","textChars":12,"textLines":1,"bbox":[52,650,250,24]}
+{"kind":"image","id":"im/7mp0jixo","slide":1,"name":"","bbox":[760,0,520,720]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":"TEMPS CIBLE : 0:45\n\nOuvrir par la promesse métier, pas par les outils.\nMessage central : le projet ne se contente pas de prédire ; il sait mesurer son état et encadrer sa propre évolution."}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"CONTEXTE","textShapes":11}
+{"kind":"textbox","id":"sh/mxgjm5s7","slide":2,"text":"CONTEXTE","textPreview":"CONTEXTE","textChars":8,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/9072xkry","slide":2,"text":"Les avis sont nombreux, mais la décision reste lente","textPreview":"Les avis sont nombreux, mais la décision reste lente","textChars":52,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/ozy1ofad","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/b29kza94","slide":2,"text":"LE PROBLÈME","textPreview":"LE PROBLÈME","textChars":11,"textLines":1,"bbox":[52,185,300,24]}
+{"kind":"textbox","id":"sh/a10jqpsj","slide":2,"text":"Lire manuellement ne passe pas à l’échelle","textPreview":"Lire manuellement ne passe pas à l’échelle","textChars":42,"textLines":1,"bbox":[52,220,455,78]}
+{"kind":"textbox","id":"sh/x4r21kru","slide":2,"text":"• volume et verbatims non structurés\n• priorités produit, livraison et SAV difficiles à objectiver\n• risque de perdre les cas ambigus ou sensibles","textPreview":"• volume et verbatims non structurés | • priorités produit, livraison et SAV difficiles à objectiver | • risque de perdre les cas ambigus...","textChars":146,"textLines":3,"bbox":[52,325,500,170]}
+{"kind":"shape","id":"sh/w3i1sfa9","slide":2,"bbox":[626,172,2,390]}
+{"kind":"textbox","id":"sh/r65knqtk","slide":2,"text":"LA RÉPONSE","textPreview":"LA RÉPONSE","textChars":10,"textLines":1,"bbox":[684,185,300,24]}
+{"kind":"textbox","id":"sh/q5wjelsz","slide":2,"text":"Structurer l’avis sans retirer le contrôle humain","textPreview":"Structurer l’avis sans retirer le contrôle humain","textChars":49,"textLines":1,"bbox":[684,220,500,78]}
+{"kind":"textbox","id":"sh/ove9o7yd","slide":2,"text":"• sentiment global et thèmes détectés\n• confiance, preuves et action recommandée\n• revue humaine quand le seuil de confiance l’exige","textPreview":"• sentiment global et thèmes détectés | • confiance, preuves et action recommandée | • revue humaine quand le seuil de confiance l’exige","textChars":132,"textLines":3,"bbox":[684,325,500,170]}
+{"kind":"textbox","id":"sh/9wnqhczy","slide":2,"text":"Valeur attendue","textPreview":"Valeur attendue","textChars":15,"textLines":1,"bbox":[52,586,220,24]}
+{"kind":"textbox","id":"sh/mtwrmxg7","slide":2,"text":"prioriser plus vite, tout en gardant une décision explicable","textPreview":"prioriser plus vite, tout en gardant une décision explicable","textChars":60,"textLines":1,"bbox":[272,582,830,36]}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":"TEMPS CIBLE : 1:30\n\nDonner un exemple concret : 10 000 avis ne deviennent utiles que lorsqu’on peut les trier et les relier à une action.\nInsister : l’objectif n’est pas de remplacer l’expert métier."}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"PRODUIT","textShapes":7}
+{"kind":"textbox","id":"sh/cza94vmx","slide":3,"text":"PRODUIT","textPreview":"PRODUIT","textChars":7,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/d0jax03i","slide":3,"text":"Une analyse devient un objet de décision exploitable","textPreview":"Une analyse devient un objet de décision exploitable","textChars":52,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/298ryl4v","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/3ah8rqlg","slide":3,"text":"Entrée","textPreview":"Entrée","textChars":6,"textLines":1,"bbox":[52,180,160,24]}
+{"kind":"textbox","id":"sh/obq90bml","slide":3,"text":"Un avis en anglais, unitaire ou batch","textPreview":"Un avis en anglais, unitaire ou batch","textChars":37,"textLines":1,"bbox":[52,214,455,54]}
+{"kind":"textbox","id":"sh/pcjqtg36","slide":3,"text":"Sortie","textPreview":"Sortie","textChars":6,"textLines":1,"bbox":[52,305,160,24]}
+{"kind":"textbox","id":"sh/m5cra54z","slide":3,"text":"• sentiment positif, neutre ou négatif\n• thèmes livraison, SAV et produit\n• sentiment par thème\n• confiance et éléments de preuve\n• action recommandée\n• drapeau de revue humaine","textPreview":"• sentiment positif, neutre ou négatif | • thèmes livraison, SAV et produit | • sentiment par thème | • confiance et éléments de preuve |...","textChars":177,"textLines":6,"bbox":[52,340,470,238]}
+{"kind":"shape","id":"sh/n6ls3alk","slide":3,"bbox":[582,145,645,475]}
+{"kind":"image","id":"im/4repgvex","slide":3,"name":"","bbox":[582,201.09,645,362.81]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":"TEMPS CIBLE : 1:30\n\nMontrer que l’interface expose la confiance et la revue humaine, pas seulement une étiquette.\nLe périmètre linguistique actuel est l’anglais ; le multilingue appartient à la roadmap."}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"LOGIQUE UTILISÉE","textShapes":15}
+{"kind":"textbox","id":"sh/e9sj2tsv","slide":4,"text":"LOGIQUE UTILISÉE","textPreview":"LOGIQUE UTILISÉE","textChars":16,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/1cj2d8b6","slide":4,"text":"La logique privilégie la traçabilité et l’escalade des cas ambigus","textPreview":"La logique privilégie la traçabilité et l’escalade des cas ambigus","textChars":66,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/0ba143al","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/rm1k7yt4","slide":4,"bbox":[244,318,68,32]}
+{"kind":"shape","id":"sh/ql8jytsj","slide":4,"bbox":[490,318,68,32]}
+{"kind":"shape","id":"sh/doj29oba","slide":4,"bbox":[736,318,68,32]}
+{"kind":"shape","id":"sh/sna103ap","slide":4,"bbox":[982,318,68,32]}
+{"kind":"shape","id":"sh/3ihk3et8","slide":4,"bbox":[52,260,192,110]}
+{"kind":"shape","id":"sh/ih8ju9sn","slide":4,"bbox":[52,260,8,110]}
+{"kind":"textbox","id":"sh/kbm987y5","slide":4,"text":"1. Préparer","textPreview":"1. Préparer","textChars":11,"textLines":1,"bbox":[76,278,154,30]}
+{"kind":"textbox","id":"sh/5cva1cfq","slide":4,"text":"normaliser et borner le texte","textPreview":"normaliser et borner le texte","textChars":29,"textLines":1,"bbox":[76,313,154,48]}
+{"kind":"shape","id":"sh/i94r6xgz","slide":4,"bbox":[298,260,192,110]}
+{"kind":"shape","id":"sh/jadsz2xk","slide":4,"bbox":[298,260,8,110]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"text":"2. Prédire","textPreview":"2. Prédire","textChars":10,"textLines":1,"bbox":[322,278,154,30]}
+{"kind":"textbox","id":"sh/x8vaxsfe","slide":4,"text":"sentiment + thèmes","textPreview":"sentiment + thèmes","textChars":18,"textLines":1,"bbox":[322,313,154,48]}
+{"kind":"shape","id":"sh/a5kr2xg3","slide":4,"bbox":[544,260,192,110]}
+{"kind":"shape","id":"sh/v6tsv2xo","slide":4,"bbox":[544,260,8,110]}
+{"kind":"textbox","id":"sh/g36tgryd","slide":4,"text":"3. Expliquer","textPreview":"3. Expliquer","textChars":12,"textLines":1,"bbox":[568,278,154,30]}
+{"kind":"textbox","id":"sh/h4fa9wfy","slide":4,"text":"scores, preuves, action","textPreview":"scores, preuves, action","textChars":23,"textLines":1,"bbox":[568,313,154,48]}
+{"kind":"shape","id":"sh/p0batw72","slide":4,"bbox":[790,260,192,110]}
+{"kind":"shape","id":"sh/oz29krqh","slide":4,"bbox":[790,260,8,110]}
+{"kind":"textbox","id":"sh/3ytsrmpw","slide":4,"text":"4. Décider","textPreview":"4. Décider","textChars":10,"textLines":1,"bbox":[814,278,154,30]}
+{"kind":"textbox","id":"sh/2xkrih8b","slide":4,"text":"seuils et contradictions","textPreview":"seuils et contradictions","textChars":24,"textLines":1,"bbox":[814,313,154,48]}
+{"kind":"shape","id":"sh/1wbapc7q","slide":4,"bbox":[1036,260,192,110]}
+{"kind":"shape","id":"sh/gv29g7q5","slide":4,"bbox":[1036,260,8,110]}
+{"kind":"textbox","id":"sh/fu9sn2p0","slide":4,"text":"5. Apprendre","textPreview":"5. Apprendre","textChars":12,"textLines":1,"bbox":[1060,278,154,30]}
+{"kind":"textbox","id":"sh/et0reh8f","slide":4,"text":"feedback étiqueté uniquement","textPreview":"feedback étiqueté uniquement","textChars":28,"textLines":1,"bbox":[1060,313,154,48]}
+{"kind":"textbox","id":"sh/tsrqlc7u","slide":4,"text":"Bonnes pratiques déjà appliquées","textPreview":"Bonnes pratiques déjà appliquées","textChars":32,"textLines":1,"bbox":[52,455,420,32]}
+{"kind":"textbox","id":"sh/sri9s7q9","slide":4,"text":"• contrats d’entrée et limite de taille\n• artefacts vérifiés par checksum\n• fallback heuristique explicite\n• aucun commentaire non étiqueté injecté automatiquement dans le training","textPreview":"• contrats d’entrée et limite de taille | • artefacts vérifiés par checksum | • fallback heuristique explicite | • aucun commentaire non ...","textChars":180,"textLines":4,"bbox":[52,505,1130,126]}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":"TEMPS CIBLE : 2:00\n\nExpliquer le flux sans détailler les classes Python.\nPoint clé : le feedback libre sert au monitoring ; seul un feedback étiqueté et validé peut nourrir un réentraînement."}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"ARCHITECTURE ACTUELLE","textShapes":16}
+{"kind":"textbox","id":"sh/qd0bahob","slide":5,"text":"ARCHITECTURE ACTUELLE","textPreview":"ARCHITECTURE ACTUELLE","textChars":21,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/dgbulwnm","slide":5,"text":"Aujourd’hui, le produit tourne comme une stack locale multi-services","textPreview":"Aujourd’hui, le produit tourne comme une stack locale multi-services","textChars":68,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/cf2tcr61","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/z2tcnm5s","slide":5,"bbox":[895,40,310,34]}
+{"kind":"textbox","id":"sh/yhkbe1o7","slide":5,"text":"IMPLÉMENTÉ ET VALIDÉ EN LOCAL","textPreview":"IMPLÉMENTÉ ET VALIDÉ EN LOCAL","textChars":29,"textLines":1,"bbox":[905,46,290,22]}
+{"kind":"shape","id":"sh/l4bupwny","slide":5,"bbox":[216,318,72,30]}
+{"kind":"shape","id":"sh/032tgr6d","slide":5,"bbox":[488,318,72,30]}
+{"kind":"shape","id":"sh/n6dcr65o","slide":5,"bbox":[760,318,72,30]}
+{"kind":"shape","id":"sh/m5kbi1oj","slide":5,"bbox":[52,250,164,110]}
+{"kind":"shape","id":"sh/w32dkbuh","slide":5,"bbox":[52,250,8,110]}
+{"kind":"textbox","id":"sh/x4vedgvm","slide":5,"text":"Expérience","textPreview":"Expérience","textChars":10,"textLines":1,"bbox":[76,268,126,30]}
+{"kind":"textbox","id":"sh/ahkvi1cb","slide":5,"text":"Streamlit + frontend web","textPreview":"Streamlit + frontend web","textChars":24,"textLines":1,"bbox":[76,303,126,48]}
+{"kind":"shape","id":"sh/v2twb6dw","slide":5,"bbox":[288,250,200,110]}
+{"kind":"shape","id":"sh/k7mxovud","slide":5,"bbox":[288,250,8,110]}
+{"kind":"textbox","id":"sh/58vehgvy","slide":5,"text":"Services","textPreview":"Services","textChars":8,"textLines":1,"bbox":[312,268,162,30]}
+{"kind":"textbox","id":"sh/i54fmlc7","slide":5,"text":"FastAPI inference, data, monitoring","textPreview":"FastAPI inference, data, monitoring","textChars":35,"textLines":1,"bbox":[312,303,162,48]}
+{"kind":"shape","id":"sh/j6dwfqds","slide":5,"bbox":[560,250,200,110]}
+{"kind":"shape","id":"sh/sb6xsvu9","slide":5,"bbox":[560,250,8,110]}
+{"kind":"textbox","id":"sh/tcfel0vu","slide":5,"text":"Orchestration","textPreview":"Orchestration","textChars":13,"textLines":1,"bbox":[584,268,162,30]}
+{"kind":"textbox","id":"sh/hgrmpwj2","slide":5,"text":"Dagster jobs, schedules, sensors","textPreview":"Dagster jobs, schedules, sensors","textChars":32,"textLines":1,"bbox":[584,303,162,48]}
+{"kind":"shape","id":"sh/gfi5grih","slide":5,"bbox":[832,250,200,110]}
+{"kind":"shape","id":"sh/fe94nm1w","slide":5,"bbox":[832,250,8,110]}
+{"kind":"textbox","id":"sh/ud0ne10b","slide":5,"text":"Gouvernance ML","textPreview":"Gouvernance ML","textChars":14,"textLines":1,"bbox":[856,268,162,30]}
+{"kind":"textbox","id":"sh/pkr6tgjy","slide":5,"text":"MLflow + PostgreSQL + MinIO","textPreview":"MLflow + PostgreSQL + MinIO","textChars":27,"textLines":1,"bbox":[856,303,162,48]}
+{"kind":"shape","id":"sh/4ji5kbid","slide":5,"bbox":[1068,250,160,110]}
+{"kind":"shape","id":"sh/3i94r61s","slide":5,"bbox":[1068,250,8,110]}
+{"kind":"textbox","id":"sh/2h0ni107","slide":5,"text":"Observabilité","textPreview":"Observabilité","textChars":13,"textLines":1,"bbox":[1092,268,122,30]}
+{"kind":"textbox","id":"sh/5o7mhcju","slide":5,"text":"Prometheus + Alertmanager + Grafana","textPreview":"Prometheus + Alertmanager + Grafana","textChars":35,"textLines":1,"bbox":[1092,303,122,48]}
+{"kind":"textbox","id":"sh/kny587i9","slide":5,"text":"Docker Compose relie 17 services. L’API d’inférence est stateless ; les modèles restent montés localement.","textPreview":"Docker Compose relie 17 services. L’API d’inférence est stateless ; les modèles restent montés localement.","textChars":106,"textLines":1,"bbox":[52,430,1120,58]}
+{"kind":"textbox","id":"sh/atcjidg7","slide":5,"text":"Limite assumée : cette topologie prouve l’intégration, pas encore la haute disponibilité, le dimensionnement ni la reprise après sinistre.","textPreview":"Limite assumée : cette topologie prouve l’intégration, pas encore la haute disponibilité, le dimensionnement ni la reprise après sinistre.","textChars":138,"textLines":1,"bbox":[52,525,1120,70]}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":"TEMPS CIBLE : 2:00\n\nDire clairement : ce n’est plus un notebook, mais ce n’est pas encore un service public cloud.\nRelier chaque brique à un besoin : servir, orchestrer, tracer, observer."}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"CYCLE MLOPS","textShapes":19}
+{"kind":"textbox","id":"sh/lkrqp4ra","slide":6,"text":"CYCLE MLOPS","textPreview":"CYCLE MLOPS","textChars":11,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/yhg7epsj","slide":6,"text":"Chaque changement de données ou de modèle traverse des garde-fous","textPreview":"Chaque changement de données ou de modèle traverse des garde-fous","textChars":65,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/zi98nu94","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/87ipkzal","slide":6,"bbox":[160,336,960,6]}
+{"kind":"shape","id":"sh/98rqt4r6","slide":6,"bbox":[180,306,64,64]}
+{"kind":"textbox","id":"sh/ml07i9sv","slide":6,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[180,322,64,25]}
+{"kind":"shape","id":"sh/7m98ru9g","slide":6,"bbox":[380,306,64,64]}
+{"kind":"textbox","id":"sh/oryp8fah","slide":6,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[380,322,64,25]}
+{"kind":"shape","id":"sh/pc76hkr2","slide":6,"bbox":[580,306,64,64]}
+{"kind":"textbox","id":"sh/h4bupgn6","slide":6,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[580,322,64,25]}
+{"kind":"shape","id":"sh/w32twb6l","slide":6,"bbox":[780,306,64,64]}
+{"kind":"textbox","id":"sh/v2tcn650","slide":6,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[780,322,64,25]}
+{"kind":"shape","id":"sh/u1kbu1ov","slide":6,"bbox":[980,306,64,64]}
+{"kind":"textbox","id":"sh/5svutgni","slide":6,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[980,322,64,25]}
+{"kind":"textbox","id":"sh/47mt0b6x","slide":6,"text":"Ingestion","textPreview":"Ingestion","textChars":9,"textLines":1,"bbox":[130,402,160,28]}
+{"kind":"textbox","id":"sh/j6dcr65c","slide":6,"text":"contrat, PII screening, quarantaine","textPreview":"contrat, PII screening, quarantaine","textChars":35,"textLines":1,"bbox":[110,444,200,70]}
+{"kind":"textbox","id":"sh/i54bylor","slide":6,"text":"Versionner","textPreview":"Versionner","textChars":10,"textLines":1,"bbox":[330,402,160,28]}
+{"kind":"textbox","id":"sh/twfux0ne","slide":6,"text":"checksum, manifest, DVC, commit","textPreview":"checksum, manifest, DVC, commit","textChars":31,"textLines":1,"bbox":[310,444,200,70]}
+{"kind":"textbox","id":"sh/svmt4v6t","slide":6,"text":"Entraîner","textPreview":"Entraîner","textChars":9,"textLines":1,"bbox":[530,402,160,28]}
+{"kind":"textbox","id":"sh/cbe5g3ih","slide":6,"text":"splits déterministes, run Dagster","textPreview":"splits déterministes, run Dagster","textChars":33,"textLines":1,"bbox":[510,444,200,70]}
+{"kind":"textbox","id":"sh/dcnm98zm","slide":6,"text":"Évaluer","textPreview":"Évaluer","textChars":7,"textLines":1,"bbox":[730,402,160,28]}
+{"kind":"textbox","id":"sh/qpwnet0b","slide":6,"text":"dataset indépendant, seuils de release","textPreview":"dataset indépendant, seuils de release","textChars":38,"textLines":1,"bbox":[710,444,200,70]}
+{"kind":"textbox","id":"sh/bq547yhw","slide":6,"text":"Promouvoir","textPreview":"Promouvoir","textChars":10,"textLines":1,"bbox":[930,402,160,28]}
+{"kind":"textbox","id":"sh/0fy5k3id","slide":6,"text":"candidate → champion, rollback","textPreview":"candidate → champion, rollback","textChars":30,"textLines":1,"bbox":[910,444,200,70]}
+{"kind":"textbox","id":"sh/lg76d8zy","slide":6,"text":"Le drift peut recommander un retraining ; il ne remplace jamais automatiquement le champion.","textPreview":"Le drift peut recommander un retraining ; il ne remplace jamais automatiquement le champion.","textChars":92,"textLines":1,"bbox":[160,580,960,46]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":"TEMPS CIBLE : 2:00\n\nMettre l’accent sur la séparation des responsabilités.\nLe modèle candidat est comparé à des seuils absolus et au champion ; la promotion et le rollback sont auditables."}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"ÉVALUATION","textShapes":14}
+{"kind":"textbox","id":"sh/batcbq94","slide":7,"text":"ÉVALUATION","textPreview":"ÉVALUATION","textChars":10,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/cb2tkvap","slide":7,"text":"La plateforme est solide ; la qualité sentiment reste le principal chantier","textPreview":"La plateforme est solide ; la qualité sentiment reste le principal chantier","textChars":75,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/dcbud0ra","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/ydkbm5sv","slide":7,"bbox":[52,190,540,350]}
+{"kind":"textbox","id":"sh/zedcfa9g","slide":7,"text":"Référence indépendante — 40 avis","textPreview":"Référence indépendante — 40 avis","textChars":32,"textLines":1,"bbox":[82,220,440,28]}
+{"kind":"textbox","id":"sh/kzmdova1","slide":7,"text":"57,5 %","textPreview":"57,5 %","textChars":6,"textLines":1,"bbox":[82,270,250,72]}
+{"kind":"textbox","id":"sh/l0vuh0rm","slide":7,"text":"accuracy sentiment","textPreview":"accuracy sentiment","textChars":18,"textLines":1,"bbox":[82,343,250,28]}
+{"kind":"textbox","id":"sh/eh0ba1sr","slide":7,"text":"88,77 %","textPreview":"88,77 %","textChars":7,"textLines":1,"bbox":[330,270,230,72]}
+{"kind":"textbox","id":"sh/fi9c369c","slide":7,"text":"F1 macro thèmes","textPreview":"F1 macro thèmes","textChars":15,"textLines":1,"bbox":[330,343,230,28]}
+{"kind":"textbox","id":"sh/baxkjqlk","slide":7,"text":"Lecture : les thèmes sont déjà utiles ; le sentiment exige davantage de données réelles et de calibration.","textPreview":"Lecture : les thèmes sont déjà utiles ; le sentiment exige davantage de données réelles et de calibration.","textChars":106,"textLines":1,"bbox":[82,410,450,90]}
+{"kind":"shape","id":"sh/a9ojq5kz","slide":7,"bbox":[650,190,578,350]}
+{"kind":"textbox","id":"sh/xcz2l03q","slide":7,"text":"Pourquoi le candidat affiche 100 % ?","textPreview":"Pourquoi le candidat affiche 100 % ?","textChars":36,"textLines":1,"bbox":[690,225,480,45]}
+{"kind":"textbox","id":"sh/cbq1sv25","slide":7,"text":"Le score vient d’un petit dataset synthétique de validation. Il prouve que la chaîne technique fonctionne, pas que le modèle généralise.","textPreview":"Le score vient d’un petit dataset synthétique de validation. Il prouve que la chaîne technique fonctionne, pas que le modèle généralise.","textChars":136,"textLines":1,"bbox":[690,300,475,135]}
+{"kind":"textbox","id":"sh/n6x0fqlo","slide":7,"text":"Best practice","textPreview":"Best practice","textChars":13,"textLines":1,"bbox":[690,465,150,24]}
+{"kind":"textbox","id":"sh/25ojml43","slide":7,"text":"séparer preuve d’intégration et preuve de performance","textPreview":"séparer preuve d’intégration et preuve de performance","textChars":53,"textLines":1,"bbox":[838,459,320,54]}
+{"kind":"textbox","id":"sh/p8fih03e","slide":7,"text":"Décision actuelle : pas d’automatisation à impact client sans contrôle humain.","textPreview":"Décision actuelle : pas d’automatisation à impact client sans contrôle humain.","textChars":78,"textLines":1,"bbox":[52,585,1120,45]}
+{"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":"TEMPS CIBLE : 2:15\n\nÊtre très transparent sur le 100 % synthétique ; cette honnêteté désamorce une question probable du jury.\nPositionner le POC comme une preuve de système et une base d’amélioration du modèle."}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"MONITORING MODÈLE","textShapes":11}
+{"kind":"textbox","id":"sh/18byd4zy","slide":8,"text":"MONITORING MODÈLE","textPreview":"MONITORING MODÈLE","textChars":17,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/g72x4zyd","slide":8,"text":"Une dégradation devient un signal actionnable, pas un déploiement automatique","textPreview":"Une dégradation devient un signal actionnable, pas un déploiement automatique","textChars":77,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/ri9g7uhw","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/6h0fypgb","slide":8,"text":"Scénario de contrôle","textPreview":"Scénario de contrôle","textChars":20,"textLines":1,"bbox":[52,190,390,30]}
+{"kind":"textbox","id":"sh/tkby9kzm","slide":8,"text":"33","textPreview":"33","textChars":2,"textLines":1,"bbox":[52,245,120,60]}
+{"kind":"textbox","id":"sh/sjix0zy1","slide":8,"text":"prédictions","textPreview":"prédictions","textChars":11,"textLines":1,"bbox":[150,264,180,28]}
+{"kind":"textbox","id":"sh/je9g3ahk","slide":8,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[52,325,120,60]}
+{"kind":"textbox","id":"sh/id0fu50z","slide":8,"text":"feedbacks volontairement faux","textPreview":"feedbacks volontairement faux","textChars":29,"textLines":1,"bbox":[150,344,360,50]}
+{"kind":"textbox","id":"sh/o7ydoret","slide":8,"text":"0,09","textPreview":"0,09","textChars":4,"textLines":1,"bbox":[52,420,120,60]}
+{"kind":"textbox","id":"sh/98rehwve","slide":8,"text":"accuracy feedback","textPreview":"accuracy feedback","textChars":17,"textLines":1,"bbox":[170,439,220,28]}
+{"kind":"textbox","id":"sh/m5gvmhwn","slide":8,"text":"• drift calculé chaque heure\n• alerte Prometheus déclenchée\n• retraining recommandé\n• nouveau CSV étiqueté requis avant relance","textPreview":"• drift calculé chaque heure | • alerte Prometheus déclenchée | • retraining recommandé | • nouveau CSV étiqueté requis avant relance","textChars":127,"textLines":4,"bbox":[52,515,520,120]}
+{"kind":"shape","id":"sh/n6pwfmd8","slide":8,"bbox":[660,185,568,405]}
+{"kind":"image","id":"im/zqd8fe18","slide":8,"name":"","bbox":[660,227.75,568,319.5]}
+{"kind":"notes","id":"nt/fu1gfa1s","slide":8,"text":"TEMPS CIBLE : 1:45\n\nPréciser que les alertes visibles sont attendues : le test injecte une dégradation contrôlée.\nLe sensor ignore les datasets déjà ingérés pour éviter les boucles et les retrainings dupliqués."}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"ÉTAT ACTUEL","textShapes":12}
+{"kind":"textbox","id":"sh/1cfmhgne","slide":9,"text":"ÉTAT ACTUEL","textPreview":"ÉTAT ACTUEL","textChars":11,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/0b65obm9","slide":9,"text":"Le POC est démontrable avec des preuves reproductibles","textPreview":"Le POC est démontrable avec des preuves reproductibles","textChars":54,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/nex4jq5k","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/mdonql4z","slide":9,"text":"113","textPreview":"113","textChars":3,"textLines":1,"bbox":[52,190,150,65]}
+{"kind":"textbox","id":"sh/9gzml0nq","slide":9,"text":"tests passés","textPreview":"tests passés","textChars":12,"textLines":1,"bbox":[210,213,210,30]}
+{"kind":"textbox","id":"sh/ofq5svm5","slide":9,"text":"71,15 %","textPreview":"71,15 %","textChars":7,"textLines":1,"bbox":[52,285,200,65]}
+{"kind":"textbox","id":"sh/bih4na5w","slide":9,"text":"couverture","textPreview":"couverture","textChars":10,"textLines":1,"bbox":[265,308,180,30]}
+{"kind":"textbox","id":"sh/ah8nu54b","slide":9,"text":"10/10","textPreview":"10/10","textChars":5,"textLines":1,"bbox":[52,380,160,65]}
+{"kind":"textbox","id":"sh/oza1gfyh","slide":9,"text":"smoke checks","textPreview":"smoke checks","textChars":12,"textLines":1,"bbox":[220,403,210,30]}
+{"kind":"textbox","id":"sh/p0ji9kf2","slide":9,"text":"13/13","textPreview":"13/13","textChars":5,"textLines":1,"bbox":[52,475,160,65]}
+{"kind":"textbox","id":"sh/2xsjepgb","slide":9,"text":"targets Prometheus UP","textPreview":"targets Prometheus UP","textChars":21,"textLines":1,"bbox":[220,498,300,30]}
+{"kind":"textbox","id":"sh/3y107axw","slide":9,"text":"17 services actifs • 11/11 endpoints critiques • Ruff propre","textPreview":"17 services actifs • 11/11 endpoints critiques • Ruff propre","textChars":60,"textLines":1,"bbox":[52,586,500,45]}
+{"kind":"shape","id":"sh/cnu1kzyd","slide":9,"bbox":[610,175,618,435]}
+{"kind":"image","id":"im/6lo7qlc3","slide":9,"name":"","bbox":[610,218.58,618,347.84]}
+{"kind":"notes","id":"nt/udsvah03","slide":9,"text":"TEMPS CIBLE : 1:30\n\nNe pas réciter tous les chiffres : conclure qu’ils couvrent code, runtime et monitoring.\nLes quatre skips dépendent de l’absence de Dagster dans le Python hôte ; les jobs sont validés dans le conteneur de référence."}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"SÉCURITÉ AUJOURD’HUI","textShapes":8}
+{"kind":"textbox","id":"sh/q9sn69kb","slide":10,"text":"SÉCURITÉ AUJOURD’HUI","textPreview":"SÉCURITÉ AUJOURD’HUI","textChars":20,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/xc3mho32","slide":10,"text":"La sécurité actuelle est adaptée au POC local, pas encore au B2C public","textPreview":"La sécurité actuelle est adaptée au POC local, pas encore au B2C public","textChars":71,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/cbu58j2h","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/zelojyl8","slide":10,"bbox":[52,165,160,34]}
+{"kind":"textbox","id":"sh/ydcnatkn","slide":10,"text":"IMPLÉMENTÉ","textPreview":"IMPLÉMENTÉ","textChars":10,"textLines":1,"bbox":[62,171,140,22]}
+{"kind":"textbox","id":"sh/l036l83y","slide":10,"text":"• clé API optionnelle sur les endpoints sensibles\n• CORS et Trusted Hosts configurables\n• headers HTTP de sécurité\n• taille d’entrée bornée et comparaison constante\n• checksums SHA-256 des modèles\n• healthcheck avec profil et avertissements","textPreview":"• clé API optionnelle sur les endpoints sensibles | • CORS et Trusted Hosts configurables | • headers HTTP de sécurité | • taille d’entré...","textChars":240,"textLines":6,"bbox":[52,220,515,265]}
+{"kind":"shape","id":"sh/kzu5c32t","slide":10,"bbox":[620,165,2,400]}
+{"kind":"shape","id":"sh/725onyl4","slide":10,"bbox":[684,165,220,34]}
+{"kind":"textbox","id":"sh/m1cnetkj","slide":10,"text":"À INDUSTRIALISER","textPreview":"À INDUSTRIALISER","textChars":16,"textLines":1,"bbox":[694,171,200,22]}
+{"kind":"textbox","id":"sh/s7yt4b21","slide":10,"text":"• secrets réels et rotation\n• authentification utilisateurs et rôles\n• rate limiting au niveau passerelle\n• chiffrement et gestion de clés\n• retention, sauvegarde et restauration\n• tests de charge, haute disponibilité et PRA","textPreview":"• secrets réels et rotation | • authentification utilisateurs et rôles | • rate limiting au niveau passerelle | • chiffrement et gestion ...","textChars":224,"textLines":6,"bbox":[684,220,500,265]}
+{"kind":"shape","id":"sh/d87uxg3m","slide":10,"bbox":[52,555,1135,68]}
+{"kind":"textbox","id":"sh/q5gb21kb","slide":10,"text":"Conclusion : le code possède les crochets de sécurité ; le durcissement dépend du futur environnement d’exploitation.","textPreview":"Conclusion : le code possède les crochets de sécurité ; le durcissement dépend du futur environnement d’exploitation.","textChars":117,"textLines":1,"bbox":[76,575,1085,36]}
+{"kind":"notes","id":"nt/m90b6t0r","slide":10,"text":"TEMPS CIBLE : 1:45\n\nNe pas présenter l’API key simple comme une solution B2C finale.\nExpliquer la différence entre mécanismes applicatifs présents et dispositif d’exploitation complet."}
+{"kind":"slide","id":"sl/jetc3ut0","slide":11,"title":"ARCHITECTURE CIBLE","textShapes":21}
+{"kind":"textbox","id":"sh/a90z21on","slide":11,"text":"ARCHITECTURE CIBLE","textPreview":"ARCHITECTURE CIBLE","textChars":18,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/xcryxg7y","slide":11,"text":"La cible cloud sépare exposition B2C, données, ML et exploitation","textPreview":"La cible cloud sépare exposition B2C, données, ML et exploitation","textChars":65,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/wbih4b6d","slide":11,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/n69grmpw","slide":11,"bbox":[930,40,275,34]}
+{"kind":"textbox","id":"sh/250zy18b","slide":11,"text":"CIBLE — NON DÉPLOYÉE","textPreview":"CIBLE — NON DÉPLOYÉE","textChars":20,"textLines":1,"bbox":[940,46,255,22]}
+{"kind":"shape","id":"sh/98rytw72","slide":11,"bbox":[236,315,60,28]}
+{"kind":"shape","id":"sh/o7ih0r6h","slide":11,"bbox":[478,315,60,28]}
+{"kind":"shape","id":"sh/72t03qp0","slide":11,"bbox":[720,315,60,28]}
+{"kind":"shape","id":"sh/61kzalof","slide":11,"bbox":[962,315,60,28]}
+{"kind":"shape","id":"sh/ofqtgnyt","slide":11,"bbox":[52,250,184,110]}
+{"kind":"shape","id":"sh/9gza9sze","slide":11,"bbox":[52,250,8,110]}
+{"kind":"textbox","id":"sh/mdobedg3","slide":11,"text":"Canaux B2C","textPreview":"Canaux B2C","textChars":10,"textLines":1,"bbox":[76,268,146,30]}
+{"kind":"textbox","id":"sh/nehs7iho","slide":11,"text":"web, batch, partenaires","textPreview":"web, batch, partenaires","textChars":23,"textLines":1,"bbox":[76,303,146,48]}
+{"kind":"shape","id":"sh/0b6tc3yx","slide":11,"bbox":[296,250,182,110]}
+{"kind":"shape","id":"sh/1cfa58zi","slide":11,"bbox":[296,250,8,110]}
+{"kind":"textbox","id":"sh/epobatgr","slide":11,"text":"Edge sécurisé","textPreview":"Edge sécurisé","textChars":13,"textLines":1,"bbox":[320,268,144,30]}
+{"kind":"textbox","id":"sh/zaxs3yhc","slide":11,"text":"CDN/WAF, API Gateway, OIDC","textPreview":"CDN/WAF, API Gateway, OIDC","textChars":26,"textLines":1,"bbox":[320,303,144,48]}
+{"kind":"shape","id":"sh/cn6t83y1","slide":11,"bbox":[538,250,182,110]}
+{"kind":"shape","id":"sh/dofa18z6","slide":11,"bbox":[538,250,8,110]}
+{"kind":"textbox","id":"sh/tsnip0ny","slide":11,"text":"Services privés","textPreview":"Services privés","textChars":15,"textLines":1,"bbox":[562,268,144,30]}
+{"kind":"textbox","id":"sh/87ehgv6d","slide":11,"text":"API autoscalée + files de tâches","textPreview":"API autoscalée + files de tâches","textChars":32,"textLines":1,"bbox":[562,303,144,48]}
+{"kind":"shape","id":"sh/7650nq5s","slide":11,"bbox":[780,250,182,110]}
+{"kind":"shape","id":"sh/65wzelo7","slide":11,"bbox":[780,250,8,110]}
+{"kind":"textbox","id":"sh/l43ilgn2","slide":11,"text":"Data & ML","textPreview":"Data & ML","textChars":9,"textLines":1,"bbox":[804,268,144,30]}
+{"kind":"textbox","id":"sh/k3uhcb6h","slide":11,"text":"object storage, pipeline, registry","textPreview":"object storage, pipeline, registry","textChars":34,"textLines":1,"bbox":[804,303,144,48]}
+{"kind":"shape","id":"sh/j2lgjq5w","slide":11,"bbox":[1022,250,206,110]}
+{"kind":"shape","id":"sh/y1czalob","slide":11,"bbox":[1022,250,8,110]}
+{"kind":"textbox","id":"sh/p07ixkn6","slide":11,"text":"Opérations","textPreview":"Opérations","textChars":10,"textLines":1,"bbox":[1046,268,168,30]}
+{"kind":"textbox","id":"sh/4zyhofml","slide":11,"text":"logs, métriques, alertes, SIEM","textPreview":"logs, métriques, alertes, SIEM","textChars":30,"textLines":1,"bbox":[1046,303,168,48]}
+{"kind":"textbox","id":"sh/m58fih43","slide":11,"text":"Contrôles transverses","textPreview":"Contrôles transverses","textChars":21,"textLines":1,"bbox":[52,430,280,28]}
+{"kind":"shape","id":"sh/n61wbmlo","slide":11,"bbox":[52,478,1136,92]}
+{"kind":"textbox","id":"sh/o7axk7m9","slide":11,"text":"IAM moindre privilège","textPreview":"IAM moindre privilège","textChars":21,"textLines":1,"bbox":[75,510,230,25]}
+{"kind":"textbox","id":"sh/98jedc3u","slide":11,"text":"Secrets manager + KMS","textPreview":"Secrets manager + KMS","textChars":21,"textLines":1,"bbox":[330,510,240,25]}
+{"kind":"textbox","id":"sh/eh8fex47","slide":11,"text":"réseau privé + TLS","textPreview":"réseau privé + TLS","textChars":18,"textLines":1,"bbox":[595,510,200,25]}
+{"kind":"textbox","id":"sh/z2hw72lc","slide":11,"text":"audit + sauvegardes","textPreview":"audit + sauvegardes","textChars":19,"textLines":1,"bbox":[820,510,200,25]}
+{"kind":"textbox","id":"sh/03qxg7mx","slide":11,"text":"politiques de rétention","textPreview":"politiques de rétention","textChars":23,"textLines":1,"bbox":[1030,510,145,42]}
+{"kind":"textbox","id":"sh/14ze9c3i","slide":11,"text":"Le fournisseur cloud reste un choix d’implémentation ; les responsabilités et les flux restent les mêmes.","textPreview":"Le fournisseur cloud reste un choix d’implémentation ; les responsabilités et les flux restent les mêmes.","textChars":105,"textLines":1,"bbox":[52,610,1135,34]}
+{"kind":"notes","id":"nt/jetc3ut0","slide":11,"text":"TEMPS CIBLE : 2:15\n\nPrésenter l’architecture comme une cible logique, pas comme un choix AWS/Azure/GCP déjà arrêté.\nLe pipeline data place validation, pseudonymisation, versionnement et quality gates avant l’entraînement."}
+{"kind":"slide","id":"sl/8f2psfyx","slide":12,"title":"SÉCURITÉ & RGPD CIBLE","textShapes":18}
+{"kind":"textbox","id":"sh/edk3ed4j","slide":12,"text":"SÉCURITÉ & RGPD CIBLE","textPreview":"SÉCURITÉ & RGPD CIBLE","textChars":21,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/1gbm9s3a","slide":12,"text":"En B2C, la conformité se conçoit dans le flux de données","textPreview":"En B2C, la conformité se conçoit dans le flux de données","textChars":56,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/0f2lgnmp","slide":12,"text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/ra943il8","slide":12,"bbox":[965,40,240,34]}
+{"kind":"textbox","id":"sh/q903ad4n","slide":12,"text":"PROCHAINES ÉTAPES","textPreview":"PROCHAINES ÉTAPES","textChars":17,"textLines":1,"bbox":[975,46,220,22]}
+{"kind":"shape","id":"sh/dcbm583y","slide":12,"bbox":[52,190,270,350]}
+{"kind":"textbox","id":"sh/sb2lcnmd","slide":12,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[78,215,35,35]}
+{"kind":"textbox","id":"sh/b6d4f2lc","slide":12,"text":"Minimiser","textPreview":"Minimiser","textChars":9,"textLines":1,"bbox":[120,215,170,30]}
+{"kind":"textbox","id":"sh/a543mx4r","slide":12,"text":"Collecter le texte strictement nécessaire. Détecter et retirer les identifiants avant stockage ou training.","textPreview":"Collecter le texte strictement nécessaire. Détecter et retirer les identifiants avant stockage ou training.","textChars":107,"textLines":1,"bbox":[78,275,215,160]}
+{"kind":"shape","id":"sh/wvupgz6t","slide":12,"bbox":[344,190,270,350]}
+{"kind":"textbox","id":"sh/xw3q94ne","slide":12,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[370,215,35,35]}
+{"kind":"textbox","id":"sh/atc7epon","slide":12,"text":"Protéger","textPreview":"Protéger","textChars":8,"textLines":1,"bbox":[412,215,170,30]}
+{"kind":"textbox","id":"sh/bulo7u58","slide":12,"text":"Chiffrer en transit et au repos. Pseudonymiser. Séparer les clés. Limiter les rôles et tracer les accès.","textPreview":"Chiffrer en transit et au repos. Pseudonymiser. Séparer les clés. Limiter les rôles et tracer les accès.","textChars":104,"textLines":1,"bbox":[370,275,215,160]}
+{"kind":"shape","id":"sh/orapcf6h","slide":12,"bbox":[636,190,270,350]}
+{"kind":"textbox","id":"sh/9sj65kn2","slide":12,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[662,215,35,35]}
+{"kind":"textbox","id":"sh/mps7a5or","slide":12,"text":"Limiter","textPreview":"Limiter","textChars":7,"textLines":1,"bbox":[704,215,170,30]}
+{"kind":"textbox","id":"sh/nq1o3a5w","slide":12,"text":"Définir finalité, base légale et durées. Automatiser purge, export, rectification et suppression jusque dans les datasets dérivés.","textPreview":"Définir finalité, base légale et durées. Automatiser purge, export, rectification et suppression jusque dans les datasets dérivés.","textChars":130,"textLines":1,"bbox":[662,275,215,180]}
+{"kind":"shape","id":"sh/0nap8f6l","slide":12,"bbox":[928,190,300,350]}
+{"kind":"textbox","id":"sh/1oj61kn6","slide":12,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[954,215,35,35]}
+{"kind":"textbox","id":"sh/hkbm5wzu","slide":12,"text":"Démontrer","textPreview":"Démontrer","textChars":9,"textLines":1,"bbox":[996,215,190,30]}
+{"kind":"textbox","id":"sh/gj25cry9","slide":12,"text":"Registre des traitements, journal d’audit, contrats sous-traitants et AIPD si le traitement présente un risque élevé.","textPreview":"Registre des traitements, journal d’audit, contrats sous-traitants et AIPD si le traitement présente un risque élevé.","textChars":117,"textLines":1,"bbox":[954,275,235,180]}
+{"kind":"textbox","id":"sh/fit436ho","slide":12,"text":"API cible : OIDC/OAuth2, scopes, WAF, rate limiting, anti-abus, secrets manager, rotation et mTLS entre services si nécessaire.","textPreview":"API cible : OIDC/OAuth2, scopes, WAF, rate limiting, anti-abus, secrets manager, rotation et mTLS entre services si nécessaire.","textChars":127,"textLines":1,"bbox":[52,585,1135,55]}
+{"kind":"textbox","id":"sh/uh0na1g3","slide":12,"text":"Sources : RGPD art. 25 et 32 • CNIL, principes RGPD et AIPD","textPreview":"Sources : RGPD art. 25 et 32 • CNIL, principes RGPD et AIPD","textChars":59,"textLines":1,"bbox":[52,660,900,20]}
+{"kind":"notes","id":"nt/8f2psfyx","slide":12,"text":"TEMPS CIBLE : 2:30\n\nFormuler cette slide comme une trajectoire de conformité, pas comme une conformité déjà acquise.\nLa pseudonymisation ne sort pas les données du champ RGPD ; l’anonymisation robuste, elle, peut le faire.\nUne AIPD est à évaluer avec le DPO lorsque le traitement est susceptible d’engendrer un risque élevé.\n\nSOURCES :\nhttps://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679\nhttps://www.cnil.fr/fr/comprendre-le-rgpd/les-six-grands-principes-du-rgpd\nhttps://www.cnil.fr/fr/ce-quil-faut-savoir-sur-lanalyse-dimpact-relative-la-protection-des-donnees-aipd"}
+{"kind":"slide","id":"sl/hgzapcr6","slide":13,"title":"PROCHAINES ÉTAPES","textShapes":13}
+{"kind":"textbox","id":"sh/dsr6t8bu","slide":13,"text":"PROCHAINES ÉTAPES","textPreview":"PROCHAINES ÉTAPES","textChars":17,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/q50nydsj","slide":13,"text":"La roadmap réduit d’abord le risque modèle, puis le risque d’exploitation","textPreview":"La roadmap réduit d’abord le risque modèle, puis le risque d’exploitation","textChars":73,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/bq9orito","slide":13,"text":"13","textPreview":"13","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/o3i5w3ad","slide":13,"bbox":[52,202,350,390]}
+{"kind":"textbox","id":"sh/p4r6p8by","slide":13,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[82,230,70,52]}
+{"kind":"textbox","id":"sh/21gnuts7","slide":13,"text":"Fiabiliser le pilote","textPreview":"Fiabiliser le pilote","textChars":20,"textLines":1,"bbox":[82,295,280,35]}
+{"kind":"textbox","id":"sh/32ponyts","slide":13,"text":"• dataset réel plus large\n• annotation métier\n• calibration des seuils\n• mesure biais et sous-groupes\n• receiver d’alerte réel","textPreview":"• dataset réel plus large | • annotation métier | • calibration des seuils | • mesure biais et sous-groupes | • receiver d’alerte réel","textChars":126,"textLines":5,"bbox":[82,355,275,180]}
+{"kind":"shape","id":"sh/gzy5s3a1","slide":13,"bbox":[465,202,350,390]}
+{"kind":"textbox","id":"sh/1076lobm","slide":13,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[495,230,70,52]}
+{"kind":"textbox","id":"sh/hcfy9k3u","slide":13,"text":"Sécuriser le B2C","textPreview":"Sécuriser le B2C","textChars":16,"textLines":1,"bbox":[495,295,280,35]}
+{"kind":"textbox","id":"sh/gb6x0zm9","slide":13,"text":"• architecture cloud et IaC\n• IAM, OIDC et secrets\n• pseudonymisation et purge\n• rétention et sauvegardes\n• tests sécurité et charge","textPreview":"• architecture cloud et IaC | • IAM, OIDC et secrets | • pseudonymisation et purge | • rétention et sauvegardes | • tests sécurité et charge","textChars":132,"textLines":5,"bbox":[495,355,275,180]}
+{"kind":"shape","id":"sh/vaxg7ulo","slide":13,"bbox":[878,202,350,390]}
+{"kind":"textbox","id":"sh/u9ofyp43","slide":13,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[908,230,70,52]}
+{"kind":"textbox","id":"sh/t8fy5k3i","slide":13,"text":"Passer à l’échelle","textPreview":"Passer à l’échelle","textChars":18,"textLines":1,"bbox":[908,295,280,35]}
+{"kind":"textbox","id":"sh/876xwfmx","slide":13,"text":"• autoscaling et files de tâches\n• SLO, PRA et haute disponibilité\n• canary / blue-green\n• optimisation coût-latence\n• extension multilingue validée","textPreview":"• autoscaling et files de tâches | • SLO, PRA et haute disponibilité | • canary / blue-green | • optimisation coût-latence | • extension ...","textChars":148,"textLines":5,"bbox":[908,355,275,180]}
+{"kind":"textbox","id":"sh/7mdg3als","slide":13,"text":"Priorité recommandée : améliorer la donnée et la qualité sentiment avant d’augmenter l’autonomie du système.","textPreview":"Priorité recommandée : améliorer la donnée et la qualité sentiment avant d’augmenter l’autonomie du système.","textChars":108,"textLines":1,"bbox":[52,625,1136,40]}
+{"kind":"notes","id":"nt/hgzapcr6","slide":13,"text":"TEMPS CIBLE : 2:00\n\nLa roadmap doit être séquentielle : une infrastructure plus grande ne corrige pas un modèle insuffisamment validé.\nProposer des critères de sortie pour chaque étape lors des questions."}
+{"kind":"slide","id":"sl/6lsnupw7","slide":14,"title":"DÉMONSTRATION","textShapes":13}
+{"kind":"textbox","id":"sh/a9gvid8v","slide":14,"text":"DÉMONSTRATION","textPreview":"DÉMONSTRATION","textChars":13,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/xc7eds76","slide":14,"text":"La démo vérifie trois promesses en direct","textPreview":"La démo vérifie trois promesses en direct","textChars":41,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/wbydknq1","slide":14,"text":"14","textPreview":"14","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"shape","id":"sh/jepwf2pc","slide":14,"bbox":[52,195,348,360]}
+{"kind":"textbox","id":"sh/idgvmx8r","slide":14,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[82,230,75,75]}
+{"kind":"textbox","id":"sh/5grehs7i","slide":14,"text":"Analyser","textPreview":"Analyser","textChars":8,"textLines":1,"bbox":[82,330,260,36]}
+{"kind":"textbox","id":"sh/kfidonqx","slide":14,"text":"un avis négatif SAV, puis un cas ambigu avec revue humaine","textPreview":"un avis négatif SAV, puis un cas ambigu avec revue humaine","textChars":58,"textLines":1,"bbox":[82,385,260,110]}
+{"kind":"shape","id":"sh/zi5c3y98","slide":14,"bbox":[466,195,348,360]}
+{"kind":"textbox","id":"sh/ehwvat8n","slide":14,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[496,230,75,75]}
+{"kind":"textbox","id":"sh/c3e1gjyd","slide":14,"text":"Tracer","textPreview":"Tracer","textChars":6,"textLines":1,"bbox":[496,330,260,36]}
+{"kind":"textbox","id":"sh/x4ni9ofy","slide":14,"text":"le run Dagster et le candidat enregistré dans MLflow","textPreview":"le run Dagster et le candidat enregistré dans MLflow","textChars":52,"textLines":1,"bbox":[496,385,260,110]}
+{"kind":"shape","id":"sh/a1wze9g7","slide":14,"bbox":[880,195,348,360]}
+{"kind":"textbox","id":"sh/b2507exs","slide":14,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[910,230,75,75]}
+{"kind":"textbox","id":"sh/kre1k3y9","slide":14,"text":"Détecter","textPreview":"Détecter","textChars":8,"textLines":1,"bbox":[910,330,260,36]}
+{"kind":"textbox","id":"sh/ls7idofu","slide":14,"text":"la dérive, l’alerte et la recommandation sans promotion automatique","textPreview":"la dérive, l’alerte et la recommandation sans promotion automatique","textChars":67,"textLines":1,"bbox":[910,385,260,110]}
+{"kind":"textbox","id":"sh/y5wjitgj","slide":14,"text":"Plan B si le live échoue : captures de validation horodatées et résultats machine-readables.","textPreview":"Plan B si le live échoue : captures de validation horodatées et résultats machine-readables.","textChars":92,"textLines":1,"bbox":[52,610,1136,38]}
+{"kind":"notes","id":"nt/6lsnupw7","slide":14,"text":"TEMPS CIBLE : 10:30 démo\n\nOrdre conseillé : Streamlit 4 min, Dagster + MLflow 3 min, monitoring + Grafana 3 min, marge 30 s.\nPréouvrir tous les onglets. Ne jamais relancer un build pendant la soutenance.\nSi une interface est lente, basculer immédiatement sur les captures de l’annexe."}
+{"kind":"slide","id":"sl/vaxsvy10","slide":15,"title":"CONCLUSION","textShapes":9}
+{"kind":"textbox","id":"sh/ihw3mlkv","slide":15,"text":"CONCLUSION","textPreview":"CONCLUSION","textChars":10,"textLines":1,"bbox":[52,45,240,24]}
+{"kind":"textbox","id":"sh/547mhg3m","slide":15,"text":"Le POC sait analyser, se surveiller et encadrer son évolution","textPreview":"Le POC sait analyser, se surveiller et encadrer son évolution","textChars":61,"textLines":1,"bbox":[52,115,1115,125]}
+{"kind":"textbox","id":"sh/k3y5ov21","slide":15,"text":"Aujourd’hui","textPreview":"Aujourd’hui","textChars":11,"textLines":1,"bbox":[52,330,190,28]}
+{"kind":"textbox","id":"sh/76p4jqls","slide":15,"text":"une chaîne locale complète, testée et gouvernée","textPreview":"une chaîne locale complète, testée et gouvernée","textChars":47,"textLines":1,"bbox":[52,375,320,100]}
+{"kind":"textbox","id":"sh/65gnqlk7","slide":15,"text":"Limite assumée","textPreview":"Limite assumée","textChars":14,"textLines":1,"bbox":[458,330,220,28]}
+{"kind":"textbox","id":"sh/t87ml0ji","slide":15,"text":"la qualité sentiment et le durcissement B2C ne sont pas encore au niveau production","textPreview":"la qualité sentiment et le durcissement B2C ne sont pas encore au niveau production","textChars":83,"textLines":1,"bbox":[458,375,355,125]}
+{"kind":"textbox","id":"sh/s7y5sv2x","slide":15,"text":"Prochaine décision","textPreview":"Prochaine décision","textChars":18,"textLines":1,"bbox":[890,330,250,28]}
+{"kind":"textbox","id":"sh/na5476l8","slide":15,"text":"valider un pilote sur données réelles avant tout passage à l’échelle","textPreview":"valider un pilote sur données réelles avant tout passage à l’échelle","textChars":68,"textLines":1,"bbox":[890,375,300,125]}
+{"kind":"shape","id":"sh/m9c3e1kn","slide":15,"bbox":[52,590,1136,3]}
+{"kind":"textbox","id":"sh/wrm9kvep","slide":15,"text":"Questions du jury","textPreview":"Questions du jury","textChars":17,"textLines":1,"bbox":[52,620,1136,45]}
+{"kind":"notes","id":"nt/vaxsvy10","slide":15,"text":"TEMPS CIBLE : 1:30\n\nRevenir exactement à la promesse d’ouverture.\nPhrase finale : Review Insights+ ne prédit pas seulement ; il rend visible quand sa décision doit être contrôlée et quand son modèle doit évoluer."}
+{"kind":"slide","id":"sl/gny5sjyp","slide":16,"title":"Q&A","textShapes":11}
+{"kind":"textbox","id":"sh/7ytgz6pg","slide":16,"text":"Q&A","textPreview":"Q&A","textChars":3,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/8z2h8bq1","slide":16,"text":"Annexe — preuves de validation finale","textPreview":"Annexe — preuves de validation finale","textChars":37,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/9kby1g7m","slide":16,"text":"16","textPreview":"16","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/ytkf2h8j","slide":16,"text":"Code","textPreview":"Code","textChars":4,"textLines":1,"bbox":[52,185,180,30]}
+{"kind":"textbox","id":"sh/zutgvm94","slide":16,"text":"113 tests • 71,15 % couverture • Ruff propre","textPreview":"113 tests • 71,15 % couverture • Ruff propre","textChars":44,"textLines":1,"bbox":[52,230,520,55]}
+{"kind":"textbox","id":"sh/kv2h4rqp","slide":16,"text":"Runtime","textPreview":"Runtime","textChars":7,"textLines":1,"bbox":[52,330,180,30]}
+{"kind":"textbox","id":"sh/lwbyxwra","slide":16,"text":"17 services • 11/11 endpoints • 10/10 smoke checks","textPreview":"17 services • 11/11 endpoints • 10/10 smoke checks","textChars":50,"textLines":1,"bbox":[52,375,520,55]}
+{"kind":"textbox","id":"sh/ip4zel83","slide":16,"text":"Observabilité","textPreview":"Observabilité","textChars":13,"textLines":1,"bbox":[52,475,180,30]}
+{"kind":"textbox","id":"sh/3qdg7qpo","slide":16,"text":"13/13 targets UP • alertes de drift actives","textPreview":"13/13 targets UP • alertes de drift actives","textChars":43,"textLines":1,"bbox":[52,520,520,55]}
+{"kind":"shape","id":"sh/fm1gzq5o","slide":16,"bbox":[650,185,538,390]}
+{"kind":"textbox","id":"sh/e1sf65o3","slide":16,"text":"Reproductibilité","textPreview":"Reproductibilité","textChars":16,"textLines":1,"bbox":[690,220,420,32]}
+{"kind":"textbox","id":"sh/1ojy10ne","slide":16,"text":"• commit enregistré dans le manifest\n• checksums et splits déterministes\n• CI, Docker Compose et scripts de smoke test\n• captures et JSON de validation datés du 25 juillet 2026","textPreview":"• commit enregistré dans le manifest | • checksums et splits déterministes | • CI, Docker Compose et scripts de smoke test | • captures e...","textChars":176,"textLines":4,"bbox":[690,285,430,210]}
+{"kind":"notes","id":"nt/gny5sjyp","slide":16,"text":"TEMPS CIBLE : Annexe\n\nUtiliser si le jury demande : comment savez-vous que cela fonctionne ?"}
+{"kind":"slide","id":"sl/14bup87q","slide":17,"title":"QUESTIONS PROBABLES","textShapes":11}
+{"kind":"textbox","id":"sh/e9wvu54r","slide":17,"text":"QUESTIONS PROBABLES","textPreview":"QUESTIONS PROBABLES","textChars":19,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/1c7e50ni","slide":17,"text":"Annexe — modèle, données et choix NLP","textPreview":"Annexe — modèle, données et choix NLP","textChars":37,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/gbedwfmx","slide":17,"text":"17","textPreview":"17","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/rm5czq50","slide":17,"text":"Pourquoi ne pas croire le score à 100 % ?","textPreview":"Pourquoi ne pas croire le score à 100 % ?","textChars":41,"textLines":1,"bbox":[52,180,525,40]}
+{"kind":"textbox","id":"sh/6lwvql4v","slide":17,"text":"Parce qu’il vient d’un petit jeu synthétique. La mesure de référence indépendante reste 57,5 % en sentiment.","textPreview":"Parce qu’il vient d’un petit jeu synthétique. La mesure de référence indépendante reste 57,5 % en sentiment.","textChars":108,"textLines":1,"bbox":[52,230,525,90]}
+{"kind":"textbox","id":"sh/t8ne10n6","slide":17,"text":"Pourquoi l’anglais ?","textPreview":"Pourquoi l’anglais ?","textChars":20,"textLines":1,"bbox":[52,380,525,40]}
+{"kind":"textbox","id":"sh/snedsvml","slide":17,"text":"Le périmètre de données et de modèles est calibré en anglais. Le multilingue nécessite des datasets et une validation dédiés.","textPreview":"Le périmètre de données et de modèles est calibré en anglais. Le multilingue nécessite des datasets et une validation dédiés.","textChars":125,"textLines":1,"bbox":[52,430,525,100]}
+{"kind":"textbox","id":"sh/jilcvq54","slide":17,"text":"Pourquoi pas directement un LLM ?","textPreview":"Pourquoi pas directement un LLM ?","textChars":33,"textLines":1,"bbox":[650,180,525,40]}
+{"kind":"textbox","id":"sh/ihcvml4j","slide":17,"text":"Le POC privilégie coût, latence, contrôle et reproductibilité. Un LLM peut être comparé ensuite sur un protocole identique.","textPreview":"Le POC privilégie coût, latence, contrôle et reproductibilité. Un LLM peut être comparé ensuite sur un protocole identique.","textChars":123,"textLines":1,"bbox":[650,230,525,100]}
+{"kind":"textbox","id":"sh/4by9or6l","slide":17,"text":"Comment éviter un mauvais retraining ?","textPreview":"Comment éviter un mauvais retraining ?","textChars":38,"textLines":1,"bbox":[650,380,525,40]}
+{"kind":"textbox","id":"sh/pc7qhwn6","slide":17,"text":"Nouveau dataset étiqueté, quality gates, candidat séparé, comparaison au champion, promotion contrôlée et rollback.","textPreview":"Nouveau dataset étiqueté, quality gates, candidat séparé, comparaison au champion, promotion contrôlée et rollback.","textChars":115,"textLines":1,"bbox":[650,430,525,100]}
+{"kind":"notes","id":"nt/14bup87q","slide":17,"text":"TEMPS CIBLE : Annexe\n\nRéponses courtes : répondre, fournir une preuve, reconnaître la limite, donner l’étape suivante."}
+{"kind":"slide","id":"sl/y5wne50z","slide":18,"title":"QUESTIONS PROBABLES","textShapes":11}
+{"kind":"textbox","id":"sh/vqlkjuto","slide":18,"text":"QUESTIONS PROBABLES","textPreview":"QUESTIONS PROBABLES","textChars":19,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/wrelszu9","slide":18,"text":"Annexe — sécurité API, données B2C et RGPD","textPreview":"Annexe — sécurité API, données B2C et RGPD","textChars":42,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/hsn2l4bu","slide":18,"text":"18","textPreview":"18","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/itw3upcf","slide":18,"text":"L’API key actuelle suffit-elle ?","textPreview":"L’API key actuelle suffit-elle ?","textChars":32,"textLines":1,"bbox":[52,180,525,40]}
+{"kind":"textbox","id":"sh/je5knut0","slide":18,"text":"Non pour du B2C public. La cible ajoute OIDC/OAuth2, rôles, passerelle, WAF, rate limiting et rotation des secrets.","textPreview":"Non pour du B2C public. La cible ajoute OIDC/OAuth2, rôles, passerelle, WAF, rate limiting et rotation des secrets.","textChars":115,"textLines":1,"bbox":[52,230,525,100]}
+{"kind":"textbox","id":"sh/4felwzu5","slide":18,"text":"Comment supprimer une donnée d’un modèle ?","textPreview":"Comment supprimer une donnée d’un modèle ?","textChars":42,"textLines":1,"bbox":[52,380,525,40]}
+{"kind":"textbox","id":"sh/5gnmp4bq","slide":18,"text":"Tracer la lignée, supprimer des stores et datasets dérivés, puis évaluer si un réentraînement sans la donnée est requis.","textPreview":"Tracer la lignée, supprimer des stores et datasets dérivés, puis évaluer si un réentraînement sans la donnée est requis.","textChars":120,"textLines":1,"bbox":[52,430,525,110]}
+{"kind":"textbox","id":"sh/6hw3y9sb","slide":18,"text":"Êtes-vous conforme au RGPD ?","textPreview":"Êtes-vous conforme au RGPD ?","textChars":28,"textLines":1,"bbox":[650,180,525,40]}
+{"kind":"textbox","id":"sh/rip4retw","slide":18,"text":"Le POC applique des principes techniques, mais la conformité finale exige finalité, base légale, information, droits, contrats et gouvernance DPO.","textPreview":"Le POC applique des principes techniques, mais la conformité finale exige finalité, base légale, information, droits, contrats et gouvern...","textChars":146,"textLines":1,"bbox":[650,230,525,120]}
+{"kind":"textbox","id":"sh/fapkr6pw","slide":18,"text":"Faut-il une AIPD ?","textPreview":"Faut-il une AIPD ?","textChars":18,"textLines":1,"bbox":[650,400,525,40]}
+{"kind":"textbox","id":"sh/upg3i18r","slide":18,"text":"À évaluer avant le pilote ; elle devient obligatoire si le traitement est susceptible d’engendrer un risque élevé.","textPreview":"À évaluer avant le pilote ; elle devient obligatoire si le traitement est susceptible d’engendrer un risque élevé.","textChars":114,"textLines":1,"bbox":[650,450,525,90]}
+{"kind":"notes","id":"nt/y5wne50z","slide":18,"text":"TEMPS CIBLE : Annexe\n\nNe jamais répondre ‘oui, conforme’ uniquement sur la base du code.\nLa conformité dépend aussi de la finalité, des acteurs, des contrats, de l’information et des procédures de droits.\n\nSOURCES :\nhttps://www.cnil.fr/fr/ce-quil-faut-savoir-sur-lanalyse-dimpact-relative-la-protection-des-donnees-aipd"}
+{"kind":"slide","id":"sl/nid43ytk","slide":19,"title":"QUESTIONS PROBABLES","textShapes":11}
+{"kind":"textbox","id":"sh/mt07mlsr","slide":19,"text":"QUESTIONS PROBABLES","textPreview":"QUESTIONS PROBABLES","textChars":19,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/9gb6xgbi","slide":19,"text":"Annexe — passage à l’échelle et coût","textPreview":"Annexe — passage à l’échelle et coût","textChars":36,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/8v2pobax","slide":19,"text":"19","textPreview":"19","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/vitozqt8","slide":19,"text":"Scalabilité","textPreview":"Scalabilité","textChars":11,"textLines":1,"bbox":[52,185,320,35]}
+{"kind":"textbox","id":"sh/ahk7qls3","slide":19,"text":"• API stateless réplicable\n• autoscaling horizontal\n• file asynchrone pour le batch\n• cache et modèles chargés au démarrage","textPreview":"• API stateless réplicable | • autoscaling horizontal | • file asynchrone pour le batch | • cache et modèles chargés au démarrage","textChars":123,"textLines":4,"bbox":[52,245,470,185]}
+{"kind":"textbox","id":"sh/xkbq10be","slide":19,"text":"Résilience","textPreview":"Résilience","textChars":10,"textLines":1,"bbox":[52,475,320,35]}
+{"kind":"textbox","id":"sh/wj2psvat","slide":19,"text":"multi-zone, sauvegardes testées, PRA, SLO et déploiement canary restent à construire","textPreview":"multi-zone, sauvegardes testées, PRA, SLO et déploiement canary restent à construire","textChars":84,"textLines":1,"bbox":[52,525,470,85]}
+{"kind":"shape","id":"sh/jmd83atk","slide":19,"bbox":[650,185,538,390]}
+{"kind":"textbox","id":"sh/il47u5sz","slide":19,"text":"Comment estimer le coût ?","textPreview":"Comment estimer le coût ?","textChars":25,"textLines":1,"bbox":[690,225,450,42]}
+{"kind":"textbox","id":"sh/cri1gnql","slide":19,"text":"Le dépôt ne contient pas encore de profil de charge réel. Le bon ordre est : mesurer volume, latence et taille batch sur un pilote, puis dimensionner compute, stockage, observabilité et trafic.","textPreview":"Le dépôt ne contient pas encore de profil de charge réel. Le bon ordre est : mesurer volume, latence et taille batch sur un pilote, puis ...","textChars":193,"textLines":1,"bbox":[690,300,430,185]}
+{"kind":"textbox","id":"sh/dsri9sr6","slide":19,"text":"Réponse honnête","textPreview":"Réponse honnête","textChars":15,"textLines":1,"bbox":[690,515,180,24]}
+{"kind":"textbox","id":"sh/qpgjex8f","slide":19,"text":"pas de chiffre sans hypothèses de trafic","textPreview":"pas de chiffre sans hypothèses de trafic","textChars":40,"textLines":1,"bbox":[862,510,280,40]}
+{"kind":"notes","id":"nt/nid43ytk","slide":19,"text":"TEMPS CIBLE : Annexe\n\nSi le jury demande un coût, demander ou poser explicitement trois hypothèses : requêtes/jour, latence cible, rétention."}
+{"kind":"slide","id":"sl/zyxsni5k","slide":20,"title":"DÉCISION","textShapes":19}
+{"kind":"textbox","id":"sh/dcnixw7e","slide":20,"text":"DÉCISION","textPreview":"DÉCISION","textChars":8,"textLines":1,"bbox":[52,30,500,24]}
+{"kind":"textbox","id":"sh/qpwjmh8n","slide":20,"text":"Annexe — risques principaux et critères de sortie du pilote","textPreview":"Annexe — risques principaux et critères de sortie du pilote","textChars":59,"textLines":1,"bbox":[52,65,1135,76]}
+{"kind":"textbox","id":"sh/rq50vmp8","slide":20,"text":"20","textPreview":"20","textChars":2,"textLines":1,"bbox":[1180,670,48,20]}
+{"kind":"textbox","id":"sh/4nu1krqh","slide":20,"text":"Risque","textPreview":"Risque","textChars":6,"textLines":1,"bbox":[52,175,230,30]}
+{"kind":"textbox","id":"sh/po3itc72","slide":20,"text":"Réduction","textPreview":"Réduction","textChars":9,"textLines":1,"bbox":[410,175,420,30]}
+{"kind":"textbox","id":"sh/2lczih8r","slide":20,"text":"Critère de sortie","textPreview":"Critère de sortie","textChars":17,"textLines":1,"bbox":[900,175,285,30]}
+{"kind":"shape","id":"sh/3ml0rmpw","slide":20,"bbox":[52,218,1136,1]}
+{"kind":"textbox","id":"sh/gjuhg7ql","slide":20,"text":"Sentiment insuffisant","textPreview":"Sentiment insuffisant","textChars":21,"textLines":1,"bbox":[52,240,300,40]}
+{"kind":"textbox","id":"sh/hk3ipcr6","slide":20,"text":"dataset réel, annotation, calibration","textPreview":"dataset réel, annotation, calibration","textChars":37,"textLines":1,"bbox":[410,240,420,45]}
+{"kind":"textbox","id":"sh/dkfmp4zy","slide":20,"text":"seuil validé par cas d’usage","textPreview":"seuil validé par cas d’usage","textChars":28,"textLines":1,"bbox":[900,240,275,45]}
+{"kind":"shape","id":"sh/cj65wzyd","slide":20,"bbox":[52,310,1136,1]}
+{"kind":"textbox","id":"sh/rid4nuhs","slide":20,"text":"Données personnelles","textPreview":"Données personnelles","textChars":20,"textLines":1,"bbox":[52,332,300,40]}
+{"kind":"textbox","id":"sh/qh4nupg7","slide":20,"text":"minimisation, pseudonymisation, purge","textPreview":"minimisation, pseudonymisation, purge","textChars":37,"textLines":1,"bbox":[410,332,420,45]}
+{"kind":"textbox","id":"sh/pwvmlkzm","slide":20,"text":"registre + tests des droits","textPreview":"registre + tests des droits","textChars":27,"textLines":1,"bbox":[900,332,275,45]}
+{"kind":"shape","id":"sh/4vm5sfy1","slide":20,"bbox":[52,402,1136,1]}
+{"kind":"textbox","id":"sh/3ud4juhg","slide":20,"text":"API exposée","textPreview":"API exposée","textChars":11,"textLines":1,"bbox":[52,424,300,40]}
+{"kind":"textbox","id":"sh/2t4nqpgb","slide":20,"text":"gateway, OIDC, WAF, rate limits","textPreview":"gateway, OIDC, WAF, rate limits","textChars":31,"textLines":1,"bbox":[410,424,420,45]}
+{"kind":"textbox","id":"sh/hsvmhkzq","slide":20,"text":"audit sécurité sans critique majeure","textPreview":"audit sécurité sans critique majeure","textChars":36,"textLines":1,"bbox":[900,424,275,55]}
+{"kind":"shape","id":"sh/grm5ofy5","slide":20,"bbox":[52,494,1136,1]}
+{"kind":"textbox","id":"sh/8b654f61","slide":20,"text":"Exploitation","textPreview":"Exploitation","textChars":12,"textLines":1,"bbox":[52,516,300,40]}
+{"kind":"textbox","id":"sh/tcz6dk7m","slide":20,"text":"SLO, alertes, backups, PRA, charge","textPreview":"SLO, alertes, backups, PRA, charge","textChars":34,"textLines":1,"bbox":[410,516,420,45]}
+{"kind":"textbox","id":"sh/69on25ov","slide":20,"text":"test de restauration + charge cible","textPreview":"test de restauration + charge cible","textChars":35,"textLines":1,"bbox":[900,516,275,55]}
+{"kind":"textbox","id":"sh/7ax4bapg","slide":20,"text":"Décision proposée : lancer un pilote borné uniquement lorsque ces quatre gates ont un propriétaire et une preuve.","textPreview":"Décision proposée : lancer un pilote borné uniquement lorsque ces quatre gates ont un propriétaire et une preuve.","textChars":113,"textLines":1,"bbox":[52,625,1136,38]}
+{"kind":"notes","id":"nt/zyxsni5k","slide":20,"text":"TEMPS CIBLE : Annexe\n\nUtiliser cette slide si le jury demande : qu’est-ce qui vous empêcherait de passer en production demain ?"}
