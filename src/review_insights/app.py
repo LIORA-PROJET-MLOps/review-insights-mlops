@@ -44,7 +44,7 @@ def configure_page() -> None:
     )
 
 
-def inject_styles() -> None:
+def _inject_legacy_styles() -> None:
     st.markdown(
         """
         <style>
@@ -455,6 +455,185 @@ def inject_styles() -> None:
         unsafe_allow_html=True,
     )
 
+def inject_styles() -> None:
+    """Apply the dark Review Insights+ design system to Streamlit."""
+    st.markdown(
+        """
+        <style>
+        :root {
+            --ri-bg: #0d1017;
+            --ri-deep: #090c12;
+            --ri-surface: #141820;
+            --ri-raised: #1a1f29;
+            --ri-text: #f3f1ed;
+            --ri-muted: #a7a8ae;
+            --ri-line: rgba(255,255,255,.11);
+            --ri-accent: #ed8b59;
+            --ri-accent-soft: rgba(237,139,89,.14);
+            --ri-positive: #73c9a5;
+            --ri-negative: #f08f82;
+            --ri-warning: #e8bd6f;
+            --ri-info: #82acd8;
+        }
+        html, body, [class*="css"], .stApp {
+            font-family: "Inter", "Segoe UI", sans-serif;
+        }
+        .stApp {
+            background:
+                radial-gradient(circle at 94% 4%, rgba(237,139,89,.10), transparent 26rem),
+                var(--ri-bg);
+            color: var(--ri-text);
+        }
+        header[data-testid="stHeader"] { background: rgba(13,16,23,.82); }
+        .block-container {
+            max-width: 1280px;
+            padding: 2.2rem 2rem 4rem;
+        }
+        section[data-testid="stSidebar"] {
+            min-width: 270px !important;
+            max-width: 270px !important;
+            background: var(--ri-deep);
+            border-right: 1px solid var(--ri-line);
+        }
+        section[data-testid="stSidebar"] > div { padding-top: 1.35rem; }
+        section[data-testid="stSidebar"] h2 {
+            color: var(--ri-text);
+            font-size: 1.1rem;
+            letter-spacing: -.03em;
+        }
+        section[data-testid="stSidebar"] h2::after {
+            content: "+";
+            color: var(--ri-accent);
+        }
+        section[data-testid="stSidebar"] label,
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] span { color: var(--ri-muted); }
+        section[data-testid="stSidebar"] div[role="radiogroup"] label {
+            margin: 3px 0;
+            padding: .55rem .65rem;
+            border-radius: 8px;
+        }
+        section[data-testid="stSidebar"] div[role="radiogroup"] label:has(input:checked) {
+            background: var(--ri-accent-soft);
+        }
+        .ri-header { margin: .3rem 0 2rem; }
+        .ri-header .ri-overline {
+            display: block;
+            margin-bottom: .8rem;
+            color: var(--ri-accent);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+        .ri-header h1 {
+            max-width: 16ch;
+            margin: 0;
+            color: var(--ri-text);
+            font-size: clamp(2.35rem, 5vw, 4.35rem);
+            line-height: 1;
+            letter-spacing: -.06em;
+        }
+        .ri-header h1 em { color: var(--ri-accent); font-style: normal; }
+        .ri-header p {
+            max-width: 680px;
+            margin: .85rem 0 0;
+            color: var(--ri-muted);
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+        .ri-section-title { margin: .25rem 0 1rem; }
+        .ri-section-title h2 {
+            margin: 0;
+            color: var(--ri-text);
+            font-size: 1.4rem;
+            letter-spacing: -.035em;
+        }
+        .ri-section-title p { margin: .35rem 0 0; color: var(--ri-muted); line-height: 1.55; }
+        .ri-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0,1fr));
+            gap: 10px;
+            margin: .8rem 0 1.25rem;
+        }
+        .ri-kpi, .ri-theme-card, .ri-result-card,
+        div[data-testid="stMetric"], div[data-testid="stVerticalBlockBorderWrapper"] {
+            background: linear-gradient(145deg, rgba(255,255,255,.025), transparent), var(--ri-surface);
+            border: 1px solid var(--ri-line);
+            border-radius: 14px;
+            box-shadow: none;
+        }
+        .ri-kpi { min-height: 112px; padding: 1rem; border-top: 2px solid var(--ri-accent); }
+        .ri-kpi-label, .ri-kpi-note, .ri-result-card span { color: var(--ri-muted); }
+        .ri-kpi-label { font-size: .76rem; font-weight: 700; }
+        .ri-kpi-value { margin-top: .5rem; color: var(--ri-text); font-size: 1.55rem; font-weight: 750; }
+        .ri-kpi-note { margin-top: .35rem; font-size: .75rem; }
+        .ri-result-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-bottom: 1rem; }
+        .ri-result-card { min-height: 96px; padding: 1rem; }
+        .ri-result-card strong { display: block; margin-top: .45rem; color: var(--ri-text); font-size: 1.35rem; }
+        .ri-theme-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin: 1rem 0; }
+        .ri-theme-card { min-height: 220px; padding: 1rem; }
+        .ri-theme-card h3 { margin: 0; color: var(--ri-text); }
+        .ri-theme-card p { color: var(--ri-muted); line-height: 1.5; }
+        .ri-badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .7rem; }
+        .ri-badge { display: inline-flex; min-height: 27px; align-items: center; padding: 0 .55rem; border-radius: 6px; font-size: .75rem; font-weight: 750; }
+        .ri-badge-positive { color: var(--ri-positive); background: rgba(115,201,165,.12); }
+        .ri-badge-negative { color: var(--ri-negative); background: rgba(240,143,130,.12); }
+        .ri-badge-neutral, .ri-badge-off { color: var(--ri-info); background: rgba(130,172,216,.12); }
+        .ri-badge-theme { color: var(--ri-accent); background: var(--ri-accent-soft); }
+        .ri-badge-warning { color: var(--ri-warning); background: rgba(232,189,111,.12); }
+        .ri-confidence { width: 100%; height: 4px; overflow: hidden; border-radius: 999px; background: var(--ri-raised); }
+        .ri-confidence span { display: block; height: 100%; background: var(--ri-accent); }
+        .stTextInput input, .stTextArea textarea, div[data-baseweb="select"] > div {
+            color: var(--ri-text) !important;
+            background: var(--ri-deep) !important;
+            border-color: var(--ri-line) !important;
+            border-radius: 10px !important;
+        }
+        div[data-testid="stWidgetLabel"] p,
+        div[data-testid="stCaptionContainer"] p,
+        .stFileUploader label p { color: var(--ri-muted) !important; }
+        .stTextInput input:focus, .stTextArea textarea:focus {
+            border-color: var(--ri-accent) !important;
+            box-shadow: 0 0 0 2px var(--ri-accent-soft) !important;
+        }
+        .stButton > button, .stDownloadButton > button, .stFormSubmitButton > button {
+            min-height: 2.75rem;
+            color: var(--ri-text);
+            border-color: var(--ri-line);
+            border-radius: 9px;
+            font-weight: 700;
+        }
+        .stButton > button:hover, .stDownloadButton > button:hover { border-color: var(--ri-accent); color: var(--ri-accent); }
+        .stButton > button[kind="primary"], .stFormSubmitButton > button[kind="primary"] {
+            color: #17100d;
+            background: var(--ri-accent);
+            border-color: var(--ri-accent);
+        }
+        div[data-testid="stDataFrame"], div[data-testid="stExpander"] {
+            overflow: hidden;
+            border-color: var(--ri-line);
+            border-radius: 12px;
+            background: var(--ri-surface);
+        }
+        div[data-testid="stExpander"] summary { color: var(--ri-text); }
+        div[data-testid="stAlert"] { border-radius: 12px; }
+        @media (max-width: 980px) {
+            .ri-kpi-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+            .ri-theme-grid, .ri-result-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 700px) {
+            .block-container { padding: 1.4rem 1rem 3rem; }
+            .ri-kpi-grid { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
 
 def _display_text(value: Any, default: str = "-") -> str:
     if value is None:
@@ -529,12 +708,41 @@ def render_section_title(title: str, subtitle: str | None = None) -> None:
     )
 
 
-def render_header() -> None:
+def render_header(workspace: str) -> None:
+    header_copy = {
+        "Analyse": (
+            "Analyse unitaire",
+            "Comprendre un avis, <em>sans masquer l’incertitude.</em>",
+            "Détectez les thèmes, qualifiez le sentiment et identifiez immédiatement les cas à contrôler.",
+        ),
+        "Batch": (
+            "Analyse groupée",
+            "Transformer un lot d’avis <em>en signaux exploitables.</em>",
+            "Enrichissez un dataset complet puis exportez des résultats prêts pour l’analyse.",
+        ),
+        "Dataset": (
+            "Exploration",
+            "Retrouver le signal <em>dans le détail.</em>",
+            "Recherchez, filtrez et comparez les avis déjà analysés.",
+        ),
+        "Monitoring": (
+            "Suivi opérationnel",
+            "Observer le système, <em>pas seulement ses prédictions.</em>",
+            "Suivez la qualité, le drift, les corrections humaines et l’état du runtime.",
+        ),
+        "Evaluation": (
+            "Qualité de référence",
+            "Mesurer avant <em>de promouvoir.</em>",
+            "Contrôlez les performances du modèle sur le jeu de référence.",
+        ),
+    }
+    overline, title, subtitle = header_copy[workspace]
     st.markdown(
         (
             '<div class="ri-header">'
-            "<h1>Review Insights</h1>"
-            "<p>Comprenez rapidement le sentiment et les sujets clés d'un avis client.</p>"
+            f'<span class="ri-overline">{overline}</span>'
+            f"<h1>{title}</h1>"
+            f"<p>{subtitle}</p>"
             "</div>"
         ),
         unsafe_allow_html=True,
@@ -999,7 +1207,7 @@ def main() -> None:
             )
 
     df = load_active_dataset(uploaded_file)
-    render_header()
+    render_header(workspace)
 
     if workspace == "Analyse":
         render_analysis_workspace(df, threshold)

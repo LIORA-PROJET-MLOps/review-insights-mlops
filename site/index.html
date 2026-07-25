@@ -3,282 +3,174 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Review Insights+ | Customer Review Intelligence</title>
-    <meta
-      name="description"
-      content="Review Insights+ transforme des reviews clients en signaux actionnables pour les equipes produit, CX et operations."
-    />
+    <title>Review Insights+ | Des avis transformés en décisions</title>
+    <meta name="description" content="Review Insights+ détecte les thèmes, mesure le sentiment et rend visible la confiance derrière chaque décision." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./design-system.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="page">
-      <header class="hero">
-        <nav class="topbar">
-          <a class="logo" href="#">
-            <span class="logo-mark">RI+</span>
-            <span class="logo-text">Review Insights+</span>
-          </a>
-          <div class="nav-links">
-            <a href="#platform">Plateforme</a>
-            <a href="#features">Fonctionnalites</a>
-            <a href="#architecture">Architecture</a>
-            <a href="#ops">Exploitation</a>
-          </div>
-        </nav>
-
-        <div class="hero-layout">
-          <section class="hero-copy">
-            <span class="eyebrow">Customer review intelligence platform</span>
-            <h1>Transformer la voix du client en decisions produit et operations.</h1>
-            <p class="hero-text">
-              Review Insights+ analyse des volumes importants d'avis clients et restitue des
-              signaux directement utilisables par les equipes produit, CX et support. La plateforme
-              detecte les themes critiques, mesure le sentiment par sujet, priorise les cas ambigus
-              et expose une base technique exploitable via API, interface et batch.
-            </p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="#architecture">Voir l'architecture</a>
-              <a class="button button-secondary" href="#features">Explorer les capacites</a>
-              <a class="button button-secondary" href="./app-online.html">Ouvrir l'application</a>
-            </div>
-            <div class="hero-metrics">
-              <article class="metric-chip">
-                <strong>0.675</strong>
-                <span>Theme exact match</span>
-              </article>
-              <article class="metric-chip">
-                <strong>0.575</strong>
-                <span>Accuracy sentiment</span>
-              </article>
-              <article class="metric-chip">
-                <strong>API + UI</strong>
-                <span>Multi-surface delivery</span>
-              </article>
-            </div>
-          </section>
-
-          <section class="hero-visual card">
-            <img src="./assets/product-overview.svg" alt="Vue d'ensemble du produit Review Insights+" />
-          </section>
+    <header class="site-header">
+      <nav class="ri-container topbar" aria-label="Navigation principale">
+        <a class="brand" href="#top" aria-label="Review Insights+, accueil">Review Insights<span>+</span></a>
+        <div class="nav-links">
+          <a href="#capabilities">Capacités</a>
+          <a href="#results">Résultats</a>
+          <a href="#architecture">Système</a>
+          <a href="#trajectory">Actuel / Cible</a>
+          <a href="#roadmap">Roadmap</a>
         </div>
-      </header>
+        <a class="nav-cta" href="./app-online.html">Ouvrir l’app <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
 
-      <main>
-        <section id="platform" class="section">
-          <div class="section-heading">
-            <span class="eyebrow dark">Pourquoi la plateforme existe</span>
-            <h2>Une couche d'intelligence entre le feedback brut et l'action metier.</h2>
-            <p>
-              Les reviews clients contiennent une information precieuse, mais elles arrivent sous
-              une forme difficile a exploiter rapidement. Review Insights+ structure ce flux pour
-              faire emerger des priorites claires, des irritants recurrents et des signaux utiles
-              pour la decision.
-            </p>
+    <main id="top">
+      <section class="hero ri-container">
+        <div class="hero-copy">
+          <span class="ri-eyebrow">Data science · Review intelligence</span>
+          <h1>Des avis clients bruts, <em>transformés en décisions</em></h1>
+          <p>
+            Review Insights+ détecte les thèmes, mesure le sentiment, affiche sa confiance
+            et confie les cas ambigus à un humain. Une lecture claire du feedback, prête à agir.
+          </p>
+          <div class="hero-actions">
+            <a class="ri-button ri-button-primary" href="./app-online.html#analyze">Essayer l’analyseur <span aria-hidden="true">→</span></a>
+            <a class="ri-button ri-button-secondary" href="#results">Voir les résultats</a>
           </div>
+        </div>
+        <div class="hero-orbit" aria-hidden="true">
+          <span class="orbit orbit-one"></span>
+          <span class="orbit orbit-two"></span>
+          <span class="signal-card signal-card-a"><b>Livraison</b><small>Confiance 84%</small></span>
+          <span class="signal-card signal-card-b"><b>Négatif</b><small>Revue humaine</small></span>
+        </div>
+      </section>
 
-          <div class="value-grid">
-            <article class="value-card card">
-              <div class="icon-wrap">
-                <img src="./assets/icon-signal.svg" alt="" />
-              </div>
-              <h3>Faire emerger le signal utile</h3>
-              <p>
-                La plateforme isole les sujets critiques dans le bruit des reviews et produit une
-                lecture immediately actionnable.
-              </p>
-            </article>
-            <article class="value-card card">
-              <div class="icon-wrap">
-                <img src="./assets/icon-routing.svg" alt="" />
-              </div>
-              <h3>Orienter les bonnes equipes</h3>
-              <p>
-                Livraison, service client ou produit: chaque signal peut etre attribue au bon
-                perimetre de responsabilite.
-              </p>
-            </article>
-            <article class="value-card card">
-              <div class="icon-wrap">
-                <img src="./assets/icon-scale.svg" alt="" />
-              </div>
-              <h3>Passer du POC a l'exploitation</h3>
-              <p>
-                L'architecture est pensee pour supporter l'API, le batch, la supervision et une
-                trajectoire MLOps claire.
-              </p>
-            </article>
+      <section class="section ri-container" id="capabilities">
+        <div class="section-intro">
+          <span class="ri-eyebrow">Du texte au signal</span>
+          <h2>Une analyse qui montre aussi ses limites.</h2>
+          <p>Chaque sortie rend visible ce que le système a compris, avec quel niveau de confiance et quand une validation humaine est nécessaire.</p>
+        </div>
+        <div class="capability-grid">
+          <article class="ri-card capability capability-featured">
+            <span class="card-index">01</span>
+            <div>
+              <h3>Détection multi-thèmes</h3>
+              <p>Livraison, service client et produit peuvent coexister dans un même avis, chacun avec son propre signal.</p>
+            </div>
+            <div class="topic-stack" aria-label="Exemple de thèmes détectés">
+              <span><i style="--score: 84%"></i>Livraison <b>84%</b></span>
+              <span><i style="--score: 72%"></i>Service client <b>72%</b></span>
+              <span><i style="--score: 31%"></i>Produit <b>31%</b></span>
+            </div>
+          </article>
+          <article class="ri-card capability">
+            <span class="card-index">02</span>
+            <h3>Sentiment contextualisé</h3>
+            <p>Le sentiment global est complété par une lecture spécialisée pour chaque thème actif.</p>
+          </article>
+          <article class="ri-card capability">
+            <span class="card-index">03</span>
+            <h3>Confiance explicite</h3>
+            <p>Les scores restent visibles pour distinguer une décision robuste d’une hypothèse fragile.</p>
+          </article>
+          <article class="ri-card capability">
+            <span class="card-index">04</span>
+            <h3>Human-in-the-loop</h3>
+            <p>Les cas ambigus sont routés vers une correction humaine, conservée pour l’amélioration continue.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section results-section" id="results">
+        <div class="ri-container">
+          <div class="section-intro split-heading">
+            <div>
+              <span class="ri-eyebrow">Résultats de référence</span>
+              <h2>Les thèmes convainquent.<br /><em>Le sentiment reste fragile.</em></h2>
+            </div>
+            <div class="result-filter" role="group" aria-label="Filtrer les métriques">
+              <button class="is-active" data-result-filter="all">Tout</button>
+              <button data-result-filter="themes">Thèmes</button>
+              <button data-result-filter="sentiment">Sentiment</button>
+            </div>
           </div>
-        </section>
-
-        <section id="features" class="section">
-          <div class="section-heading">
-            <span class="eyebrow dark">Fonctionnalites principales</span>
-            <h2>Ce que fait concretement Review Insights+.</h2>
-          </div>
-
-          <div class="feature-grid">
-            <article class="feature-card card feature-card-large">
-              <div class="feature-content">
-                <h3>Analyse thematique multi-sujets</h3>
-                <p>
-                  Le moteur identifie les dimensions metier les plus critiques d'une review:
-                  <strong>livraison</strong>, <strong>service client</strong> et
-                  <strong>produit</strong>. Une meme review peut activer plusieurs themes.
-                </p>
-                <ul>
-                  <li>Detection thematique explicite</li>
-                  <li>Score de confiance par theme</li>
-                  <li>Evidence hints pour la lecture metier</li>
-                </ul>
-              </div>
-              <img src="./assets/feature-topics.svg" alt="Visualisation de la detection thematique" />
+          <div class="metrics-grid">
+            <article class="metric-card ri-card" data-result-kind="themes">
+              <span>Theme exact match</span><strong>0.675</strong>
+              <div class="metric-line"><i style="--value: 67.5%"></i></div>
+              <small>Détection simultanée des thèmes attendus</small>
             </article>
-
-            <article class="feature-card card">
-              <div class="icon-wrap">
-                <img src="./assets/icon-sentiment.svg" alt="" />
-              </div>
-              <h3>Sentiment global et par theme</h3>
-              <p>
-                Une lecture globale est combinee avec une analyse specialisee par theme pour
-                distinguer un probleme logistique d'un probleme produit.
-              </p>
+            <article class="metric-card ri-card" data-result-kind="sentiment">
+              <span>Accuracy sentiment</span><strong>0.575</strong>
+              <div class="metric-line"><i style="--value: 57.5%"></i></div>
+              <small>Signal utile, avec une marge d’amélioration visible</small>
             </article>
-
-            <article class="feature-card card">
-              <div class="icon-wrap">
-                <img src="./assets/icon-human.svg" alt="" />
-              </div>
-              <h3>Human review pour les cas ambigus</h3>
-              <p>
-                Les cas a faible confiance ou trop melanges sont automatiquement marques pour
-                revision humaine.
-              </p>
-            </article>
-
-            <article class="feature-card card">
-              <div class="icon-wrap">
-                <img src="./assets/icon-export.svg" alt="" />
-              </div>
-              <h3>API, UI et exports batch</h3>
-              <p>
-                La meme logique est disponible via interface, endpoint d'analyse et enrichment de
-                dataset CSV/JSON.
-              </p>
-            </article>
-
-            <article class="feature-card card">
-              <div class="icon-wrap">
-                <img src="./assets/icon-insight.svg" alt="" />
-              </div>
-              <h3>Sortie actionnable</h3>
-              <p>
-                La reponse inclut theme, sentiment, confiance, evidence et texte actionnable pour
-                accelérer la prise de decision.
-              </p>
+            <article class="metric-card metric-text ri-card" data-result-kind="themes">
+              <span>Lecture opérationnelle</span><strong>API + UI</strong>
+              <small>Une même logique livrée en analyse unitaire, batch et supervision.</small>
             </article>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="architecture" class="section">
-          <div class="section-heading">
-            <span class="eyebrow dark">Architecture du produit</span>
-            <h2>Une architecture modulaire, lisible et reelle.</h2>
-            <p>
-              Review Insights+ n'est pas une simple interface connectee a un modele. La plateforme
-              repose sur une orchestration explicite des entrees, des schemas, du service metier,
-              des modeles et des sorties de supervision.
-            </p>
+      <section class="section ri-container" id="architecture">
+        <div class="section-intro">
+          <span class="ri-eyebrow">Architecture</span>
+          <h2>Un système aux responsabilités séparées.</h2>
+        </div>
+        <div class="architecture-flow" aria-label="Architecture de Review Insights+">
+          <article><span>01</span><b>Entrées</b><small>Streamlit · API · CSV</small></article>
+          <i aria-hidden="true">→</i>
+          <article><span>02</span><b>Contrats</b><small>Validation · Schémas</small></article>
+          <i aria-hidden="true">→</i>
+          <article><span>03</span><b>Service</b><small>Orchestration métier</small></article>
+          <i aria-hidden="true">→</i>
+          <article><span>04</span><b>Inférence</b><small>Thèmes · Sentiment</small></article>
+          <i aria-hidden="true">→</i>
+          <article><span>05</span><b>Exploitation</b><small>Monitoring · Feedback</small></article>
+        </div>
+      </section>
+
+      <section class="section ri-container" id="trajectory">
+        <div class="section-intro split-heading">
+          <div><span class="ri-eyebrow">Trajectoire</span><h2>Où on en est,<br /><em>où on va.</em></h2></div>
+          <div class="trajectory-tabs" role="tablist" aria-label="État du produit">
+            <button role="tab" aria-selected="true" data-trajectory="current">Aujourd’hui · POC local</button>
+            <button role="tab" aria-selected="false" data-trajectory="target">Cible · Industrialisation</button>
           </div>
+        </div>
+        <div class="trajectory-panel ri-card" data-trajectory-panel>
+          <div><span>Expérience</span><strong>Analyse, batch et exploration dans une interface unique</strong></div>
+          <div><span>Modèles</span><strong>Pipeline thématique et sentiment spécialisé</strong></div>
+          <div><span>Gouvernance</span><strong>Évaluation, monitoring et correction humaine tracée</strong></div>
+        </div>
+      </section>
 
-          <div class="architecture-grid">
-            <article class="architecture-diagram card">
-              <img src="./assets/architecture-stack.svg" alt="Schema d'architecture Review Insights+" />
-            </article>
-            <article class="architecture-text card">
-              <div class="architecture-block">
-                <h3>1. Input layer</h3>
-                <p>API FastAPI et interface Streamlit pour l'analyse interactive, l'usage demo et l'exploitation batch.</p>
-              </div>
-              <div class="architecture-block">
-                <h3>2. Contract layer</h3>
-                <p>Schemas Pydantic, validation des payloads, normalisation des datasets et preparation des exports.</p>
-              </div>
-              <div class="architecture-block">
-                <h3>3. Service layer</h3>
-                <p>
-                  <code>ReviewAnalysisService</code> orchestre la selection du backend, l'inference,
-                  l'evaluation, le monitoring et le formatage de la sortie.
-                </p>
-              </div>
-              <div class="architecture-block">
-                <h3>4. Inference layer</h3>
-                <p>
-                  Un modele thematique detecte les sujets actifs, puis des modeles de sentiment
-                  specialises par theme affinent la lecture.
-                </p>
-              </div>
-              <div class="architecture-block">
-                <h3>5. Ops layer</h3>
-                <p>
-                  Healthcheck, metrics runtime, evaluation offline, CI, Docker, versionnement
-                  d'artefacts et page de presentation.
-                </p>
-              </div>
-            </article>
-          </div>
-        </section>
+      <section class="section ri-container" id="roadmap">
+        <div class="section-intro">
+          <span class="ri-eyebrow">12 mois</span>
+          <h2>Une roadmap progressive,<br />de la preuve à l’exploitation.</h2>
+        </div>
+        <ol class="roadmap">
+          <li><span>T1</span><div><b>Fiabiliser</b><p>Consolider les jeux de référence, les métriques et les contrats.</p></div></li>
+          <li><span>T2</span><div><b>Observer</b><p>Renforcer le monitoring, le drift et la boucle de feedback.</p></div></li>
+          <li><span>T3</span><div><b>Déployer</b><p>Automatiser livraison, versionnement et promotion des modèles.</p></div></li>
+          <li><span>T4</span><div><b>Étendre</b><p>Élargir les thèmes, langues et parcours de décision.</p></div></li>
+        </ol>
+      </section>
 
-        <section class="section">
-          <div class="section-heading">
-            <span class="eyebrow dark">Pipeline de traitement</span>
-            <h2>Comment une review devient un insight.</h2>
-          </div>
-          <div class="pipeline-grid" id="pipeline-grid"></div>
-        </section>
+      <section class="closing ri-container">
+        <span class="ri-eyebrow">Review Insights+</span>
+        <h2>Ne pas seulement prédire.<br /><em>Rendre la décision lisible.</em></h2>
+        <a class="ri-button ri-button-primary" href="./app-online.html">Ouvrir l’application <span aria-hidden="true">→</span></a>
+      </section>
+    </main>
 
-        <section id="ops" class="section">
-          <div class="section-heading">
-            <span class="eyebrow dark">Exploitation et gouvernance</span>
-            <h2>Une base technique credible pour l'industrialisation.</h2>
-          </div>
-
-          <div class="ops-grid">
-            <article class="ops-card card">
-              <img src="./assets/ops-monitoring.svg" alt="Monitoring" />
-              <h3>Monitoring et evaluation</h3>
-              <p>
-                Le produit expose un healthcheck, des metrics runtime et une evaluation offline pour
-                suivre la qualite et l'usage.
-              </p>
-            </article>
-            <article class="ops-card card">
-              <img src="./assets/ops-security.svg" alt="Security" />
-              <h3>Securite et controle</h3>
-              <p>
-                API key optionnelle, trusted hosts, CORS, payload limits et headers de securite
-                assurent un socle propre.
-              </p>
-            </article>
-            <article class="ops-card card">
-              <img src="./assets/ops-delivery.svg" alt="Delivery" />
-              <h3>Delivery et reproductibilite</h3>
-              <p>
-                Docker, compose, GitHub Actions et artefacts versionnes rendent la plateforme
-                relancable et deployable.
-              </p>
-            </article>
-          </div>
-        </section>
-      </main>
-    </div>
-
+    <footer class="ri-container footer"><span>Review Insights+</span><span>Customer review intelligence · 2026</span></footer>
     <script src="./script.js" defer></script>
   </body>
 </html>

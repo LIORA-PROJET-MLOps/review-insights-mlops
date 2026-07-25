@@ -1,43 +1,37 @@
-const pipeline = [
-  {
-    step: "01",
-    title: "Reception",
-    text: "La review entre via API ou interface avec un contrat d'entree stabilise.",
-  },
-  {
-    step: "02",
-    title: "Preparation",
-    text: "Le texte est normalise et prepare pour la couche d'inference et les exports.",
-  },
-  {
-    step: "03",
-    title: "Theme detection",
-    text: "Le moteur thematique detecte les sujets actifs: livraison, SAV et produit.",
-  },
-  {
-    step: "04",
-    title: "Sentiment analysis",
-    text: "Des modeles specialises par theme qualifient la polarite et le niveau de confiance.",
-  },
-  {
-    step: "05",
-    title: "Decision output",
-    text: "Le service consolide les scores, les insights et le flag de revue humaine.",
-  },
-];
+const resultFilters = document.querySelectorAll("[data-result-filter]");
+const resultCards = document.querySelectorAll("[data-result-kind]");
 
-const root = document.getElementById("pipeline-grid");
+resultFilters.forEach((button) => {
+  button.addEventListener("click", () => {
+    resultFilters.forEach((item) => item.classList.toggle("is-active", item === button));
+    const filter = button.dataset.resultFilter;
+    resultCards.forEach((card) => {
+      card.classList.toggle("is-hidden", filter !== "all" && card.dataset.resultKind !== filter);
+    });
+  });
+});
 
-if (root) {
-  root.innerHTML = pipeline
-    .map(
-      (item) => `
-        <article class="pipeline-card card">
-          <span class="pipeline-step">${item.step}</span>
-          <h3>${item.title}</h3>
-          <p>${item.text}</p>
-        </article>
-      `
-    )
-    .join("");
-}
+const trajectoryContent = {
+  current: [
+    ["Expérience", "Analyse, batch et exploration dans une interface unique"],
+    ["Modèles", "Pipeline thématique et sentiment spécialisé"],
+    ["Gouvernance", "Évaluation, monitoring et correction humaine tracée"],
+  ],
+  target: [
+    ["Expérience", "Parcours intégrés aux outils produit, CX et support"],
+    ["Modèles", "Versionnement, promotion et réentraînement automatisés"],
+    ["Gouvernance", "SLA, alerting, audit et pilotage continu de la qualité"],
+  ],
+};
+
+const trajectoryButtons = document.querySelectorAll("[data-trajectory]");
+const trajectoryPanel = document.querySelector("[data-trajectory-panel]");
+
+trajectoryButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    trajectoryButtons.forEach((item) => item.setAttribute("aria-selected", String(item === button)));
+    trajectoryPanel.innerHTML = trajectoryContent[button.dataset.trajectory]
+      .map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`)
+      .join("");
+  });
+});
