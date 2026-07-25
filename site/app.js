@@ -23,12 +23,21 @@ function toJsonBlock(nodeId, payload) {
   qs(nodeId).textContent = JSON.stringify(payload, null, 2);
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function card(label, value) {
-  return `<article class="stat-card"><strong>${value}</strong><span>${label}</span></article>`;
+  return `<article class="stat-card"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></article>`;
 }
 
 function pill(label, variant = "neutral") {
-  return `<span class="pill pill-${variant}">${label}</span>`;
+  return `<span class="pill pill-${variant}">${escapeHtml(label)}</span>`;
 }
 
 async function callApi(path, options = {}) {
@@ -80,6 +89,7 @@ async function loadMetrics() {
 }
 
 function renderAnalyze(payload) {
+  qs("resultPlaceholder").hidden = true;
   const sentimentVariant =
     payload.global_sentiment === "positive"
       ? "positive"
@@ -88,8 +98,8 @@ function renderAnalyze(payload) {
         : "neutral";
 
   qs("resultCards").innerHTML = [
-    `<article class="result-card"><strong>${payload.global_sentiment}</strong><span>Sentiment global</span></article>`,
-    `<article class="result-card"><strong>${payload.score_global}</strong><span>Score global</span></article>`,
+    `<article class="result-card"><strong>${escapeHtml(payload.global_sentiment)}</strong><span>Sentiment global</span></article>`,
+    `<article class="result-card"><strong>${escapeHtml(payload.score_global)}</strong><span>Score global</span></article>`,
     `<article class="result-card"><strong>${payload.needs_human_review ? "Oui" : "Non"}</strong><span>Human review</span></article>`,
   ].join("");
 
@@ -102,13 +112,13 @@ function renderAnalyze(payload) {
         .map(
           (insight) => `
             <article class="insight">
-              <h3>${insight.topic}</h3>
+              <h3>${escapeHtml(insight.topic)}</h3>
               <div class="pill-row">
                 ${pill(insight.sentiment, insight.sentiment === "negative" ? "negative" : insight.sentiment === "positive" ? "positive" : "neutral")}
                 ${pill(`Confiance ${insight.confidence}`, "neutral")}
               </div>
-              <p><strong>Evidence:</strong> ${insight.evidence}</p>
-              <p><strong>Action:</strong> ${insight.actionable_text}</p>
+              <p><strong>Indice :</strong> ${escapeHtml(insight.evidence)}</p>
+              <p><strong>Action :</strong> ${escapeHtml(insight.actionable_text)}</p>
             </article>
           `
         )
@@ -131,15 +141,26 @@ function renderAnalyze(payload) {
 }
 
 async function runAnalyze() {
-  const payload = await callApi("/v1/analyze", {
-    method: "POST",
-    body: JSON.stringify({
-      review_id: qs("reviewId").value.trim() || "web_runtime_001",
-      review_text: qs("reviewText").value.trim(),
-      threshold: Number(qs("threshold").value || "0.34"),
-    }),
-  });
-  renderAnalyze(payload);
+  const button = qs("runAnalyze");
+  button.disabled = true;
+  qs("analyzeStatus").textContent = "Analyse en cours…";
+  try {
+    const payload = await callApi("/v1/analyze", {
+      method: "POST",
+      body: JSON.stringify({
+        review_id: qs("reviewId").value.trim() || "web_runtime_001",
+        review_text: qs("reviewText").value.trim(),
+        threshold: Number(qs("threshold").value || "0.34"),
+      }),
+    });
+    renderAnalyze(payload);
+    qs("analyzeStatus").textContent = "Analyse terminée.";
+  } catch (error) {
+    qs("analyzeStatus").textContent = `Analyse impossible : ${String(error)}`;
+    throw error;
+  } finally {
+    button.disabled = false;
+  }
 }
 
 function parseCsv(text) {
@@ -173,10 +194,10 @@ function renderBatchTable(results) {
     .map(
       (item) => `
         <tr>
-          <td>${item.review_id}</td>
-          <td>${item.global_sentiment}</td>
-          <td>${item.themes_detected.join(", ") || "aucun"}</td>
-          <td>${item.score_global}</td>
+          <td>${escapeHtml(item.review_id)}</td>
+          <td>${escapeHtml(item.global_sentiment)}</td>
+          <td>${escapeHtml(item.themes_detected.join(", ") || "aucun")}</td>
+          <td>${escapeHtml(item.score_global)}</td>
           <td>${item.needs_human_review ? "oui" : "non"}</td>
         </tr>
       `
@@ -188,7 +209,8 @@ async function runBatch() {
   if (!state.batchRows.length) {
     return;
   }
-  qs("batchStatus").textContent = "Analyse en cours...";
+  qs("runBatch").disabled = true;
+  qs("batchStatus").textContent = "Analyse en cours…";
   const results = [];
   for (const [index, row] of state.batchRows.entries()) {
     const reviewText = getReviewTextFromRow(row);
@@ -203,11 +225,12 @@ async function runBatch() {
       }),
     });
     results.push(payload);
-    qs("batchStatus").textContent = `Analyse en cours... ${results.length}/${state.batchRows.length}`;
+    qs("batchStatus").textContent = `Analyse en cours… ${results.length}/${state.batchRows.length}`;
   }
   state.batchResults = results;
   renderBatchTable(results);
-  qs("batchStatus").textContent = `${results.length} review(s) analysee(s).`;
+  qs("batchStatus").textContent = `${results.length} avis analysé(s).`;
+  qs("runBatch").disabled = false;
   qs("exportBatch").disabled = !results.length;
 }
 
@@ -244,14 +267,25 @@ async function runEvaluation() {
 }
 
 async function refreshAll() {
-  await Promise.all([loadHealth(), loadMetrics()]);
+  try {
+    await Promise.all([loadHealth(), loadMetrics()]);
+    qs("connectionState").className = "connection-state is-online";
+    qs("connectionState").innerHTML = "<i></i>API disponible";
+  } catch (error) {
+    qs("connectionState").className = "connection-state is-error";
+    qs("connectionState").innerHTML = "<i></i>API indisponible";
+    throw error;
+  }
 }
 
 function wireEvents() {
   qs("refreshAll").addEventListener("click", () => refreshAll().catch(showError));
   qs("refreshHealth").addEventListener("click", () => loadHealth().catch(showError));
   qs("refreshMetrics").addEventListener("click", () => loadMetrics().catch(showError));
-  qs("runAnalyze").addEventListener("click", () => runAnalyze().catch(showError));
+  qs("analyzeForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    runAnalyze().catch(showError);
+  });
   qs("runEvaluation").addEventListener("click", () => runEvaluation().catch(showError));
   qs("runBatch").addEventListener("click", () => runBatch().catch(showError));
   qs("exportBatch").addEventListener("click", exportBatchCsv);
@@ -268,13 +302,13 @@ function wireEvents() {
     if (!file) {
       state.batchRows = [];
       qs("runBatch").disabled = true;
-      qs("batchStatus").textContent = "Aucun fichier charge.";
+      qs("batchStatus").textContent = "Aucun fichier chargé.";
       return;
     }
     const text = await file.text();
     state.batchRows = parseCsv(text);
     qs("runBatch").disabled = !state.batchRows.length;
-    qs("batchStatus").textContent = `${state.batchRows.length} ligne(s) detectee(s).`;
+    qs("batchStatus").textContent = `${state.batchRows.length} ligne(s) détectée(s).`;
   });
 }
 
@@ -287,6 +321,7 @@ function showError(error) {
     }
   });
   qs("batchStatus").textContent = message;
+  qs("runBatch").disabled = !state.batchRows.length;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -294,7 +329,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   wireEvents();
   try {
     await refreshAll();
-    await runAnalyze();
   } catch (error) {
     showError(error);
   }
