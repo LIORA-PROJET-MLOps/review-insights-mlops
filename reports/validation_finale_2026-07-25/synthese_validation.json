@@ -1,0 +1,108 @@
+{
+  "validation_date": "2026-07-25",
+  "timezone": "Europe/Paris",
+  "branch": "main",
+  "starting_revision": "bf08c7d",
+  "quality": {
+    "ruff": "passed",
+    "pytest": {
+      "passed": 113,
+      "failed": 0,
+      "skipped": 0
+    },
+    "coverage": {
+      "covered_lines": 2511,
+      "statements": 3529,
+      "percent": 71.15330121847549
+    },
+    "compose_config": "valid",
+    "functional_smoke_checks": {
+      "passed": 10,
+      "failed": 0
+    }
+  },
+  "runtime": {
+    "compose_profile": "control",
+    "services_expected": 17,
+    "services_running": 17,
+    "prometheus_targets_up": 13,
+    "prometheus_targets_total": 13
+  },
+  "mlflow": {
+    "registered_model": "review-insights-project-models",
+    "versions": [
+      {
+        "version": 1,
+        "status": "READY",
+        "alias": "baseline",
+        "run_id": "736ea3f065ed486385e98d86f1b70ccf",
+        "dataset_version": "soutenance_reference_40_v1",
+        "rows": 40,
+        "sentiment_accuracy": 0.6,
+        "sentiment_macro_f1": 0.5833,
+        "theme_exact_match": 0.8,
+        "theme_f1_macro": 0.9333
+      },
+      {
+        "version": 2,
+        "status": "READY",
+        "run_id": "7d80bfd9812a4b1e8ff95bb8da62abcc",
+        "dataset_version": "soutenance_retraining_120_v2",
+        "rows": 120,
+        "sentiment_accuracy": 1.0,
+        "sentiment_macro_f1": 1.0,
+        "theme_exact_match": 1.0,
+        "theme_f1_macro": 1.0
+      },
+      {
+        "version": 3,
+        "status": "READY",
+        "alias": "candidate",
+        "source": "dagster_model_training_job",
+        "dataset_version": "soutenance_retraining_120_v2",
+        "rows": 120
+      }
+    ]
+  },
+  "dagster": {
+    "model_training_job": {
+      "run_id": "c9f57164-b39b-4939-945b-f9cfe02fdc70",
+      "status": "RUN_SUCCESS"
+    },
+    "drift_monitoring_job": {
+      "run_id": "64228eb5-c9bc-466b-9c0f-ecf311137dd1",
+      "status": "RUN_SUCCESS"
+    }
+  },
+  "drift": {
+    "status": "drift_detected",
+    "recommendation": "retraining_recommended",
+    "automatic_retraining_allowed": true,
+    "prediction_events": 33,
+    "feedback_records": 11,
+    "feedback_joined": 11,
+    "feedback_combined_accuracy": 0.090909,
+    "sentiment_js_divergence": 0.251484,
+    "theme_js_divergence": 0.102465,
+    "human_review_rate": 0.181818,
+    "triggers": [
+      "feedback_combined_accuracy",
+      "sentiment_distribution",
+      "theme_distribution"
+    ]
+  },
+  "alerts": [
+    {
+      "name": "ReviewInsightsDriftDetected",
+      "prometheus_state": "firing",
+      "alertmanager_state": "active",
+      "severity": "warning"
+    },
+    {
+      "name": "ReviewInsightsPerformanceDrift",
+      "prometheus_state": "firing",
+      "alertmanager_state": "active",
+      "severity": "warning"
+    }
+  ]
+}
