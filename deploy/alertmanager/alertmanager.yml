@@ -1,5 +1,10 @@
 global:
   resolve_timeout: 5m
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'benjamindetre2016@gmail.com'
+  smtp_auth_username: 'benjamindetre2016@gmail.com'
+  smtp_auth_password: 'uobbtxicovsanwhx'
+  smtp_require_tls: true
 
 route:
   receiver: control-center
@@ -10,6 +15,9 @@ route:
 
 receivers:
   - name: control-center
+    email_configs:
+      - to: 'benjamindetre2016@gmail.com'
+        send_resolved: true
 
 inhibit_rules:
   - source_matchers:
