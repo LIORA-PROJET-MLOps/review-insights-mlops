@@ -1,0 +1,1001 @@
+review_id,review_title,review_body,sentiment_label,theme_livraison,theme_sav,theme_produit,sentiment_livraison,sentiment_sav,sentiment_produit
+dagster_test_v3_0001,Fast and careful delivery 1,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 1.,positive,1,0,0,positive,,
+dagster_test_v3_0002,Delivery completed as planned 2,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 2.,neutral,1,0,0,neutral,,
+dagster_test_v3_0003,Late and damaged delivery 3,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 3.,negative,1,0,0,negative,,
+dagster_test_v3_0004,Helpful customer support 4,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 4.,positive,0,1,0,,positive,
+dagster_test_v3_0005,Standard support interaction 5,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 5.,neutral,0,1,0,,neutral,
+dagster_test_v3_0006,Unresponsive customer support 6,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 6.,negative,0,1,0,,negative,
+dagster_test_v3_0007,Excellent product quality 7,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 7.,positive,0,0,1,,,positive
+dagster_test_v3_0008,Product matches the description 8,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 8.,neutral,0,0,1,,,neutral
+dagster_test_v3_0009,Disappointing product quality 9,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 9.,negative,0,0,1,,,negative
+dagster_test_v3_0010,Impressively quick shipping 10,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 10.,positive,1,0,0,positive,,
+dagster_test_v3_0011,Standard shipping experience 11,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 11.,neutral,1,0,0,neutral,,
+dagster_test_v3_0012,Disappointing shipping delay 12,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 12.,negative,1,0,0,negative,,
+dagster_test_v3_0013,Excellent after-sales service 13,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 13.,positive,0,1,0,,positive,
+dagster_test_v3_0014,Average customer service 14,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 14.,neutral,0,1,0,,neutral,
+dagster_test_v3_0015,Frustrating support experience 15,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 15.,negative,0,1,0,,negative,
+dagster_test_v3_0016,Impressive build quality 16,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 16.,positive,0,0,1,,,positive
+dagster_test_v3_0017,Decent product overall 17,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 17.",neutral,0,0,1,,,neutral
+dagster_test_v3_0018,Poor build quality 18,The item broke within days and feels cheaply made. This is deterministic pipeline test case 18.,negative,0,0,1,,,negative
+dagster_test_v3_0019,Great delivery experience 19,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 19.,positive,1,0,0,positive,,
+dagster_test_v3_0020,Delivery as expected 20,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 20.",neutral,1,0,0,neutral,,
+dagster_test_v3_0021,Poor delivery handling 21,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 21.,negative,1,0,0,negative,,
+dagster_test_v3_0022,Responsive and courteous support 22,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 22.,positive,0,1,0,,positive,
+dagster_test_v3_0023,Routine support experience 23,The agent handled my request adequately without major issues. This is deterministic pipeline test case 23.,neutral,0,1,0,,neutral,
+dagster_test_v3_0024,Poor after-sales service 24,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 24.,negative,0,1,0,,negative,
+dagster_test_v3_0025,Very satisfied with the product 25,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 25.,positive,0,0,1,,,positive
+dagster_test_v3_0026,Adequate quality product 26,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 26.,neutral,0,0,1,,,neutral
+dagster_test_v3_0027,Not worth the price 27,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 27.,negative,0,0,1,,,negative
+dagster_test_v3_0028,On time and well packed 28,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 28.",positive,1,0,0,positive,,
+dagster_test_v3_0029,Average delivery timing 29,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 29.,neutral,1,0,0,neutral,,
+dagster_test_v3_0030,Delayed and mishandled parcel 30,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 30.,negative,1,0,0,negative,,
+dagster_test_v3_0031,Outstanding support experience 31,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 31.,positive,0,1,0,,positive,
+dagster_test_v3_0032,Ordinary help desk experience 32,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 32.,neutral,0,1,0,,neutral,
+dagster_test_v3_0033,Disappointing help desk 33,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 33.,negative,0,1,0,,negative,
+dagster_test_v3_0034,Top notch quality 34,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 34.",positive,0,0,1,,,positive
+dagster_test_v3_0035,Reasonable product experience 35,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 35.",neutral,0,0,1,,,neutral
+dagster_test_v3_0036,Faulty and flimsy product 36,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 36.,negative,0,0,1,,,negative
+dagster_test_v3_0037,Speedy and reliable shipping 37,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 37.,positive,1,0,0,positive,,
+dagster_test_v3_0038,Ordinary delivery process 38,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 38.",neutral,1,0,0,neutral,,
+dagster_test_v3_0039,Unreliable courier service 39,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 39.,negative,1,0,0,negative,,
+dagster_test_v3_0040,Great help from the support team 40,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 40.,positive,0,1,0,,positive,
+dagster_test_v3_0041,Typical service interaction 41,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 41.,neutral,0,1,0,,neutral,
+dagster_test_v3_0042,Ineffective customer service 42,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 42.,negative,0,1,0,,negative,
+dagster_test_v3_0043,Great value product 43,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 43.,positive,0,0,1,,,positive
+dagster_test_v3_0044,Fair product for the price 44,The product functions as intended with an average build quality. This is deterministic pipeline test case 44.,neutral,0,0,1,,,neutral
+dagster_test_v3_0045,Underwhelming product experience 45,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 45.,negative,0,0,1,,,negative
+dagster_test_v3_0046,Fast and careful delivery 46,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 46.,positive,1,0,0,positive,,
+dagster_test_v3_0047,Delivery completed as planned 47,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 47.,neutral,1,0,0,neutral,,
+dagster_test_v3_0048,Late and damaged delivery 48,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 48.,negative,1,0,0,negative,,
+dagster_test_v3_0049,Helpful customer support 49,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 49.,positive,0,1,0,,positive,
+dagster_test_v3_0050,Standard support interaction 50,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 50.,neutral,0,1,0,,neutral,
+dagster_test_v3_0051,Unresponsive customer support 51,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 51.,negative,0,1,0,,negative,
+dagster_test_v3_0052,Excellent product quality 52,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 52.,positive,0,0,1,,,positive
+dagster_test_v3_0053,Product matches the description 53,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 53.,neutral,0,0,1,,,neutral
+dagster_test_v3_0054,Disappointing product quality 54,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 54.,negative,0,0,1,,,negative
+dagster_test_v3_0055,Impressively quick shipping 55,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 55.,positive,1,0,0,positive,,
+dagster_test_v3_0056,Standard shipping experience 56,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 56.,neutral,1,0,0,neutral,,
+dagster_test_v3_0057,Disappointing shipping delay 57,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 57.,negative,1,0,0,negative,,
+dagster_test_v3_0058,Excellent after-sales service 58,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 58.,positive,0,1,0,,positive,
+dagster_test_v3_0059,Average customer service 59,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 59.,neutral,0,1,0,,neutral,
+dagster_test_v3_0060,Frustrating support experience 60,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 60.,negative,0,1,0,,negative,
+dagster_test_v3_0061,Impressive build quality 61,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 61.,positive,0,0,1,,,positive
+dagster_test_v3_0062,Decent product overall 62,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 62.",neutral,0,0,1,,,neutral
+dagster_test_v3_0063,Poor build quality 63,The item broke within days and feels cheaply made. This is deterministic pipeline test case 63.,negative,0,0,1,,,negative
+dagster_test_v3_0064,Great delivery experience 64,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 64.,positive,1,0,0,positive,,
+dagster_test_v3_0065,Delivery as expected 65,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 65.",neutral,1,0,0,neutral,,
+dagster_test_v3_0066,Poor delivery handling 66,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 66.,negative,1,0,0,negative,,
+dagster_test_v3_0067,Responsive and courteous support 67,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 67.,positive,0,1,0,,positive,
+dagster_test_v3_0068,Routine support experience 68,The agent handled my request adequately without major issues. This is deterministic pipeline test case 68.,neutral,0,1,0,,neutral,
+dagster_test_v3_0069,Poor after-sales service 69,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 69.,negative,0,1,0,,negative,
+dagster_test_v3_0070,Very satisfied with the product 70,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 70.,positive,0,0,1,,,positive
+dagster_test_v3_0071,Adequate quality product 71,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 71.,neutral,0,0,1,,,neutral
+dagster_test_v3_0072,Not worth the price 72,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 72.,negative,0,0,1,,,negative
+dagster_test_v3_0073,On time and well packed 73,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 73.",positive,1,0,0,positive,,
+dagster_test_v3_0074,Average delivery timing 74,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 74.,neutral,1,0,0,neutral,,
+dagster_test_v3_0075,Delayed and mishandled parcel 75,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 75.,negative,1,0,0,negative,,
+dagster_test_v3_0076,Outstanding support experience 76,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 76.,positive,0,1,0,,positive,
+dagster_test_v3_0077,Ordinary help desk experience 77,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 77.,neutral,0,1,0,,neutral,
+dagster_test_v3_0078,Disappointing help desk 78,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 78.,negative,0,1,0,,negative,
+dagster_test_v3_0079,Top notch quality 79,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 79.",positive,0,0,1,,,positive
+dagster_test_v3_0080,Reasonable product experience 80,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 80.",neutral,0,0,1,,,neutral
+dagster_test_v3_0081,Faulty and flimsy product 81,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 81.,negative,0,0,1,,,negative
+dagster_test_v3_0082,Speedy and reliable shipping 82,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 82.,positive,1,0,0,positive,,
+dagster_test_v3_0083,Ordinary delivery process 83,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 83.",neutral,1,0,0,neutral,,
+dagster_test_v3_0084,Unreliable courier service 84,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 84.,negative,1,0,0,negative,,
+dagster_test_v3_0085,Great help from the support team 85,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 85.,positive,0,1,0,,positive,
+dagster_test_v3_0086,Typical service interaction 86,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 86.,neutral,0,1,0,,neutral,
+dagster_test_v3_0087,Ineffective customer service 87,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 87.,negative,0,1,0,,negative,
+dagster_test_v3_0088,Great value product 88,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 88.,positive,0,0,1,,,positive
+dagster_test_v3_0089,Fair product for the price 89,The product functions as intended with an average build quality. This is deterministic pipeline test case 89.,neutral,0,0,1,,,neutral
+dagster_test_v3_0090,Underwhelming product experience 90,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 90.,negative,0,0,1,,,negative
+dagster_test_v3_0091,Fast and careful delivery 91,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 91.,positive,1,0,0,positive,,
+dagster_test_v3_0092,Delivery completed as planned 92,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 92.,neutral,1,0,0,neutral,,
+dagster_test_v3_0093,Late and damaged delivery 93,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 93.,negative,1,0,0,negative,,
+dagster_test_v3_0094,Helpful customer support 94,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 94.,positive,0,1,0,,positive,
+dagster_test_v3_0095,Standard support interaction 95,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 95.,neutral,0,1,0,,neutral,
+dagster_test_v3_0096,Unresponsive customer support 96,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 96.,negative,0,1,0,,negative,
+dagster_test_v3_0097,Excellent product quality 97,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 97.,positive,0,0,1,,,positive
+dagster_test_v3_0098,Product matches the description 98,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 98.,neutral,0,0,1,,,neutral
+dagster_test_v3_0099,Disappointing product quality 99,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 99.,negative,0,0,1,,,negative
+dagster_test_v3_0100,Impressively quick shipping 100,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 100.,positive,1,0,0,positive,,
+dagster_test_v3_0101,Standard shipping experience 101,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 101.,neutral,1,0,0,neutral,,
+dagster_test_v3_0102,Disappointing shipping delay 102,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 102.,negative,1,0,0,negative,,
+dagster_test_v3_0103,Excellent after-sales service 103,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 103.,positive,0,1,0,,positive,
+dagster_test_v3_0104,Average customer service 104,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 104.,neutral,0,1,0,,neutral,
+dagster_test_v3_0105,Frustrating support experience 105,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 105.,negative,0,1,0,,negative,
+dagster_test_v3_0106,Impressive build quality 106,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 106.,positive,0,0,1,,,positive
+dagster_test_v3_0107,Decent product overall 107,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 107.",neutral,0,0,1,,,neutral
+dagster_test_v3_0108,Poor build quality 108,The item broke within days and feels cheaply made. This is deterministic pipeline test case 108.,negative,0,0,1,,,negative
+dagster_test_v3_0109,Great delivery experience 109,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 109.,positive,1,0,0,positive,,
+dagster_test_v3_0110,Delivery as expected 110,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 110.",neutral,1,0,0,neutral,,
+dagster_test_v3_0111,Poor delivery handling 111,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 111.,negative,1,0,0,negative,,
+dagster_test_v3_0112,Responsive and courteous support 112,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 112.,positive,0,1,0,,positive,
+dagster_test_v3_0113,Routine support experience 113,The agent handled my request adequately without major issues. This is deterministic pipeline test case 113.,neutral,0,1,0,,neutral,
+dagster_test_v3_0114,Poor after-sales service 114,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 114.,negative,0,1,0,,negative,
+dagster_test_v3_0115,Very satisfied with the product 115,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 115.,positive,0,0,1,,,positive
+dagster_test_v3_0116,Adequate quality product 116,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 116.,neutral,0,0,1,,,neutral
+dagster_test_v3_0117,Not worth the price 117,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 117.,negative,0,0,1,,,negative
+dagster_test_v3_0118,On time and well packed 118,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 118.",positive,1,0,0,positive,,
+dagster_test_v3_0119,Average delivery timing 119,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 119.,neutral,1,0,0,neutral,,
+dagster_test_v3_0120,Delayed and mishandled parcel 120,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 120.,negative,1,0,0,negative,,
+dagster_test_v3_0121,Outstanding support experience 121,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 121.,positive,0,1,0,,positive,
+dagster_test_v3_0122,Ordinary help desk experience 122,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 122.,neutral,0,1,0,,neutral,
+dagster_test_v3_0123,Disappointing help desk 123,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 123.,negative,0,1,0,,negative,
+dagster_test_v3_0124,Top notch quality 124,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 124.",positive,0,0,1,,,positive
+dagster_test_v3_0125,Reasonable product experience 125,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 125.",neutral,0,0,1,,,neutral
+dagster_test_v3_0126,Faulty and flimsy product 126,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 126.,negative,0,0,1,,,negative
+dagster_test_v3_0127,Speedy and reliable shipping 127,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 127.,positive,1,0,0,positive,,
+dagster_test_v3_0128,Ordinary delivery process 128,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 128.",neutral,1,0,0,neutral,,
+dagster_test_v3_0129,Unreliable courier service 129,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 129.,negative,1,0,0,negative,,
+dagster_test_v3_0130,Great help from the support team 130,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 130.,positive,0,1,0,,positive,
+dagster_test_v3_0131,Typical service interaction 131,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 131.,neutral,0,1,0,,neutral,
+dagster_test_v3_0132,Ineffective customer service 132,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 132.,negative,0,1,0,,negative,
+dagster_test_v3_0133,Great value product 133,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 133.,positive,0,0,1,,,positive
+dagster_test_v3_0134,Fair product for the price 134,The product functions as intended with an average build quality. This is deterministic pipeline test case 134.,neutral,0,0,1,,,neutral
+dagster_test_v3_0135,Underwhelming product experience 135,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 135.,negative,0,0,1,,,negative
+dagster_test_v3_0136,Fast and careful delivery 136,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 136.,positive,1,0,0,positive,,
+dagster_test_v3_0137,Delivery completed as planned 137,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 137.,neutral,1,0,0,neutral,,
+dagster_test_v3_0138,Late and damaged delivery 138,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 138.,negative,1,0,0,negative,,
+dagster_test_v3_0139,Helpful customer support 139,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 139.,positive,0,1,0,,positive,
+dagster_test_v3_0140,Standard support interaction 140,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 140.,neutral,0,1,0,,neutral,
+dagster_test_v3_0141,Unresponsive customer support 141,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 141.,negative,0,1,0,,negative,
+dagster_test_v3_0142,Excellent product quality 142,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 142.,positive,0,0,1,,,positive
+dagster_test_v3_0143,Product matches the description 143,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 143.,neutral,0,0,1,,,neutral
+dagster_test_v3_0144,Disappointing product quality 144,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 144.,negative,0,0,1,,,negative
+dagster_test_v3_0145,Impressively quick shipping 145,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 145.,positive,1,0,0,positive,,
+dagster_test_v3_0146,Standard shipping experience 146,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 146.,neutral,1,0,0,neutral,,
+dagster_test_v3_0147,Disappointing shipping delay 147,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 147.,negative,1,0,0,negative,,
+dagster_test_v3_0148,Excellent after-sales service 148,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 148.,positive,0,1,0,,positive,
+dagster_test_v3_0149,Average customer service 149,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 149.,neutral,0,1,0,,neutral,
+dagster_test_v3_0150,Frustrating support experience 150,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 150.,negative,0,1,0,,negative,
+dagster_test_v3_0151,Impressive build quality 151,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 151.,positive,0,0,1,,,positive
+dagster_test_v3_0152,Decent product overall 152,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 152.",neutral,0,0,1,,,neutral
+dagster_test_v3_0153,Poor build quality 153,The item broke within days and feels cheaply made. This is deterministic pipeline test case 153.,negative,0,0,1,,,negative
+dagster_test_v3_0154,Great delivery experience 154,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 154.,positive,1,0,0,positive,,
+dagster_test_v3_0155,Delivery as expected 155,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 155.",neutral,1,0,0,neutral,,
+dagster_test_v3_0156,Poor delivery handling 156,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 156.,negative,1,0,0,negative,,
+dagster_test_v3_0157,Responsive and courteous support 157,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 157.,positive,0,1,0,,positive,
+dagster_test_v3_0158,Routine support experience 158,The agent handled my request adequately without major issues. This is deterministic pipeline test case 158.,neutral,0,1,0,,neutral,
+dagster_test_v3_0159,Poor after-sales service 159,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 159.,negative,0,1,0,,negative,
+dagster_test_v3_0160,Very satisfied with the product 160,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 160.,positive,0,0,1,,,positive
+dagster_test_v3_0161,Adequate quality product 161,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 161.,neutral,0,0,1,,,neutral
+dagster_test_v3_0162,Not worth the price 162,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 162.,negative,0,0,1,,,negative
+dagster_test_v3_0163,On time and well packed 163,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 163.",positive,1,0,0,positive,,
+dagster_test_v3_0164,Average delivery timing 164,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 164.,neutral,1,0,0,neutral,,
+dagster_test_v3_0165,Delayed and mishandled parcel 165,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 165.,negative,1,0,0,negative,,
+dagster_test_v3_0166,Outstanding support experience 166,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 166.,positive,0,1,0,,positive,
+dagster_test_v3_0167,Ordinary help desk experience 167,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 167.,neutral,0,1,0,,neutral,
+dagster_test_v3_0168,Disappointing help desk 168,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 168.,negative,0,1,0,,negative,
+dagster_test_v3_0169,Top notch quality 169,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 169.",positive,0,0,1,,,positive
+dagster_test_v3_0170,Reasonable product experience 170,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 170.",neutral,0,0,1,,,neutral
+dagster_test_v3_0171,Faulty and flimsy product 171,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 171.,negative,0,0,1,,,negative
+dagster_test_v3_0172,Speedy and reliable shipping 172,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 172.,positive,1,0,0,positive,,
+dagster_test_v3_0173,Ordinary delivery process 173,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 173.",neutral,1,0,0,neutral,,
+dagster_test_v3_0174,Unreliable courier service 174,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 174.,negative,1,0,0,negative,,
+dagster_test_v3_0175,Great help from the support team 175,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 175.,positive,0,1,0,,positive,
+dagster_test_v3_0176,Typical service interaction 176,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 176.,neutral,0,1,0,,neutral,
+dagster_test_v3_0177,Ineffective customer service 177,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 177.,negative,0,1,0,,negative,
+dagster_test_v3_0178,Great value product 178,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 178.,positive,0,0,1,,,positive
+dagster_test_v3_0179,Fair product for the price 179,The product functions as intended with an average build quality. This is deterministic pipeline test case 179.,neutral,0,0,1,,,neutral
+dagster_test_v3_0180,Underwhelming product experience 180,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 180.,negative,0,0,1,,,negative
+dagster_test_v3_0181,Fast and careful delivery 181,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 181.,positive,1,0,0,positive,,
+dagster_test_v3_0182,Delivery completed as planned 182,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 182.,neutral,1,0,0,neutral,,
+dagster_test_v3_0183,Late and damaged delivery 183,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 183.,negative,1,0,0,negative,,
+dagster_test_v3_0184,Helpful customer support 184,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 184.,positive,0,1,0,,positive,
+dagster_test_v3_0185,Standard support interaction 185,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 185.,neutral,0,1,0,,neutral,
+dagster_test_v3_0186,Unresponsive customer support 186,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 186.,negative,0,1,0,,negative,
+dagster_test_v3_0187,Excellent product quality 187,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 187.,positive,0,0,1,,,positive
+dagster_test_v3_0188,Product matches the description 188,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 188.,neutral,0,0,1,,,neutral
+dagster_test_v3_0189,Disappointing product quality 189,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 189.,negative,0,0,1,,,negative
+dagster_test_v3_0190,Impressively quick shipping 190,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 190.,positive,1,0,0,positive,,
+dagster_test_v3_0191,Standard shipping experience 191,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 191.,neutral,1,0,0,neutral,,
+dagster_test_v3_0192,Disappointing shipping delay 192,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 192.,negative,1,0,0,negative,,
+dagster_test_v3_0193,Excellent after-sales service 193,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 193.,positive,0,1,0,,positive,
+dagster_test_v3_0194,Average customer service 194,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 194.,neutral,0,1,0,,neutral,
+dagster_test_v3_0195,Frustrating support experience 195,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 195.,negative,0,1,0,,negative,
+dagster_test_v3_0196,Impressive build quality 196,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 196.,positive,0,0,1,,,positive
+dagster_test_v3_0197,Decent product overall 197,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 197.",neutral,0,0,1,,,neutral
+dagster_test_v3_0198,Poor build quality 198,The item broke within days and feels cheaply made. This is deterministic pipeline test case 198.,negative,0,0,1,,,negative
+dagster_test_v3_0199,Great delivery experience 199,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 199.,positive,1,0,0,positive,,
+dagster_test_v3_0200,Delivery as expected 200,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 200.",neutral,1,0,0,neutral,,
+dagster_test_v3_0201,Poor delivery handling 201,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 201.,negative,1,0,0,negative,,
+dagster_test_v3_0202,Responsive and courteous support 202,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 202.,positive,0,1,0,,positive,
+dagster_test_v3_0203,Routine support experience 203,The agent handled my request adequately without major issues. This is deterministic pipeline test case 203.,neutral,0,1,0,,neutral,
+dagster_test_v3_0204,Poor after-sales service 204,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 204.,negative,0,1,0,,negative,
+dagster_test_v3_0205,Very satisfied with the product 205,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 205.,positive,0,0,1,,,positive
+dagster_test_v3_0206,Adequate quality product 206,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 206.,neutral,0,0,1,,,neutral
+dagster_test_v3_0207,Not worth the price 207,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 207.,negative,0,0,1,,,negative
+dagster_test_v3_0208,On time and well packed 208,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 208.",positive,1,0,0,positive,,
+dagster_test_v3_0209,Average delivery timing 209,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 209.,neutral,1,0,0,neutral,,
+dagster_test_v3_0210,Delayed and mishandled parcel 210,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 210.,negative,1,0,0,negative,,
+dagster_test_v3_0211,Outstanding support experience 211,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 211.,positive,0,1,0,,positive,
+dagster_test_v3_0212,Ordinary help desk experience 212,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 212.,neutral,0,1,0,,neutral,
+dagster_test_v3_0213,Disappointing help desk 213,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 213.,negative,0,1,0,,negative,
+dagster_test_v3_0214,Top notch quality 214,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 214.",positive,0,0,1,,,positive
+dagster_test_v3_0215,Reasonable product experience 215,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 215.",neutral,0,0,1,,,neutral
+dagster_test_v3_0216,Faulty and flimsy product 216,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 216.,negative,0,0,1,,,negative
+dagster_test_v3_0217,Speedy and reliable shipping 217,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 217.,positive,1,0,0,positive,,
+dagster_test_v3_0218,Ordinary delivery process 218,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 218.",neutral,1,0,0,neutral,,
+dagster_test_v3_0219,Unreliable courier service 219,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 219.,negative,1,0,0,negative,,
+dagster_test_v3_0220,Great help from the support team 220,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 220.,positive,0,1,0,,positive,
+dagster_test_v3_0221,Typical service interaction 221,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 221.,neutral,0,1,0,,neutral,
+dagster_test_v3_0222,Ineffective customer service 222,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 222.,negative,0,1,0,,negative,
+dagster_test_v3_0223,Great value product 223,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 223.,positive,0,0,1,,,positive
+dagster_test_v3_0224,Fair product for the price 224,The product functions as intended with an average build quality. This is deterministic pipeline test case 224.,neutral,0,0,1,,,neutral
+dagster_test_v3_0225,Underwhelming product experience 225,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 225.,negative,0,0,1,,,negative
+dagster_test_v3_0226,Fast and careful delivery 226,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 226.,positive,1,0,0,positive,,
+dagster_test_v3_0227,Delivery completed as planned 227,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 227.,neutral,1,0,0,neutral,,
+dagster_test_v3_0228,Late and damaged delivery 228,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 228.,negative,1,0,0,negative,,
+dagster_test_v3_0229,Helpful customer support 229,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 229.,positive,0,1,0,,positive,
+dagster_test_v3_0230,Standard support interaction 230,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 230.,neutral,0,1,0,,neutral,
+dagster_test_v3_0231,Unresponsive customer support 231,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 231.,negative,0,1,0,,negative,
+dagster_test_v3_0232,Excellent product quality 232,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 232.,positive,0,0,1,,,positive
+dagster_test_v3_0233,Product matches the description 233,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 233.,neutral,0,0,1,,,neutral
+dagster_test_v3_0234,Disappointing product quality 234,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 234.,negative,0,0,1,,,negative
+dagster_test_v3_0235,Impressively quick shipping 235,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 235.,positive,1,0,0,positive,,
+dagster_test_v3_0236,Standard shipping experience 236,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 236.,neutral,1,0,0,neutral,,
+dagster_test_v3_0237,Disappointing shipping delay 237,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 237.,negative,1,0,0,negative,,
+dagster_test_v3_0238,Excellent after-sales service 238,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 238.,positive,0,1,0,,positive,
+dagster_test_v3_0239,Average customer service 239,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 239.,neutral,0,1,0,,neutral,
+dagster_test_v3_0240,Frustrating support experience 240,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 240.,negative,0,1,0,,negative,
+dagster_test_v3_0241,Impressive build quality 241,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 241.,positive,0,0,1,,,positive
+dagster_test_v3_0242,Decent product overall 242,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 242.",neutral,0,0,1,,,neutral
+dagster_test_v3_0243,Poor build quality 243,The item broke within days and feels cheaply made. This is deterministic pipeline test case 243.,negative,0,0,1,,,negative
+dagster_test_v3_0244,Great delivery experience 244,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 244.,positive,1,0,0,positive,,
+dagster_test_v3_0245,Delivery as expected 245,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 245.",neutral,1,0,0,neutral,,
+dagster_test_v3_0246,Poor delivery handling 246,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 246.,negative,1,0,0,negative,,
+dagster_test_v3_0247,Responsive and courteous support 247,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 247.,positive,0,1,0,,positive,
+dagster_test_v3_0248,Routine support experience 248,The agent handled my request adequately without major issues. This is deterministic pipeline test case 248.,neutral,0,1,0,,neutral,
+dagster_test_v3_0249,Poor after-sales service 249,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 249.,negative,0,1,0,,negative,
+dagster_test_v3_0250,Very satisfied with the product 250,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 250.,positive,0,0,1,,,positive
+dagster_test_v3_0251,Adequate quality product 251,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 251.,neutral,0,0,1,,,neutral
+dagster_test_v3_0252,Not worth the price 252,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 252.,negative,0,0,1,,,negative
+dagster_test_v3_0253,On time and well packed 253,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 253.",positive,1,0,0,positive,,
+dagster_test_v3_0254,Average delivery timing 254,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 254.,neutral,1,0,0,neutral,,
+dagster_test_v3_0255,Delayed and mishandled parcel 255,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 255.,negative,1,0,0,negative,,
+dagster_test_v3_0256,Outstanding support experience 256,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 256.,positive,0,1,0,,positive,
+dagster_test_v3_0257,Ordinary help desk experience 257,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 257.,neutral,0,1,0,,neutral,
+dagster_test_v3_0258,Disappointing help desk 258,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 258.,negative,0,1,0,,negative,
+dagster_test_v3_0259,Top notch quality 259,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 259.",positive,0,0,1,,,positive
+dagster_test_v3_0260,Reasonable product experience 260,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 260.",neutral,0,0,1,,,neutral
+dagster_test_v3_0261,Faulty and flimsy product 261,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 261.,negative,0,0,1,,,negative
+dagster_test_v3_0262,Speedy and reliable shipping 262,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 262.,positive,1,0,0,positive,,
+dagster_test_v3_0263,Ordinary delivery process 263,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 263.",neutral,1,0,0,neutral,,
+dagster_test_v3_0264,Unreliable courier service 264,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 264.,negative,1,0,0,negative,,
+dagster_test_v3_0265,Great help from the support team 265,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 265.,positive,0,1,0,,positive,
+dagster_test_v3_0266,Typical service interaction 266,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 266.,neutral,0,1,0,,neutral,
+dagster_test_v3_0267,Ineffective customer service 267,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 267.,negative,0,1,0,,negative,
+dagster_test_v3_0268,Great value product 268,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 268.,positive,0,0,1,,,positive
+dagster_test_v3_0269,Fair product for the price 269,The product functions as intended with an average build quality. This is deterministic pipeline test case 269.,neutral,0,0,1,,,neutral
+dagster_test_v3_0270,Underwhelming product experience 270,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 270.,negative,0,0,1,,,negative
+dagster_test_v3_0271,Fast and careful delivery 271,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 271.,positive,1,0,0,positive,,
+dagster_test_v3_0272,Delivery completed as planned 272,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 272.,neutral,1,0,0,neutral,,
+dagster_test_v3_0273,Late and damaged delivery 273,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 273.,negative,1,0,0,negative,,
+dagster_test_v3_0274,Helpful customer support 274,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 274.,positive,0,1,0,,positive,
+dagster_test_v3_0275,Standard support interaction 275,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 275.,neutral,0,1,0,,neutral,
+dagster_test_v3_0276,Unresponsive customer support 276,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 276.,negative,0,1,0,,negative,
+dagster_test_v3_0277,Excellent product quality 277,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 277.,positive,0,0,1,,,positive
+dagster_test_v3_0278,Product matches the description 278,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 278.,neutral,0,0,1,,,neutral
+dagster_test_v3_0279,Disappointing product quality 279,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 279.,negative,0,0,1,,,negative
+dagster_test_v3_0280,Impressively quick shipping 280,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 280.,positive,1,0,0,positive,,
+dagster_test_v3_0281,Standard shipping experience 281,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 281.,neutral,1,0,0,neutral,,
+dagster_test_v3_0282,Disappointing shipping delay 282,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 282.,negative,1,0,0,negative,,
+dagster_test_v3_0283,Excellent after-sales service 283,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 283.,positive,0,1,0,,positive,
+dagster_test_v3_0284,Average customer service 284,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 284.,neutral,0,1,0,,neutral,
+dagster_test_v3_0285,Frustrating support experience 285,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 285.,negative,0,1,0,,negative,
+dagster_test_v3_0286,Impressive build quality 286,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 286.,positive,0,0,1,,,positive
+dagster_test_v3_0287,Decent product overall 287,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 287.",neutral,0,0,1,,,neutral
+dagster_test_v3_0288,Poor build quality 288,The item broke within days and feels cheaply made. This is deterministic pipeline test case 288.,negative,0,0,1,,,negative
+dagster_test_v3_0289,Great delivery experience 289,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 289.,positive,1,0,0,positive,,
+dagster_test_v3_0290,Delivery as expected 290,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 290.",neutral,1,0,0,neutral,,
+dagster_test_v3_0291,Poor delivery handling 291,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 291.,negative,1,0,0,negative,,
+dagster_test_v3_0292,Responsive and courteous support 292,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 292.,positive,0,1,0,,positive,
+dagster_test_v3_0293,Routine support experience 293,The agent handled my request adequately without major issues. This is deterministic pipeline test case 293.,neutral,0,1,0,,neutral,
+dagster_test_v3_0294,Poor after-sales service 294,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 294.,negative,0,1,0,,negative,
+dagster_test_v3_0295,Very satisfied with the product 295,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 295.,positive,0,0,1,,,positive
+dagster_test_v3_0296,Adequate quality product 296,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 296.,neutral,0,0,1,,,neutral
+dagster_test_v3_0297,Not worth the price 297,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 297.,negative,0,0,1,,,negative
+dagster_test_v3_0298,On time and well packed 298,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 298.",positive,1,0,0,positive,,
+dagster_test_v3_0299,Average delivery timing 299,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 299.,neutral,1,0,0,neutral,,
+dagster_test_v3_0300,Delayed and mishandled parcel 300,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 300.,negative,1,0,0,negative,,
+dagster_test_v3_0301,Outstanding support experience 301,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 301.,positive,0,1,0,,positive,
+dagster_test_v3_0302,Ordinary help desk experience 302,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 302.,neutral,0,1,0,,neutral,
+dagster_test_v3_0303,Disappointing help desk 303,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 303.,negative,0,1,0,,negative,
+dagster_test_v3_0304,Top notch quality 304,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 304.",positive,0,0,1,,,positive
+dagster_test_v3_0305,Reasonable product experience 305,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 305.",neutral,0,0,1,,,neutral
+dagster_test_v3_0306,Faulty and flimsy product 306,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 306.,negative,0,0,1,,,negative
+dagster_test_v3_0307,Speedy and reliable shipping 307,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 307.,positive,1,0,0,positive,,
+dagster_test_v3_0308,Ordinary delivery process 308,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 308.",neutral,1,0,0,neutral,,
+dagster_test_v3_0309,Unreliable courier service 309,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 309.,negative,1,0,0,negative,,
+dagster_test_v3_0310,Great help from the support team 310,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 310.,positive,0,1,0,,positive,
+dagster_test_v3_0311,Typical service interaction 311,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 311.,neutral,0,1,0,,neutral,
+dagster_test_v3_0312,Ineffective customer service 312,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 312.,negative,0,1,0,,negative,
+dagster_test_v3_0313,Great value product 313,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 313.,positive,0,0,1,,,positive
+dagster_test_v3_0314,Fair product for the price 314,The product functions as intended with an average build quality. This is deterministic pipeline test case 314.,neutral,0,0,1,,,neutral
+dagster_test_v3_0315,Underwhelming product experience 315,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 315.,negative,0,0,1,,,negative
+dagster_test_v3_0316,Fast and careful delivery 316,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 316.,positive,1,0,0,positive,,
+dagster_test_v3_0317,Delivery completed as planned 317,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 317.,neutral,1,0,0,neutral,,
+dagster_test_v3_0318,Late and damaged delivery 318,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 318.,negative,1,0,0,negative,,
+dagster_test_v3_0319,Helpful customer support 319,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 319.,positive,0,1,0,,positive,
+dagster_test_v3_0320,Standard support interaction 320,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 320.,neutral,0,1,0,,neutral,
+dagster_test_v3_0321,Unresponsive customer support 321,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 321.,negative,0,1,0,,negative,
+dagster_test_v3_0322,Excellent product quality 322,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 322.,positive,0,0,1,,,positive
+dagster_test_v3_0323,Product matches the description 323,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 323.,neutral,0,0,1,,,neutral
+dagster_test_v3_0324,Disappointing product quality 324,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 324.,negative,0,0,1,,,negative
+dagster_test_v3_0325,Impressively quick shipping 325,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 325.,positive,1,0,0,positive,,
+dagster_test_v3_0326,Standard shipping experience 326,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 326.,neutral,1,0,0,neutral,,
+dagster_test_v3_0327,Disappointing shipping delay 327,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 327.,negative,1,0,0,negative,,
+dagster_test_v3_0328,Excellent after-sales service 328,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 328.,positive,0,1,0,,positive,
+dagster_test_v3_0329,Average customer service 329,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 329.,neutral,0,1,0,,neutral,
+dagster_test_v3_0330,Frustrating support experience 330,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 330.,negative,0,1,0,,negative,
+dagster_test_v3_0331,Impressive build quality 331,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 331.,positive,0,0,1,,,positive
+dagster_test_v3_0332,Decent product overall 332,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 332.",neutral,0,0,1,,,neutral
+dagster_test_v3_0333,Poor build quality 333,The item broke within days and feels cheaply made. This is deterministic pipeline test case 333.,negative,0,0,1,,,negative
+dagster_test_v3_0334,Great delivery experience 334,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 334.,positive,1,0,0,positive,,
+dagster_test_v3_0335,Delivery as expected 335,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 335.",neutral,1,0,0,neutral,,
+dagster_test_v3_0336,Poor delivery handling 336,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 336.,negative,1,0,0,negative,,
+dagster_test_v3_0337,Responsive and courteous support 337,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 337.,positive,0,1,0,,positive,
+dagster_test_v3_0338,Routine support experience 338,The agent handled my request adequately without major issues. This is deterministic pipeline test case 338.,neutral,0,1,0,,neutral,
+dagster_test_v3_0339,Poor after-sales service 339,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 339.,negative,0,1,0,,negative,
+dagster_test_v3_0340,Very satisfied with the product 340,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 340.,positive,0,0,1,,,positive
+dagster_test_v3_0341,Adequate quality product 341,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 341.,neutral,0,0,1,,,neutral
+dagster_test_v3_0342,Not worth the price 342,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 342.,negative,0,0,1,,,negative
+dagster_test_v3_0343,On time and well packed 343,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 343.",positive,1,0,0,positive,,
+dagster_test_v3_0344,Average delivery timing 344,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 344.,neutral,1,0,0,neutral,,
+dagster_test_v3_0345,Delayed and mishandled parcel 345,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 345.,negative,1,0,0,negative,,
+dagster_test_v3_0346,Outstanding support experience 346,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 346.,positive,0,1,0,,positive,
+dagster_test_v3_0347,Ordinary help desk experience 347,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 347.,neutral,0,1,0,,neutral,
+dagster_test_v3_0348,Disappointing help desk 348,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 348.,negative,0,1,0,,negative,
+dagster_test_v3_0349,Top notch quality 349,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 349.",positive,0,0,1,,,positive
+dagster_test_v3_0350,Reasonable product experience 350,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 350.",neutral,0,0,1,,,neutral
+dagster_test_v3_0351,Faulty and flimsy product 351,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 351.,negative,0,0,1,,,negative
+dagster_test_v3_0352,Speedy and reliable shipping 352,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 352.,positive,1,0,0,positive,,
+dagster_test_v3_0353,Ordinary delivery process 353,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 353.",neutral,1,0,0,neutral,,
+dagster_test_v3_0354,Unreliable courier service 354,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 354.,negative,1,0,0,negative,,
+dagster_test_v3_0355,Great help from the support team 355,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 355.,positive,0,1,0,,positive,
+dagster_test_v3_0356,Typical service interaction 356,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 356.,neutral,0,1,0,,neutral,
+dagster_test_v3_0357,Ineffective customer service 357,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 357.,negative,0,1,0,,negative,
+dagster_test_v3_0358,Great value product 358,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 358.,positive,0,0,1,,,positive
+dagster_test_v3_0359,Fair product for the price 359,The product functions as intended with an average build quality. This is deterministic pipeline test case 359.,neutral,0,0,1,,,neutral
+dagster_test_v3_0360,Underwhelming product experience 360,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 360.,negative,0,0,1,,,negative
+dagster_test_v3_0361,Fast and careful delivery 361,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 361.,positive,1,0,0,positive,,
+dagster_test_v3_0362,Delivery completed as planned 362,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 362.,neutral,1,0,0,neutral,,
+dagster_test_v3_0363,Late and damaged delivery 363,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 363.,negative,1,0,0,negative,,
+dagster_test_v3_0364,Helpful customer support 364,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 364.,positive,0,1,0,,positive,
+dagster_test_v3_0365,Standard support interaction 365,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 365.,neutral,0,1,0,,neutral,
+dagster_test_v3_0366,Unresponsive customer support 366,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 366.,negative,0,1,0,,negative,
+dagster_test_v3_0367,Excellent product quality 367,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 367.,positive,0,0,1,,,positive
+dagster_test_v3_0368,Product matches the description 368,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 368.,neutral,0,0,1,,,neutral
+dagster_test_v3_0369,Disappointing product quality 369,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 369.,negative,0,0,1,,,negative
+dagster_test_v3_0370,Impressively quick shipping 370,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 370.,positive,1,0,0,positive,,
+dagster_test_v3_0371,Standard shipping experience 371,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 371.,neutral,1,0,0,neutral,,
+dagster_test_v3_0372,Disappointing shipping delay 372,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 372.,negative,1,0,0,negative,,
+dagster_test_v3_0373,Excellent after-sales service 373,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 373.,positive,0,1,0,,positive,
+dagster_test_v3_0374,Average customer service 374,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 374.,neutral,0,1,0,,neutral,
+dagster_test_v3_0375,Frustrating support experience 375,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 375.,negative,0,1,0,,negative,
+dagster_test_v3_0376,Impressive build quality 376,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 376.,positive,0,0,1,,,positive
+dagster_test_v3_0377,Decent product overall 377,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 377.",neutral,0,0,1,,,neutral
+dagster_test_v3_0378,Poor build quality 378,The item broke within days and feels cheaply made. This is deterministic pipeline test case 378.,negative,0,0,1,,,negative
+dagster_test_v3_0379,Great delivery experience 379,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 379.,positive,1,0,0,positive,,
+dagster_test_v3_0380,Delivery as expected 380,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 380.",neutral,1,0,0,neutral,,
+dagster_test_v3_0381,Poor delivery handling 381,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 381.,negative,1,0,0,negative,,
+dagster_test_v3_0382,Responsive and courteous support 382,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 382.,positive,0,1,0,,positive,
+dagster_test_v3_0383,Routine support experience 383,The agent handled my request adequately without major issues. This is deterministic pipeline test case 383.,neutral,0,1,0,,neutral,
+dagster_test_v3_0384,Poor after-sales service 384,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 384.,negative,0,1,0,,negative,
+dagster_test_v3_0385,Very satisfied with the product 385,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 385.,positive,0,0,1,,,positive
+dagster_test_v3_0386,Adequate quality product 386,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 386.,neutral,0,0,1,,,neutral
+dagster_test_v3_0387,Not worth the price 387,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 387.,negative,0,0,1,,,negative
+dagster_test_v3_0388,On time and well packed 388,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 388.",positive,1,0,0,positive,,
+dagster_test_v3_0389,Average delivery timing 389,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 389.,neutral,1,0,0,neutral,,
+dagster_test_v3_0390,Delayed and mishandled parcel 390,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 390.,negative,1,0,0,negative,,
+dagster_test_v3_0391,Outstanding support experience 391,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 391.,positive,0,1,0,,positive,
+dagster_test_v3_0392,Ordinary help desk experience 392,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 392.,neutral,0,1,0,,neutral,
+dagster_test_v3_0393,Disappointing help desk 393,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 393.,negative,0,1,0,,negative,
+dagster_test_v3_0394,Top notch quality 394,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 394.",positive,0,0,1,,,positive
+dagster_test_v3_0395,Reasonable product experience 395,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 395.",neutral,0,0,1,,,neutral
+dagster_test_v3_0396,Faulty and flimsy product 396,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 396.,negative,0,0,1,,,negative
+dagster_test_v3_0397,Speedy and reliable shipping 397,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 397.,positive,1,0,0,positive,,
+dagster_test_v3_0398,Ordinary delivery process 398,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 398.",neutral,1,0,0,neutral,,
+dagster_test_v3_0399,Unreliable courier service 399,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 399.,negative,1,0,0,negative,,
+dagster_test_v3_0400,Great help from the support team 400,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 400.,positive,0,1,0,,positive,
+dagster_test_v3_0401,Typical service interaction 401,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 401.,neutral,0,1,0,,neutral,
+dagster_test_v3_0402,Ineffective customer service 402,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 402.,negative,0,1,0,,negative,
+dagster_test_v3_0403,Great value product 403,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 403.,positive,0,0,1,,,positive
+dagster_test_v3_0404,Fair product for the price 404,The product functions as intended with an average build quality. This is deterministic pipeline test case 404.,neutral,0,0,1,,,neutral
+dagster_test_v3_0405,Underwhelming product experience 405,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 405.,negative,0,0,1,,,negative
+dagster_test_v3_0406,Fast and careful delivery 406,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 406.,positive,1,0,0,positive,,
+dagster_test_v3_0407,Delivery completed as planned 407,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 407.,neutral,1,0,0,neutral,,
+dagster_test_v3_0408,Late and damaged delivery 408,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 408.,negative,1,0,0,negative,,
+dagster_test_v3_0409,Helpful customer support 409,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 409.,positive,0,1,0,,positive,
+dagster_test_v3_0410,Standard support interaction 410,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 410.,neutral,0,1,0,,neutral,
+dagster_test_v3_0411,Unresponsive customer support 411,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 411.,negative,0,1,0,,negative,
+dagster_test_v3_0412,Excellent product quality 412,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 412.,positive,0,0,1,,,positive
+dagster_test_v3_0413,Product matches the description 413,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 413.,neutral,0,0,1,,,neutral
+dagster_test_v3_0414,Disappointing product quality 414,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 414.,negative,0,0,1,,,negative
+dagster_test_v3_0415,Impressively quick shipping 415,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 415.,positive,1,0,0,positive,,
+dagster_test_v3_0416,Standard shipping experience 416,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 416.,neutral,1,0,0,neutral,,
+dagster_test_v3_0417,Disappointing shipping delay 417,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 417.,negative,1,0,0,negative,,
+dagster_test_v3_0418,Excellent after-sales service 418,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 418.,positive,0,1,0,,positive,
+dagster_test_v3_0419,Average customer service 419,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 419.,neutral,0,1,0,,neutral,
+dagster_test_v3_0420,Frustrating support experience 420,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 420.,negative,0,1,0,,negative,
+dagster_test_v3_0421,Impressive build quality 421,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 421.,positive,0,0,1,,,positive
+dagster_test_v3_0422,Decent product overall 422,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 422.",neutral,0,0,1,,,neutral
+dagster_test_v3_0423,Poor build quality 423,The item broke within days and feels cheaply made. This is deterministic pipeline test case 423.,negative,0,0,1,,,negative
+dagster_test_v3_0424,Great delivery experience 424,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 424.,positive,1,0,0,positive,,
+dagster_test_v3_0425,Delivery as expected 425,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 425.",neutral,1,0,0,neutral,,
+dagster_test_v3_0426,Poor delivery handling 426,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 426.,negative,1,0,0,negative,,
+dagster_test_v3_0427,Responsive and courteous support 427,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 427.,positive,0,1,0,,positive,
+dagster_test_v3_0428,Routine support experience 428,The agent handled my request adequately without major issues. This is deterministic pipeline test case 428.,neutral,0,1,0,,neutral,
+dagster_test_v3_0429,Poor after-sales service 429,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 429.,negative,0,1,0,,negative,
+dagster_test_v3_0430,Very satisfied with the product 430,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 430.,positive,0,0,1,,,positive
+dagster_test_v3_0431,Adequate quality product 431,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 431.,neutral,0,0,1,,,neutral
+dagster_test_v3_0432,Not worth the price 432,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 432.,negative,0,0,1,,,negative
+dagster_test_v3_0433,On time and well packed 433,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 433.",positive,1,0,0,positive,,
+dagster_test_v3_0434,Average delivery timing 434,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 434.,neutral,1,0,0,neutral,,
+dagster_test_v3_0435,Delayed and mishandled parcel 435,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 435.,negative,1,0,0,negative,,
+dagster_test_v3_0436,Outstanding support experience 436,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 436.,positive,0,1,0,,positive,
+dagster_test_v3_0437,Ordinary help desk experience 437,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 437.,neutral,0,1,0,,neutral,
+dagster_test_v3_0438,Disappointing help desk 438,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 438.,negative,0,1,0,,negative,
+dagster_test_v3_0439,Top notch quality 439,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 439.",positive,0,0,1,,,positive
+dagster_test_v3_0440,Reasonable product experience 440,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 440.",neutral,0,0,1,,,neutral
+dagster_test_v3_0441,Faulty and flimsy product 441,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 441.,negative,0,0,1,,,negative
+dagster_test_v3_0442,Speedy and reliable shipping 442,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 442.,positive,1,0,0,positive,,
+dagster_test_v3_0443,Ordinary delivery process 443,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 443.",neutral,1,0,0,neutral,,
+dagster_test_v3_0444,Unreliable courier service 444,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 444.,negative,1,0,0,negative,,
+dagster_test_v3_0445,Great help from the support team 445,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 445.,positive,0,1,0,,positive,
+dagster_test_v3_0446,Typical service interaction 446,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 446.,neutral,0,1,0,,neutral,
+dagster_test_v3_0447,Ineffective customer service 447,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 447.,negative,0,1,0,,negative,
+dagster_test_v3_0448,Great value product 448,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 448.,positive,0,0,1,,,positive
+dagster_test_v3_0449,Fair product for the price 449,The product functions as intended with an average build quality. This is deterministic pipeline test case 449.,neutral,0,0,1,,,neutral
+dagster_test_v3_0450,Underwhelming product experience 450,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 450.,negative,0,0,1,,,negative
+dagster_test_v3_0451,Fast and careful delivery 451,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 451.,positive,1,0,0,positive,,
+dagster_test_v3_0452,Delivery completed as planned 452,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 452.,neutral,1,0,0,neutral,,
+dagster_test_v3_0453,Late and damaged delivery 453,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 453.,negative,1,0,0,negative,,
+dagster_test_v3_0454,Helpful customer support 454,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 454.,positive,0,1,0,,positive,
+dagster_test_v3_0455,Standard support interaction 455,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 455.,neutral,0,1,0,,neutral,
+dagster_test_v3_0456,Unresponsive customer support 456,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 456.,negative,0,1,0,,negative,
+dagster_test_v3_0457,Excellent product quality 457,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 457.,positive,0,0,1,,,positive
+dagster_test_v3_0458,Product matches the description 458,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 458.,neutral,0,0,1,,,neutral
+dagster_test_v3_0459,Disappointing product quality 459,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 459.,negative,0,0,1,,,negative
+dagster_test_v3_0460,Impressively quick shipping 460,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 460.,positive,1,0,0,positive,,
+dagster_test_v3_0461,Standard shipping experience 461,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 461.,neutral,1,0,0,neutral,,
+dagster_test_v3_0462,Disappointing shipping delay 462,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 462.,negative,1,0,0,negative,,
+dagster_test_v3_0463,Excellent after-sales service 463,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 463.,positive,0,1,0,,positive,
+dagster_test_v3_0464,Average customer service 464,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 464.,neutral,0,1,0,,neutral,
+dagster_test_v3_0465,Frustrating support experience 465,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 465.,negative,0,1,0,,negative,
+dagster_test_v3_0466,Impressive build quality 466,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 466.,positive,0,0,1,,,positive
+dagster_test_v3_0467,Decent product overall 467,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 467.",neutral,0,0,1,,,neutral
+dagster_test_v3_0468,Poor build quality 468,The item broke within days and feels cheaply made. This is deterministic pipeline test case 468.,negative,0,0,1,,,negative
+dagster_test_v3_0469,Great delivery experience 469,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 469.,positive,1,0,0,positive,,
+dagster_test_v3_0470,Delivery as expected 470,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 470.",neutral,1,0,0,neutral,,
+dagster_test_v3_0471,Poor delivery handling 471,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 471.,negative,1,0,0,negative,,
+dagster_test_v3_0472,Responsive and courteous support 472,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 472.,positive,0,1,0,,positive,
+dagster_test_v3_0473,Routine support experience 473,The agent handled my request adequately without major issues. This is deterministic pipeline test case 473.,neutral,0,1,0,,neutral,
+dagster_test_v3_0474,Poor after-sales service 474,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 474.,negative,0,1,0,,negative,
+dagster_test_v3_0475,Very satisfied with the product 475,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 475.,positive,0,0,1,,,positive
+dagster_test_v3_0476,Adequate quality product 476,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 476.,neutral,0,0,1,,,neutral
+dagster_test_v3_0477,Not worth the price 477,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 477.,negative,0,0,1,,,negative
+dagster_test_v3_0478,On time and well packed 478,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 478.",positive,1,0,0,positive,,
+dagster_test_v3_0479,Average delivery timing 479,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 479.,neutral,1,0,0,neutral,,
+dagster_test_v3_0480,Delayed and mishandled parcel 480,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 480.,negative,1,0,0,negative,,
+dagster_test_v3_0481,Outstanding support experience 481,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 481.,positive,0,1,0,,positive,
+dagster_test_v3_0482,Ordinary help desk experience 482,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 482.,neutral,0,1,0,,neutral,
+dagster_test_v3_0483,Disappointing help desk 483,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 483.,negative,0,1,0,,negative,
+dagster_test_v3_0484,Top notch quality 484,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 484.",positive,0,0,1,,,positive
+dagster_test_v3_0485,Reasonable product experience 485,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 485.",neutral,0,0,1,,,neutral
+dagster_test_v3_0486,Faulty and flimsy product 486,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 486.,negative,0,0,1,,,negative
+dagster_test_v3_0487,Speedy and reliable shipping 487,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 487.,positive,1,0,0,positive,,
+dagster_test_v3_0488,Ordinary delivery process 488,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 488.",neutral,1,0,0,neutral,,
+dagster_test_v3_0489,Unreliable courier service 489,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 489.,negative,1,0,0,negative,,
+dagster_test_v3_0490,Great help from the support team 490,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 490.,positive,0,1,0,,positive,
+dagster_test_v3_0491,Typical service interaction 491,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 491.,neutral,0,1,0,,neutral,
+dagster_test_v3_0492,Ineffective customer service 492,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 492.,negative,0,1,0,,negative,
+dagster_test_v3_0493,Great value product 493,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 493.,positive,0,0,1,,,positive
+dagster_test_v3_0494,Fair product for the price 494,The product functions as intended with an average build quality. This is deterministic pipeline test case 494.,neutral,0,0,1,,,neutral
+dagster_test_v3_0495,Underwhelming product experience 495,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 495.,negative,0,0,1,,,negative
+dagster_test_v3_0496,Fast and careful delivery 496,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 496.,positive,1,0,0,positive,,
+dagster_test_v3_0497,Delivery completed as planned 497,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 497.,neutral,1,0,0,neutral,,
+dagster_test_v3_0498,Late and damaged delivery 498,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 498.,negative,1,0,0,negative,,
+dagster_test_v3_0499,Helpful customer support 499,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 499.,positive,0,1,0,,positive,
+dagster_test_v3_0500,Standard support interaction 500,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 500.,neutral,0,1,0,,neutral,
+dagster_test_v3_0501,Unresponsive customer support 501,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 501.,negative,0,1,0,,negative,
+dagster_test_v3_0502,Excellent product quality 502,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 502.,positive,0,0,1,,,positive
+dagster_test_v3_0503,Product matches the description 503,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 503.,neutral,0,0,1,,,neutral
+dagster_test_v3_0504,Disappointing product quality 504,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 504.,negative,0,0,1,,,negative
+dagster_test_v3_0505,Impressively quick shipping 505,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 505.,positive,1,0,0,positive,,
+dagster_test_v3_0506,Standard shipping experience 506,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 506.,neutral,1,0,0,neutral,,
+dagster_test_v3_0507,Disappointing shipping delay 507,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 507.,negative,1,0,0,negative,,
+dagster_test_v3_0508,Excellent after-sales service 508,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 508.,positive,0,1,0,,positive,
+dagster_test_v3_0509,Average customer service 509,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 509.,neutral,0,1,0,,neutral,
+dagster_test_v3_0510,Frustrating support experience 510,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 510.,negative,0,1,0,,negative,
+dagster_test_v3_0511,Impressive build quality 511,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 511.,positive,0,0,1,,,positive
+dagster_test_v3_0512,Decent product overall 512,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 512.",neutral,0,0,1,,,neutral
+dagster_test_v3_0513,Poor build quality 513,The item broke within days and feels cheaply made. This is deterministic pipeline test case 513.,negative,0,0,1,,,negative
+dagster_test_v3_0514,Great delivery experience 514,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 514.,positive,1,0,0,positive,,
+dagster_test_v3_0515,Delivery as expected 515,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 515.",neutral,1,0,0,neutral,,
+dagster_test_v3_0516,Poor delivery handling 516,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 516.,negative,1,0,0,negative,,
+dagster_test_v3_0517,Responsive and courteous support 517,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 517.,positive,0,1,0,,positive,
+dagster_test_v3_0518,Routine support experience 518,The agent handled my request adequately without major issues. This is deterministic pipeline test case 518.,neutral,0,1,0,,neutral,
+dagster_test_v3_0519,Poor after-sales service 519,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 519.,negative,0,1,0,,negative,
+dagster_test_v3_0520,Very satisfied with the product 520,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 520.,positive,0,0,1,,,positive
+dagster_test_v3_0521,Adequate quality product 521,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 521.,neutral,0,0,1,,,neutral
+dagster_test_v3_0522,Not worth the price 522,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 522.,negative,0,0,1,,,negative
+dagster_test_v3_0523,On time and well packed 523,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 523.",positive,1,0,0,positive,,
+dagster_test_v3_0524,Average delivery timing 524,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 524.,neutral,1,0,0,neutral,,
+dagster_test_v3_0525,Delayed and mishandled parcel 525,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 525.,negative,1,0,0,negative,,
+dagster_test_v3_0526,Outstanding support experience 526,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 526.,positive,0,1,0,,positive,
+dagster_test_v3_0527,Ordinary help desk experience 527,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 527.,neutral,0,1,0,,neutral,
+dagster_test_v3_0528,Disappointing help desk 528,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 528.,negative,0,1,0,,negative,
+dagster_test_v3_0529,Top notch quality 529,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 529.",positive,0,0,1,,,positive
+dagster_test_v3_0530,Reasonable product experience 530,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 530.",neutral,0,0,1,,,neutral
+dagster_test_v3_0531,Faulty and flimsy product 531,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 531.,negative,0,0,1,,,negative
+dagster_test_v3_0532,Speedy and reliable shipping 532,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 532.,positive,1,0,0,positive,,
+dagster_test_v3_0533,Ordinary delivery process 533,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 533.",neutral,1,0,0,neutral,,
+dagster_test_v3_0534,Unreliable courier service 534,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 534.,negative,1,0,0,negative,,
+dagster_test_v3_0535,Great help from the support team 535,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 535.,positive,0,1,0,,positive,
+dagster_test_v3_0536,Typical service interaction 536,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 536.,neutral,0,1,0,,neutral,
+dagster_test_v3_0537,Ineffective customer service 537,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 537.,negative,0,1,0,,negative,
+dagster_test_v3_0538,Great value product 538,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 538.,positive,0,0,1,,,positive
+dagster_test_v3_0539,Fair product for the price 539,The product functions as intended with an average build quality. This is deterministic pipeline test case 539.,neutral,0,0,1,,,neutral
+dagster_test_v3_0540,Underwhelming product experience 540,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 540.,negative,0,0,1,,,negative
+dagster_test_v3_0541,Fast and careful delivery 541,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 541.,positive,1,0,0,positive,,
+dagster_test_v3_0542,Delivery completed as planned 542,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 542.,neutral,1,0,0,neutral,,
+dagster_test_v3_0543,Late and damaged delivery 543,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 543.,negative,1,0,0,negative,,
+dagster_test_v3_0544,Helpful customer support 544,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 544.,positive,0,1,0,,positive,
+dagster_test_v3_0545,Standard support interaction 545,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 545.,neutral,0,1,0,,neutral,
+dagster_test_v3_0546,Unresponsive customer support 546,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 546.,negative,0,1,0,,negative,
+dagster_test_v3_0547,Excellent product quality 547,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 547.,positive,0,0,1,,,positive
+dagster_test_v3_0548,Product matches the description 548,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 548.,neutral,0,0,1,,,neutral
+dagster_test_v3_0549,Disappointing product quality 549,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 549.,negative,0,0,1,,,negative
+dagster_test_v3_0550,Impressively quick shipping 550,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 550.,positive,1,0,0,positive,,
+dagster_test_v3_0551,Standard shipping experience 551,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 551.,neutral,1,0,0,neutral,,
+dagster_test_v3_0552,Disappointing shipping delay 552,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 552.,negative,1,0,0,negative,,
+dagster_test_v3_0553,Excellent after-sales service 553,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 553.,positive,0,1,0,,positive,
+dagster_test_v3_0554,Average customer service 554,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 554.,neutral,0,1,0,,neutral,
+dagster_test_v3_0555,Frustrating support experience 555,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 555.,negative,0,1,0,,negative,
+dagster_test_v3_0556,Impressive build quality 556,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 556.,positive,0,0,1,,,positive
+dagster_test_v3_0557,Decent product overall 557,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 557.",neutral,0,0,1,,,neutral
+dagster_test_v3_0558,Poor build quality 558,The item broke within days and feels cheaply made. This is deterministic pipeline test case 558.,negative,0,0,1,,,negative
+dagster_test_v3_0559,Great delivery experience 559,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 559.,positive,1,0,0,positive,,
+dagster_test_v3_0560,Delivery as expected 560,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 560.",neutral,1,0,0,neutral,,
+dagster_test_v3_0561,Poor delivery handling 561,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 561.,negative,1,0,0,negative,,
+dagster_test_v3_0562,Responsive and courteous support 562,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 562.,positive,0,1,0,,positive,
+dagster_test_v3_0563,Routine support experience 563,The agent handled my request adequately without major issues. This is deterministic pipeline test case 563.,neutral,0,1,0,,neutral,
+dagster_test_v3_0564,Poor after-sales service 564,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 564.,negative,0,1,0,,negative,
+dagster_test_v3_0565,Very satisfied with the product 565,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 565.,positive,0,0,1,,,positive
+dagster_test_v3_0566,Adequate quality product 566,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 566.,neutral,0,0,1,,,neutral
+dagster_test_v3_0567,Not worth the price 567,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 567.,negative,0,0,1,,,negative
+dagster_test_v3_0568,On time and well packed 568,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 568.",positive,1,0,0,positive,,
+dagster_test_v3_0569,Average delivery timing 569,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 569.,neutral,1,0,0,neutral,,
+dagster_test_v3_0570,Delayed and mishandled parcel 570,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 570.,negative,1,0,0,negative,,
+dagster_test_v3_0571,Outstanding support experience 571,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 571.,positive,0,1,0,,positive,
+dagster_test_v3_0572,Ordinary help desk experience 572,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 572.,neutral,0,1,0,,neutral,
+dagster_test_v3_0573,Disappointing help desk 573,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 573.,negative,0,1,0,,negative,
+dagster_test_v3_0574,Top notch quality 574,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 574.",positive,0,0,1,,,positive
+dagster_test_v3_0575,Reasonable product experience 575,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 575.",neutral,0,0,1,,,neutral
+dagster_test_v3_0576,Faulty and flimsy product 576,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 576.,negative,0,0,1,,,negative
+dagster_test_v3_0577,Speedy and reliable shipping 577,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 577.,positive,1,0,0,positive,,
+dagster_test_v3_0578,Ordinary delivery process 578,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 578.",neutral,1,0,0,neutral,,
+dagster_test_v3_0579,Unreliable courier service 579,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 579.,negative,1,0,0,negative,,
+dagster_test_v3_0580,Great help from the support team 580,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 580.,positive,0,1,0,,positive,
+dagster_test_v3_0581,Typical service interaction 581,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 581.,neutral,0,1,0,,neutral,
+dagster_test_v3_0582,Ineffective customer service 582,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 582.,negative,0,1,0,,negative,
+dagster_test_v3_0583,Great value product 583,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 583.,positive,0,0,1,,,positive
+dagster_test_v3_0584,Fair product for the price 584,The product functions as intended with an average build quality. This is deterministic pipeline test case 584.,neutral,0,0,1,,,neutral
+dagster_test_v3_0585,Underwhelming product experience 585,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 585.,negative,0,0,1,,,negative
+dagster_test_v3_0586,Fast and careful delivery 586,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 586.,positive,1,0,0,positive,,
+dagster_test_v3_0587,Delivery completed as planned 587,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 587.,neutral,1,0,0,neutral,,
+dagster_test_v3_0588,Late and damaged delivery 588,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 588.,negative,1,0,0,negative,,
+dagster_test_v3_0589,Helpful customer support 589,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 589.,positive,0,1,0,,positive,
+dagster_test_v3_0590,Standard support interaction 590,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 590.,neutral,0,1,0,,neutral,
+dagster_test_v3_0591,Unresponsive customer support 591,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 591.,negative,0,1,0,,negative,
+dagster_test_v3_0592,Excellent product quality 592,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 592.,positive,0,0,1,,,positive
+dagster_test_v3_0593,Product matches the description 593,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 593.,neutral,0,0,1,,,neutral
+dagster_test_v3_0594,Disappointing product quality 594,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 594.,negative,0,0,1,,,negative
+dagster_test_v3_0595,Impressively quick shipping 595,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 595.,positive,1,0,0,positive,,
+dagster_test_v3_0596,Standard shipping experience 596,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 596.,neutral,1,0,0,neutral,,
+dagster_test_v3_0597,Disappointing shipping delay 597,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 597.,negative,1,0,0,negative,,
+dagster_test_v3_0598,Excellent after-sales service 598,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 598.,positive,0,1,0,,positive,
+dagster_test_v3_0599,Average customer service 599,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 599.,neutral,0,1,0,,neutral,
+dagster_test_v3_0600,Frustrating support experience 600,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 600.,negative,0,1,0,,negative,
+dagster_test_v3_0601,Impressive build quality 601,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 601.,positive,0,0,1,,,positive
+dagster_test_v3_0602,Decent product overall 602,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 602.",neutral,0,0,1,,,neutral
+dagster_test_v3_0603,Poor build quality 603,The item broke within days and feels cheaply made. This is deterministic pipeline test case 603.,negative,0,0,1,,,negative
+dagster_test_v3_0604,Great delivery experience 604,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 604.,positive,1,0,0,positive,,
+dagster_test_v3_0605,Delivery as expected 605,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 605.",neutral,1,0,0,neutral,,
+dagster_test_v3_0606,Poor delivery handling 606,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 606.,negative,1,0,0,negative,,
+dagster_test_v3_0607,Responsive and courteous support 607,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 607.,positive,0,1,0,,positive,
+dagster_test_v3_0608,Routine support experience 608,The agent handled my request adequately without major issues. This is deterministic pipeline test case 608.,neutral,0,1,0,,neutral,
+dagster_test_v3_0609,Poor after-sales service 609,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 609.,negative,0,1,0,,negative,
+dagster_test_v3_0610,Very satisfied with the product 610,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 610.,positive,0,0,1,,,positive
+dagster_test_v3_0611,Adequate quality product 611,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 611.,neutral,0,0,1,,,neutral
+dagster_test_v3_0612,Not worth the price 612,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 612.,negative,0,0,1,,,negative
+dagster_test_v3_0613,On time and well packed 613,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 613.",positive,1,0,0,positive,,
+dagster_test_v3_0614,Average delivery timing 614,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 614.,neutral,1,0,0,neutral,,
+dagster_test_v3_0615,Delayed and mishandled parcel 615,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 615.,negative,1,0,0,negative,,
+dagster_test_v3_0616,Outstanding support experience 616,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 616.,positive,0,1,0,,positive,
+dagster_test_v3_0617,Ordinary help desk experience 617,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 617.,neutral,0,1,0,,neutral,
+dagster_test_v3_0618,Disappointing help desk 618,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 618.,negative,0,1,0,,negative,
+dagster_test_v3_0619,Top notch quality 619,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 619.",positive,0,0,1,,,positive
+dagster_test_v3_0620,Reasonable product experience 620,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 620.",neutral,0,0,1,,,neutral
+dagster_test_v3_0621,Faulty and flimsy product 621,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 621.,negative,0,0,1,,,negative
+dagster_test_v3_0622,Speedy and reliable shipping 622,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 622.,positive,1,0,0,positive,,
+dagster_test_v3_0623,Ordinary delivery process 623,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 623.",neutral,1,0,0,neutral,,
+dagster_test_v3_0624,Unreliable courier service 624,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 624.,negative,1,0,0,negative,,
+dagster_test_v3_0625,Great help from the support team 625,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 625.,positive,0,1,0,,positive,
+dagster_test_v3_0626,Typical service interaction 626,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 626.,neutral,0,1,0,,neutral,
+dagster_test_v3_0627,Ineffective customer service 627,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 627.,negative,0,1,0,,negative,
+dagster_test_v3_0628,Great value product 628,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 628.,positive,0,0,1,,,positive
+dagster_test_v3_0629,Fair product for the price 629,The product functions as intended with an average build quality. This is deterministic pipeline test case 629.,neutral,0,0,1,,,neutral
+dagster_test_v3_0630,Underwhelming product experience 630,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 630.,negative,0,0,1,,,negative
+dagster_test_v3_0631,Fast and careful delivery 631,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 631.,positive,1,0,0,positive,,
+dagster_test_v3_0632,Delivery completed as planned 632,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 632.,neutral,1,0,0,neutral,,
+dagster_test_v3_0633,Late and damaged delivery 633,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 633.,negative,1,0,0,negative,,
+dagster_test_v3_0634,Helpful customer support 634,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 634.,positive,0,1,0,,positive,
+dagster_test_v3_0635,Standard support interaction 635,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 635.,neutral,0,1,0,,neutral,
+dagster_test_v3_0636,Unresponsive customer support 636,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 636.,negative,0,1,0,,negative,
+dagster_test_v3_0637,Excellent product quality 637,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 637.,positive,0,0,1,,,positive
+dagster_test_v3_0638,Product matches the description 638,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 638.,neutral,0,0,1,,,neutral
+dagster_test_v3_0639,Disappointing product quality 639,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 639.,negative,0,0,1,,,negative
+dagster_test_v3_0640,Impressively quick shipping 640,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 640.,positive,1,0,0,positive,,
+dagster_test_v3_0641,Standard shipping experience 641,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 641.,neutral,1,0,0,neutral,,
+dagster_test_v3_0642,Disappointing shipping delay 642,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 642.,negative,1,0,0,negative,,
+dagster_test_v3_0643,Excellent after-sales service 643,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 643.,positive,0,1,0,,positive,
+dagster_test_v3_0644,Average customer service 644,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 644.,neutral,0,1,0,,neutral,
+dagster_test_v3_0645,Frustrating support experience 645,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 645.,negative,0,1,0,,negative,
+dagster_test_v3_0646,Impressive build quality 646,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 646.,positive,0,0,1,,,positive
+dagster_test_v3_0647,Decent product overall 647,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 647.",neutral,0,0,1,,,neutral
+dagster_test_v3_0648,Poor build quality 648,The item broke within days and feels cheaply made. This is deterministic pipeline test case 648.,negative,0,0,1,,,negative
+dagster_test_v3_0649,Great delivery experience 649,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 649.,positive,1,0,0,positive,,
+dagster_test_v3_0650,Delivery as expected 650,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 650.",neutral,1,0,0,neutral,,
+dagster_test_v3_0651,Poor delivery handling 651,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 651.,negative,1,0,0,negative,,
+dagster_test_v3_0652,Responsive and courteous support 652,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 652.,positive,0,1,0,,positive,
+dagster_test_v3_0653,Routine support experience 653,The agent handled my request adequately without major issues. This is deterministic pipeline test case 653.,neutral,0,1,0,,neutral,
+dagster_test_v3_0654,Poor after-sales service 654,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 654.,negative,0,1,0,,negative,
+dagster_test_v3_0655,Very satisfied with the product 655,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 655.,positive,0,0,1,,,positive
+dagster_test_v3_0656,Adequate quality product 656,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 656.,neutral,0,0,1,,,neutral
+dagster_test_v3_0657,Not worth the price 657,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 657.,negative,0,0,1,,,negative
+dagster_test_v3_0658,On time and well packed 658,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 658.",positive,1,0,0,positive,,
+dagster_test_v3_0659,Average delivery timing 659,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 659.,neutral,1,0,0,neutral,,
+dagster_test_v3_0660,Delayed and mishandled parcel 660,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 660.,negative,1,0,0,negative,,
+dagster_test_v3_0661,Outstanding support experience 661,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 661.,positive,0,1,0,,positive,
+dagster_test_v3_0662,Ordinary help desk experience 662,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 662.,neutral,0,1,0,,neutral,
+dagster_test_v3_0663,Disappointing help desk 663,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 663.,negative,0,1,0,,negative,
+dagster_test_v3_0664,Top notch quality 664,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 664.",positive,0,0,1,,,positive
+dagster_test_v3_0665,Reasonable product experience 665,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 665.",neutral,0,0,1,,,neutral
+dagster_test_v3_0666,Faulty and flimsy product 666,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 666.,negative,0,0,1,,,negative
+dagster_test_v3_0667,Speedy and reliable shipping 667,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 667.,positive,1,0,0,positive,,
+dagster_test_v3_0668,Ordinary delivery process 668,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 668.",neutral,1,0,0,neutral,,
+dagster_test_v3_0669,Unreliable courier service 669,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 669.,negative,1,0,0,negative,,
+dagster_test_v3_0670,Great help from the support team 670,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 670.,positive,0,1,0,,positive,
+dagster_test_v3_0671,Typical service interaction 671,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 671.,neutral,0,1,0,,neutral,
+dagster_test_v3_0672,Ineffective customer service 672,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 672.,negative,0,1,0,,negative,
+dagster_test_v3_0673,Great value product 673,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 673.,positive,0,0,1,,,positive
+dagster_test_v3_0674,Fair product for the price 674,The product functions as intended with an average build quality. This is deterministic pipeline test case 674.,neutral,0,0,1,,,neutral
+dagster_test_v3_0675,Underwhelming product experience 675,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 675.,negative,0,0,1,,,negative
+dagster_test_v3_0676,Fast and careful delivery 676,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 676.,positive,1,0,0,positive,,
+dagster_test_v3_0677,Delivery completed as planned 677,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 677.,neutral,1,0,0,neutral,,
+dagster_test_v3_0678,Late and damaged delivery 678,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 678.,negative,1,0,0,negative,,
+dagster_test_v3_0679,Helpful customer support 679,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 679.,positive,0,1,0,,positive,
+dagster_test_v3_0680,Standard support interaction 680,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 680.,neutral,0,1,0,,neutral,
+dagster_test_v3_0681,Unresponsive customer support 681,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 681.,negative,0,1,0,,negative,
+dagster_test_v3_0682,Excellent product quality 682,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 682.,positive,0,0,1,,,positive
+dagster_test_v3_0683,Product matches the description 683,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 683.,neutral,0,0,1,,,neutral
+dagster_test_v3_0684,Disappointing product quality 684,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 684.,negative,0,0,1,,,negative
+dagster_test_v3_0685,Impressively quick shipping 685,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 685.,positive,1,0,0,positive,,
+dagster_test_v3_0686,Standard shipping experience 686,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 686.,neutral,1,0,0,neutral,,
+dagster_test_v3_0687,Disappointing shipping delay 687,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 687.,negative,1,0,0,negative,,
+dagster_test_v3_0688,Excellent after-sales service 688,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 688.,positive,0,1,0,,positive,
+dagster_test_v3_0689,Average customer service 689,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 689.,neutral,0,1,0,,neutral,
+dagster_test_v3_0690,Frustrating support experience 690,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 690.,negative,0,1,0,,negative,
+dagster_test_v3_0691,Impressive build quality 691,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 691.,positive,0,0,1,,,positive
+dagster_test_v3_0692,Decent product overall 692,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 692.",neutral,0,0,1,,,neutral
+dagster_test_v3_0693,Poor build quality 693,The item broke within days and feels cheaply made. This is deterministic pipeline test case 693.,negative,0,0,1,,,negative
+dagster_test_v3_0694,Great delivery experience 694,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 694.,positive,1,0,0,positive,,
+dagster_test_v3_0695,Delivery as expected 695,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 695.",neutral,1,0,0,neutral,,
+dagster_test_v3_0696,Poor delivery handling 696,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 696.,negative,1,0,0,negative,,
+dagster_test_v3_0697,Responsive and courteous support 697,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 697.,positive,0,1,0,,positive,
+dagster_test_v3_0698,Routine support experience 698,The agent handled my request adequately without major issues. This is deterministic pipeline test case 698.,neutral,0,1,0,,neutral,
+dagster_test_v3_0699,Poor after-sales service 699,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 699.,negative,0,1,0,,negative,
+dagster_test_v3_0700,Very satisfied with the product 700,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 700.,positive,0,0,1,,,positive
+dagster_test_v3_0701,Adequate quality product 701,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 701.,neutral,0,0,1,,,neutral
+dagster_test_v3_0702,Not worth the price 702,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 702.,negative,0,0,1,,,negative
+dagster_test_v3_0703,On time and well packed 703,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 703.",positive,1,0,0,positive,,
+dagster_test_v3_0704,Average delivery timing 704,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 704.,neutral,1,0,0,neutral,,
+dagster_test_v3_0705,Delayed and mishandled parcel 705,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 705.,negative,1,0,0,negative,,
+dagster_test_v3_0706,Outstanding support experience 706,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 706.,positive,0,1,0,,positive,
+dagster_test_v3_0707,Ordinary help desk experience 707,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 707.,neutral,0,1,0,,neutral,
+dagster_test_v3_0708,Disappointing help desk 708,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 708.,negative,0,1,0,,negative,
+dagster_test_v3_0709,Top notch quality 709,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 709.",positive,0,0,1,,,positive
+dagster_test_v3_0710,Reasonable product experience 710,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 710.",neutral,0,0,1,,,neutral
+dagster_test_v3_0711,Faulty and flimsy product 711,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 711.,negative,0,0,1,,,negative
+dagster_test_v3_0712,Speedy and reliable shipping 712,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 712.,positive,1,0,0,positive,,
+dagster_test_v3_0713,Ordinary delivery process 713,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 713.",neutral,1,0,0,neutral,,
+dagster_test_v3_0714,Unreliable courier service 714,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 714.,negative,1,0,0,negative,,
+dagster_test_v3_0715,Great help from the support team 715,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 715.,positive,0,1,0,,positive,
+dagster_test_v3_0716,Typical service interaction 716,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 716.,neutral,0,1,0,,neutral,
+dagster_test_v3_0717,Ineffective customer service 717,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 717.,negative,0,1,0,,negative,
+dagster_test_v3_0718,Great value product 718,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 718.,positive,0,0,1,,,positive
+dagster_test_v3_0719,Fair product for the price 719,The product functions as intended with an average build quality. This is deterministic pipeline test case 719.,neutral,0,0,1,,,neutral
+dagster_test_v3_0720,Underwhelming product experience 720,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 720.,negative,0,0,1,,,negative
+dagster_test_v3_0721,Fast and careful delivery 721,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 721.,positive,1,0,0,positive,,
+dagster_test_v3_0722,Delivery completed as planned 722,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 722.,neutral,1,0,0,neutral,,
+dagster_test_v3_0723,Late and damaged delivery 723,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 723.,negative,1,0,0,negative,,
+dagster_test_v3_0724,Helpful customer support 724,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 724.,positive,0,1,0,,positive,
+dagster_test_v3_0725,Standard support interaction 725,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 725.,neutral,0,1,0,,neutral,
+dagster_test_v3_0726,Unresponsive customer support 726,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 726.,negative,0,1,0,,negative,
+dagster_test_v3_0727,Excellent product quality 727,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 727.,positive,0,0,1,,,positive
+dagster_test_v3_0728,Product matches the description 728,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 728.,neutral,0,0,1,,,neutral
+dagster_test_v3_0729,Disappointing product quality 729,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 729.,negative,0,0,1,,,negative
+dagster_test_v3_0730,Impressively quick shipping 730,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 730.,positive,1,0,0,positive,,
+dagster_test_v3_0731,Standard shipping experience 731,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 731.,neutral,1,0,0,neutral,,
+dagster_test_v3_0732,Disappointing shipping delay 732,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 732.,negative,1,0,0,negative,,
+dagster_test_v3_0733,Excellent after-sales service 733,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 733.,positive,0,1,0,,positive,
+dagster_test_v3_0734,Average customer service 734,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 734.,neutral,0,1,0,,neutral,
+dagster_test_v3_0735,Frustrating support experience 735,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 735.,negative,0,1,0,,negative,
+dagster_test_v3_0736,Impressive build quality 736,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 736.,positive,0,0,1,,,positive
+dagster_test_v3_0737,Decent product overall 737,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 737.",neutral,0,0,1,,,neutral
+dagster_test_v3_0738,Poor build quality 738,The item broke within days and feels cheaply made. This is deterministic pipeline test case 738.,negative,0,0,1,,,negative
+dagster_test_v3_0739,Great delivery experience 739,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 739.,positive,1,0,0,positive,,
+dagster_test_v3_0740,Delivery as expected 740,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 740.",neutral,1,0,0,neutral,,
+dagster_test_v3_0741,Poor delivery handling 741,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 741.,negative,1,0,0,negative,,
+dagster_test_v3_0742,Responsive and courteous support 742,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 742.,positive,0,1,0,,positive,
+dagster_test_v3_0743,Routine support experience 743,The agent handled my request adequately without major issues. This is deterministic pipeline test case 743.,neutral,0,1,0,,neutral,
+dagster_test_v3_0744,Poor after-sales service 744,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 744.,negative,0,1,0,,negative,
+dagster_test_v3_0745,Very satisfied with the product 745,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 745.,positive,0,0,1,,,positive
+dagster_test_v3_0746,Adequate quality product 746,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 746.,neutral,0,0,1,,,neutral
+dagster_test_v3_0747,Not worth the price 747,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 747.,negative,0,0,1,,,negative
+dagster_test_v3_0748,On time and well packed 748,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 748.",positive,1,0,0,positive,,
+dagster_test_v3_0749,Average delivery timing 749,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 749.,neutral,1,0,0,neutral,,
+dagster_test_v3_0750,Delayed and mishandled parcel 750,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 750.,negative,1,0,0,negative,,
+dagster_test_v3_0751,Outstanding support experience 751,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 751.,positive,0,1,0,,positive,
+dagster_test_v3_0752,Ordinary help desk experience 752,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 752.,neutral,0,1,0,,neutral,
+dagster_test_v3_0753,Disappointing help desk 753,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 753.,negative,0,1,0,,negative,
+dagster_test_v3_0754,Top notch quality 754,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 754.",positive,0,0,1,,,positive
+dagster_test_v3_0755,Reasonable product experience 755,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 755.",neutral,0,0,1,,,neutral
+dagster_test_v3_0756,Faulty and flimsy product 756,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 756.,negative,0,0,1,,,negative
+dagster_test_v3_0757,Speedy and reliable shipping 757,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 757.,positive,1,0,0,positive,,
+dagster_test_v3_0758,Ordinary delivery process 758,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 758.",neutral,1,0,0,neutral,,
+dagster_test_v3_0759,Unreliable courier service 759,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 759.,negative,1,0,0,negative,,
+dagster_test_v3_0760,Great help from the support team 760,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 760.,positive,0,1,0,,positive,
+dagster_test_v3_0761,Typical service interaction 761,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 761.,neutral,0,1,0,,neutral,
+dagster_test_v3_0762,Ineffective customer service 762,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 762.,negative,0,1,0,,negative,
+dagster_test_v3_0763,Great value product 763,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 763.,positive,0,0,1,,,positive
+dagster_test_v3_0764,Fair product for the price 764,The product functions as intended with an average build quality. This is deterministic pipeline test case 764.,neutral,0,0,1,,,neutral
+dagster_test_v3_0765,Underwhelming product experience 765,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 765.,negative,0,0,1,,,negative
+dagster_test_v3_0766,Fast and careful delivery 766,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 766.,positive,1,0,0,positive,,
+dagster_test_v3_0767,Delivery completed as planned 767,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 767.,neutral,1,0,0,neutral,,
+dagster_test_v3_0768,Late and damaged delivery 768,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 768.,negative,1,0,0,negative,,
+dagster_test_v3_0769,Helpful customer support 769,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 769.,positive,0,1,0,,positive,
+dagster_test_v3_0770,Standard support interaction 770,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 770.,neutral,0,1,0,,neutral,
+dagster_test_v3_0771,Unresponsive customer support 771,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 771.,negative,0,1,0,,negative,
+dagster_test_v3_0772,Excellent product quality 772,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 772.,positive,0,0,1,,,positive
+dagster_test_v3_0773,Product matches the description 773,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 773.,neutral,0,0,1,,,neutral
+dagster_test_v3_0774,Disappointing product quality 774,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 774.,negative,0,0,1,,,negative
+dagster_test_v3_0775,Impressively quick shipping 775,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 775.,positive,1,0,0,positive,,
+dagster_test_v3_0776,Standard shipping experience 776,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 776.,neutral,1,0,0,neutral,,
+dagster_test_v3_0777,Disappointing shipping delay 777,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 777.,negative,1,0,0,negative,,
+dagster_test_v3_0778,Excellent after-sales service 778,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 778.,positive,0,1,0,,positive,
+dagster_test_v3_0779,Average customer service 779,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 779.,neutral,0,1,0,,neutral,
+dagster_test_v3_0780,Frustrating support experience 780,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 780.,negative,0,1,0,,negative,
+dagster_test_v3_0781,Impressive build quality 781,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 781.,positive,0,0,1,,,positive
+dagster_test_v3_0782,Decent product overall 782,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 782.",neutral,0,0,1,,,neutral
+dagster_test_v3_0783,Poor build quality 783,The item broke within days and feels cheaply made. This is deterministic pipeline test case 783.,negative,0,0,1,,,negative
+dagster_test_v3_0784,Great delivery experience 784,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 784.,positive,1,0,0,positive,,
+dagster_test_v3_0785,Delivery as expected 785,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 785.",neutral,1,0,0,neutral,,
+dagster_test_v3_0786,Poor delivery handling 786,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 786.,negative,1,0,0,negative,,
+dagster_test_v3_0787,Responsive and courteous support 787,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 787.,positive,0,1,0,,positive,
+dagster_test_v3_0788,Routine support experience 788,The agent handled my request adequately without major issues. This is deterministic pipeline test case 788.,neutral,0,1,0,,neutral,
+dagster_test_v3_0789,Poor after-sales service 789,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 789.,negative,0,1,0,,negative,
+dagster_test_v3_0790,Very satisfied with the product 790,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 790.,positive,0,0,1,,,positive
+dagster_test_v3_0791,Adequate quality product 791,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 791.,neutral,0,0,1,,,neutral
+dagster_test_v3_0792,Not worth the price 792,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 792.,negative,0,0,1,,,negative
+dagster_test_v3_0793,On time and well packed 793,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 793.",positive,1,0,0,positive,,
+dagster_test_v3_0794,Average delivery timing 794,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 794.,neutral,1,0,0,neutral,,
+dagster_test_v3_0795,Delayed and mishandled parcel 795,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 795.,negative,1,0,0,negative,,
+dagster_test_v3_0796,Outstanding support experience 796,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 796.,positive,0,1,0,,positive,
+dagster_test_v3_0797,Ordinary help desk experience 797,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 797.,neutral,0,1,0,,neutral,
+dagster_test_v3_0798,Disappointing help desk 798,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 798.,negative,0,1,0,,negative,
+dagster_test_v3_0799,Top notch quality 799,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 799.",positive,0,0,1,,,positive
+dagster_test_v3_0800,Reasonable product experience 800,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 800.",neutral,0,0,1,,,neutral
+dagster_test_v3_0801,Faulty and flimsy product 801,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 801.,negative,0,0,1,,,negative
+dagster_test_v3_0802,Speedy and reliable shipping 802,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 802.,positive,1,0,0,positive,,
+dagster_test_v3_0803,Ordinary delivery process 803,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 803.",neutral,1,0,0,neutral,,
+dagster_test_v3_0804,Unreliable courier service 804,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 804.,negative,1,0,0,negative,,
+dagster_test_v3_0805,Great help from the support team 805,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 805.,positive,0,1,0,,positive,
+dagster_test_v3_0806,Typical service interaction 806,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 806.,neutral,0,1,0,,neutral,
+dagster_test_v3_0807,Ineffective customer service 807,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 807.,negative,0,1,0,,negative,
+dagster_test_v3_0808,Great value product 808,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 808.,positive,0,0,1,,,positive
+dagster_test_v3_0809,Fair product for the price 809,The product functions as intended with an average build quality. This is deterministic pipeline test case 809.,neutral,0,0,1,,,neutral
+dagster_test_v3_0810,Underwhelming product experience 810,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 810.,negative,0,0,1,,,negative
+dagster_test_v3_0811,Fast and careful delivery 811,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 811.,positive,1,0,0,positive,,
+dagster_test_v3_0812,Delivery completed as planned 812,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 812.,neutral,1,0,0,neutral,,
+dagster_test_v3_0813,Late and damaged delivery 813,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 813.,negative,1,0,0,negative,,
+dagster_test_v3_0814,Helpful customer support 814,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 814.,positive,0,1,0,,positive,
+dagster_test_v3_0815,Standard support interaction 815,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 815.,neutral,0,1,0,,neutral,
+dagster_test_v3_0816,Unresponsive customer support 816,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 816.,negative,0,1,0,,negative,
+dagster_test_v3_0817,Excellent product quality 817,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 817.,positive,0,0,1,,,positive
+dagster_test_v3_0818,Product matches the description 818,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 818.,neutral,0,0,1,,,neutral
+dagster_test_v3_0819,Disappointing product quality 819,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 819.,negative,0,0,1,,,negative
+dagster_test_v3_0820,Impressively quick shipping 820,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 820.,positive,1,0,0,positive,,
+dagster_test_v3_0821,Standard shipping experience 821,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 821.,neutral,1,0,0,neutral,,
+dagster_test_v3_0822,Disappointing shipping delay 822,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 822.,negative,1,0,0,negative,,
+dagster_test_v3_0823,Excellent after-sales service 823,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 823.,positive,0,1,0,,positive,
+dagster_test_v3_0824,Average customer service 824,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 824.,neutral,0,1,0,,neutral,
+dagster_test_v3_0825,Frustrating support experience 825,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 825.,negative,0,1,0,,negative,
+dagster_test_v3_0826,Impressive build quality 826,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 826.,positive,0,0,1,,,positive
+dagster_test_v3_0827,Decent product overall 827,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 827.",neutral,0,0,1,,,neutral
+dagster_test_v3_0828,Poor build quality 828,The item broke within days and feels cheaply made. This is deterministic pipeline test case 828.,negative,0,0,1,,,negative
+dagster_test_v3_0829,Great delivery experience 829,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 829.,positive,1,0,0,positive,,
+dagster_test_v3_0830,Delivery as expected 830,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 830.",neutral,1,0,0,neutral,,
+dagster_test_v3_0831,Poor delivery handling 831,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 831.,negative,1,0,0,negative,,
+dagster_test_v3_0832,Responsive and courteous support 832,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 832.,positive,0,1,0,,positive,
+dagster_test_v3_0833,Routine support experience 833,The agent handled my request adequately without major issues. This is deterministic pipeline test case 833.,neutral,0,1,0,,neutral,
+dagster_test_v3_0834,Poor after-sales service 834,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 834.,negative,0,1,0,,negative,
+dagster_test_v3_0835,Very satisfied with the product 835,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 835.,positive,0,0,1,,,positive
+dagster_test_v3_0836,Adequate quality product 836,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 836.,neutral,0,0,1,,,neutral
+dagster_test_v3_0837,Not worth the price 837,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 837.,negative,0,0,1,,,negative
+dagster_test_v3_0838,On time and well packed 838,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 838.",positive,1,0,0,positive,,
+dagster_test_v3_0839,Average delivery timing 839,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 839.,neutral,1,0,0,neutral,,
+dagster_test_v3_0840,Delayed and mishandled parcel 840,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 840.,negative,1,0,0,negative,,
+dagster_test_v3_0841,Outstanding support experience 841,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 841.,positive,0,1,0,,positive,
+dagster_test_v3_0842,Ordinary help desk experience 842,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 842.,neutral,0,1,0,,neutral,
+dagster_test_v3_0843,Disappointing help desk 843,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 843.,negative,0,1,0,,negative,
+dagster_test_v3_0844,Top notch quality 844,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 844.",positive,0,0,1,,,positive
+dagster_test_v3_0845,Reasonable product experience 845,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 845.",neutral,0,0,1,,,neutral
+dagster_test_v3_0846,Faulty and flimsy product 846,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 846.,negative,0,0,1,,,negative
+dagster_test_v3_0847,Speedy and reliable shipping 847,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 847.,positive,1,0,0,positive,,
+dagster_test_v3_0848,Ordinary delivery process 848,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 848.",neutral,1,0,0,neutral,,
+dagster_test_v3_0849,Unreliable courier service 849,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 849.,negative,1,0,0,negative,,
+dagster_test_v3_0850,Great help from the support team 850,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 850.,positive,0,1,0,,positive,
+dagster_test_v3_0851,Typical service interaction 851,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 851.,neutral,0,1,0,,neutral,
+dagster_test_v3_0852,Ineffective customer service 852,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 852.,negative,0,1,0,,negative,
+dagster_test_v3_0853,Great value product 853,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 853.,positive,0,0,1,,,positive
+dagster_test_v3_0854,Fair product for the price 854,The product functions as intended with an average build quality. This is deterministic pipeline test case 854.,neutral,0,0,1,,,neutral
+dagster_test_v3_0855,Underwhelming product experience 855,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 855.,negative,0,0,1,,,negative
+dagster_test_v3_0856,Fast and careful delivery 856,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 856.,positive,1,0,0,positive,,
+dagster_test_v3_0857,Delivery completed as planned 857,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 857.,neutral,1,0,0,neutral,,
+dagster_test_v3_0858,Late and damaged delivery 858,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 858.,negative,1,0,0,negative,,
+dagster_test_v3_0859,Helpful customer support 859,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 859.,positive,0,1,0,,positive,
+dagster_test_v3_0860,Standard support interaction 860,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 860.,neutral,0,1,0,,neutral,
+dagster_test_v3_0861,Unresponsive customer support 861,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 861.,negative,0,1,0,,negative,
+dagster_test_v3_0862,Excellent product quality 862,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 862.,positive,0,0,1,,,positive
+dagster_test_v3_0863,Product matches the description 863,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 863.,neutral,0,0,1,,,neutral
+dagster_test_v3_0864,Disappointing product quality 864,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 864.,negative,0,0,1,,,negative
+dagster_test_v3_0865,Impressively quick shipping 865,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 865.,positive,1,0,0,positive,,
+dagster_test_v3_0866,Standard shipping experience 866,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 866.,neutral,1,0,0,neutral,,
+dagster_test_v3_0867,Disappointing shipping delay 867,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 867.,negative,1,0,0,negative,,
+dagster_test_v3_0868,Excellent after-sales service 868,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 868.,positive,0,1,0,,positive,
+dagster_test_v3_0869,Average customer service 869,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 869.,neutral,0,1,0,,neutral,
+dagster_test_v3_0870,Frustrating support experience 870,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 870.,negative,0,1,0,,negative,
+dagster_test_v3_0871,Impressive build quality 871,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 871.,positive,0,0,1,,,positive
+dagster_test_v3_0872,Decent product overall 872,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 872.",neutral,0,0,1,,,neutral
+dagster_test_v3_0873,Poor build quality 873,The item broke within days and feels cheaply made. This is deterministic pipeline test case 873.,negative,0,0,1,,,negative
+dagster_test_v3_0874,Great delivery experience 874,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 874.,positive,1,0,0,positive,,
+dagster_test_v3_0875,Delivery as expected 875,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 875.",neutral,1,0,0,neutral,,
+dagster_test_v3_0876,Poor delivery handling 876,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 876.,negative,1,0,0,negative,,
+dagster_test_v3_0877,Responsive and courteous support 877,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 877.,positive,0,1,0,,positive,
+dagster_test_v3_0878,Routine support experience 878,The agent handled my request adequately without major issues. This is deterministic pipeline test case 878.,neutral,0,1,0,,neutral,
+dagster_test_v3_0879,Poor after-sales service 879,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 879.,negative,0,1,0,,negative,
+dagster_test_v3_0880,Very satisfied with the product 880,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 880.,positive,0,0,1,,,positive
+dagster_test_v3_0881,Adequate quality product 881,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 881.,neutral,0,0,1,,,neutral
+dagster_test_v3_0882,Not worth the price 882,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 882.,negative,0,0,1,,,negative
+dagster_test_v3_0883,On time and well packed 883,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 883.",positive,1,0,0,positive,,
+dagster_test_v3_0884,Average delivery timing 884,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 884.,neutral,1,0,0,neutral,,
+dagster_test_v3_0885,Delayed and mishandled parcel 885,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 885.,negative,1,0,0,negative,,
+dagster_test_v3_0886,Outstanding support experience 886,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 886.,positive,0,1,0,,positive,
+dagster_test_v3_0887,Ordinary help desk experience 887,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 887.,neutral,0,1,0,,neutral,
+dagster_test_v3_0888,Disappointing help desk 888,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 888.,negative,0,1,0,,negative,
+dagster_test_v3_0889,Top notch quality 889,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 889.",positive,0,0,1,,,positive
+dagster_test_v3_0890,Reasonable product experience 890,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 890.",neutral,0,0,1,,,neutral
+dagster_test_v3_0891,Faulty and flimsy product 891,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 891.,negative,0,0,1,,,negative
+dagster_test_v3_0892,Speedy and reliable shipping 892,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 892.,positive,1,0,0,positive,,
+dagster_test_v3_0893,Ordinary delivery process 893,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 893.",neutral,1,0,0,neutral,,
+dagster_test_v3_0894,Unreliable courier service 894,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 894.,negative,1,0,0,negative,,
+dagster_test_v3_0895,Great help from the support team 895,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 895.,positive,0,1,0,,positive,
+dagster_test_v3_0896,Typical service interaction 896,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 896.,neutral,0,1,0,,neutral,
+dagster_test_v3_0897,Ineffective customer service 897,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 897.,negative,0,1,0,,negative,
+dagster_test_v3_0898,Great value product 898,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 898.,positive,0,0,1,,,positive
+dagster_test_v3_0899,Fair product for the price 899,The product functions as intended with an average build quality. This is deterministic pipeline test case 899.,neutral,0,0,1,,,neutral
+dagster_test_v3_0900,Underwhelming product experience 900,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 900.,negative,0,0,1,,,negative
+dagster_test_v3_0901,Fast and careful delivery 901,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 901.,positive,1,0,0,positive,,
+dagster_test_v3_0902,Delivery completed as planned 902,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 902.,neutral,1,0,0,neutral,,
+dagster_test_v3_0903,Late and damaged delivery 903,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 903.,negative,1,0,0,negative,,
+dagster_test_v3_0904,Helpful customer support 904,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 904.,positive,0,1,0,,positive,
+dagster_test_v3_0905,Standard support interaction 905,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 905.,neutral,0,1,0,,neutral,
+dagster_test_v3_0906,Unresponsive customer support 906,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 906.,negative,0,1,0,,negative,
+dagster_test_v3_0907,Excellent product quality 907,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 907.,positive,0,0,1,,,positive
+dagster_test_v3_0908,Product matches the description 908,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 908.,neutral,0,0,1,,,neutral
+dagster_test_v3_0909,Disappointing product quality 909,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 909.,negative,0,0,1,,,negative
+dagster_test_v3_0910,Impressively quick shipping 910,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 910.,positive,1,0,0,positive,,
+dagster_test_v3_0911,Standard shipping experience 911,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 911.,neutral,1,0,0,neutral,,
+dagster_test_v3_0912,Disappointing shipping delay 912,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 912.,negative,1,0,0,negative,,
+dagster_test_v3_0913,Excellent after-sales service 913,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 913.,positive,0,1,0,,positive,
+dagster_test_v3_0914,Average customer service 914,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 914.,neutral,0,1,0,,neutral,
+dagster_test_v3_0915,Frustrating support experience 915,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 915.,negative,0,1,0,,negative,
+dagster_test_v3_0916,Impressive build quality 916,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 916.,positive,0,0,1,,,positive
+dagster_test_v3_0917,Decent product overall 917,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 917.",neutral,0,0,1,,,neutral
+dagster_test_v3_0918,Poor build quality 918,The item broke within days and feels cheaply made. This is deterministic pipeline test case 918.,negative,0,0,1,,,negative
+dagster_test_v3_0919,Great delivery experience 919,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 919.,positive,1,0,0,positive,,
+dagster_test_v3_0920,Delivery as expected 920,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 920.",neutral,1,0,0,neutral,,
+dagster_test_v3_0921,Poor delivery handling 921,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 921.,negative,1,0,0,negative,,
+dagster_test_v3_0922,Responsive and courteous support 922,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 922.,positive,0,1,0,,positive,
+dagster_test_v3_0923,Routine support experience 923,The agent handled my request adequately without major issues. This is deterministic pipeline test case 923.,neutral,0,1,0,,neutral,
+dagster_test_v3_0924,Poor after-sales service 924,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 924.,negative,0,1,0,,negative,
+dagster_test_v3_0925,Very satisfied with the product 925,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 925.,positive,0,0,1,,,positive
+dagster_test_v3_0926,Adequate quality product 926,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 926.,neutral,0,0,1,,,neutral
+dagster_test_v3_0927,Not worth the price 927,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 927.,negative,0,0,1,,,negative
+dagster_test_v3_0928,On time and well packed 928,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 928.",positive,1,0,0,positive,,
+dagster_test_v3_0929,Average delivery timing 929,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 929.,neutral,1,0,0,neutral,,
+dagster_test_v3_0930,Delayed and mishandled parcel 930,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 930.,negative,1,0,0,negative,,
+dagster_test_v3_0931,Outstanding support experience 931,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 931.,positive,0,1,0,,positive,
+dagster_test_v3_0932,Ordinary help desk experience 932,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 932.,neutral,0,1,0,,neutral,
+dagster_test_v3_0933,Disappointing help desk 933,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 933.,negative,0,1,0,,negative,
+dagster_test_v3_0934,Top notch quality 934,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 934.",positive,0,0,1,,,positive
+dagster_test_v3_0935,Reasonable product experience 935,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 935.",neutral,0,0,1,,,neutral
+dagster_test_v3_0936,Faulty and flimsy product 936,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 936.,negative,0,0,1,,,negative
+dagster_test_v3_0937,Speedy and reliable shipping 937,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 937.,positive,1,0,0,positive,,
+dagster_test_v3_0938,Ordinary delivery process 938,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 938.",neutral,1,0,0,neutral,,
+dagster_test_v3_0939,Unreliable courier service 939,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 939.,negative,1,0,0,negative,,
+dagster_test_v3_0940,Great help from the support team 940,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 940.,positive,0,1,0,,positive,
+dagster_test_v3_0941,Typical service interaction 941,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 941.,neutral,0,1,0,,neutral,
+dagster_test_v3_0942,Ineffective customer service 942,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 942.,negative,0,1,0,,negative,
+dagster_test_v3_0943,Great value product 943,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 943.,positive,0,0,1,,,positive
+dagster_test_v3_0944,Fair product for the price 944,The product functions as intended with an average build quality. This is deterministic pipeline test case 944.,neutral,0,0,1,,,neutral
+dagster_test_v3_0945,Underwhelming product experience 945,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 945.,negative,0,0,1,,,negative
+dagster_test_v3_0946,Fast and careful delivery 946,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 946.,positive,1,0,0,positive,,
+dagster_test_v3_0947,Delivery completed as planned 947,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 947.,neutral,1,0,0,neutral,,
+dagster_test_v3_0948,Late and damaged delivery 948,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 948.,negative,1,0,0,negative,,
+dagster_test_v3_0949,Helpful customer support 949,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 949.,positive,0,1,0,,positive,
+dagster_test_v3_0950,Standard support interaction 950,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 950.,neutral,0,1,0,,neutral,
+dagster_test_v3_0951,Unresponsive customer support 951,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 951.,negative,0,1,0,,negative,
+dagster_test_v3_0952,Excellent product quality 952,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 952.,positive,0,0,1,,,positive
+dagster_test_v3_0953,Product matches the description 953,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 953.,neutral,0,0,1,,,neutral
+dagster_test_v3_0954,Disappointing product quality 954,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 954.,negative,0,0,1,,,negative
+dagster_test_v3_0955,Impressively quick shipping 955,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 955.,positive,1,0,0,positive,,
+dagster_test_v3_0956,Standard shipping experience 956,The order arrived within the expected window without any notable issues. This is deterministic pipeline test case 956.,neutral,1,0,0,neutral,,
+dagster_test_v3_0957,Disappointing shipping delay 957,My order took much longer than promised and the box was crushed. This is deterministic pipeline test case 957.,negative,1,0,0,negative,,
+dagster_test_v3_0958,Excellent after-sales service 958,Customer service resolved my issue in one call and followed up promptly. This is deterministic pipeline test case 958.,positive,0,1,0,,positive,
+dagster_test_v3_0959,Average customer service 959,The support response was acceptable though it took a bit of time. This is deterministic pipeline test case 959.,neutral,0,1,0,,neutral,
+dagster_test_v3_0960,Frustrating support experience 960,I waited days for a reply and the issue was never properly fixed. This is deterministic pipeline test case 960.,negative,0,1,0,,negative,
+dagster_test_v3_0961,Impressive build quality 961,The item exceeded my expectations with solid construction and great finish. This is deterministic pipeline test case 961.,positive,0,0,1,,,positive
+dagster_test_v3_0962,Decent product overall 962,"It does the job as expected, nothing outstanding but no complaints either. This is deterministic pipeline test case 962.",neutral,0,0,1,,,neutral
+dagster_test_v3_0963,Poor build quality 963,The item broke within days and feels cheaply made. This is deterministic pipeline test case 963.,negative,0,0,1,,,negative
+dagster_test_v3_0964,Great delivery experience 964,The courier was friendly and the box arrived in perfect condition. This is deterministic pipeline test case 964.,positive,1,0,0,positive,,
+dagster_test_v3_0965,Delivery as expected 965,"Nothing special to report, the package arrived on the scheduled date. This is deterministic pipeline test case 965.",neutral,1,0,0,neutral,,
+dagster_test_v3_0966,Poor delivery handling 966,The package was left in the rain and the tracking updates were misleading. This is deterministic pipeline test case 966.,negative,1,0,0,negative,,
+dagster_test_v3_0967,Responsive and courteous support 967,The agent was patient and fixed my problem within minutes. This is deterministic pipeline test case 967.,positive,0,1,0,,positive,
+dagster_test_v3_0968,Routine support experience 968,The agent handled my request adequately without major issues. This is deterministic pipeline test case 968.,neutral,0,1,0,,neutral,
+dagster_test_v3_0969,Poor after-sales service 969,The agent was dismissive and my complaint was never actually addressed. This is deterministic pipeline test case 969.,negative,0,1,0,,negative,
+dagster_test_v3_0970,Very satisfied with the product 970,It performs flawlessly and feels premium for the price paid. This is deterministic pipeline test case 970.,positive,0,0,1,,,positive
+dagster_test_v3_0971,Adequate quality product 971,The item works fine and matches what was shown in the listing. This is deterministic pipeline test case 971.,neutral,0,0,1,,,neutral
+dagster_test_v3_0972,Not worth the price 972,Quality is far below expectations and it stopped functioning almost immediately. This is deterministic pipeline test case 972.,negative,0,0,1,,,negative
+dagster_test_v3_0973,On time and well packed 973,"Delivery was smooth, the tracking was accurate, and nothing was damaged. This is deterministic pipeline test case 973.",positive,1,0,0,positive,,
+dagster_test_v3_0974,Average delivery timing 974,Shipping took the usual amount of time and tracking updates were okay. This is deterministic pipeline test case 974.,neutral,1,0,0,neutral,,
+dagster_test_v3_0975,Delayed and mishandled parcel 975,Delivery was two weeks late and the item inside was visibly dented. This is deterministic pipeline test case 975.,negative,1,0,0,negative,,
+dagster_test_v3_0976,Outstanding support experience 976,I received a fast reply with a thorough explanation and a fair resolution. This is deterministic pipeline test case 976.,positive,0,1,0,,positive,
+dagster_test_v3_0977,Ordinary help desk experience 977,Support replied within a normal timeframe and gave a standard answer. This is deterministic pipeline test case 977.,neutral,0,1,0,,neutral,
+dagster_test_v3_0978,Disappointing help desk 978,Multiple emails went unanswered and the eventual reply was unhelpful. This is deterministic pipeline test case 978.,negative,0,1,0,,negative,
+dagster_test_v3_0979,Top notch quality 979,"The product is sturdy, well designed, and works exactly as advertised. This is deterministic pipeline test case 979.",positive,0,0,1,,,positive
+dagster_test_v3_0980,Reasonable product experience 980,"Quality is acceptable, in line with what I paid for it. This is deterministic pipeline test case 980.",neutral,0,0,1,,,neutral
+dagster_test_v3_0981,Faulty and flimsy product 981,The product arrived defective and the materials feel low quality. This is deterministic pipeline test case 981.,negative,0,0,1,,,negative
+dagster_test_v3_0982,Speedy and reliable shipping 982,The item arrived sooner than the estimate with sturdy protective packaging. This is deterministic pipeline test case 982.,positive,1,0,0,positive,,
+dagster_test_v3_0983,Ordinary delivery process 983,"The parcel came within the stated timeframe, packaging was acceptable. This is deterministic pipeline test case 983.",neutral,1,0,0,neutral,,
+dagster_test_v3_0984,Unreliable courier service 984,The parcel never arrived on the promised date and support gave conflicting info. This is deterministic pipeline test case 984.,negative,1,0,0,negative,,
+dagster_test_v3_0985,Great help from the support team 985,The staff went above and beyond to sort out my complaint quickly. This is deterministic pipeline test case 985.,positive,0,1,0,,positive,
+dagster_test_v3_0986,Typical service interaction 986,The team addressed my question in due course with a generic response. This is deterministic pipeline test case 986.,neutral,0,1,0,,neutral,
+dagster_test_v3_0987,Ineffective customer service 987,Support kept redirecting me without ever solving the underlying problem. This is deterministic pipeline test case 987.,negative,0,1,0,,negative,
+dagster_test_v3_0988,Great value product 988,The quality is excellent and it has held up well after regular use. This is deterministic pipeline test case 988.,positive,0,0,1,,,positive
+dagster_test_v3_0989,Fair product for the price 989,The product functions as intended with an average build quality. This is deterministic pipeline test case 989.,neutral,0,0,1,,,neutral
+dagster_test_v3_0990,Underwhelming product experience 990,It failed to work properly and the finish looks poorly assembled. This is deterministic pipeline test case 990.,negative,0,0,1,,,negative
+dagster_test_v3_0991,Fast and careful delivery 991,The parcel arrived earlier than expected and the packaging was clean and secure. This is deterministic pipeline test case 991.,positive,1,0,0,positive,,
+dagster_test_v3_0992,Delivery completed as planned 992,The parcel arrived on the announced day and the tracking information was adequate. This is deterministic pipeline test case 992.,neutral,1,0,0,neutral,,
+dagster_test_v3_0993,Late and damaged delivery 993,The parcel arrived several days late and the outer packaging was damaged on arrival. This is deterministic pipeline test case 993.,negative,1,0,0,negative,,
+dagster_test_v3_0994,Helpful customer support 994,The support team answered quickly and provided a clear solution to my request. This is deterministic pipeline test case 994.,positive,0,1,0,,positive,
+dagster_test_v3_0995,Standard support interaction 995,Customer support answered after a reasonable delay and explained the available options. This is deterministic pipeline test case 995.,neutral,0,1,0,,neutral,
+dagster_test_v3_0996,Unresponsive customer support 996,The support team did not resolve my request and the replies were slow and unclear. This is deterministic pipeline test case 996.,negative,0,1,0,,negative,
+dagster_test_v3_0997,Excellent product quality 997,The product works perfectly and the materials feel durable and well finished. This is deterministic pipeline test case 997.,positive,0,0,1,,,positive
+dagster_test_v3_0998,Product matches the description 998,The product performs as described and the overall quality is acceptable for the price. This is deterministic pipeline test case 998.,neutral,0,0,1,,,neutral
+dagster_test_v3_0999,Disappointing product quality 999,The product stopped working quickly and the materials feel fragile and poorly assembled. This is deterministic pipeline test case 999.,negative,0,0,1,,,negative
+dagster_test_v3_1000,Impressively quick shipping 1000,My order showed up two days ahead of schedule and everything was intact. This is deterministic pipeline test case 1000.,positive,1,0,0,positive,,

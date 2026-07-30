@@ -38,3 +38,4 @@ dist/
 build/
 *.egg-info/
 OLD/
+**/alertmanager.yml
