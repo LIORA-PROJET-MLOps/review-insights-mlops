@@ -1,4 +1,5 @@
 import json
+import shutil
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -272,6 +273,41 @@ def test_deploy_run_model_artifacts_replaces_target_atomically(tmp_path: Path, m
 
     assert deployed == target.resolve()
     assert not (target / "old.txt").exists()
+    assert (target / "manifest.json").read_text(encoding="utf-8") == "new"
+
+
+def test_deploy_keeps_new_target_when_backup_cleanup_is_delayed(tmp_path: Path, monkeypatch):
+    source = tmp_path / "download" / "model"
+    source.mkdir(parents=True)
+    for filename in ARTIFACT_FILENAMES:
+        (source / filename).write_text("new", encoding="utf-8")
+
+    class DownloadClient:
+        def download_artifacts(self, _run_id, _path, _download_root):
+            return str(source)
+
+    monkeypatch.setattr(
+        "src.review_insights.model_registry.load_project_model_artifacts",
+        lambda *_args, **_kwargs: None,
+    )
+    original_rmtree = shutil.rmtree
+
+    def delayed_backup_cleanup(path, *args, **kwargs):
+        if ".models.backup-" in str(path):
+            raise OSError("cleanup delayed")
+        return original_rmtree(path, *args, **kwargs)
+
+    monkeypatch.setattr(
+        "src.review_insights.model_registry.shutil.rmtree",
+        delayed_backup_cleanup,
+    )
+    target = tmp_path / "models"
+    target.mkdir()
+    (target / "old.txt").write_text("old", encoding="utf-8")
+
+    deployed = deploy_run_model_artifacts(DownloadClient(), "run_1", target)
+
+    assert deployed == target.resolve()
     assert (target / "manifest.json").read_text(encoding="utf-8") == "new"
 
 

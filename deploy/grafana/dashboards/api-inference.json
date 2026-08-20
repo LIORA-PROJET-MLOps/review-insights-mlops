@@ -13,7 +13,7 @@
       "fieldConfig": {"defaults": {"mappings": [{"options": {"0": {"color": "red", "text": "DOWN"}, "1": {"color": "green", "text": "UP"}}, "type": "value"}], "thresholds": {"mode": "absolute", "steps": [{"color": "red"}, {"color": "green", "value": 1}]}}},
       "gridPos": {"h": 5, "w": 4, "x": 0, "y": 0},
       "id": 1,
-      "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "center", "textMode": "auto"},
+      "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "center", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto"},
       "targets": [{"expr": "probe_success{instance=\"http://api:8000/health\"}", "refId": "A"}],
       "title": "API inference",
       "type": "stat"

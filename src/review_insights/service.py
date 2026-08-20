@@ -160,7 +160,9 @@ class ReviewAnalysisService:
                 review_text=review_text,
                 review_id=review_id,
                 artifacts=self._artifacts,
-                threshold_override=effective_threshold,
+                # A missing request override must preserve the per-theme thresholds
+                # calibrated during training and stored with the model artifacts.
+                threshold_override=threshold,
             )
         else:
             result = analyze_review(review_text, review_id=review_id, threshold=effective_threshold)

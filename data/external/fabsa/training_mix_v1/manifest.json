@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "fabsa_real_plus_synthetic_train_v1",
+  "seed": 20260820,
+  "sources": [
+    {
+      "kind": "real",
+      "path": "data/external/fabsa/gold_expanded_v1/train.parquet",
+      "rows": 5811
+    },
+    {
+      "kind": "synthetic",
+      "path": "data/splits/scale_balanced_core_15000_v1/train.parquet",
+      "source_rows": 9000,
+      "sampled_rows": 1500
+    },
+    {
+      "kind": "synthetic",
+      "path": "data/splits/scale_noisy_long_tail_15000_v1/train.parquet",
+      "source_rows": 9000,
+      "sampled_rows": 1500
+    },
+    {
+      "kind": "synthetic",
+      "path": "data/splits/scale_multitheme_context_15000_v1/train.parquet",
+      "source_rows": 8999,
+      "sampled_rows": 1500
+    }
+  ],
+  "rows": 10311,
+  "real_rows": 5811,
+  "synthetic_rows": 4500,
+  "duplicate_normalized_texts": 0,
+  "sentiment_distribution": {
+    "negative": 3388,
+    "neutral": 1996,
+    "positive": 4927
+  },
+  "theme_counts": {
+    "livraison": 3297,
+    "sav": 3609,
+    "produit": 7286
+  },
+  "csv_path": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.csv",
+  "csv_sha256": "d8f4771946266fb07416c447eb0087574ad20dd0da88c4ef607d01ecc59f9f4b",
+  "parquet_path": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+  "parquet_sha256": "96fb2e478b666d75fba67f93182fb2f012292d020c5f57023585c56520496cf9",
+  "holdouts": {
+    "validation": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+    "blind_test": "data/external/fabsa/gold_expanded_v1/test.parquet",
+    "holdout_rows_used_in_training": 0
+  }
+}

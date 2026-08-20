@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-08-20T09:27:00+00:00",
+  "decision": {
+    "status": "candidate_rejected_on_independent_reference",
+    "active_champion_version": "7",
+    "candidate_version": "6",
+    "candidate_alias": "candidate",
+    "champion_alias": "champion",
+    "previous_champion_alias": "previous_champion",
+    "reason": "Candidate v6 passed every synthetic scalability gate but failed three theme-quality gates on the independent 40-row historical reference set; the deployment was rolled back to v7."
+  },
+  "data": {
+    "dataset_count": 3,
+    "rows_per_dataset": 15000,
+    "total_rows": 45000,
+    "rows_rejected": 0,
+    "exact_text_leakage": 0,
+    "profiles": [
+      "balanced_core",
+      "noisy_long_tail",
+      "multitheme_context"
+    ]
+  },
+  "model_registry": {
+    "registered_model_name": "review-insights-project-models",
+    "new_versions": [
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "trained_candidate_versions": [
+      "4",
+      "5",
+      "6"
+    ],
+    "active_champion_version": "7",
+    "candidate_version": "6",
+    "run_ids": {
+      "4": "03340e960f9645bfa5783cdafc72ea71",
+      "5": "3866beb6b39a4d05a5c8fc50d234c89b",
+      "6": "b32ef6128cda40759dd1d0f4e30b3083",
+      "7": "8fd1a2f9f73f46b0aed2f797da2b002d"
+    }
+  },
+  "synthetic_benchmark": {
+    "composite_test_rows": 11249,
+    "selected_candidate_version": "6",
+    "selected_candidate_profile": "multitheme_context",
+    "robustness_score": 1.0,
+    "sentiment_accuracy": 1.0,
+    "sentiment_macro_f1": 1.0,
+    "theme_exact_match": 1.0,
+    "theme_precision_macro": 1.0,
+    "theme_recall_macro": 1.0,
+    "theme_f1_macro": 1.0,
+    "human_review_rate": 0.0
+  },
+  "independent_reference": {
+    "rows": 40,
+    "candidate_v6": {
+      "sentiment_accuracy": 0.625,
+      "sentiment_macro_f1": 0.5229,
+      "theme_exact_match": 0.525,
+      "theme_precision_macro": 0.7199,
+      "theme_recall_macro": 0.9694,
+      "theme_f1_macro": 0.8235,
+      "human_review_rate": 0.15,
+      "gate_status": "rejected",
+      "failed_checks": [
+        "minimum_theme_exact_match",
+        "minimum_theme_precision_macro",
+        "minimum_theme_f1_macro"
+      ]
+    },
+    "champion_v7": {
+      "sentiment_accuracy": 0.575,
+      "sentiment_macro_f1": 0.5111,
+      "theme_exact_match": 0.675,
+      "theme_precision_macro": 0.8787,
+      "theme_recall_macro": 0.8972,
+      "theme_f1_macro": 0.8877,
+      "human_review_rate": 0.525,
+      "gate_status": "approved"
+    }
+  },
+  "verification": {
+    "pytest": "119 passed",
+    "targeted_ruff": "passed",
+    "functional_smoke": "10/10 passed",
+    "dagster_definitions": "validated",
+    "dagster_drift_run_id": "2ab97d1d-38b3-44b5-ba08-070e3d3c5043",
+    "grafana_dashboards_checked": 4,
+    "grafana_console_errors": 0,
+    "compose_services_running": 16
+  },
+  "grafana": [
+    {
+      "dashboard": "API",
+      "status": "rendered",
+      "evidence": "API up, request throughput and latency populated, 0% errors, project_models_v1 backend visible."
+    },
+    {
+      "dashboard": "Data and models",
+      "status": "rendered",
+      "evidence": "15,000 valid rows, 0 rejected, candidate metrics and REJETÉ release gate visible, drift and feedback panels populated."
+    },
+    {
+      "dashboard": "Business quality",
+      "status": "rendered",
+      "evidence": "13 analyzed reviews, 46.2% human review, sentiment/theme distributions and backlog panels visible."
+    },
+    {
+      "dashboard": "System and orchestration",
+      "status": "rendered",
+      "evidence": "All configured blackbox targets, CPU/memory panels and orchestration services rendered."
+    }
+  ],
+  "limitations": [
+    "Perfect synthetic scores demonstrate deterministic pipeline behavior and scale handling, not real-world generalization.",
+    "The independent historical reference contains only 40 labeled rows, so it is suitable as a release gate but not as a final scalability estimate.",
+    "The host drift CLI uses a different event store from the containerized monitoring stack; the host report therefore shows insufficient_data while Grafana uses 53 container predictions and 13 feedback events."
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "action": "promotion",
+  "status": "approved_dry_run",
+  "registered_model_name": "review-insights-project-models",
+  "policy": {
+    "policy_version": "2.0.0-real-blind",
+    "registered_model_name": "review-insights-project-models",
+    "candidate_alias": "candidate",
+    "champion_alias": "champion",
+    "previous_champion_alias": "previous_champion",
+    "required_metrics": {
+      "rows": 150.0,
+      "sentiment_accuracy": 0.82,
+      "sentiment_macro_f1": 0.8,
+      "theme_exact_match": 0.62,
+      "theme_precision_macro": 0.85,
+      "theme_recall_macro": 0.78,
+      "theme_f1_macro": 0.82
+    },
+    "max_metric_regression": {},
+    "maximum_metrics": {
+      "human_review_rate": 0.1
+    }
+  },
+  "candidate_version": "8",
+  "champion_version_before": "7",
+  "champion_version_after": "7",
+  "deployed_model_dir": null,
+  "dry_run": true,
+  "gate_report": {
+    "status": "approved",
+    "failed_checks": [],
+    "checks": {
+      "minimum_rows": {
+        "passed": true,
+        "actual": 150.0,
+        "operator": ">=",
+        "threshold": 150.0
+      },
+      "minimum_sentiment_accuracy": {
+        "passed": true,
+        "actual": 0.86,
+        "operator": ">=",
+        "threshold": 0.82
+      },
+      "minimum_sentiment_macro_f1": {
+        "passed": true,
+        "actual": 0.8473,
+        "operator": ">=",
+        "threshold": 0.8
+      },
+      "minimum_theme_exact_match": {
+        "passed": true,
+        "actual": 0.66,
+        "operator": ">=",
+        "threshold": 0.62
+      },
+      "minimum_theme_precision_macro": {
+        "passed": true,
+        "actual": 0.8895,
+        "operator": ">=",
+        "threshold": 0.85
+      },
+      "minimum_theme_recall_macro": {
+        "passed": true,
+        "actual": 0.8032,
+        "operator": ">=",
+        "threshold": 0.78
+      },
+      "minimum_theme_f1_macro": {
+        "passed": true,
+        "actual": 0.8359,
+        "operator": ">=",
+        "threshold": 0.82
+      },
+      "maximum_human_review_rate": {
+        "passed": true,
+        "actual": 0.02,
+        "operator": "<=",
+        "threshold": 0.1
+      }
+    },
+    "candidate_metrics": {
+      "rows": 150.0,
+      "sentiment_accuracy": 0.86,
+      "sentiment_macro_precision": 0.8653,
+      "sentiment_macro_recall": 0.8428,
+      "sentiment_macro_f1": 0.8473,
+      "sentiment_evaluated_rows": 150.0,
+      "theme_exact_match": 0.66,
+      "theme_precision_macro": 0.8895,
+      "theme_recall_macro": 0.8032,
+      "theme_f1_macro": 0.8359,
+      "human_review_rate": 0.02
+    },
+    "champion_metrics": {
+      "rows": 11249.0,
+      "sentiment_accuracy": 0.4948,
+      "sentiment_macro_precision": 0.4389,
+      "sentiment_macro_recall": 0.4706,
+      "sentiment_macro_f1": 0.4296,
+      "sentiment_evaluated_rows": 11249.0,
+      "theme_exact_match": 0.3682,
+      "theme_precision_macro": 0.6884,
+      "theme_recall_macro": 0.8762,
+      "theme_f1_macro": 0.7652,
+      "human_review_rate": 0.664
+    },
+    "bootstrap_promotion": false
+  },
+  "created_at": "2026-08-20T10:27:51.806496+00:00"
+}

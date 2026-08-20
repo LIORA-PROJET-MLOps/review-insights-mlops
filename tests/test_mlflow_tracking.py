@@ -5,7 +5,12 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from src.review_insights.model_backend import ARTIFACT_FILENAMES
-from src.review_insights.mlflow_tracking import _configure_mlflow_console_output, log_evaluation_run, log_training_run
+from src.review_insights.mlflow_tracking import (
+    _configure_mlflow_console_output,
+    _numeric_metrics,
+    log_evaluation_run,
+    log_training_run,
+)
 from src.review_insights.settings import Settings
 
 
@@ -17,6 +22,22 @@ def test_mlflow_console_urls_are_suppressed_by_default(monkeypatch):
 
     assert os.environ["MLFLOW_SUPPRESS_PRINTING_URL_TO_STDOUT"] == "true"
     assert os.environ["MLFLOW_PRINT_MODEL_URLS_ON_CREATION"] == "false"
+
+
+def test_numeric_metrics_include_segmented_benchmark_values():
+    metrics = _numeric_metrics(
+        {
+            "sentiment_accuracy": 0.9,
+            "benchmark_balanced_core_sentiment_accuracy": 0.88,
+            "benchmark_profile_name": "balanced_core",
+            "unrelated_numeric_value": 42,
+        }
+    )
+
+    assert metrics == {
+        "sentiment_accuracy": 0.9,
+        "benchmark_balanced_core_sentiment_accuracy": 0.88,
+    }
 
 
 def test_mlflow_tracking_disabled_returns_status():

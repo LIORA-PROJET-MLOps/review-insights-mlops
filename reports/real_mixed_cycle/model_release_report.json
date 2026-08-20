@@ -1,0 +1,178 @@
+{
+  "status": "approved",
+  "created_at": "2026-08-20T10:26:55.778496+00:00",
+  "evaluation_report_path": "reports/real_mixed_cycle/blind_test_hybrid_lr_c4.json",
+  "promotion_policy_path": "config/model_promotion_policy_poc_real_v2.json",
+  "model_manifest_path": "artifacts/real_mixed_models/hybrid_lr_c4/manifest.json",
+  "gate_report": {
+    "status": "approved",
+    "failed_checks": [],
+    "checks": {
+      "minimum_rows": {
+        "passed": true,
+        "actual": 150.0,
+        "operator": ">=",
+        "threshold": 150.0
+      },
+      "minimum_sentiment_accuracy": {
+        "passed": true,
+        "actual": 0.86,
+        "operator": ">=",
+        "threshold": 0.82
+      },
+      "minimum_sentiment_macro_f1": {
+        "passed": true,
+        "actual": 0.8473,
+        "operator": ">=",
+        "threshold": 0.8
+      },
+      "minimum_theme_exact_match": {
+        "passed": true,
+        "actual": 0.66,
+        "operator": ">=",
+        "threshold": 0.62
+      },
+      "minimum_theme_precision_macro": {
+        "passed": true,
+        "actual": 0.8895,
+        "operator": ">=",
+        "threshold": 0.85
+      },
+      "minimum_theme_recall_macro": {
+        "passed": true,
+        "actual": 0.8032,
+        "operator": ">=",
+        "threshold": 0.78
+      },
+      "minimum_theme_f1_macro": {
+        "passed": true,
+        "actual": 0.8359,
+        "operator": ">=",
+        "threshold": 0.82
+      },
+      "maximum_human_review_rate": {
+        "passed": true,
+        "actual": 0.02,
+        "operator": "<=",
+        "threshold": 0.1
+      }
+    },
+    "candidate_metrics": {
+      "rows": 150.0,
+      "sentiment_accuracy": 0.86,
+      "sentiment_macro_precision": 0.8653,
+      "sentiment_macro_recall": 0.8428,
+      "sentiment_macro_f1": 0.8473,
+      "sentiment_evaluated_rows": 150.0,
+      "theme_exact_match": 0.66,
+      "theme_precision_macro": 0.8895,
+      "theme_recall_macro": 0.8032,
+      "theme_f1_macro": 0.8359,
+      "human_review_rate": 0.02
+    },
+    "champion_metrics": null,
+    "bootstrap_promotion": true
+  },
+  "model_manifest": {
+    "project": "Review Insights+",
+    "artifact_set_version": "0.1.0-training-pipeline",
+    "manifest_schema_version": "1.0.0",
+    "language_scope": "english_reviews_only",
+    "theme_model": {
+      "file": "themes_clf.joblib",
+      "thresholds_file": "themes_thresholds.npy",
+      "themes_order": [
+        "livraison",
+        "sav",
+        "produit"
+      ],
+      "default_threshold": 0.55,
+      "threshold_strategy": "joint_validation_exact_f1_tuned",
+      "thresholds": {
+        "livraison": 0.55,
+        "sav": 0.4,
+        "produit": 0.6
+      },
+      "threshold_tuning_report": {
+        "livraison": {
+          "threshold": 0.55,
+          "validation_f1": null
+        },
+        "sav": {
+          "threshold": 0.4,
+          "validation_f1": null
+        },
+        "produit": {
+          "threshold": 0.6,
+          "validation_f1": null
+        }
+      },
+      "joint_threshold_metrics": {
+        "exact_match": 0.713333,
+        "precision_macro": 0.883979,
+        "recall_macro": 0.801662,
+        "f1_macro": 0.83853,
+        "minimum_theme_f1": 0.8,
+        "selection_score": 0.778436
+      }
+    },
+    "sentiment_models": {
+      "livraison": "sent_livraison.joblib",
+      "sav": "sent_sav.joblib",
+      "produit": "sent_produit.joblib"
+    },
+    "sentiment_class_map": {
+      "livraison": {
+        "0": "negative",
+        "1": "neutral",
+        "2": "positive"
+      },
+      "sav": {
+        "0": "negative",
+        "1": "neutral",
+        "2": "positive"
+      },
+      "produit": {
+        "0": "negative",
+        "1": "neutral",
+        "2": "positive"
+      }
+    },
+    "artifact_sha256": {
+      "themes_clf.joblib": "b34520340b3049a30aabc800822605a075ad4579e87e18d3cae450c434109edd",
+      "themes_thresholds.npy": "add9da86320080494dbdb14a854739594761b215e3477f7dccc29a5077978113",
+      "sent_livraison.joblib": "1eccc1df92baf60809f893cf4f2412e10942fe3353cbe8734f9e4b2d26248f8d",
+      "sent_sav.joblib": "2c24484fa4a8662dc8e34634f2864e77efe1d8ced66b769a65f81811cfaf697d",
+      "sent_produit.joblib": "0afa92062bdc60cb281999b7b1d2bd944f2265560d81a03210a9ef94d468fa8a"
+    },
+    "training": {
+      "training_dataset": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+      "validation_dataset": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+      "evaluation_dataset": null,
+      "training_rows": 10311,
+      "sentiment_supervision": {
+        "livraison": "explicit_theme_sentiment",
+        "sav": "explicit_theme_sentiment",
+        "produit": "explicit_theme_sentiment"
+      },
+      "python_version": "3.11.15",
+      "library_versions": {
+        "numpy": "2.4.6",
+        "pandas": "2.3.3",
+        "scikit_learn": "1.6.1"
+      },
+      "model_variant": {
+        "name": "hybrid_lr_c4",
+        "family": "hybrid",
+        "c_value": 4.0
+      }
+    },
+    "runtime_notes": {
+      "backend_name": "project_models_v1",
+      "fallback_backend": "heuristic_rules_v1",
+      "training_dataset": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+      "validation_dataset": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+      "evaluation_dataset": null
+    }
+  }
+}

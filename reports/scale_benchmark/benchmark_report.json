@@ -1,0 +1,1222 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-08-20T09:11:41.880327+00:00",
+  "generation_manifest_path": "data/generated/generation_manifest.json",
+  "promotion_policy": {
+    "policy_version": "1.1.0",
+    "registered_model_name": "review-insights-project-models",
+    "candidate_alias": "candidate",
+    "champion_alias": "champion",
+    "previous_champion_alias": "previous_champion",
+    "required_metrics": {
+      "rows": 30.0,
+      "sentiment_accuracy": 0.55,
+      "sentiment_macro_f1": 0.5,
+      "theme_exact_match": 0.65,
+      "theme_precision_macro": 0.85,
+      "theme_recall_macro": 0.85,
+      "theme_f1_macro": 0.85
+    },
+    "max_metric_regression": {
+      "sentiment_accuracy": 0.02,
+      "sentiment_macro_f1": 0.02,
+      "theme_exact_match": 0.02,
+      "theme_precision_macro": 0.02,
+      "theme_recall_macro": 0.02,
+      "theme_f1_macro": 0.02
+    },
+    "maximum_metrics": {
+      "human_review_rate": 0.6
+    }
+  },
+  "total_source_rows": 45000,
+  "composite_test_path": "reports/scale_benchmark/benchmark_composite_test.parquet",
+  "composite_test_rows": 11249,
+  "datasets": [
+    {
+      "profile": "balanced_core",
+      "dataset_version": "scale_balanced_core_15000_v1",
+      "source_path": "data/generated/reviews_scale_balanced_core_15000.csv",
+      "source_sha256": "a8dabe7c5e5547324441ba5660e616c41865669eb408d887c65d8eeedebed3b5",
+      "rows_valid": 15000,
+      "rows_rejected": 0,
+      "quality_status": "ready",
+      "quality_failed_checks": [],
+      "split_rows": {
+        "train": 9000,
+        "validation": 2250,
+        "test": 3750
+      },
+      "exact_text_leakage": 0,
+      "manifest_path": "data/registry/dataset_scale_balanced_core_15000_v1.json",
+      "quality_report_path": "data/registry/quality_report_scale_balanced_core_15000_v1.json",
+      "train_path": "data/splits/scale_balanced_core_15000_v1/train.parquet",
+      "validation_path": "data/splits/scale_balanced_core_15000_v1/validation.parquet",
+      "test_path": "data/splits/scale_balanced_core_15000_v1/test.parquet"
+    },
+    {
+      "profile": "noisy_long_tail",
+      "dataset_version": "scale_noisy_long_tail_15000_v1",
+      "source_path": "data/generated/reviews_scale_noisy_long_tail_15000.csv",
+      "source_sha256": "d42b142b822a3f20e50f9acec3040e229252107953d2e4280906746f68872ebf",
+      "rows_valid": 15000,
+      "rows_rejected": 0,
+      "quality_status": "ready",
+      "quality_failed_checks": [],
+      "split_rows": {
+        "train": 9000,
+        "validation": 2251,
+        "test": 3749
+      },
+      "exact_text_leakage": 0,
+      "manifest_path": "data/registry/dataset_scale_noisy_long_tail_15000_v1.json",
+      "quality_report_path": "data/registry/quality_report_scale_noisy_long_tail_15000_v1.json",
+      "train_path": "data/splits/scale_noisy_long_tail_15000_v1/train.parquet",
+      "validation_path": "data/splits/scale_noisy_long_tail_15000_v1/validation.parquet",
+      "test_path": "data/splits/scale_noisy_long_tail_15000_v1/test.parquet"
+    },
+    {
+      "profile": "multitheme_context",
+      "dataset_version": "scale_multitheme_context_15000_v1",
+      "source_path": "data/generated/reviews_scale_multitheme_context_15000.csv",
+      "source_sha256": "c676572f1fadffe60fcee20c446011277f18585e55c47a4835725a4cf0711c55",
+      "rows_valid": 15000,
+      "rows_rejected": 0,
+      "quality_status": "ready",
+      "quality_failed_checks": [],
+      "split_rows": {
+        "train": 8999,
+        "validation": 2251,
+        "test": 3750
+      },
+      "exact_text_leakage": 0,
+      "manifest_path": "data/registry/dataset_scale_multitheme_context_15000_v1.json",
+      "quality_report_path": "data/registry/quality_report_scale_multitheme_context_15000_v1.json",
+      "train_path": "data/splits/scale_multitheme_context_15000_v1/train.parquet",
+      "validation_path": "data/splits/scale_multitheme_context_15000_v1/validation.parquet",
+      "test_path": "data/splits/scale_multitheme_context_15000_v1/test.parquet"
+    }
+  ],
+  "candidates": [
+    {
+      "name": "balanced_core",
+      "training_dataset": "scale_balanced_core_15000_v1",
+      "model_dir": "artifacts/scale_benchmark_models/balanced_core",
+      "manifest_path": "artifacts/scale_benchmark_models/balanced_core/manifest.json",
+      "training_rows": 9000,
+      "training_seconds": 92.4722,
+      "model_size_bytes": 145629,
+      "theme_thresholds": {
+        "livraison": 0.5,
+        "sav": 0.5,
+        "produit": 0.5
+      },
+      "threshold_tuning_report": {
+        "livraison": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        },
+        "sav": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        },
+        "produit": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        }
+      },
+      "aggregate_metrics": {
+        "rows": 11249.0,
+        "sentiment_accuracy": 1.0,
+        "sentiment_macro_precision": 1.0,
+        "sentiment_macro_recall": 1.0,
+        "sentiment_macro_f1": 1.0,
+        "theme_exact_match": 1.0,
+        "theme_precision_macro": 1.0,
+        "theme_recall_macro": 1.0,
+        "theme_f1_macro": 1.0,
+        "human_review_rate": 0.0
+      },
+      "profile_metrics": {
+        "balanced_core": {
+          "rows": 3750.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "noisy_long_tail": {
+          "rows": 3749.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "multitheme_context": {
+          "rows": 3750.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        }
+      },
+      "mlflow": {
+        "status": "logged",
+        "tracking_uri": "http://localhost:5000",
+        "experiment_name": "review-insights-scale-benchmark",
+        "run_id": "03340e960f9645bfa5783cdafc72ea71",
+        "reason": null,
+        "model_logged": true,
+        "artifact_count": 6,
+        "registered_model_name": "review-insights-project-models",
+        "registered_model_version": "4",
+        "model_alias": "candidate"
+      },
+      "aggregate_gate": {
+        "status": "approved",
+        "failed_checks": [],
+        "checks": {
+          "minimum_rows": {
+            "passed": true,
+            "actual": 11249.0,
+            "operator": ">=",
+            "threshold": 30.0
+          },
+          "minimum_sentiment_accuracy": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.55
+          },
+          "minimum_sentiment_macro_f1": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.5
+          },
+          "minimum_theme_exact_match": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.65
+          },
+          "minimum_theme_precision_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "minimum_theme_recall_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "minimum_theme_f1_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "maximum_human_review_rate": {
+            "passed": true,
+            "actual": 0.0,
+            "operator": "<=",
+            "threshold": 0.6
+          }
+        },
+        "candidate_metrics": {
+          "rows": 11249.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "champion_metrics": null,
+        "bootstrap_promotion": true
+      },
+      "profile_gates": {
+        "balanced_core": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3750.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3750.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        },
+        "noisy_long_tail": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3749.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3749.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        },
+        "multitheme_context": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3750.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3750.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        }
+      },
+      "eligible": true,
+      "robustness_score": 1.0
+    },
+    {
+      "name": "noisy_long_tail",
+      "training_dataset": "scale_noisy_long_tail_15000_v1",
+      "model_dir": "artifacts/scale_benchmark_models/noisy_long_tail",
+      "manifest_path": "artifacts/scale_benchmark_models/noisy_long_tail/manifest.json",
+      "training_rows": 9000,
+      "training_seconds": 68.2142,
+      "model_size_bytes": 163141,
+      "theme_thresholds": {
+        "livraison": 0.5,
+        "sav": 0.5,
+        "produit": 0.5
+      },
+      "threshold_tuning_report": {
+        "livraison": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        },
+        "sav": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        },
+        "produit": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        }
+      },
+      "aggregate_metrics": {
+        "rows": 11249.0,
+        "sentiment_accuracy": 1.0,
+        "sentiment_macro_precision": 1.0,
+        "sentiment_macro_recall": 1.0,
+        "sentiment_macro_f1": 1.0,
+        "theme_exact_match": 1.0,
+        "theme_precision_macro": 1.0,
+        "theme_recall_macro": 1.0,
+        "theme_f1_macro": 1.0,
+        "human_review_rate": 0.0
+      },
+      "profile_metrics": {
+        "balanced_core": {
+          "rows": 3750.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "noisy_long_tail": {
+          "rows": 3749.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "multitheme_context": {
+          "rows": 3750.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        }
+      },
+      "mlflow": {
+        "status": "logged",
+        "tracking_uri": "http://localhost:5000",
+        "experiment_name": "review-insights-scale-benchmark",
+        "run_id": "3866beb6b39a4d05a5c8fc50d234c89b",
+        "reason": null,
+        "model_logged": true,
+        "artifact_count": 6,
+        "registered_model_name": "review-insights-project-models",
+        "registered_model_version": "5",
+        "model_alias": "candidate"
+      },
+      "aggregate_gate": {
+        "status": "approved",
+        "failed_checks": [],
+        "checks": {
+          "minimum_rows": {
+            "passed": true,
+            "actual": 11249.0,
+            "operator": ">=",
+            "threshold": 30.0
+          },
+          "minimum_sentiment_accuracy": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.55
+          },
+          "minimum_sentiment_macro_f1": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.5
+          },
+          "minimum_theme_exact_match": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.65
+          },
+          "minimum_theme_precision_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "minimum_theme_recall_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "minimum_theme_f1_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "maximum_human_review_rate": {
+            "passed": true,
+            "actual": 0.0,
+            "operator": "<=",
+            "threshold": 0.6
+          }
+        },
+        "candidate_metrics": {
+          "rows": 11249.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "champion_metrics": null,
+        "bootstrap_promotion": true
+      },
+      "profile_gates": {
+        "balanced_core": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3750.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3750.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        },
+        "noisy_long_tail": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3749.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3749.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        },
+        "multitheme_context": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3750.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3750.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        }
+      },
+      "eligible": true,
+      "robustness_score": 1.0
+    },
+    {
+      "name": "multitheme_context",
+      "training_dataset": "scale_multitheme_context_15000_v1",
+      "model_dir": "artifacts/scale_benchmark_models/multitheme_context",
+      "manifest_path": "artifacts/scale_benchmark_models/multitheme_context/manifest.json",
+      "training_rows": 8999,
+      "training_seconds": 68.1714,
+      "model_size_bytes": 151281,
+      "theme_thresholds": {
+        "livraison": 0.5,
+        "sav": 0.5,
+        "produit": 0.5
+      },
+      "threshold_tuning_report": {
+        "livraison": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        },
+        "sav": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        },
+        "produit": {
+          "threshold": 0.5,
+          "validation_f1": 1.0
+        }
+      },
+      "aggregate_metrics": {
+        "rows": 11249.0,
+        "sentiment_accuracy": 1.0,
+        "sentiment_macro_precision": 1.0,
+        "sentiment_macro_recall": 1.0,
+        "sentiment_macro_f1": 1.0,
+        "theme_exact_match": 1.0,
+        "theme_precision_macro": 1.0,
+        "theme_recall_macro": 1.0,
+        "theme_f1_macro": 1.0,
+        "human_review_rate": 0.0
+      },
+      "profile_metrics": {
+        "balanced_core": {
+          "rows": 3750.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "noisy_long_tail": {
+          "rows": 3749.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "multitheme_context": {
+          "rows": 3750.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        }
+      },
+      "mlflow": {
+        "status": "logged",
+        "tracking_uri": "http://localhost:5000",
+        "experiment_name": "review-insights-scale-benchmark",
+        "run_id": "b32ef6128cda40759dd1d0f4e30b3083",
+        "reason": null,
+        "model_logged": true,
+        "artifact_count": 6,
+        "registered_model_name": "review-insights-project-models",
+        "registered_model_version": "6",
+        "model_alias": "candidate"
+      },
+      "aggregate_gate": {
+        "status": "approved",
+        "failed_checks": [],
+        "checks": {
+          "minimum_rows": {
+            "passed": true,
+            "actual": 11249.0,
+            "operator": ">=",
+            "threshold": 30.0
+          },
+          "minimum_sentiment_accuracy": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.55
+          },
+          "minimum_sentiment_macro_f1": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.5
+          },
+          "minimum_theme_exact_match": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.65
+          },
+          "minimum_theme_precision_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "minimum_theme_recall_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "minimum_theme_f1_macro": {
+            "passed": true,
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.85
+          },
+          "maximum_human_review_rate": {
+            "passed": true,
+            "actual": 0.0,
+            "operator": "<=",
+            "threshold": 0.6
+          }
+        },
+        "candidate_metrics": {
+          "rows": 11249.0,
+          "sentiment_accuracy": 1.0,
+          "sentiment_macro_precision": 1.0,
+          "sentiment_macro_recall": 1.0,
+          "sentiment_macro_f1": 1.0,
+          "theme_exact_match": 1.0,
+          "theme_precision_macro": 1.0,
+          "theme_recall_macro": 1.0,
+          "theme_f1_macro": 1.0,
+          "human_review_rate": 0.0
+        },
+        "champion_metrics": null,
+        "bootstrap_promotion": true
+      },
+      "profile_gates": {
+        "balanced_core": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3750.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3750.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        },
+        "noisy_long_tail": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3749.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3749.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        },
+        "multitheme_context": {
+          "status": "approved",
+          "failed_checks": [],
+          "checks": {
+            "minimum_rows": {
+              "passed": true,
+              "actual": 3750.0,
+              "operator": ">=",
+              "threshold": 30.0
+            },
+            "minimum_sentiment_accuracy": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.55
+            },
+            "minimum_sentiment_macro_f1": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.5
+            },
+            "minimum_theme_exact_match": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.65
+            },
+            "minimum_theme_precision_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_recall_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "minimum_theme_f1_macro": {
+              "passed": true,
+              "actual": 1.0,
+              "operator": ">=",
+              "threshold": 0.85
+            },
+            "maximum_human_review_rate": {
+              "passed": true,
+              "actual": 0.0,
+              "operator": "<=",
+              "threshold": 0.6
+            }
+          },
+          "candidate_metrics": {
+            "rows": 3750.0,
+            "sentiment_accuracy": 1.0,
+            "sentiment_macro_precision": 1.0,
+            "sentiment_macro_recall": 1.0,
+            "sentiment_macro_f1": 1.0,
+            "theme_exact_match": 1.0,
+            "theme_precision_macro": 1.0,
+            "theme_recall_macro": 1.0,
+            "theme_f1_macro": 1.0,
+            "human_review_rate": 0.0
+          },
+          "champion_metrics": null,
+          "bootstrap_promotion": true
+        }
+      },
+      "eligible": true,
+      "robustness_score": 1.0
+    }
+  ],
+  "selected_candidate": {
+    "name": "multitheme_context",
+    "robustness_score": 1.0,
+    "model_dir": "artifacts/scale_benchmark_models/multitheme_context",
+    "mlflow": {
+      "status": "logged",
+      "tracking_uri": "http://localhost:5000",
+      "experiment_name": "review-insights-scale-benchmark",
+      "run_id": "b32ef6128cda40759dd1d0f4e30b3083",
+      "reason": null,
+      "model_logged": true,
+      "artifact_count": 6,
+      "registered_model_name": "review-insights-project-models",
+      "registered_model_version": "6",
+      "model_alias": "candidate"
+    }
+  },
+  "overall_status": "approved",
+  "limitations": [
+    "Synthetic fixtures validate scale and pipeline behavior but do not replace real human-labeled reviews.",
+    "All generated reviews are English because the versioned dataset contract is English-only."
+  ]
+}

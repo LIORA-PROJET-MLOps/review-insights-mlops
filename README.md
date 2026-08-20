@@ -615,6 +615,30 @@ Artefacts generes:
 - `sent_produit.joblib`
 - `manifest.json`
 
+### Cycle de donnees reelles et champion v8 (20 aout 2026)
+
+Le cycle de validation le plus recent repose sur trois jeux de donnees enregistres et tracables:
+
+- `fabsa_real_gold_900_v1`: 900 avis reels annotes et stratifies, dont 150 de validation et 150 de test aveugle;
+- `fabsa_real_gold_expanded_v1`: 6 111 avis reels, dont 5 811 pour l'entrainement;
+- `fabsa_real_plus_synthetic_train_v1`: 10 311 lignes d'entrainement, soit 5 811 avis reels et 4 500 ancrages synthetiques equilibres.
+
+La source FABSA est figee a la revision `40abb500cd7688529cb831c8c2c2a90d06264379`. Sa fiche publique ne declarant pas de licence explicite, Git versionne les scripts, manifestes, empreintes et resultats agreges, mais pas le texte des avis.
+
+Commandes de reconstruction:
+
+```powershell
+python pipelines/build_fabsa_gold_dataset.py
+python pipelines/build_fabsa_expanded_dataset.py
+python pipelines/generate_scale_datasets.py
+python pipelines/build_real_synthetic_training_mix.py
+python pipelines/train_real_gold_variants.py
+```
+
+Le modele `hybrid_lr_c4` a ete selectionne avant l'ouverture du test aveugle reel. Sur 150 avis, il atteint `0.8473` de macro-F1 sentiment et `0.8359` de macro-F1 themes. Le taux de revue humaine est de `0.0200` au niveau du modele et de `0.0400` dans le parcours API complet, apres application du garde-fou de conflits. Il est enregistre dans MLflow comme version `8`, avec `champion=8`, `candidate=8` et `previous_champion=7`.
+
+Voir [les metadonnees des datasets](data/external/fabsa/README_FR.md) et [le rapport officiel du cycle](reports/real_mixed_cycle/RAPPORT_FINAL_FR.md).
+
 ### Placeholder historique d'entrainement
 
 ```bash
@@ -766,20 +790,20 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run_functional_smoke_tests.ps
 
 Etat verifie sur cette base:
 
-- `106 passed` (`4 skipped` localement si Dagster n'est pas installé dans le Python hôte)
-- couverture globale: `78.32%`
+- `126 passed`
 - lint Ruff: propre
 - stack Docker Compose complète construite et vérifiée, y compris Dagster, MLflow, Prometheus et Grafana
 - bundle Hugging Face API reconstruit et charge depuis une revision immuable
 - rapport offline genere avec `project_models_v1`
-- metriques observees sur les 40 reviews de reference:
-- `sentiment_accuracy = 0.575`
-- `sentiment_macro_f1 = 0.5111`
-- `theme_exact_match = 0.675`
-- `theme_precision_macro = 0.8787`
-- `theme_recall_macro = 0.8972`
-- `theme_f1_macro = 0.8877`
-- `human_review_rate = 0.5`
+- metriques principales du champion v8 sur les 150 avis reels du test aveugle:
+- `sentiment_accuracy = 0.8600`
+- `sentiment_macro_f1 = 0.8473`
+- `theme_exact_match = 0.6600`
+- `theme_precision_macro = 0.8895`
+- `theme_recall_macro = 0.8032`
+- `theme_f1_macro = 0.8359`
+- `human_review_rate = 0.0400` dans le parcours API complet (`0.0200` au niveau du modele enregistre)
+- compatibilite sur les 40 avis historiques: `sentiment_macro_f1 = 0.5809` et `theme_f1_macro = 0.8690`
 
 ## Limites connues
 
@@ -804,6 +828,8 @@ Etat verifie sur cette base:
 - [SYNTHESE_TECHNIQUE_FINALE_2026-07-01_FR.md](docs/SYNTHESE_TECHNIQUE_FINALE_2026-07-01_FR.md)
 - [CONTENU_SLIDES_SOUTENANCE_2026-07-01_FR.md](docs/CONTENU_SLIDES_SOUTENANCE_2026-07-01_FR.md)
 - [HUGGINGFACE_MIGRATION_FR.md](HUGGINGFACE_MIGRATION_FR.md)
+- [RAPPORT_FINAL_FR.md](reports/real_mixed_cycle/RAPPORT_FINAL_FR.md)
+- [RAPPORT_BENCHMARK_ECHELLE_FR.md](reports/scale_benchmark/RAPPORT_BENCHMARK_ECHELLE_FR.md)
 
 ## GitHub Pages
 

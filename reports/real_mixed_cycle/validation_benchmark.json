@@ -1,0 +1,450 @@
+{
+  "schema_version": "1.0.0",
+  "train_path": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+  "validation_path": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+  "test_status": "sealed_not_evaluated",
+  "variants": [
+    {
+      "rows": 150,
+      "sentiment_accuracy": 0.86,
+      "sentiment_macro_precision": 0.877,
+      "sentiment_macro_recall": 0.8162,
+      "sentiment_macro_f1": 0.8319,
+      "sentiment_evaluated_rows": 150,
+      "sentiment_per_class": {
+        "negative": {
+          "precision": 0.7931,
+          "recall": 0.92,
+          "f1": 0.8518,
+          "support": 50,
+          "predicted": 58
+        },
+        "neutral": {
+          "precision": 0.9474,
+          "recall": 0.6,
+          "f1": 0.7347,
+          "support": 30,
+          "predicted": 19
+        },
+        "positive": {
+          "precision": 0.8904,
+          "recall": 0.9286,
+          "f1": 0.9091,
+          "support": 70,
+          "predicted": 73
+        }
+      },
+      "sentiment_confusion_matrix": {
+        "negative": {
+          "negative": 46,
+          "neutral": 1,
+          "positive": 3
+        },
+        "neutral": {
+          "negative": 7,
+          "neutral": 18,
+          "positive": 5
+        },
+        "positive": {
+          "negative": 5,
+          "neutral": 0,
+          "positive": 65
+        }
+      },
+      "theme_exact_match": 0.6933,
+      "theme_precision_macro": 0.8577,
+      "theme_recall_macro": 0.806,
+      "theme_f1_macro": 0.8294,
+      "theme_metrics": {
+        "livraison": {
+          "precision": 0.881,
+          "recall": 0.74,
+          "f1": 0.8044,
+          "support": 50,
+          "predicted": 42,
+          "tp": 37,
+          "fp": 5,
+          "fn": 13
+        },
+        "sav": {
+          "precision": 0.8033,
+          "recall": 0.8448,
+          "f1": 0.8235,
+          "support": 58,
+          "predicted": 61,
+          "tp": 49,
+          "fp": 12,
+          "fn": 9
+        },
+        "produit": {
+          "precision": 0.8889,
+          "recall": 0.8333,
+          "f1": 0.8602,
+          "support": 96,
+          "predicted": 90,
+          "tp": 80,
+          "fp": 10,
+          "fn": 16
+        }
+      },
+      "human_review_rate": 0.0,
+      "backend_name": "project_models_v1",
+      "training_dataset": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+      "training_rows": 10311,
+      "validation_dataset": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+      "threshold": 0.45,
+      "variant_name": "word_lr_c4",
+      "variant_family": "word",
+      "variant_c": 4.0,
+      "training_seconds": 46.8073,
+      "joint_selection_score": 0.762885,
+      "model_size_bytes": 4442236,
+      "mlflow": {
+        "status": "logged",
+        "tracking_uri": "http://mlflow:5000",
+        "experiment_name": "review-insights-orchestrated",
+        "run_id": "64e735f17d194f8d8b94e4d6641b7cf1",
+        "reason": null,
+        "model_logged": true,
+        "artifact_count": 6,
+        "registered_model_name": null,
+        "registered_model_version": null,
+        "model_alias": null
+      },
+      "model_dir": "artifacts/real_mixed_models/word_lr_c4"
+    },
+    {
+      "rows": 150,
+      "sentiment_accuracy": 0.8867,
+      "sentiment_macro_precision": 0.9101,
+      "sentiment_macro_recall": 0.8454,
+      "sentiment_macro_f1": 0.862,
+      "sentiment_evaluated_rows": 150,
+      "sentiment_per_class": {
+        "negative": {
+          "precision": 0.8136,
+          "recall": 0.96,
+          "f1": 0.8808,
+          "support": 50,
+          "predicted": 59
+        },
+        "neutral": {
+          "precision": 1.0,
+          "recall": 0.6333,
+          "f1": 0.7755,
+          "support": 30,
+          "predicted": 19
+        },
+        "positive": {
+          "precision": 0.9167,
+          "recall": 0.9429,
+          "f1": 0.9296,
+          "support": 70,
+          "predicted": 72
+        }
+      },
+      "sentiment_confusion_matrix": {
+        "negative": {
+          "negative": 48,
+          "neutral": 0,
+          "positive": 2
+        },
+        "neutral": {
+          "negative": 7,
+          "neutral": 19,
+          "positive": 4
+        },
+        "positive": {
+          "negative": 4,
+          "neutral": 0,
+          "positive": 66
+        }
+      },
+      "theme_exact_match": 0.7067,
+      "theme_precision_macro": 0.8734,
+      "theme_recall_macro": 0.7685,
+      "theme_f1_macro": 0.8162,
+      "theme_metrics": {
+        "livraison": {
+          "precision": 0.8974,
+          "recall": 0.7,
+          "f1": 0.7865,
+          "support": 50,
+          "predicted": 39,
+          "tp": 35,
+          "fp": 4,
+          "fn": 15
+        },
+        "sav": {
+          "precision": 0.8364,
+          "recall": 0.7931,
+          "f1": 0.8142,
+          "support": 58,
+          "predicted": 55,
+          "tp": 46,
+          "fp": 9,
+          "fn": 12
+        },
+        "produit": {
+          "precision": 0.8864,
+          "recall": 0.8125,
+          "f1": 0.8478,
+          "support": 96,
+          "predicted": 88,
+          "tp": 78,
+          "fp": 10,
+          "fn": 18
+        }
+      },
+      "human_review_rate": 0.0,
+      "backend_name": "project_models_v1",
+      "training_dataset": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+      "training_rows": 10311,
+      "validation_dataset": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+      "threshold": 0.45,
+      "variant_name": "hybrid_lr_c1",
+      "variant_family": "hybrid",
+      "variant_c": 1.0,
+      "training_seconds": 99.0604,
+      "joint_selection_score": 0.764473,
+      "model_size_bytes": 9635052,
+      "mlflow": {
+        "status": "logged",
+        "tracking_uri": "http://mlflow:5000",
+        "experiment_name": "review-insights-orchestrated",
+        "run_id": "bfc44d7c8b934462aca076b110673c9e",
+        "reason": null,
+        "model_logged": true,
+        "artifact_count": 6,
+        "registered_model_name": null,
+        "registered_model_version": null,
+        "model_alias": null
+      },
+      "model_dir": "artifacts/real_mixed_models/hybrid_lr_c1"
+    },
+    {
+      "rows": 150,
+      "sentiment_accuracy": 0.88,
+      "sentiment_macro_precision": 0.9048,
+      "sentiment_macro_recall": 0.8387,
+      "sentiment_macro_f1": 0.8563,
+      "sentiment_evaluated_rows": 150,
+      "sentiment_per_class": {
+        "negative": {
+          "precision": 0.8103,
+          "recall": 0.94,
+          "f1": 0.8703,
+          "support": 50,
+          "predicted": 58
+        },
+        "neutral": {
+          "precision": 1.0,
+          "recall": 0.6333,
+          "f1": 0.7755,
+          "support": 30,
+          "predicted": 19
+        },
+        "positive": {
+          "precision": 0.9041,
+          "recall": 0.9429,
+          "f1": 0.9231,
+          "support": 70,
+          "predicted": 73
+        }
+      },
+      "sentiment_confusion_matrix": {
+        "negative": {
+          "negative": 47,
+          "neutral": 0,
+          "positive": 3
+        },
+        "neutral": {
+          "negative": 7,
+          "neutral": 19,
+          "positive": 4
+        },
+        "positive": {
+          "negative": 4,
+          "neutral": 0,
+          "positive": 66
+        }
+      },
+      "theme_exact_match": 0.7133,
+      "theme_precision_macro": 0.884,
+      "theme_recall_macro": 0.8017,
+      "theme_f1_macro": 0.8385,
+      "theme_metrics": {
+        "livraison": {
+          "precision": 0.9,
+          "recall": 0.72,
+          "f1": 0.8,
+          "support": 50,
+          "predicted": 40,
+          "tp": 36,
+          "fp": 4,
+          "fn": 14
+        },
+        "sav": {
+          "precision": 0.8333,
+          "recall": 0.8621,
+          "f1": 0.8475,
+          "support": 58,
+          "predicted": 60,
+          "tp": 50,
+          "fp": 10,
+          "fn": 8
+        },
+        "produit": {
+          "precision": 0.9186,
+          "recall": 0.8229,
+          "f1": 0.8681,
+          "support": 96,
+          "predicted": 86,
+          "tp": 79,
+          "fp": 7,
+          "fn": 17
+        }
+      },
+      "human_review_rate": 0.0133,
+      "backend_name": "project_models_v1",
+      "training_dataset": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+      "training_rows": 10311,
+      "validation_dataset": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+      "threshold": 0.55,
+      "variant_name": "hybrid_lr_c4",
+      "variant_family": "hybrid",
+      "variant_c": 4.0,
+      "training_seconds": 98.718,
+      "joint_selection_score": 0.778436,
+      "model_size_bytes": 9635052,
+      "mlflow": {
+        "status": "logged",
+        "tracking_uri": "http://mlflow:5000",
+        "experiment_name": "review-insights-orchestrated",
+        "run_id": "3814dbb7cb2a41f589581620aa45ea0a",
+        "reason": null,
+        "model_logged": true,
+        "artifact_count": 6,
+        "registered_model_name": null,
+        "registered_model_version": null,
+        "model_alias": null
+      },
+      "model_dir": "artifacts/real_mixed_models/hybrid_lr_c4"
+    }
+  ],
+  "selected_validation_candidate": {
+    "rows": 150,
+    "sentiment_accuracy": 0.88,
+    "sentiment_macro_precision": 0.9048,
+    "sentiment_macro_recall": 0.8387,
+    "sentiment_macro_f1": 0.8563,
+    "sentiment_evaluated_rows": 150,
+    "sentiment_per_class": {
+      "negative": {
+        "precision": 0.8103,
+        "recall": 0.94,
+        "f1": 0.8703,
+        "support": 50,
+        "predicted": 58
+      },
+      "neutral": {
+        "precision": 1.0,
+        "recall": 0.6333,
+        "f1": 0.7755,
+        "support": 30,
+        "predicted": 19
+      },
+      "positive": {
+        "precision": 0.9041,
+        "recall": 0.9429,
+        "f1": 0.9231,
+        "support": 70,
+        "predicted": 73
+      }
+    },
+    "sentiment_confusion_matrix": {
+      "negative": {
+        "negative": 47,
+        "neutral": 0,
+        "positive": 3
+      },
+      "neutral": {
+        "negative": 7,
+        "neutral": 19,
+        "positive": 4
+      },
+      "positive": {
+        "negative": 4,
+        "neutral": 0,
+        "positive": 66
+      }
+    },
+    "theme_exact_match": 0.7133,
+    "theme_precision_macro": 0.884,
+    "theme_recall_macro": 0.8017,
+    "theme_f1_macro": 0.8385,
+    "theme_metrics": {
+      "livraison": {
+        "precision": 0.9,
+        "recall": 0.72,
+        "f1": 0.8,
+        "support": 50,
+        "predicted": 40,
+        "tp": 36,
+        "fp": 4,
+        "fn": 14
+      },
+      "sav": {
+        "precision": 0.8333,
+        "recall": 0.8621,
+        "f1": 0.8475,
+        "support": 58,
+        "predicted": 60,
+        "tp": 50,
+        "fp": 10,
+        "fn": 8
+      },
+      "produit": {
+        "precision": 0.9186,
+        "recall": 0.8229,
+        "f1": 0.8681,
+        "support": 96,
+        "predicted": 86,
+        "tp": 79,
+        "fp": 7,
+        "fn": 17
+      }
+    },
+    "human_review_rate": 0.0133,
+    "backend_name": "project_models_v1",
+    "training_dataset": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+    "training_rows": 10311,
+    "validation_dataset": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+    "threshold": 0.55,
+    "variant_name": "hybrid_lr_c4",
+    "variant_family": "hybrid",
+    "variant_c": 4.0,
+    "training_seconds": 98.718,
+    "joint_selection_score": 0.778436,
+    "model_size_bytes": 9635052,
+    "mlflow": {
+      "status": "logged",
+      "tracking_uri": "http://mlflow:5000",
+      "experiment_name": "review-insights-orchestrated",
+      "run_id": "3814dbb7cb2a41f589581620aa45ea0a",
+      "reason": null,
+      "model_logged": true,
+      "artifact_count": 6,
+      "registered_model_name": null,
+      "registered_model_version": null,
+      "model_alias": null
+    },
+    "model_dir": "artifacts/real_mixed_models/hybrid_lr_c4"
+  },
+  "selection_rule": [
+    "theme_exact_match descending",
+    "theme_f1_macro descending",
+    "sentiment_macro_f1 descending",
+    "training_seconds ascending"
+  ]
+}

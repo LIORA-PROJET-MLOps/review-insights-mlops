@@ -52,6 +52,9 @@ def _numeric_metrics(summary: Dict) -> Dict[str, float]:
         value = summary.get(key)
         if isinstance(value, (int, float)):
             metrics[key] = float(value)
+    for key, value in summary.items():
+        if key.startswith("benchmark_") and isinstance(value, (int, float)):
+            metrics[key] = float(value)
     return metrics
 
 

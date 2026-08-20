@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "model_dir": "artifacts/real_mixed_models/hybrid_lr_c1",
+  "dataset_path": "data/validated/training_dataset_poc_reference_v1.parquet",
+  "metrics": {
+    "rows": 40,
+    "sentiment_accuracy": 0.725,
+    "sentiment_macro_precision": 0.8174,
+    "sentiment_macro_recall": 0.6554,
+    "sentiment_macro_f1": 0.6023,
+    "sentiment_evaluated_rows": 40,
+    "sentiment_per_class": {
+      "negative": {
+        "precision": 0.8333,
+        "recall": 0.9375,
+        "f1": 0.8823,
+        "support": 16,
+        "predicted": 18
+      },
+      "neutral": {
+        "precision": 1.0,
+        "recall": 0.1,
+        "f1": 0.1818,
+        "support": 10,
+        "predicted": 1
+      },
+      "positive": {
+        "precision": 0.619,
+        "recall": 0.9286,
+        "f1": 0.7428,
+        "support": 14,
+        "predicted": 21
+      }
+    },
+    "sentiment_confusion_matrix": {
+      "negative": {
+        "negative": 15,
+        "neutral": 0,
+        "positive": 1
+      },
+      "neutral": {
+        "negative": 2,
+        "neutral": 1,
+        "positive": 7
+      },
+      "positive": {
+        "negative": 1,
+        "neutral": 0,
+        "positive": 13
+      }
+    },
+    "theme_exact_match": 0.625,
+    "theme_precision_macro": 0.9269,
+    "theme_recall_macro": 0.8221,
+    "theme_f1_macro": 0.869,
+    "theme_metrics": {
+      "livraison": {
+        "precision": 0.9474,
+        "recall": 0.9,
+        "f1": 0.9231,
+        "support": 20,
+        "predicted": 19,
+        "tp": 18,
+        "fp": 1,
+        "fn": 2
+      },
+      "sav": {
+        "precision": 1.0,
+        "recall": 0.9412,
+        "f1": 0.9697,
+        "support": 17,
+        "predicted": 16,
+        "tp": 16,
+        "fp": 0,
+        "fn": 1
+      },
+      "produit": {
+        "precision": 0.8333,
+        "recall": 0.625,
+        "f1": 0.7143,
+        "support": 24,
+        "predicted": 18,
+        "tp": 15,
+        "fp": 3,
+        "fn": 9
+      }
+    },
+    "human_review_rate": 0.0,
+    "backend_name": "project_models_v1"
+  }
+}

@@ -15,6 +15,9 @@ tests_runtime/
 mlruns/
 artifacts/trained_models*/
 artifacts/ci_trained_models/
+artifacts/real_gold_models/
+artifacts/real_mixed_models/
+artifacts/scale_benchmark_models/
 data/raw/incoming/*
 data/raw/archive/*
 data/processed/*
@@ -23,6 +26,11 @@ data/quarantine/*
 data/splits/*
 data/registry/*
 data/feedback/*
+data/generated/*
+data/external/fabsa/source/*
+data/external/fabsa/gold_900_v1/*
+data/external/fabsa/gold_expanded_v1/*
+data/external/fabsa/training_mix_v1/*
 .dvc-storage/
 !data/raw/.gitkeep
 !data/raw/incoming/.gitkeep
@@ -34,6 +42,12 @@ data/feedback/*
 !data/splits/.gitkeep
 !data/registry/.gitkeep
 !data/feedback/.gitkeep
+!data/generated/.gitkeep
+!data/external/fabsa/source/.gitkeep
+!data/external/fabsa/gold_900_v1/manifest.json
+!data/external/fabsa/gold_expanded_v1/manifest.json
+!data/external/fabsa/training_mix_v1/manifest.json
+tmp/
 dist/
 build/
 *.egg-info/

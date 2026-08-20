@@ -4,6 +4,29 @@ from src.review_insights.prediction_store import read_prediction_events
 from src.review_insights.transformer_sentiment import SentimentPrediction
 
 
+def test_project_backend_preserves_calibrated_thresholds_without_override(monkeypatch):
+    import src.review_insights.service as service_module
+
+    captured: list[float | None] = []
+    original = service_module.analyze_with_project_models
+
+    def capture_threshold(*args, threshold_override=None, **kwargs):
+        captured.append(threshold_override)
+        return original(*args, threshold_override=threshold_override, **kwargs)
+
+    monkeypatch.setattr(service_module, "analyze_with_project_models", capture_threshold)
+    service = ReviewAnalysisService()
+
+    service.analyze("fast delivery and a reliable product", review_id="calibrated")
+    service.analyze(
+        "fast delivery and a reliable product",
+        review_id="explicit",
+        threshold=0.7,
+    )
+
+    assert captured == [None, 0.7]
+
+
 def test_service_returns_negative_support_signal():
     service = ReviewAnalysisService()
     result = service.analyze(
@@ -45,7 +68,7 @@ def test_optional_transformer_overrides_only_global_sentiment(monkeypatch):
 
     service = ReviewAnalysisService()
     result = service.analyze(
-        review_text="customer support never answered and the refund process was slow",
+        review_text="customer support never answered my refund request",
         review_id="svc_transformer",
     )
 

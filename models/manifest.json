@@ -1,12 +1,45 @@
 {
   "project": "Review Insights+",
-  "artifact_set_version": "0.1.0",
+  "artifact_set_version": "0.1.0-training-pipeline",
   "manifest_schema_version": "1.0.0",
   "language_scope": "english_reviews_only",
   "theme_model": {
     "file": "themes_clf.joblib",
     "thresholds_file": "themes_thresholds.npy",
-    "themes_order": ["livraison", "sav", "produit"]
+    "themes_order": [
+      "livraison",
+      "sav",
+      "produit"
+    ],
+    "default_threshold": 0.55,
+    "threshold_strategy": "joint_validation_exact_f1_tuned",
+    "thresholds": {
+      "livraison": 0.55,
+      "sav": 0.4,
+      "produit": 0.6
+    },
+    "threshold_tuning_report": {
+      "livraison": {
+        "threshold": 0.55,
+        "validation_f1": null
+      },
+      "sav": {
+        "threshold": 0.4,
+        "validation_f1": null
+      },
+      "produit": {
+        "threshold": 0.6,
+        "validation_f1": null
+      }
+    },
+    "joint_threshold_metrics": {
+      "exact_match": 0.713333,
+      "precision_macro": 0.883979,
+      "recall_macro": 0.801662,
+      "f1_macro": 0.83853,
+      "minimum_theme_f1": 0.8,
+      "selection_score": 0.778436
+    }
   },
   "sentiment_models": {
     "livraison": "sent_livraison.joblib",
@@ -20,8 +53,8 @@
       "2": "positive"
     },
     "sav": {
-      "0": "neutral",
-      "1": "negative",
+      "0": "negative",
+      "1": "neutral",
       "2": "positive"
     },
     "produit": {
@@ -31,20 +64,39 @@
     }
   },
   "artifact_sha256": {
-    "themes_clf.joblib": "a23cacc04e1f81a67cf5667e1ba37c2c55f4c1b11ae5cb3619610a48009d3dac",
-    "themes_thresholds.npy": "2dc5a149bc45290f7b26cf6bcce1b5071a40a3a88dd08eb78cc73ce6283b30b5",
-    "sent_livraison.joblib": "c8492afde6d1b5d42d3007b79744695b2096e7f1c569a5f3b8d7f301aabcb70d",
-    "sent_sav.joblib": "ca8d0c40d4115df0a6552b5b20813ad8c289cb3fd43fbf7e7dc7e00ea4bc7715",
-    "sent_produit.joblib": "1e40900c24d5745a117a8d7eec64319c4f16fd28cfbd3633d3a7d27347dbaba2"
+    "themes_clf.joblib": "b34520340b3049a30aabc800822605a075ad4579e87e18d3cae450c434109edd",
+    "themes_thresholds.npy": "add9da86320080494dbdb14a854739594761b215e3477f7dccc29a5077978113",
+    "sent_livraison.joblib": "1eccc1df92baf60809f893cf4f2412e10942fe3353cbe8734f9e4b2d26248f8d",
+    "sent_sav.joblib": "2c24484fa4a8662dc8e34634f2864e77efe1d8ced66b769a65f81811cfaf697d",
+    "sent_produit.joblib": "0afa92062bdc60cb281999b7b1d2bd944f2265560d81a03210a9ef94d468fa8a"
   },
-  "artifact_compatibility": {
-    "serialized_with_scikit_learn": "1.6.1",
-    "runtime_requirement": "scikit-learn>=1.6,<1.7",
-    "prediction_parity_verified": true
+  "training": {
+    "training_dataset": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+    "validation_dataset": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+    "evaluation_dataset": null,
+    "training_rows": 10311,
+    "sentiment_supervision": {
+      "livraison": "explicit_theme_sentiment",
+      "sav": "explicit_theme_sentiment",
+      "produit": "explicit_theme_sentiment"
+    },
+    "python_version": "3.11.15",
+    "library_versions": {
+      "numpy": "2.4.6",
+      "pandas": "2.3.3",
+      "scikit_learn": "1.6.1"
+    },
+    "model_variant": {
+      "name": "hybrid_lr_c4",
+      "family": "hybrid",
+      "c_value": 4.0
+    }
   },
   "runtime_notes": {
     "backend_name": "project_models_v1",
     "fallback_backend": "heuristic_rules_v1",
-    "known_constraint": "sentiment label mapping is versioned in this manifest and currently also validated at runtime from calibration texts"
+    "training_dataset": "data/external/fabsa/training_mix_v1/fabsa_real_plus_synthetic_train_v1.parquet",
+    "validation_dataset": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+    "evaluation_dataset": null
   }
 }

@@ -1,0 +1,314 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "fabsa_real_gold_expanded_v1",
+  "created_by": "pipelines/build_fabsa_expanded_dataset.py",
+  "seed": 20260820,
+  "source": {
+    "dataset": "jordiclive/FABSA",
+    "revision": "40abb500cd7688529cb831c8c2c2a90d06264379",
+    "page": "https://huggingface.co/datasets/jordiclive/FABSA",
+    "citation": "Kontonatsios et al. (2023), FABSA: An aspect-based sentiment analysis dataset of user reviews, Neurocomputing 562, 126867.",
+    "annotation": "Human aspect-category sentiment annotations by FABSA annotators.",
+    "license_note": "The public dataset card does not declare an explicit license; keep this derived snapshot for local POC/research use unless redistribution rights are confirmed.",
+    "files": {
+      "train": {
+        "url": "https://huggingface.co/datasets/jordiclive/FABSA/resolve/refs%2Fconvert%2Fparquet/default/train/0000.parquet",
+        "path": "data/external/fabsa/source/fabsa_train.parquet",
+        "sha256": "03712423cffdd75b9f2ea383569d82787ee8d0e8c146f8506064725bbc82fcf1",
+        "size_bytes": 747194
+      },
+      "validation": {
+        "url": "https://huggingface.co/datasets/jordiclive/FABSA/resolve/refs%2Fconvert%2Fparquet/default/validation/0000.parquet",
+        "path": "data/external/fabsa/source/fabsa_validation.parquet",
+        "sha256": "4c4f0e8e3032a61b7167b669facd3e1b0b4ee0115e4db1adf63c2076ef015022",
+        "size_bytes": 105318
+      },
+      "test": {
+        "url": "https://huggingface.co/datasets/jordiclive/FABSA/resolve/refs%2Fconvert%2Fparquet/default/test/0000.parquet",
+        "path": "data/external/fabsa/source/fabsa_test.parquet",
+        "sha256": "11dc5adda14f0398ccdac9e4fa83a47af68abe21c4b7d9ede2d43dc1845c1869",
+        "size_bytes": 157804
+      }
+    }
+  },
+  "mapping": {
+    "version": "fabsa_to_review_insights_v1",
+    "theme_aspects": {
+      "livraison": [
+        "Logistics rides: Speed"
+      ],
+      "sav": [
+        "Account management: Account access",
+        "Staff support: Attitude of staff",
+        "Staff support: Email",
+        "Staff support: Phone"
+      ],
+      "produit": [
+        "Online experience: App website",
+        "Purchase booking experience: Ease of use"
+      ]
+    },
+    "coarse_conflicts": "excluded",
+    "global_sentiment": "single mapped polarity when unanimous; neutral when mapped themes disagree"
+  },
+  "selection": {
+    "train": "all eligible, de-duplicated rows from the official FABSA train split",
+    "validation": "fixed 150-row stratified sample from the official validation split",
+    "test": "fixed 150-row blind stratified sample from the official test split"
+  },
+  "locked_splits": {
+    "train": {
+      "csv_path": "data/external/fabsa/gold_expanded_v1/train.csv",
+      "csv_sha256": "363e22b058207b68e589a709fb19666a9f416cc0fd6f4487e3b81be8e1af60fd",
+      "parquet_path": "data/external/fabsa/gold_expanded_v1/train.parquet",
+      "parquet_sha256": "e6d243e82d2ea5218ea58fe576689bfe6d6d7997527a0cc5b6e572a2ddd1acf4",
+      "profile": {
+        "rows": 5811,
+        "unique_review_ids": 5811,
+        "duplicate_normalized_texts": 0,
+        "sentiment_distribution": {
+          "negative": 1888,
+          "neutral": 496,
+          "positive": 3427
+        },
+        "theme_counts": {
+          "livraison": 971,
+          "sav": 1511,
+          "produit": 4526
+        },
+        "theme_sentiment_distribution": {
+          "livraison": {
+            "negative": 270,
+            "neutral": 2,
+            "positive": 699
+          },
+          "sav": {
+            "negative": 696,
+            "neutral": 161,
+            "positive": 654
+          },
+          "produit": {
+            "negative": 1519,
+            "neutral": 267,
+            "positive": 2740
+          }
+        },
+        "multi_theme_rows": 1130,
+        "source_platform_distribution": {
+          "Apple Store": 1440,
+          "Google Play": 3216,
+          "Trustpilot": 1155
+        },
+        "source_industry_distribution": {
+          "Banking": 728,
+          "Consulting": 81,
+          "Fashion": 1361,
+          "Groceries": 838,
+          "Information Technology": 126,
+          "Price Comparison": 906,
+          "Ride Hailing": 262,
+          "Streaming": 67,
+          "Trading": 772,
+          "Travel Booking": 670
+        }
+      }
+    },
+    "validation": {
+      "csv_path": "data/external/fabsa/gold_expanded_v1/validation.csv",
+      "csv_sha256": "bddad6eedb59970d3b2f869c7b38dc7055df4b4e957cad3d4fc8e036b3f0e5a6",
+      "parquet_path": "data/external/fabsa/gold_expanded_v1/validation.parquet",
+      "parquet_sha256": "ae130cfb6039726c099ab3eccd7a72f9fdef489bded3683a872ed0c9269b78d0",
+      "profile": {
+        "rows": 150,
+        "unique_review_ids": 150,
+        "duplicate_normalized_texts": 0,
+        "sentiment_distribution": {
+          "negative": 50,
+          "neutral": 30,
+          "positive": 70
+        },
+        "theme_counts": {
+          "livraison": 50,
+          "sav": 58,
+          "produit": 96
+        },
+        "theme_sentiment_distribution": {
+          "livraison": {
+            "negative": 21,
+            "positive": 29
+          },
+          "sav": {
+            "negative": 25,
+            "neutral": 11,
+            "positive": 22
+          },
+          "produit": {
+            "negative": 33,
+            "neutral": 15,
+            "positive": 48
+          }
+        },
+        "multi_theme_rows": 49,
+        "source_platform_distribution": {
+          "Apple Store": 41,
+          "Google Play": 78,
+          "Trustpilot": 31
+        },
+        "source_industry_distribution": {
+          "Banking": 19,
+          "Consulting": 6,
+          "Fashion": 38,
+          "Groceries": 21,
+          "Information Technology": 7,
+          "Price Comparison": 19,
+          "Ride Hailing": 9,
+          "Streaming": 3,
+          "Trading": 15,
+          "Travel Booking": 13
+        }
+      }
+    },
+    "test": {
+      "csv_path": "data/external/fabsa/gold_expanded_v1/test.csv",
+      "csv_sha256": "b546f66e1830b4a4a2a9492f5e228804ea981fd8fe40b1b95be4a7e8e0e2bddf",
+      "parquet_path": "data/external/fabsa/gold_expanded_v1/test.parquet",
+      "parquet_sha256": "d0c582f486bb6bfb2830dcf54379be3ff756c084559039336155c488025ddaac",
+      "profile": {
+        "rows": 150,
+        "unique_review_ids": 150,
+        "duplicate_normalized_texts": 0,
+        "sentiment_distribution": {
+          "negative": 50,
+          "neutral": 40,
+          "positive": 60
+        },
+        "theme_counts": {
+          "livraison": 50,
+          "sav": 57,
+          "produit": 94
+        },
+        "theme_sentiment_distribution": {
+          "livraison": {
+            "negative": 26,
+            "positive": 24
+          },
+          "sav": {
+            "negative": 27,
+            "neutral": 12,
+            "positive": 18
+          },
+          "produit": {
+            "negative": 36,
+            "neutral": 18,
+            "positive": 40
+          }
+        },
+        "multi_theme_rows": 46,
+        "source_platform_distribution": {
+          "Apple Store": 38,
+          "Google Play": 68,
+          "Trustpilot": 44
+        },
+        "source_industry_distribution": {
+          "Banking": 26,
+          "Consulting": 8,
+          "Fashion": 37,
+          "Groceries": 16,
+          "Information Technology": 3,
+          "Price Comparison": 20,
+          "Ride Hailing": 7,
+          "Streaming": 3,
+          "Trading": 20,
+          "Travel Booking": 10
+        }
+      }
+    }
+  },
+  "full_dataset": {
+    "csv_path": "data/external/fabsa/gold_expanded_v1/fabsa_real_gold_expanded_v1.csv",
+    "csv_sha256": "41f2c1fd9e0d54e003053551489f7a8cd09c98cf70c055eed31629a652d83b6e",
+    "parquet_path": "data/external/fabsa/gold_expanded_v1/fabsa_real_gold_expanded_v1.parquet",
+    "parquet_sha256": "a7de5780a55e44dc5047391d733a84994823300fe97ce6fb700ba2de0ce70618",
+    "profile": {
+      "rows": 6111,
+      "unique_review_ids": 6111,
+      "duplicate_normalized_texts": 0,
+      "sentiment_distribution": {
+        "negative": 1988,
+        "neutral": 566,
+        "positive": 3557
+      },
+      "theme_counts": {
+        "livraison": 1071,
+        "sav": 1626,
+        "produit": 4716
+      },
+      "theme_sentiment_distribution": {
+        "livraison": {
+          "negative": 317,
+          "neutral": 2,
+          "positive": 752
+        },
+        "sav": {
+          "negative": 748,
+          "neutral": 184,
+          "positive": 694
+        },
+        "produit": {
+          "negative": 1588,
+          "neutral": 300,
+          "positive": 2828
+        }
+      },
+      "multi_theme_rows": 1225,
+      "source_platform_distribution": {
+        "Apple Store": 1519,
+        "Google Play": 3362,
+        "Trustpilot": 1230
+      },
+      "source_industry_distribution": {
+        "Banking": 773,
+        "Consulting": 95,
+        "Fashion": 1436,
+        "Groceries": 875,
+        "Information Technology": 136,
+        "Price Comparison": 945,
+        "Ride Hailing": 278,
+        "Streaming": 73,
+        "Trading": 807,
+        "Travel Booking": 693
+      }
+    }
+  },
+  "quality": {
+    "exclusions": {
+      "train": {
+        "coarse_theme_sentiment_conflict": 144,
+        "no_mapped_theme": 1697,
+        "probable_non_english": 1,
+        "probable_pii": 15
+      },
+      "validation": {
+        "coarse_theme_sentiment_conflict": 19,
+        "no_mapped_theme": 221,
+        "probable_pii": 3
+      },
+      "test": {
+        "coarse_theme_sentiment_conflict": 34,
+        "no_mapped_theme": 331,
+        "probable_pii": 2
+      }
+    },
+    "cross_split_duplicate_texts_removed": {
+      "train": 0,
+      "validation": 41,
+      "test": 47
+    },
+    "exact_normalized_text_leakage": 0,
+    "split_sizes": {
+      "train": 5811,
+      "validation": 150,
+      "test": 150
+    }
+  }
+}

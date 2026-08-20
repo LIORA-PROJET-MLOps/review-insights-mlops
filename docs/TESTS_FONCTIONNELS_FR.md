@@ -150,3 +150,15 @@ Les sorties attendues incluent:
 - feedback humain enregistre;
 - metriques Prometheus contenant `review_insights_requests_total`;
 - frontend HTTP 200 si Streamlit est lance.
+
+## Derniere validation complete
+
+Validation du 20 aout 2026:
+
+- `126 passed` sur la suite Pytest;
+- Ruff sans erreur sur `src`, `pipelines`, `orchestration` et `tests`;
+- champion MLflow `review-insights-project-models` version `8` charge par le backend `project_models_v1`;
+- quatre tableaux de bord Grafana rendus sans erreur: API & Inference, Qualite metier, Donnees & Modeles, Systeme & Orchestration;
+- tableau Donnees & Modeles en etat `READY`, avec 10 311 lignes d'entrainement et le gate de publication `APPROUVE`.
+
+Les valeurs de reference du champion v8 sont documentees dans `reports/real_mixed_cycle/RAPPORT_FINAL_FR.md`. Les alertes de derive historiques ne doivent pas etre remises a zero: elles seront reevaluees apres collecte de nouveaux feedbacks attribues a v8.

@@ -195,8 +195,6 @@ def deploy_run_model_artifacts(client: object, run_id: str, target_dir: Path) ->
         if target_dir.exists():
             target_dir.replace(backup_dir)
         staging_dir.replace(target_dir)
-        if backup_dir.exists():
-            shutil.rmtree(backup_dir)
     except Exception:
         if target_dir.exists() and backup_dir.exists():
             shutil.rmtree(target_dir)
@@ -205,6 +203,14 @@ def deploy_run_model_artifacts(client: object, run_id: str, target_dir: Path) ->
         if staging_dir.exists():
             shutil.rmtree(staging_dir)
         raise
+    if backup_dir.exists():
+        try:
+            shutil.rmtree(backup_dir)
+        except OSError:
+            # The deployment already committed successfully. On bind-mounted
+            # Windows filesystems directory cleanup can lag; keep the recoverable
+            # backup instead of rolling back a valid model swap.
+            pass
     return target_dir
 
 
