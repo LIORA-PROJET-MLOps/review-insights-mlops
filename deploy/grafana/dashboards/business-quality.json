@@ -69,7 +69,7 @@
       "datasource": {"type": "prometheus", "uid": "prometheus"},
       "gridPos": {"h": 7, "w": 12, "x": 12, "y": 13},
       "id": 8,
-      "targets": [{"expr": "ALERTS{alertstate=\"firing\",domain=\"business\"}", "format": "table", "instant": true, "refId": "A"}],
+      "targets": [{"expr": "ALERTS{alertstate=\"firing\",domain=\"business\"} or vector(0)", "format": "table", "instant": true, "refId": "A"}],
       "title": "Alertes qualité métier",
       "type": "table"
     }
@@ -82,5 +82,5 @@
   "timezone": "browser",
   "title": "Review Insights - Qualité Métier",
   "uid": "review-insights-business",
-  "version": 1
+  "version": 2
 }

@@ -135,7 +135,7 @@
       "datasource": {"type": "prometheus", "uid": "prometheus"},
       "gridPos": {"h": 7, "w": 24, "x": 0, "y": 27},
       "id": 9,
-      "targets": [{"expr": "ALERTS{alertstate=\"firing\",domain=~\"data|model\"}", "format": "table", "instant": true, "refId": "A"}],
+      "targets": [{"expr": "ALERTS{alertstate=\"firing\",domain=~\"data|model\"} or vector(0)", "format": "table", "instant": true, "refId": "A"}],
       "title": "Alertes données et modèles actives",
       "type": "table"
     }
@@ -148,5 +148,5 @@
   "timezone": "browser",
   "title": "Review Insights - Données & Modèles",
   "uid": "review-insights-data-models",
-  "version": 1
+  "version": 2
 }

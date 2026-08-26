@@ -50,7 +50,7 @@
       "datasource": {"type": "prometheus", "uid": "prometheus"},
       "gridPos": {"h": 7, "w": 24, "x": 0, "y": 16},
       "id": 5,
-      "targets": [{"expr": "ALERTS{alertstate=\"firing\"}", "format": "table", "instant": true, "refId": "A"}],
+      "targets": [{"expr": "ALERTS{alertstate=\"firing\"} or vector(0)", "format": "table", "instant": true, "refId": "A"}],
       "title": "Toutes les alertes actives",
       "type": "table"
     }
@@ -63,5 +63,5 @@
   "timezone": "browser",
   "title": "Review Insights - Système & Orchestration",
   "uid": "review-insights-system",
-  "version": 1
+  "version": 2
 }

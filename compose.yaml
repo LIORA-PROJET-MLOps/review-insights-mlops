@@ -275,12 +275,28 @@ services:
       dagster-code:
         condition: service_healthy
 
+  pushgateway-init:
+    image: prom/pushgateway:v1.11.3
+    profiles: ["control"]
+    user: "0"
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["chown -R 65534:65534 /data"]
+    volumes:
+      - pushgateway_data:/data
+    restart: "no"
+
   pushgateway:
     image: prom/pushgateway:v1.11.3
     profiles: ["control"]
+    command: ["--persistence.file=/data/metrics.db", "--persistence.interval=30s"]
     ports:
       - "9091:9091"
+    volumes:
+      - pushgateway_data:/data
     restart: unless-stopped
+    depends_on:
+      pushgateway-init:
+        condition: service_completed_successfully
 
   alertmanager:
     image: prom/alertmanager:v0.28.1
@@ -360,6 +376,7 @@ volumes:
   dagster_postgres_data:
   dagster_compute_logs:
   prometheus_data:
+  pushgateway_data:
   grafana_data:
   alertmanager_data:
   feedback_data:
